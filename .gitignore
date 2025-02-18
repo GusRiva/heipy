@@ -5,3 +5,7 @@
 /tmp
 /.run
 /build
+/test
+heipy.egg-info
+*.xpr
+/test.py
