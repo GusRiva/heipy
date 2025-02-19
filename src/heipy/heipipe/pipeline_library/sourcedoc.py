@@ -7,11 +7,13 @@ class SourceDocPipe(Pipeline):
         mark_note_as_editorial_step = mark_note_as_editorial.get_step() 
         mark_note_as_editorial_step.add_parameter(
             {'note_classes': "hc:TranscriptionNote hc:TextConstitutionNote"})
+        container2milestone_step = container2milestone.get_step()
+        container2milestone_step.set_parameter_by_name('randomDocId', True)
         
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0
-            validation.get_step(),
+            # validation.get_step(),
             initials.get_step(),
             transcription_note.get_step(),
             connect_lb_and_segment.get_step(),
@@ -20,7 +22,7 @@ class SourceDocPipe(Pipeline):
             whitespaces.get_step(),
             mark_note_as_editorial_step,
             number_line_segment_beginnings.get_step(),
-            container2milestone.get_step(),
+            container2milestone_step,
             split_word_at_physical_beginnings.get_step(),
             # Index: 10
             split_everything_at_physical_beginnings.get_step(),

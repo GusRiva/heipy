@@ -6,14 +6,15 @@ from .parsers import HeiEditionsParser
 from .namespaces import ns, prefix_format
 
 
-def merge_zones(zone_already, child):
-    for new_line in child:
+def merge_zones(zone_already, new_zone):
+    for new_line in new_zone:
         zone_already.append(new_line)
     lines_original = list(zone_already)
-    reordered_lines = sorted(lines_original.copy(), key=lambda line: int(line.attrib.get('n')))
+    filtered_ordered_lines = sorted([x for x in lines_original.copy() if len(''.join(x.itertext()).strip()) > 0 ], 
+                             key=lambda line: int(line.attrib.get('n')))
     for l in lines_original:
-        lines_original.remove(l)
-    for l in reordered_lines:
+        zone_already.remove(l)
+    for l in filtered_ordered_lines:
         zone_already.append(l)
     return
 
@@ -73,7 +74,6 @@ def combine_sourcedoc(files:list, output_path:str):
     sourcedoc_parent.remove(main_sourcedoc)
 
     tree.write(output_path, encoding='utf-8', xml_declaration=True)
-
 
 
 
