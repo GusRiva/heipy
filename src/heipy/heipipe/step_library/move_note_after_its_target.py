@@ -133,6 +133,6 @@ def move_note_after_its_target_func(root, parameters=None):
 
 def get_step():
     return PythonStep(
-    funct=move_note_after_its_target_func,
-    name="move_note_after_its_target"
-)
+        funct=move_note_after_its_target_func,
+        name="move_note_after_its_target"
+    )

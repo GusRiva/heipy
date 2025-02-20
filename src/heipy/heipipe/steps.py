@@ -130,6 +130,7 @@ class Pipeline(BaseStep):
         self.steps = steps
         if len(self.steps) > 0:
             for idx, step in enumerate(self.steps):
+                print(step)
                 step.set_index(idx)
         return
 
@@ -223,6 +224,31 @@ class XsltStep(BaseStep):
         return input_string
 
 
+class AddAttribute(BaseStep):
+    """Removes all the tags in elements, keeping the children intact"""
+    def __init__(self, match:str, att_name:str, att_val:str, name=None, desc=None, serial=None):
+        super().__init__(name, desc, serial)
+        self.match = match
+        self.att_name = att_name
+        self.att_val = att_val
+
+    def __str__(self):
+        return f"Add Attribute Step for: {self.match}, {self.att_name}, {self.att_val}"
+
+    def execute(self, input_string):
+        input_string_enc = input_string.encode('utf-8')
+        root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
+        matches = root.xpath(f"//{self.match}", namespaces=ns)
+        for match in matches:
+            match.set(self.att_name, self.att_val)
+        result = et.tostring(root, encoding='unicode')
+        if self.serial:
+            super()._serialize(result)
+        return result
+
+
+
+
 class DeleteStep(BaseStep):
     """
     A step in a pipeline that deletes specified XML elements from an input string.
@@ -290,7 +316,7 @@ class UnwrapStep(BaseStep):
         self.elements = elements
 
     def __str__(self):
-        return "UnwrapStep for: {self.elements}"
+        return f"UnwrapStep for: {self.elements}"
 
     def execute(self, input_string):
         if len(self.elements) < 1:
