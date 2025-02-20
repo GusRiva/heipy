@@ -187,7 +187,7 @@ class Pipeline(BaseStep):
         Returns:
             str: The processed string after all pipeline steps have been executed.
         """
-        print(f"Starting Pipeline for {input[:50]}")
+        print(f"Starting Pipeline {self.name} for {input[:60]}")
         input_file = codecs.open(input, "r", "utf-8")
         input_string = input_file.read()
         for step in self.steps:
