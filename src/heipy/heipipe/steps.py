@@ -2,6 +2,7 @@
 import time
 from lxml import etree as et
 import sys
+import io
 import codecs
 from abc import abstractmethod
 from icecream import ic
@@ -130,7 +131,6 @@ class Pipeline(BaseStep):
         self.steps = steps
         if len(self.steps) > 0:
             for idx, step in enumerate(self.steps):
-                print(step)
                 step.set_index(idx)
         return
 
@@ -277,13 +277,14 @@ class DeleteStep(BaseStep):
     def execute(self, input_string):
         if len(self.elements) < 1:
             return input_string
-        input_string_enc = input_string.encode('utf-8')
-        root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
+        input_stream = io.BytesIO(input_string.encode('utf-8'))
+        tree = et.parse(input_stream, parser=HeiEditionsParser())
+        root = tree.getroot()
         for elem_name in self.elements:
             xpath_ex = f".//{elem_name}"
             for elem in root.xpath(xpath_ex, namespaces=ns):
                 elem.getparent().remove(elem)
-        result = et.tostring(root, encoding='unicode')
+        result = et.tostring(tree, encoding='utf-8').decode('utf-8')
         if self.serial:
             super()._serialize(result)
         return result

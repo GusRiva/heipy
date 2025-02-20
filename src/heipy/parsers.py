@@ -100,7 +100,7 @@ def set_params_for_saxon(parameter_list, proc: PySaxonProcessor, executable):
 def apply_xslt(input_string, xslt_file, parameters=None) -> str:
     parameters = parameters or []
     with PySaxonProcessor(license=False) as proc:
-        input_xdm = proc.parse_xml(xml_text=input_string)
+        input_xdm = proc.parse_xml(xml_text=input_string, encoding='utf-8')
         xslt3 = proc.new_xslt30_processor()
         with importlib.resources.path('heipy.heipipe.xslt', xslt_file) as xslt_file_path:
             true_xslt_file = str(xslt_file_path)

@@ -12,7 +12,8 @@ class SemanticPipe(Pipeline):
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0
-            validation.get_step(),
+            # validation.get_step(),
+            DeleteStep(elements=['tei:zone[@ana="hc:LineZone"]'], name="delete_facs"),
             # header_listchange.get_step(),
             ptr2ref.get_step(),
             DeleteStep(elements=['tei:metamark',
