@@ -1,4 +1,4 @@
-from ..steps import Pipeline
+from ..steps import Pipeline, DeleteStep
 from ..step_library import *
 
 class SemanticPipe(Pipeline):
@@ -8,9 +8,12 @@ class SemanticPipe(Pipeline):
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0
-            validation.get_step(),
-            header_listchange.get_step(),
-            ptr2ref.get_step()
+            # validation.get_step(),
+            # header_listchange.get_step(),
+            ptr2ref.get_step(),
+            DeleteStep(elements=['tei:metamark',
+                                 'tei:fw',
+                                 "tei:label[contains(@ana, 'hc:DivisionMark')]"])
 
 
             # Index: 5

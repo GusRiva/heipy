@@ -224,6 +224,23 @@ class XsltStep(BaseStep):
 
 
 class DeleteStep(BaseStep):
+    """
+    A step in a pipeline that deletes specified XML elements from an input string.
+
+    Attributes:
+        elements (list): A list of XML element names to be deleted, with optional filters in the xpath syntax of square brackets.
+        name (str, optional): The name of the step. Defaults to None.
+        desc (str, optional): A description of the step. Defaults to None.
+        serial (bool, optional): A flag indicating whether to serialize the result. Defaults to None.
+
+    Methods:
+        __str__(): Returns a string representation of the DeleteStep instance.
+        execute(input_string): Executes the deletion of specified XML elements from the input string.
+            Args:
+                input_string (str): The input XML string.
+            Returns:
+                str: The resulting XML string after deletion of specified elements.
+    """
     def __init__(self, elements:list, name=None, desc=None, serial=None):
         super().__init__(name, desc, serial)
         self.elements = elements
