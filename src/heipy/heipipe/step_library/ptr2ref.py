@@ -3,4 +3,4 @@ from ..steps import XsltStep
 def get_step():
     return XsltStep(files=[
     "ptr2Ref.xsl",
-    ], name="ptr2ref")
+    ], name="ptr2ref", pipe_files=True)

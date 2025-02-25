@@ -8,5 +8,6 @@ def get_step():
         "text_normalizeWhitespaceInTokenizedContent.xsl"
       ],
     desc="Handles mixed content whitespaces, so that every element is in the right place",
-    name="Whitespaces"
+    name="Whitespaces",
+    pipe_files= True
 )

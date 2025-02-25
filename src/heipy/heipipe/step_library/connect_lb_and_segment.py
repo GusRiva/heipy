@@ -5,4 +5,4 @@ def get_step():
     "text_connectLbWithZone.xsl",
     "text_moveIncludedInZone.xsl",
     "text_connectSegmentWithLine.xsl"
-    ], name="connect_lb_and_segment")
+    ], name="connect_lb_and_segment", pipe_files=True)

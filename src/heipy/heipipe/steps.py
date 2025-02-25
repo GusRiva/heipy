@@ -1,4 +1,5 @@
 # steps.py
+import importlib
 import time
 from lxml import etree as et
 import sys
@@ -200,9 +201,10 @@ class Pipeline(BaseStep):
 
 
 class XsltStep(BaseStep):
-    def __init__(self, files=None, parameters=None, name=None, desc=None, serial=False):
+    def __init__(self, files=None, parameters=None, name=None, desc=None, serial=False, pipe_files=False):
         super().__init__(name, desc, serial)
         self.files = [] if files is None else files
+        self.pipe_files = pipe_files
         self.parameters = [] if parameters is None else parameters
 
     def __str__(self):
@@ -214,7 +216,17 @@ class XsltStep(BaseStep):
     def execute(self, input_string) -> str:
         for file in self.files:
             start_time = time.time()  # Record start time
-            input_string = apply_xslt(input_string, file, self.get_parameters())
+
+            true_xslt_file = None
+            if self.pipe_files == True:
+                with importlib.resources.path('heipy.heipipe.xslt', file) as xslt_file_path:
+                    true_xslt_file = str(xslt_file_path)
+            else:
+                true_xslt_file = str(file)
+            if true_xslt_file is None:
+                warnings.warn(f"{RED}Could not find the xslt file: {file}")
+                return input_string
+            input_string = apply_xslt(input_string, true_xslt_file, self.get_parameters())
             end_time = time.time()  # Record end time
             elapsed_time = end_time - start_time  # Calculate elapsed time
             # Make this printing conditional on a parameter

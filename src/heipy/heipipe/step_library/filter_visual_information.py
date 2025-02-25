@@ -3,4 +3,4 @@ from ..steps import XsltStep
 def get_step():
     return XsltStep(files=[
     "text_filterVisualInformation.xsl",
-    ], name="filter_visual_information")
+    ], name="filter_visual_information", pipe_files=True)
