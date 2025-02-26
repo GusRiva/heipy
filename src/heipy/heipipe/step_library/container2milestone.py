@@ -48,7 +48,7 @@ element_map = {
 def get_step():
     step = XsltStep(
         files=["container2milestone.xsl",],
-        name="container2milestone",)
+        name="container2milestone", pipe_files=True)
     step.set_parameters([element_map])
     return step
 
