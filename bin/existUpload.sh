@@ -16,12 +16,6 @@ if [ -z ${existpass} ]; then
   exit
 fi
 
-echo "Curl version:"
-curl --version
-
-echo "Do curl to exist:"
-curl http://servhc12.ub.uni-heidelberg.de:8080
-
 curl -v -X PUT -H "Content-type: application/xml" --upload-file $file "http://servhc12.ub.uni-heidelberg.de:8080/exist/rest/db/resources/projects/${path}/${fbase}" -u "${existuser}:${existpass}"
 
 if [ -n "${reindex}" ]; then
