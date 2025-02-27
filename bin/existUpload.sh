@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 file=$1
 path=$2
 reindex=$3
