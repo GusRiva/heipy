@@ -3,7 +3,7 @@ file=$1
 path=$2
 reindex=$3
 fbase="$(basename -- $file)"
-echo "Starting eXist upload for file ›${file}‹ at path ›${path}‹ with eXist user ›${existuser}‹"
+echo "Starting eXist upload for file ›${file}‹ at path ›${path}/${fbase}‹ with eXist user ›${existuser}‹"
 
 if [ -z ${existuser} ]; then
   echo "existuser nicht angegeben. Abbrechen"
