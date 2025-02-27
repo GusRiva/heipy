@@ -16,7 +16,11 @@ if [ -z ${existpass} ]; then
   exit
 fi
 
-curl -v -4 -X PUT -H "Content-type: application/xml" --upload-file $file "http://servhc12.ub.uni-heidelberg.de:8080/exist/rest/db/resources/projects/${path}/${fbase}" -u "${existuser}:${existpass}"
+curl --version
+
+curl https://www.example.com
+
+curl -v -X PUT -H "Content-type: application/xml" --upload-file $file "http://servhc12.ub.uni-heidelberg.de:8080/exist/rest/db/resources/projects/${path}/${fbase}" -u "${existuser}:${existpass}"
 
 if [ -n "${reindex}" ]; then
   echo "trigger reindex"
