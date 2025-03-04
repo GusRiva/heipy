@@ -124,7 +124,6 @@ def transform_synopse(input:str, output:str):
             def_dict[first_item].append(second_item)
     grouped = [[k,sorted(v, key= lambda x: x[0])] for k, v in def_dict.items()]
     for group in grouped:
-        print(group)
         link_grp_target = group[0][0]
         link_grp = et.Element(prefix_format('tei','linkGrp'))        
         link_grp.set('target', link_grp_target)
