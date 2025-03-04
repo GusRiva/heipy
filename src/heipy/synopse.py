@@ -124,6 +124,7 @@ def transform_synopse(input:str, output:str):
             def_dict[first_item].append(second_item)
     grouped = [[k,sorted(v, key= lambda x: x[0])] for k, v in def_dict.items()]
     for group in grouped:
+        print(group)
         link_grp_target = group[0][0]
         link_grp = et.Element(prefix_format('tei','linkGrp'))        
         link_grp.set('target', link_grp_target)
@@ -131,8 +132,12 @@ def transform_synopse(input:str, output:str):
             node_type = group[0][1]
             if node_type in targetfunc_dict.keys():
                 link_grp.set('ana', targetfunc_dict[node_type] )
+                if node_type == 'default' or node_type == 'passiveGap':
+                    new_standoff.append(link_grp)
+                    continue
             else:
                 warnings.warn(f'Could not identify node type {node_type}', HeiWarning)
+                
         for target in group[1]:
             link_el = et.Element(prefix_format('tei','ptr'))
             link_el.set('target', target[0])
