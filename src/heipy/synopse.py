@@ -1,5 +1,6 @@
 import os.path
 import copy
+import codecs
 import itertools
 import warnings
 from collections import defaultdict
@@ -124,7 +125,7 @@ def transform_synopse(input:str, output:str):
             def_dict[first_item].append(second_item)
     grouped = [[k,sorted(v, key= lambda x: x[0])] for k, v in def_dict.items()]
     for group in grouped:
-        print(group)
+        # print(group)
         link_grp_target = group[0][0]
         link_grp = et.Element(prefix_format('tei','linkGrp'))        
         link_grp.set('target', link_grp_target)
@@ -148,8 +149,12 @@ def transform_synopse(input:str, output:str):
             link_grp.append(link_el)
 
         new_standoff.append(link_grp)
-
-    new_root.write(output, pretty_print=True, xml_declaration=True, encoding='utf-8')
+    print("Finished")
+    tree_str = et.tostring(new_root, encoding='unicode', pretty_print=True)
+    with codecs.open(output, 'wb', 'utf-8') as output_file:
+        for line in tree_str.split('\n'):
+            output_file.write(line + '\n')
+        # new_root.write(output_file, xml_declaration=True)
 
     return
 
