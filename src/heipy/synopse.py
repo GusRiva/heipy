@@ -49,11 +49,20 @@ def create_synopse(input:list, output:str):
                 continue
             n_att = line.get('n')
             if n_att is None:
-                n_att = "{:.3f}".format(nones / 1000)
+                n_att = "{:.2f}".format(nones / 100)
                 nones += 1
-            # all_verses.setdefault(n_att, {'id': line_id, 'hss': []})
+            try:
+                float(n_att.replace(',', '.'))
+            except:
+                digits = re.search(f'\d+', n_att)
+                if digits is None:
+                    n_att = "{:.3f}".format(nones / 1000)
+                    nones += 1          
+                else:
+                    n_att = "{:.4f}".format(int(digits.group(0)) / 10000)
+                    
             all_verses.setdefault(n_att, []).append({'id': line_id, 'hs': siglum})
-    # print([x for x in all_verses.items() if x[0] is None])
+    
     all_verses = dict(sorted(all_verses.items(), key= lambda x: float(x[0].replace(',', '.'))))
     all_witnesses_len = len(all_witnesses)
     
