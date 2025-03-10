@@ -29,9 +29,10 @@ def create_synopse(input:list, output:str):
     and writes the synopse to the specified output file.
     It is a requirement that the xml:id of the lines match across files.
     """
-    all_ids = {}
+    all_verses = {}
     starting_elements = {}
     all_witnesses = []
+    nones = 0
     for input_file in input:
         root = et.parse(input_file, parser=HeiEditionsParser())
         siglum = root.find('./tei:teiHeader//tei:idno[@ana="hc:EditorialSiglum"]', namespaces=ns)
@@ -46,7 +47,14 @@ def create_synopse(input:list, output:str):
                 starting_elements[siglum] = line_id
             if line_id is None:
                 continue
-            all_ids.setdefault(line_id, []).append(siglum)
+            n_att = line.get('n')
+            if n_att is None:
+                n_att = "{:.3f}".format(nones / 1000)
+                nones += 1
+            # all_verses.setdefault(n_att, {'id': line_id, 'hss': []})
+            all_verses.setdefault(n_att, []).append({'id': line_id, 'hs': siglum})
+    # print([x for x in all_verses.items() if x[0] is None])
+    all_verses = dict(sorted(all_verses.items(), key= lambda x: float(x[0].replace(',', '.'))))
     all_witnesses_len = len(all_witnesses)
     
     with importlib.resources.path('heipy.templates', 'synoptic_map.xml') as template_path:
@@ -56,16 +64,20 @@ def create_synopse(input:list, output:str):
         standoff_el = output_root.find('.//tei:standOff', namespaces=ns)
         standoff_el.clear()
         previous = {x:'' for x in all_witnesses}
-        for available_id, in_wit in all_ids.items():
-            for wit in in_wit:
-                previous[wit] = available_id
+        for verse_nr, id_hs_dict in all_verses.items():
+            for wit in id_hs_dict:
+                previous[wit.get('hs')] = wit['id']
             link_el = et.Element(prefix_format('tei','link'))
-            target = ' '.join([f'wit{x}:{available_id}' for x in sorted(in_wit)])
-            if len(in_wit) < all_witnesses_len:
+            target = ' '.join([f'{x['hs']}:{x['id']}' for x in sorted(id_hs_dict, key= lambda x: x['hs'])])
+
+            # If some testimonies do not have the verse number:
+            if len(id_hs_dict) < all_witnesses_len:
                 target += ' '
-                implicit_witnesses = list(set(all_witnesses) ^ set(in_wit))
+                implicit_witnesses = list(set(all_witnesses) ^ set([x['hs'] for x in id_hs_dict]))
                 target += ' '.join(
-                    f'wit{x}:right({previous[x]})' if previous[x] != '' else f'wit{x}:left({starting_elements[x]})'
+                    f'{x}:right({previous[x]})' 
+                    if previous[x] != '' else 
+                    f'{x}:left({starting_elements[x]})'
                     for x in implicit_witnesses
                 )
 
