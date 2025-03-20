@@ -78,6 +78,7 @@ class HeiEditionsParser(et.XMLParser):
         self.resolvers.add(HeiEditionsResolver())
            
     def parse(self, source, base_url=None):
+        # This is not working :(
         tree = super().parse(source, base_url)
         tree.xinclude()
         return tree
