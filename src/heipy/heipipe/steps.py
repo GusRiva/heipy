@@ -1,5 +1,6 @@
 # steps.py
 import importlib
+import os
 import time
 from lxml import etree as et
 import sys
@@ -12,6 +13,7 @@ import warnings
 from ..namespaces import ns
 from ..parsers import apply_xslt, HeiEditionsParser, validate_xml_with_heieditions_schema
 from ..colors import *
+from ..heiwarning import HeiWarning
 
 
 class BaseStep:
@@ -190,6 +192,10 @@ class Pipeline(BaseStep):
             str: The processed string after all pipeline steps have been executed.
         """
         print(f"Starting Pipeline {self.name} for {input[:60]}")
+        if not os.path.isfile(input):
+            warnings.warn(f'Could not find file {input}, skipping...', HeiWarning)
+            return None
+
         input_file = codecs.open(input, "r", "utf-8")
         input_string = input_file.read()
         for step in self.steps:

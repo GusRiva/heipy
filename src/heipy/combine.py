@@ -23,7 +23,14 @@ def combine_sourcedoc(files:list, output_path:str):
     if not os.path.isfile(first_file_path):
         warnings.warn(f"Could not find {first_file_path}.")
         return
-    tree = et.parse(first_file_path, HeiEditionsParser())
+    tree = None
+    try:
+        tree = et.parse(first_file_path, HeiEditionsParser())
+    except:
+        warnings.warn(f"Could not process {first_file_path}")
+        if len(files) > 1:
+            combine_sourcedoc(files[1:], output_path)    
+        return
     root = tree.getroot()
     if len(files) < 2:
         tree.write(output_path, encoding='utf-8', xml_declaration=True)
@@ -33,8 +40,8 @@ def combine_sourcedoc(files:list, output_path:str):
         warnings.warn(f"Could not find sourceDoc in {first_file_path}")
         return
     for file_path in files[1:]:
-        if not os.path.isfile(first_file_path):
-            warnings.warn(f"Could not find {first_file_path}.")
+        if not os.path.isfile(file_path):
+            warnings.warn(f"Could not find {file_path}.")
             continue
         file = et.parse(file_path, HeiEditionsParser())
         sourcedoc_el = file.find('.//tei:sourceDoc', ns)
