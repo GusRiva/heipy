@@ -204,6 +204,46 @@ class Pipeline(BaseStep):
 
     def get_steps(self):
         return self.steps
+    
+    def get_step_by_name(self, name:str):
+        for step in self.get_steps():
+            step_name = step.get_name()
+            if step_name != name:
+                continue
+            return step
+        return
+    
+    def set_pipestep_parameter(self, step: str | int, parameter_name: str, parameter_value):
+        """
+        Sets a parameter for a specific pipeline step.
+
+        This method allows you to set a parameter for a pipeline step by either 
+        providing the step's name (as a string) or its index (as an integer).
+
+        Args:
+            step (str or int): The name or index of the pipeline step.
+                - If a string, it should match the name of an existing step.
+                - If an integer, it should be a valid index within the pipeline steps.
+            parameter_name (str): The name of the parameter to set.
+            parameter_value: The value to assign to the parameter.
+
+        Raises:
+            ValueError: If the step name provided as a string does not match any existing step.
+            IndexError: If the step index provided as an integer is out of range.
+            TypeError: If the `step` argument is neither a string nor an integer.
+        """
+        if isinstance(step,str):
+            step_obj = self.get_step_by_name(step)
+            if step_obj is None:
+                raise ValueError(f'Could not find parameter with the name {step}')
+        elif isinstance(step, int):
+            if len(self.get_steps()) <= step:
+                raise IndexError(f'The pipeline: {self}, contains only {len(self.get_steps())} steps and you are trying to access step at index {step}.')
+            step_obj = self.get_steps()[step]
+        else:
+            raise TypeError(f'{step} should be string of integer')
+        step_obj.set_parameter_by_name(parameter_name, parameter_value)
+        return
 
 
 class XsltStep(BaseStep):
