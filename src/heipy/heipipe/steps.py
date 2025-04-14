@@ -247,6 +247,27 @@ class Pipeline(BaseStep):
 
 
 class XsltStep(BaseStep):
+    """
+    A step in a pipeline that applies one or more XSLT transformations to an input string.
+
+    Attributes:
+        files (list): A list of XSLT file paths to be applied in sequence. Defaults to an empty list.
+        parameters (list): A list of parameters to be passed to the XSLT transformations. Defaults to an empty list.
+        name (str): The name of the step. Defaults to None.
+        desc (str): A description of the step. Defaults to None.
+        serial (bool): Whether to serialize the output after execution. Defaults to False.
+        pipe_files (bool): Whether to load XSLT files from a package resource. Defaults to False.
+
+    Methods:
+        __str__():
+            Returns a string representation of the step, including the number of transformations and parameters.
+        get_files() -> list:
+            Returns the list of XSLT file paths.
+        execute(input_string: str) -> str:
+            Applies the XSLT transformations to the input string in sequence and returns the transformed string.
+            If `pipe_files` is True, the XSLT files are loaded from package resources.
+            If `serial` is True, the output is serialized after each transformation.
+    """
     def __init__(self, files=None, parameters=None, name=None, desc=None, serial=False, pipe_files=False):
         super().__init__(name, desc, serial)
         self.files = [] if files is None else files
@@ -283,7 +304,20 @@ class XsltStep(BaseStep):
 
 
 class AddAttribute(BaseStep):
-    """Removes all the tags in elements, keeping the children intact"""
+    """
+    A step that adds a specified attribute with a given value to all matching XML elements.
+
+    Attributes:
+        match (str): The XPath expression to match elements in the XML.
+        att_name (str): The name of the attribute to add to the matched elements.
+        att_val (str): The value of the attribute to add to the matched elements.
+        name (str, optional): The name of the step. Defaults to None.
+        desc (str, optional): A description of the step. Defaults to None.
+        serial (bool, optional): Whether to serialize the result. Defaults to None.
+
+    Returns:
+        str: The modified XML string with the added attributes.
+    """
     def __init__(self, match:str, att_name:str, att_val:str, name=None, desc=None, serial=None):
         super().__init__(name, desc, serial)
         self.match = match
@@ -296,7 +330,7 @@ class AddAttribute(BaseStep):
     def execute(self, input_string):
         input_string_enc = input_string.encode('utf-8')
         root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
-        matches = root.xpath(f"//{self.match}", namespaces=ns)
+        matches = root.xpath(f"{self.match}", namespaces=ns)
         for match in matches:
             match.set(self.att_name, self.att_val)
         result = et.tostring(root, encoding='unicode')
@@ -312,18 +346,10 @@ class DeleteStep(BaseStep):
     A step in a pipeline that deletes specified XML elements from an input string.
 
     Attributes:
-        elements (list): A list of XML element names to be deleted, with optional filters in the xpath syntax of square brackets.
+        elements (list): A list of XPath expressions corresponding to the elements to be deleted.
         name (str, optional): The name of the step. Defaults to None.
         desc (str, optional): A description of the step. Defaults to None.
         serial (bool, optional): A flag indicating whether to serialize the result. Defaults to None.
-
-    Methods:
-        __str__(): Returns a string representation of the DeleteStep instance.
-        execute(input_string): Executes the deletion of specified XML elements from the input string.
-            Args:
-                input_string (str): The input XML string.
-            Returns:
-                str: The resulting XML string after deletion of specified elements.
     """
     def __init__(self, elements:list, name=None, desc=None, serial=None):
         super().__init__(name, desc, serial)
@@ -339,7 +365,10 @@ class DeleteStep(BaseStep):
         tree = et.parse(input_stream, parser=HeiEditionsParser())
         root = tree.getroot()
         for elem_name in self.elements:
-            xpath_ex = f".//{elem_name}"
+            if elem_name[:1] != '/':
+                elem_name = '//' + elem_name
+            print(elem_name)
+            xpath_ex = f".{elem_name}"
             for elem in root.xpath(xpath_ex, namespaces=ns):
                 elem.getparent().remove(elem)
         result = et.tostring(tree, encoding='utf-8').decode('utf-8')
