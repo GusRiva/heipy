@@ -5,21 +5,23 @@
   xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   >
-  
-  <!-- 
+
+<!-- 
     aim:
-          moving elements with @hei:includedInZone to the end of <text> and removing the attribute
+          moving elements with @facs to the end of <text> and removing the attribute;
+          the same processing is applied to children of figure[@facs] marked as hc:FigureText
           
     author: Jakub Šimek
           
 -->  
-  
+     
   <xsl:output method="xml"/>
-  
+
   <!-- Identity template -->
   <xsl:mode on-no-match="shallow-copy" />
   
-  <xsl:variable name="included" select="//*[not(local-name() = ('pb','cb','lb','milestone'))][@hei:includedInZone or @facs]" as="item()*"/>
+  <xsl:variable name="included" select="//*[not(local-name() = ('pb','cb','lb','milestone','figure'))][@hei:includedInZone or @facs]|//*[tokenize(@ana, '\s+') = 'hc:FigureText'][parent::figure[@facs]]" as="item()*"/>
+  <!-- @hei:includedInZone is deprecated and should be removed from the script as soon as all editions are migrated to using @facs -->
   
   <xsl:template match="text">
     <xsl:copy>
@@ -34,10 +36,10 @@
       </xsl:copy>
     </xsl:for-each>
   </xsl:template>
+ 
+  <!-- remove the elements with @hei:includedInZone or @facs from the text -->   
+  <xsl:template match="*[not(local-name() = ('pb','cb','lb','milestone','figure'))][@hei:includedInZone or @facs]|//*[tokenize(@ana, '\s+') = 'hc:FigureText'][parent::figure[@facs]]"></xsl:template>
   
-  <!-- remove the elements with @hei:includedInZone from the text -->   
-  <xsl:template match="*[not(local-name() = ('pb','cb','lb','milestone'))][@hei:includedInZone or @facs]"></xsl:template>
-  
-  
+ 
   
 </xsl:stylesheet>

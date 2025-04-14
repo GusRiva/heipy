@@ -1,7 +1,7 @@
 # bash
 # This scripts compared the xslt templates in the pipelines 1 and 2
 
-dir1="/home/gustavo/Dokumente/heieditionspipeline2/heieditionspipeline/templates/"
+dir1="/home/gustavo/Dokumente/heipy/src/heipy/heipipe/xslt/"
 dir2="/home/gustavo/Dokumente/Editionen/heiEditionsPipeline/transformations/"
 
 # Loop over all files in dir1
