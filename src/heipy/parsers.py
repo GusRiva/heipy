@@ -92,7 +92,9 @@ class HeiEditionsParser(et.XMLParser):
 def set_params_for_saxon(parameter_list, proc: PySaxonProcessor, executable):
     for parameter in parameter_list:
         for param, value in parameter.items():
-            if value is True or value is False:
+            if value is None:
+                continue
+            elif value is True or value is False:
                 value_f = proc.make_boolean_value(value)
             # Uncomment when saxonica fixes the bug
             elif isinstance(value, dict):
@@ -100,8 +102,6 @@ def set_params_for_saxon(parameter_list, proc: PySaxonProcessor, executable):
                 value_f = proc.make_map(xdmdict)
             elif value.isnumeric():
                 value_f = proc.make_float_value(value)
-            elif value is None:
-                continue
             else:
                 value_f = proc.make_string_value(value)
             if value_f is not None:

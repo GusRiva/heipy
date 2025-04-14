@@ -283,7 +283,6 @@ class XsltStep(BaseStep):
     def execute(self, input_string) -> str:
         for file in self.files:
             start_time = time.time()  # Record start time
-
             true_xslt_file = None
             if self.pipe_files == True:
                 with importlib.resources.path('heipy.heipipe.xslt', file) as xslt_file_path:
@@ -367,7 +366,6 @@ class DeleteStep(BaseStep):
         for elem_name in self.elements:
             if elem_name[:1] != '/':
                 elem_name = '//' + elem_name
-            print(elem_name)
             xpath_ex = f".{elem_name}"
             for elem in root.xpath(xpath_ex, namespaces=ns):
                 elem.getparent().remove(elem)
@@ -378,6 +376,32 @@ class DeleteStep(BaseStep):
 
 
 class PythonStep(BaseStep):
+    """
+    A class representing a processing step that executes a Python function on an XML input.
+
+    Attributes:
+        funct (callable): The Python function to be executed. It should accept an XML root element
+            as its first argument and optionally a parameters dictionary as its second argument.
+        parameters (dict, optional): A dictionary of parameters to be passed to the function.
+            Defaults to None.
+        name (str, optional): The name of the step. Defaults to None.
+        desc (str, optional): A description of the step. Defaults to None.
+        serial (bool, optional): A flag indicating whether the result should be serialized.
+            Defaults to False.
+
+    Methods:
+        __str__():
+            Returns a string representation of the PythonStep instance.
+
+        execute(input_string):
+            Executes the Python function on the given XML input string.
+
+            Args:
+                input_string (str): The XML input string to be processed.
+
+            Returns:
+                str: The resulting XML string after processing.
+    """
     def __init__(self, funct, parameters=None, name=None, desc=None, serial=False):
         super().__init__(name, desc, serial)
         self.funct = funct
@@ -398,10 +422,24 @@ class PythonStep(BaseStep):
         return result
 
 class UnwrapStep(BaseStep):
-    """Removes all the tags in elements, keeping the children intact"""
+    """
+    UnwrapStep is a processing step that removes specified tags from elements in an input xml string,
+    while keeping the children of those tags intact.
+
+    Attributes:
+        elements (list): A list of dictionaries specifying the elements to be unwrapped.
+            Each dictionary should contain:
+            - 'element_name': The name of the element to be removed.
+            - 'attrib_name': (Optional) The name of an attribute to match.
+            - 'attrib_val': (Optional) The value of the attribute to match.
+        name (str, optional): The name of the step. Defaults to None.
+        desc (str, optional): A description of the step. Defaults to None.
+        serial (bool, optional): Whether to serialize the result after execution. Defaults to None.
+
+    """
     def __init__(self, elements:list, name=None, desc=None, serial=None):
         super().__init__(name, desc, serial)
-        self.elements = elements
+        self.elements = elements if len(elements) > 0 else []
 
     def __str__(self):
         return f"UnwrapStep for: {self.elements}"
@@ -409,17 +447,19 @@ class UnwrapStep(BaseStep):
     def execute(self, input_string):
         if len(self.elements) < 1:
             return input_string
+        with importlib.resources.path('heipy.heipipe.xslt', 'unwrapFromElements.xsl') as xslt_file_path:
+            true_xslt_file = str(xslt_file_path)
         for element in self.elements:
             params = [{
                 'delenda_name': element.get('element_name'),
                 'delenda_attr_name': element.get('attrib_name'),
                 'delenda_attr_val': element.get('attrib_val'),
             }]
-            result = apply_xslt(input_string, xslt_file='unwrapFromElements.xsl',
+            result = apply_xslt(input_string, xslt_file= true_xslt_file,
                             parameters=params)
-            if self.serial:
-                super()._serialize(result)
-            return result
+        if self.serial:
+            super()._serialize(result)
+        return result
 
 class ValidationStep(BaseStep):
     """Validates the xml file. Returns the input to keep processing, but provides warnings in case of failed validation."""
