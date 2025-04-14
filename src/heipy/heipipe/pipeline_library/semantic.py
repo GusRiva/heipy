@@ -7,7 +7,7 @@ class SemanticPipe(Pipeline):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step()
         mark_note_as_editorial_step.set_parameter_by_name('note_classes',
-                                                          "hc:TranscriptionNote hc:TextConstitutionNote")
+                                                          "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
 
         # SourceDoc Pipeline Standard
         pipe_steps = [
