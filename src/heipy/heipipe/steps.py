@@ -180,8 +180,9 @@ class Pipeline(BaseStep):
                 warnings.warn(f"Step  {step.name}: Index must be a positive integer (0 or higher). Index now is {at_index}. Step will not be added.")
                 return
             step.set_index(at_index) 
-            self.steps.insert(at_index, step)
+            self.steps.insert(at_index, step)    
             return
+        
         if after_step or before_step is not None:
             try:
                 idx_mod = 1 if after_step is not None else 0
