@@ -23,7 +23,7 @@ class BaseStep:
         self.desc = desc
         self.serial = serial
         self.parameters = parameters
-        self.index = -1
+        self.index = -1 # When outside of pipeline
 
     def add_parameter(self, param:dict):
         self.parameters.append(param)
@@ -31,6 +31,9 @@ class BaseStep:
 
     def get_desc(self):
         return self.desc
+
+    def get_index(self):
+        return self.index
 
     def get_name(self):
         return self.name
@@ -76,9 +79,7 @@ class BaseStep:
             self.parameters[param[1]] = {name: content}
             return
         self.parameters.append({name: content})
-        return
-        
-        
+        return       
 
     def set_serial(self, value: bool):
         self.serial = value
@@ -138,15 +139,17 @@ class Pipeline(BaseStep):
         return
 
     def __str__(self):
-        return f"Pipeline '{self.name}'"
+        return f"Pipeline »{self.name}« containing {len(self.steps)} steps."
 
-    def add_step(self, step, at_index=None, serial=False, parameters=None):
+    def add_step(self, step, at_index:int=None, after_step:str=None, before_step:str=None, serial=False, parameters=None):
         """
         Adds a step to the pipeline. 
 
         Parameters:
         step (Step): The step to be added to the pipeline. The step can be an instance of any of the subclasses of BaseStep.
         at_index (int, optional): The index at which to insert the step. If None, the step is appended to the end.
+        after_step (str, optional): The step after which the new step should be added.
+        before_step (str, optional): The step before which the new step should be added.
         serial (bool, optional): If True, the output while be written to file.
         parameters (list, optional): A list of parameters to be set for the step (for example, as XSLT parameters). Defaults to an empty list if None.
 
@@ -160,26 +163,38 @@ class Pipeline(BaseStep):
             step.set_serial(serial)
         if parameters is None:
             parameters = step.get_parameters() or []
-        step_idx = len(self.steps)
-        step.set_index(step_idx)
         step.set_parameters(parameters)
+
+        pos_params = (at_index, after_step, before_step)
+        if pos_params.count(None) < 2:
+            raise SyntaxError(f'You can only use one positional paramter for your new step. You are currently using: at_index={at_index}, after_step={after_step}, before_step={before_step}.')      
+        
         if isinstance(step, Pipeline):
             print(step) # Here should add handle when a pipeline is added as a step to another pipeline
-        if at_index is None:            
-            step.set_index(len(self.steps) - 1) 
-            self.steps.append(step)
-        else:
-            if not isinstance(at_index, int):
-                Warning.warn(f"Step  {step.name}: Index must be a positive integer. Now: {at_index}. Step will not be added.")
-                return
+        
+        if at_index is not None:
             if at_index > len(self.steps) - 1:
-                Warning.warn(f"Step:  {step.name} was added with an index higher than possible: {at_index}. This pipeline has now {len(self.steps)}. Step will not be added.")
+                warnings.warn(f"Step:  {step.name} was added with an index higher than possible: {at_index}. This pipeline has now {len(self.steps)}. Step will not be added.")
                 return
             if at_index < 0:
-                Warning.warn(f"Step  {step.name}: Index must be a positive integer (0 or higher). Index now is {idx}. Step will not be added.")
+                warnings.warn(f"Step  {step.name}: Index must be a positive integer (0 or higher). Index now is {at_index}. Step will not be added.")
                 return
             step.set_index(at_index) 
             self.steps.insert(at_index, step)
+            return
+        if after_step or before_step is not None:
+            try:
+                idx_mod = 1 if after_step is not None else 0
+                new_step_idx = [x.get_name() for x in self.get_steps()].index(after_step or before_step)
+                step.set_index(new_step_idx + idx_mod) 
+                self.steps.insert(new_step_idx + idx_mod, step)
+                return
+            except ValueError:
+                warnings.warn(f"Could not find step »{after_step}« in pipeline {self.name}, in relation to which you want to add step {step}. Step will not be added.")
+                return
+
+        step.set_index(len(self.steps) - 1) 
+        self.steps.append(step)
 
     def execute(self, input):
         """
@@ -275,7 +290,7 @@ class XsltStep(BaseStep):
         self.parameters = [] if parameters is None else parameters
 
     def __str__(self):
-        return f"XSLStep {self.name} containing {len(self.files)} transformations and {len(self.parameters)} parameters."
+        return f"XSLStep »{self.name}« containing {len(self.files)} transformations and {len(self.parameters)} parameters."
 
     def get_files(self) -> list:
         return self.files
@@ -324,7 +339,7 @@ class AddAttribute(BaseStep):
         self.att_val = att_val
 
     def __str__(self):
-        return f"Add Attribute Step for: {self.match}, {self.att_name}, {self.att_val}"
+        return f"Add Attribute Step »{self.name}«. match: {self.match}, att_name: {self.att_name}, att_val: {self.att_val}"
 
     def execute(self, input_string):
         input_string_enc = input_string.encode('utf-8')
@@ -355,7 +370,7 @@ class DeleteStep(BaseStep):
         self.elements = elements
 
     def __str__(self):
-        return f"DeleteStep for: {self.elements}"
+        return f"DeleteStep »{self.name}«. Deletes: {self.elements}"
 
     def execute(self, input_string):
         if len(self.elements) < 1:
@@ -407,7 +422,7 @@ class PythonStep(BaseStep):
         self.funct = funct
 
     def __str__(self):
-        return f"Python step using: {self.funct}"
+        return f"Python step »{self.name}«, using: {self.funct}"
 
     def execute(self, input_string):
         input_string_enc = input_string.encode('utf-8')
@@ -442,7 +457,7 @@ class UnwrapStep(BaseStep):
         self.elements = elements if len(elements) > 0 else []
 
     def __str__(self):
-        return f"UnwrapStep for: {self.elements}"
+        return f"UnwrapStep »{self.name}«. Unwraps: {self.elements}"
 
     def execute(self, input_string):
         if len(self.elements) < 1:
@@ -468,7 +483,7 @@ class ValidationStep(BaseStep):
         self.parameters = [] if parameters == None else parameters
 
     def __str__(self):
-        return "Validation step"
+        return f"Validation step »{self.name}«"
     
     def execute(self, input_string):
         try:
