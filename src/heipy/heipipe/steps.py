@@ -291,7 +291,7 @@ class XsltStep(BaseStep):
         self.parameters = [] if parameters is None else parameters
 
     def __str__(self):
-        return f"XSLStep »{self.name}« containing {len(self.files)} transformations and {len(self.parameters)} parameters."
+        return f"XSLStep »{self.name}« containing {len(self.files)} transformations {self.files} and {len(self.parameters)} parameters {self.parameters if len(self.parameters) > 0 else ''}."
 
     def get_files(self) -> list:
         return self.files
