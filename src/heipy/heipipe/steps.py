@@ -19,7 +19,7 @@ from ..heiwarning import HeiWarning
 class BaseStep:
     """ Base class for all steps """
     def __init__(self, name=None, desc=None, serial=False, parameters=None):
-        self.name = name
+        self.name = name if name is not None else "__None__"
         self.desc = desc
         self.serial = serial
         self.parameters = parameters
@@ -171,37 +171,44 @@ class Pipeline(BaseStep):
             parameters = step.get_parameters() or []
         step.set_parameters(parameters)
 
+
         pos_params = (at_index, after_step, before_step)
         if pos_params.count(None) < 2:
             raise SyntaxError(f'You can only use one positional paramter for your new step. You are currently using: at_index={at_index}, after_step={after_step}, before_step={before_step}.')      
+
+        if step.get_name() in [x.get_name() for x in self.get_steps()]:
+            raise NameError(f"Step with the name »{step.get_name()}« already exists in the Pipeline.")
         
         if isinstance(step, Pipeline):
             print(step) # Here should add handle when a pipeline is added as a step to another pipeline
-        
+
+        def add_step_intern(idx):
+            step.set_index(idx) 
+            if step.get_name() == '__None__':
+                step.name = '__None__' + str(idx)
+            self.steps.insert(idx, step)
+
         if at_index is not None:
             if at_index > len(self.steps) - 1:
-                warnings.warn(f"Step:  {step.name} was added with an index higher than possible: {at_index}. This pipeline has now {len(self.steps)}. Step will not be added.")
+                warnings.warn(f"Step  »{step.name}«: was added with an index higher than possible: {at_index}. This pipeline has now {len(self.steps)}. Step will not be added.")
                 return
             if at_index < 0:
-                warnings.warn(f"Step  {step.name}: Index must be a positive integer (0 or higher). Index now is {at_index}. Step will not be added.")
+                warnings.warn(f"Step  »{step.name}«: Index must be a positive integer (0 or higher). Index now is {at_index}. Step will not be added.")
                 return
-            step.set_index(at_index) 
-            self.steps.insert(at_index, step)    
-            return
+            add_step_intern(at_index)
         
-        if after_step or before_step is not None:
+        elif after_step or before_step is not None:
             try:
                 idx_mod = 1 if after_step is not None else 0
                 new_step_idx = [x.get_name() for x in self.get_steps()].index(after_step or before_step)
-                step.set_index(new_step_idx + idx_mod) 
-                self.steps.insert(new_step_idx + idx_mod, step)
-                return
+                step_index = new_step_idx + idx_mod
+                add_step_intern(step_index)
             except ValueError:
                 warnings.warn(f"Could not find step »{after_step}« in pipeline {self.name}, in relation to which you want to add step {step}. Step will not be added.")
-                return
-
-        step.set_index(len(self.steps) - 1) 
-        self.steps.append(step)
+        
+        else:
+            step_index = len(self.steps)
+            add_step_intern(step_index)
 
     def execute(self, input):
         """
@@ -239,12 +246,12 @@ class Pipeline(BaseStep):
         if (step_name, step_index).count(None) != 1:
             raise SyntaxError(f"The function remove_step() must contain only one of the parameters step_name or step_index. Currently step_name={step_name} , step_index={step_index} .")
         if step_index is not None:
-            self.steps.pop(step_index)
+            return self.steps.pop(step_index)
+
         if step_name is not None:
             for i, step in enumerate(self.steps):
                 if step.get_name() == step_name:
-                    self.steps.pop(i)
-                    return
+                    return self.steps.pop(i)
             warnings.warn(f"Could not find step with name »{step_name}« to remove in pipeline.")
         return
 
