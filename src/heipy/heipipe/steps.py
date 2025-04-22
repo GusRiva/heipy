@@ -119,12 +119,18 @@ class Pipeline(BaseStep):
     --------
     __str__():
         Returns a string representation of the pipeline.
-    add_step(step, at_index=None, serial=False, parameters=None):
-        Adds a step to the pipeline at the specified index.
+    add_step(step, at_index=None,  after_step:str=None, before_step:str=None, serial=False, parameters=None):
+        Adds a step to the pipeline either at the specified index or in relation to another step. If no index nor after_step not before_step is given, the step will be add as the last in the pipeline. You can add the parameters if this is an XSLT transformation or any other transformation that would accept them.
     execute(input):
         Executes the pipeline on the given input.
     get_steps():
         Returns the list of steps in the pipeline.
+    get_step_by_name(name:str):
+        Returns the step by its name.
+    remove_step(step_name=None, step_index=None):
+        Removes a step from the pipeline by its name or index.
+    set_pipestep_parameter(step, parameter_name, parameter_value):
+        Sets a parameter for a specific pipeline step by name or index.
     """
     def __init__(self, steps=None, name=None, desc=None, serial=False):
         super().__init__(name, desc, serial)
@@ -228,7 +234,20 @@ class Pipeline(BaseStep):
                 continue
             return step
         return
-    
+
+    def remove_step(self, step_name:str=None, step_index:int=None):
+        if (step_name, step_index).count(None) != 1:
+            raise SyntaxError(f"The function remove_step() must contain only one of the parameters step_name or step_index. Currently step_name={step_name} , step_index={step_index} .")
+        if step_index is not None:
+            self.steps.pop(step_index)
+        if step_name is not None:
+            for i, step in enumerate(self.steps):
+                if step.get_name() == step_name:
+                    self.steps.pop(i)
+                    return
+            warnings.warn(f"Could not find step with name »{step_name}« to remove in pipeline.")
+        return
+
     def set_pipestep_parameter(self, step: str | int, parameter_name: str, parameter_value):
         """
         Sets a parameter for a specific pipeline step.
@@ -354,8 +373,6 @@ class AddAttribute(BaseStep):
         return result
 
 
-
-
 class DeleteStep(BaseStep):
     """
     A step in a pipeline that deletes specified XML elements from an input string.
@@ -437,6 +454,7 @@ class PythonStep(BaseStep):
             super()._serialize(result)
         return result
 
+
 class UnwrapStep(BaseStep):
     """
     UnwrapStep is a processing step that removes specified tags from elements in an input xml string,
@@ -476,6 +494,7 @@ class UnwrapStep(BaseStep):
         if self.serial:
             super()._serialize(result)
         return result
+
 
 class ValidationStep(BaseStep):
     """Validates the xml file. Returns the input to keep processing, but provides warnings in case of failed validation."""
