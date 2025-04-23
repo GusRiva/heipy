@@ -76,18 +76,13 @@ class HeiEditionsParser(et.XMLParser):
         kwargs.setdefault('encoding', 'utf-8')
         super().__init__(*args, **kwargs)
         self.resolvers.add(HeiEditionsResolver())
-           
-    def parse(self, source, base_url=None):
-        # This is not working :(
-        tree = super().parse(source, base_url)
-        tree.xinclude()
-        return tree
-    
-    # def close(self):
-    #     tree = super().close()
-    #     tree.xinclude()
-    #     return tree
-        
+
+
+def heiparse(source, parser=None):
+    parser = parser or HeiEditionsParser()
+    tree = et.parse(source, parser)
+    tree.xinclude()
+    return tree
 
 def set_params_for_saxon(parameter_list, proc: PySaxonProcessor, executable):
     for parameter in parameter_list:

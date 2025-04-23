@@ -2,7 +2,7 @@ import warnings
 import os
 
 from lxml import etree as et
-from .parsers import HeiEditionsParser
+from .parsers import heiparse
 from .namespaces import ns, prefix_format
 
 
@@ -20,14 +20,11 @@ def merge_zones(zone_already, new_zone):
 
 def combine_sourcedoc(files:list, output_path:str):
     first_file_path = files[0]
-    if not os.path.isfile(first_file_path):
-        warnings.warn(f"Could not find {first_file_path}.")
-        return
     tree = None
     try:
-        tree = et.parse(first_file_path, HeiEditionsParser())
+        tree = heiparse(first_file_path)
     except:
-        warnings.warn(f"Could not process {first_file_path}")
+        warnings.warn(f"Could not find or process {first_file_path}")
         if len(files) > 1:
             combine_sourcedoc(files[1:], output_path)    
         return
@@ -43,7 +40,7 @@ def combine_sourcedoc(files:list, output_path:str):
         if not os.path.isfile(file_path):
             warnings.warn(f"Could not find {file_path}.")
             continue
-        file = et.parse(file_path, HeiEditionsParser())
+        file = heiparse(file_path)
         sourcedoc_el = file.find('.//tei:sourceDoc', ns)
         if sourcedoc_el is None:
             warnings.warn(f"Could not find sourceDoc in {file_path}")
