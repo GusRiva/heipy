@@ -21,7 +21,7 @@
             <zone ana="hc:TextZone hc:Column" xml:id="_1ra"/>
         </surface>
     </facsimile>
-    <text>
+    <text ana="hc:Epigram">
         <body>
             <pb n="1r" facs="#_1r"/>
             <cb n="a" facs="#_1ra"/>
