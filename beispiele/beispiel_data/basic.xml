@@ -26,7 +26,7 @@
             <pb n="1r" facs="#_1r"/>
             <cb n="a" facs="#_1ra"/>
             <lb n="1"/>
-            <l n="1" hei:altN="2">Line 1</l>
+            <l n="1" hei:altN="2" xml:id="l1">Line 1&bar;</l>
             <lb n="2"/>
             <l n="2" hei:altN="1">Line2</l>
         </body>
