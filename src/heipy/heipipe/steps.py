@@ -11,7 +11,7 @@ from icecream import ic
 import warnings
 
 from ..namespaces import ns
-from ..parsers import apply_xslt, HeiEditionsParser, validate_xml_with_heieditions_schema
+from ..parsers import apply_xslt, heiparse, HeiEditionsParser, validate_xml_with_heieditions_schema
 from ..colors import *
 from ..heiwarning import HeiWarning
 
@@ -210,12 +210,13 @@ class Pipeline(BaseStep):
             step_index = len(self.steps)
             add_step_intern(step_index)
 
-    def execute(self, input):
+    def execute(self, input, xinclude=False):
         """
         Executes the pipeline on the given input file.
 
         Args:
             input (str): The XML document in its string representation.
+            xinclude (bool): Does the starting file contain xinclude elements that need to be resolved at the start of the pipeline? Defaults to False.
 
         Returns:
             str: The processed string after all pipeline steps have been executed.
@@ -224,9 +225,12 @@ class Pipeline(BaseStep):
         if not os.path.isfile(input):
             warnings.warn(f'Could not find file {input}, skipping...', HeiWarning)
             return None
-
-        input_file = codecs.open(input, "r", "utf-8")
-        input_string = input_file.read()
+        if xinclude == False:
+            input_file = codecs.open(input, "r", "utf-8")
+            input_string = input_file.read()
+        else:
+            input_tree = heiparse(input)
+            input_string = et.tostring(input_tree, method="xml", encoding="unicode")
         for step in self.steps:
             input_string = step.execute(input_string)
         return input_string
