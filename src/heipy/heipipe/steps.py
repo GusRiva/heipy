@@ -229,8 +229,7 @@ class Pipeline(BaseStep):
             input_file = codecs.open(input, "r", "utf-8")
             input_string = input_file.read()
         else:
-            input_tree = heiparse(input)
-            input_string = et.tostring(input_tree, method="xml", encoding="unicode")
+            input_string = heiparse(input, output_format='str')
         for step in self.steps:
             input_string = step.execute(input_string)
         return input_string

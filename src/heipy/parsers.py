@@ -78,11 +78,32 @@ class HeiEditionsParser(et.XMLParser):
         self.resolvers.add(HeiEditionsResolver())
 
 
-def heiparse(source, parser=None):
+def heiparse(source, parser=None, xinclude=True, output_format='tree'):
+    """
+    Parse an XML source using a specified parser (dafaults to HeiEditionsParser) and optionally process XInclude directives.
+    Args:
+        source (str or file-like object): The XML source to parse. This can be a file path or a file-like object.
+        parser (xml.etree.ElementTree.XMLParser, optional): The parser to use for parsing the XML. 
+            If not provided, a default `HeiEditionsParser` instance will be used.
+        xinclude (bool, optional): Whether to process XInclude directives in the XML. Defaults to True.
+        output_format (str, optional): Output as 'tree' (lxml etree object) or as 'str' (string)
+
+    Returns:
+        xml.etree.ElementTree.ElementTree: The parsed XML tree.
+
+    Raises:
+        xml.etree.ElementTree.ParseError: If there is an error during parsing.
+    """
     parser = parser or HeiEditionsParser()
     tree = et.parse(source, parser)
-    tree.xinclude()
-    return tree
+    if xinclude:
+        tree.xinclude()
+    if output_format == 'tree':
+        return tree
+    elif output_format == 'str':
+        return et.tostring(tree, method="xml", encoding="unicode")
+    else:
+        raise TypeError("The output_format parameter must be either 'tree' or 'str'")
 
 def set_params_for_saxon(parameter_list, proc: PySaxonProcessor, executable):
     for parameter in parameter_list:
@@ -148,4 +169,27 @@ def validate_xml_with_heieditions_schema(input_str= None,xml_file=None):
     
     
 
+def simple_xslt(input, xslt, output, parameters=None):
+    """
+    Applies an XSLT transformation to an input file and writes the result to an output file.
+
+    Args:
+        input (str): The path to the input file containing the XML content.
+        xslt (str): The XSLT stylesheet to be applied.
+        output (str): The path to the output file where the transformed content will be written.
+        parameters (dict, optional): A dictionary of parameters to pass to the XSLT transformation. Defaults to None.
+
+    Raises:
+        FileNotFoundError: If the input file does not exist.
+        IOError: If there is an error reading the input file or writing to the output file.
+        Exception: If the XSLT transformation fails.
+
+    Returns:
+        None
+    """
+    input_string = heiparse(input, output_format='str')    
+    
+    result = apply_xslt(input_string, xslt, parameters)
+    with codecs.open(output, 'w', 'utf-8') as output_file:
+        output_file.write(result)
 
