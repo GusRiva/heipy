@@ -1,7 +1,8 @@
 from copy import deepcopy
 from uuid import uuid4
-from ...namespaces import ns
+from ...namespaces import ns, prefix_format
 from ..steps import PythonStep
+
 
 
 
@@ -28,6 +29,8 @@ def move_note_after_its_target_func(root, parameters=None):
     # a list of all notes carrying a @target:
     notes_list = root.xpath("//tei:note[contains(@ana, 'hc:EditorialContent')][@target]", namespaces=ns)
 
+    # a dictionary of xml:ids to make lookup faster
+    id_index = {el.attrib[prefix_format('xml','id')]: el for el in root.iter() if prefix_format('xml','id') in el.attrib}
     # function for moving a note from its original context to become the first following sibling of its target:
     def move_note(note, target):
         # in case the note does not have a tail, the following variable is initialized as empty string:
@@ -88,12 +91,8 @@ def move_note_after_its_target_func(root, parameters=None):
                 target_ids.append(i[1:])
         # if there is just one target, then the note can stay the same and is just moved:
         if len(target_ids) == 1:
-            target_id_string = "//*[@xml:id = '" + target_ids[0] + "']"
-            target_list = root.xpath(target_id_string, namespaces=ns)
-            # if a target is found, the first one is processed (but it should be just one):
-            if len(target_list) == 1:
-                target = target_list[0]
-                move_note(note, target)
+            target = id_index.get(target_ids[0])
+            move_note(note, target)
         # if there are several targets, then the note needs to be multiplied (with different IDs):
         else:
             # make a copy of the note (needed for duplicates):
@@ -106,12 +105,8 @@ def move_note_after_its_target_func(root, parameters=None):
                     new_target = target_splitted[0]
                     note.set('target', new_target)
                     # find the target:
-                    target_id_string = "//*[@xml:id = '" + target_id_enum[1] + "']"
-                    target_list = root.xpath(target_id_string, namespaces=ns)
-                    # if a target is found, the first one is processed (but it should be just one):
-                    if len(target_list) == 1:
-                        target = target_list[0]
-                        move_note(note, target)
+                    target = id_index.get(target_id_enum[1])
+                    move_note(note, target)
                 else:
                     # for all other targets copies of the note with different IDs must be made:
                     specific_note_copy = deepcopy(note_copy)
@@ -122,12 +117,8 @@ def move_note_after_its_target_func(root, parameters=None):
                     new_target = target_splitted[target_id_enum[0]]
                     specific_note_copy.set('target', new_target)
                     # find the target:
-                    target_id_string = "//*[@xml:id = '" + target_id_enum[1] + "']"
-                    target_list = root.xpath(target_id_string, namespaces=ns)
-                    # if a target is found, the first one is processed (but it should be just one):
-                    if len(target_list) == 1:
-                        target = target_list[0]
-                        paste_duplicated_note(specific_note_copy, target)
+                    target = id_index.get(target_id_enum[1])
+                    paste_duplicated_note(specific_note_copy, target)
 
     return root
 
