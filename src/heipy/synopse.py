@@ -32,14 +32,20 @@ def create_synopse(input:list, output:str):
     all_verses = {}
     starting_elements = {}
     all_witnesses = []
+    siglum_file_map = set()
     nones = 0
+    empty_siglum = 1
     for input_file in input:
         root = et.parse(input_file, parser=HeiEditionsParser())
         siglum = root.find('./tei:teiHeader//tei:idno[@ana="hc:EditorialSiglum"]', namespaces=ns)
         if siglum is None:
-            warnings.warn(f"No siglum found in {input_file}. Continuing with next file.", HeiWarning)
-            continue
-        siglum = siglum.text
+            siglum = f'pre{empty_siglum}'
+            empty_siglum += 1
+            # warnings.warn(f"No siglum found in {input_file}. Continuing with next file.", HeiWarning)
+            # continue
+        else:
+            siglum = siglum.text
+        siglum_file_map.add((siglum, input_file))
         all_witnesses.append(siglum)
         for line in root.findall('.//tei:l', namespaces=ns):
             line_id = line.get(prefix_format('xml','id'))
@@ -61,8 +67,8 @@ def create_synopse(input:list, output:str):
                 else:
                     n_att = "{:.4f}".format(int(digits.group(0)) / 10000)
                     
-            all_verses.setdefault(n_att, []).append({'id': line_id, 'hs': siglum})
-    
+            all_verses.setdefault(n_att, []).append({'id': line_id, 'siglum': siglum})
+            
     all_verses = dict(sorted(all_verses.items(), key= lambda x: float(x[0].replace(',', '.'))))
     all_witnesses_len = len(all_witnesses)
     
@@ -70,19 +76,25 @@ def create_synopse(input:list, output:str):
         template_file = open(template_path, 'rb')
         output_tree = et.parse(template_file, HeiEditionsParser())
         output_root = output_tree.getroot()
+
+        listprefixdef = output_root.find('.//tei:listPrefixDef', namespaces=ns) 
+        for sig_file in sorted(siglum_file_map, key= lambda x: x[1]):
+            et.SubElement(listprefixdef, prefix_format('tei', 'prefixDef'), 
+                          {'matchPattern': '(.+)', 'ident': sig_file[0], 'replacementPattern': sig_file[1]})
+
         standoff_el = output_root.find('.//tei:standOff', namespaces=ns)
         standoff_el.clear()
         previous = {x:'' for x in all_witnesses}
         for verse_nr, id_hs_dict in all_verses.items():
             for wit in id_hs_dict:
-                previous[wit.get('hs')] = wit['id']
+                previous[wit.get('siglum')] = wit['id']
             link_el = et.Element(prefix_format('tei','link'))
-            target = ' '.join([f'{x['hs']}:{x['id']}' for x in sorted(id_hs_dict, key= lambda x: x['hs'])])
+            target = ' '.join([f'{x['siglum']}:{x['id']}' for x in sorted(id_hs_dict, key= lambda x: x['siglum'])])
 
             # If some testimonies do not have the verse number:
             if len(id_hs_dict) < all_witnesses_len:
                 target += ' '
-                implicit_witnesses = list(set(all_witnesses) ^ set([x['hs'] for x in id_hs_dict]))
+                implicit_witnesses = list(set(all_witnesses) ^ set([x['siglum'] for x in id_hs_dict]))
                 target += ' '.join(
                     f'{x}:right({previous[x]})' 
                     if previous[x] != '' else 
