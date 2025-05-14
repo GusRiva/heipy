@@ -1,11 +1,10 @@
-import os.path
+import os
 import copy
 import codecs
 import itertools
 import warnings
 from collections import defaultdict
 from lxml import etree as et
-from os import path
 import importlib.resources
 import re
 
@@ -80,7 +79,7 @@ def create_synopse(input:list, output:str):
         listprefixdef = output_root.find('.//tei:listPrefixDef', namespaces=ns) 
         for sig_file in sorted(siglum_file_map, key= lambda x: x[1]):
             et.SubElement(listprefixdef, prefix_format('tei', 'prefixDef'), 
-                          {'matchPattern': '(.+)', 'ident': sig_file[0], 'replacementPattern': sig_file[1]})
+                          {'matchPattern': '(.+)', 'ident': sig_file[0], 'replacementPattern': f"../{sig_file[1]}/$1"})
 
         standoff_el = output_root.find('.//tei:standOff', namespaces=ns)
         standoff_el.clear()
@@ -90,7 +89,6 @@ def create_synopse(input:list, output:str):
                 previous[wit.get('siglum')] = wit['id']
             link_el = et.Element(prefix_format('tei','link'))
             target = ' '.join([f'{x['siglum']}:{x['id']}' for x in sorted(id_hs_dict, key= lambda x: x['siglum'])])
-
             # If some testimonies do not have the verse number:
             if len(id_hs_dict) < all_witnesses_len:
                 target += ' '
@@ -112,7 +110,7 @@ def create_synopse(input:list, output:str):
     return
 
 
-def transform_synopse(input:str, output:str):
+def transform_synopse(input:str):
     """
     Transforms an abbreviated synoptic map (collection of <link>) to an expanded synoptic map (collection of <linkGrp>).
 
@@ -132,18 +130,15 @@ def transform_synopse(input:str, output:str):
 
 
     input_path = os.path.abspath(input)
-    root = et.parse(input_path, parser=HeiEditionsParser())
+    in_root = et.parse(input_path, parser=HeiEditionsParser())
 
-    prefix_defs = root.findall('.//tei:prefixDef[@ana="hc:SynopticTextPrefixDefinition"]', namespaces=ns)
+    prefix_defs = in_root.findall('.//tei:prefixDef[@ana="hc:SynopticTextPrefixDefinition"]', namespaces=ns)
     witness_ids = [x.get('ident') for x in prefix_defs]
+    witness_files = [ os.path.basename( x.get('replacementPattern')[:-3] )  for x in prefix_defs]
+    master_dict = { x: {'filename': y, 'linkgrps': defaultdict(list)}   for x, y in zip(witness_ids, witness_files)}
     
-    # Make a copy of the root, remove the text and fill with the new content
-    new_root = copy.deepcopy(root)
-    new_standoff = new_root.find('.//tei:standOff', namespaces=ns)
-    new_standoff.clear()
-
-    def_dict = defaultdict(list)
-    for link in root.findall('./tei:standOff//tei:link', namespaces=ns):
+    # all_link_groups = defaultdict(list)
+    for link in in_root.findall('./tei:standOff//tei:link', namespaces=ns):
         link_target = link.get('target')
         target_tokens = link_target.split()
         link_targfunc = link.get('targFunc')
@@ -155,40 +150,50 @@ def transform_synopse(input:str, output:str):
         target_tokens_plus = [ (x,y) for x,y in zip(target_tokens, link_targfunc_tokens)]
         combinations = list(itertools.permutations(target_tokens_plus, 2))
         for first_item, second_item in combinations:
-            def_dict[first_item].append(second_item)
-    grouped = [[k,sorted(v, key= lambda x: x[0])] for k, v in def_dict.items()]
-    for group in grouped:
-        # print(group)
-        link_grp_target = group[0][0]
-        link_grp = et.Element(prefix_format('tei','linkGrp'))        
-        link_grp.set('target', link_grp_target)
-        if '(' in link_grp_target:
-            node_type = group[0][1]
-            if node_type in targetfunc_dict.keys():
-                link_grp.set('ana', targetfunc_dict[node_type] )
-                if node_type == 'default' or node_type == 'passiveGap':
-                    new_standoff.append(link_grp)
-                    continue
-            else:
-                warnings.warn(f'Could not identify node type {node_type}', HeiWarning)
-                
-        for target in group[1]:
-            link_el = et.Element(prefix_format('tei','ptr'))
-            link_el.set('target', target[0])
-            if target[1] == 'default' and '(' in target[0]:
-                link_el.set('ana', targetfunc_dict['passiveGap'])
-            elif target[1] != 'default':
-                link_el.set('ana', targetfunc_dict[target[1]])
-            link_grp.append(link_el)
+            ms_id = first_item[0].split(':')[0]
+            if ms_id not in master_dict.keys():
+                continue
+            master_dict[ms_id]['linkgrps'][first_item].append(second_item)
+            # all_link_groups[first_item].append(second_item)
+    for sigle in master_dict:
+        out_root = et.Element(prefix_format('tei', 'standOff'))
+        out_file_name = master_dict[sigle]['filename']
+        for linkgrp_source, linkgrp_targets in  master_dict[sigle]['linkgrps'].items():
+            linkgrp_el = et.Element(prefix_format('tei', 'linkGrp'))
+            link_grp_target = linkgrp_source[0]
+            linkgrp_el.set('target', link_grp_target)
+            
+            if '(' in link_grp_target:
+                # Set ana attribute
+                node_type = linkgrp_source[1]
+                if node_type in targetfunc_dict.keys():
+                    linkgrp_el.set('ana', targetfunc_dict[node_type] )
+                    if node_type == 'default' or node_type == 'passiveGap':
+                        out_root.append(linkgrp_el)
+                        continue
+                else:
+                    warnings.warn(f'Could not identify node type {node_type}', HeiWarning)
+            
+            for target in linkgrp_targets:
+                # Create the ptr elements
+                link_el = et.Element(prefix_format('tei','ptr'))
+                link_el.set('target', target[0])
+                if target[1] == 'default' and '(' in target[0]:
+                    link_el.set('ana', targetfunc_dict['passiveGap'])
+                elif target[1] != 'default':
+                    link_el.set('ana', targetfunc_dict[target[1]])
+                linkgrp_el.append(link_el)
 
-        new_standoff.append(link_grp)
-    print("Finished")
-    tree_str = et.tostring(new_root, encoding='unicode', pretty_print=True)
-    with codecs.open(output, 'wb', 'utf-8') as output_file:
-        for line in tree_str.split('\n'):
-            output_file.write(line + '\n')
-        # new_root.write(output_file, xml_declaration=True)
+            out_root.append(linkgrp_el)
 
+        tree_str = et.tostring(out_root, encoding='unicode', pretty_print=True)
+        with codecs.open(f'synopse/linkgrp/{out_file_name}', 'wb', 'utf-8') as output_file:
+            for line in tree_str.split('\n'):
+                output_file.write(line + '\n')
+    
+    return
+
+def incept_linkgrp(semantic_file:str, linkgrp_file:str, output:str):
     return
 
 def parse_target(target:str):
