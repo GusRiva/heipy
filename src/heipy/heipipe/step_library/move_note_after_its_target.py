@@ -33,10 +33,13 @@ def move_note_after_its_target_func(root, parameters=None):
     id_index = {el.attrib[prefix_format('xml','id')]: el for el in root.iter() if prefix_format('xml','id') in el.attrib}
     # function for moving a note from its original context to become the first following sibling of its target:
     def move_note(note, target):
-        # in case the note does not have a tail, the following variable is initialized as empty string:
-        note_tail = ""
-        if note.tail != None:
-            note_tail = note.tail
+        if note is None: 
+            print("Note is None")
+            return
+        if target is None:
+            print(f"target is None of {note.text}")
+            return
+        note_tail = note.tail if note.tail is not None else ""
         target_tail = target.tail
         # if the note does not have a preceding sibling, i.e. its tail mus be attached to the text of its parent:
         if note.getprevious() == None:
@@ -92,7 +95,8 @@ def move_note_after_its_target_func(root, parameters=None):
         # if there is just one target, then the note can stay the same and is just moved:
         if len(target_ids) == 1:
             target = id_index.get(target_ids[0])
-            move_note(note, target)
+            if target is not None:
+                move_note(note, target)
         # if there are several targets, then the note needs to be multiplied (with different IDs):
         else:
             # make a copy of the note (needed for duplicates):
@@ -106,7 +110,8 @@ def move_note_after_its_target_func(root, parameters=None):
                     note.set('target', new_target)
                     # find the target:
                     target = id_index.get(target_id_enum[1])
-                    move_note(note, target)
+                    if target is not None:
+                        move_note(note, target)
                 else:
                     # for all other targets copies of the note with different IDs must be made:
                     specific_note_copy = deepcopy(note_copy)
