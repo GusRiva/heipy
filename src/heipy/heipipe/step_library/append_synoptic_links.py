@@ -8,6 +8,14 @@ from ...namespaces import ns, prefix_format
 from ...heiwarning import HeiWarning
 
 
+def map_gap_types(synkartetype):
+    typemap = {
+        'activeGap': 'hc:SynopticActiveGap',
+        'passiveGap': 'hc:SynopticPassiveGap',
+        'default': 'hc:SynopticPassiveGap'
+    }
+    return typemap.get(synkartetype, 'hc:SynopticPassiveGap')
+
 def append_synoptic_links_funct(root, parameters): 
     synoptic_map_path = os.path.abspath(parameters['synoptic_map'])
     synoptic_map_root = et.parse(synoptic_map_path, parser=HeiEditionsParser())
@@ -28,11 +36,19 @@ def append_synoptic_links_funct(root, parameters):
     for link in synoptic_map_root.findall('.//tei:link', namespaces=ns):
         new_element = True
         link_target = re.split(r'\s',link.get('target'))
+        target_func_full = link.get('targetFunc')
+        if target_func_full is None:
+            target_func_full = ['default' for x in range(len(link_target))]
+        else:
+            target_func_full = target_func_full.split()
         # First we find if there is in this link something pointing to an element in our text
-        hook_ident = [x for x in link_target if ':' in x and x.split(':')[0] == text_ident]
-        if len(hook_ident) < 1:
+        hoof_info = [ (i, x) for i,x in enumerate(link_target) if ':' in x and x.split(':')[0] == text_ident]
+        if len(hoof_info) < 1:
             continue
-        hook_ident = hook_ident[0]
+        
+        hook_target_idx = hoof_info[0][0]
+        target_func_ind = target_func_full[hook_target_idx]
+        hook_ident = hoof_info[0][1]
         link_target.remove(hook_ident)
         hook_prefix, hook_pos, hook_id = parse_target(hook_ident)
         if hook_ident in processed_items:
@@ -51,6 +67,7 @@ def append_synoptic_links_funct(root, parameters):
             if new_element:
                 gap = et.Element(prefix_format('tei', 'gap'))
                 gap.set(prefix_format('xml', 'id'), gap_xmlid(hook_pos, hook_id))
+                gap.set('ana', map_gap_types(target_func_ind))
             else:
                 gap = root.xpath(f'.//tei:gap[@xml:id="{gap_xmlid(hook_pos, hook_id)}"]', namespaces=ns)[0]
             if hook_pos == 'left':
