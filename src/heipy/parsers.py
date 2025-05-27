@@ -7,6 +7,7 @@ from lxml import etree as et
 from saxonche import PySaxonProcessor, PyXdmValue, PyXdmItem, PyXdmAtomicValue, PyXdmNode, PyXdmMap, PyXdmArray
 import warnings
 import sys
+import re
 
 from .colors import *
 
@@ -77,16 +78,16 @@ class HeiEditionsParser(et.XMLParser):
         super().__init__(*args, **kwargs)
         self.resolvers.add(HeiEditionsResolver())
 
-
-def heiparse(source, parser=None, xinclude=True, output_format='tree'):
+def heiparse(source, parser=None, xinclude=True, output_format='tree', input_format='file'):
     """
     Parse an XML source using a specified parser (dafaults to HeiEditionsParser) and optionally process XInclude directives.
     Args:
-        source (str or file-like object): The XML source to parse. This can be a file path or a file-like object.
+        source (str or file-like object): The XML source to parse. This can be a file path or a file-like object or a xml-string (see input_format)
         parser (xml.etree.ElementTree.XMLParser, optional): The parser to use for parsing the XML. 
             If not provided, a default `HeiEditionsParser` instance will be used.
         xinclude (bool, optional): Whether to process XInclude directives in the XML. Defaults to True.
         output_format (str, optional): Output as 'tree' (lxml etree object) or as 'str' (string)
+        input_format (str, optional): Input as 'file' (file-like object or path) or as 'string' (the xml string)
 
     Returns:
         xml.etree.ElementTree.ElementTree: The parsed XML tree.
@@ -95,7 +96,13 @@ def heiparse(source, parser=None, xinclude=True, output_format='tree'):
         xml.etree.ElementTree.ParseError: If there is an error during parsing.
     """
     parser = parser or HeiEditionsParser()
-    tree = et.parse(source, parser)
+    if input_format == 'file':
+        tree = et.parse(source, parser)
+    elif input_format == 'string':
+        root_el = et.fromstring(source, parser)
+        tree = et.ElementTree(root_el)
+    else:
+        raise NameError(f"Unknown input_format type {input_format}. Must be 'file' or 'string'.")
     if xinclude:
         tree.xinclude()
     if output_format == 'tree':
@@ -167,7 +174,6 @@ def validate_xml_with_heieditions_schema(input_str= None,xml_file=None):
     except Exception as e:
         raise Exception(f"Error during validation: {e}")
     
-    
 
 def simple_xslt(input, xslt, output, parameters=None):
     """
@@ -193,3 +199,12 @@ def simple_xslt(input, xslt, output, parameters=None):
     with codecs.open(output, 'w', 'utf-8') as output_file:
         output_file.write(result)
 
+
+def preprocess_egxml(raw_xml: str) -> str:
+    def wrap_with_cdata(match):
+        content = match.group(1)
+        return f"<egXML><![CDATA[{content}]]></egXML>"
+
+    # Regex: capture content between <egXML> and </egXML> non-greedily (DOTALL = allow newlines)
+    pattern = re.compile(r"<egXML>(.*?)</egXML>", flags=re.DOTALL)
+    return pattern.sub(wrap_with_cdata, raw_xml)
