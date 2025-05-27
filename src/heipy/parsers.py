@@ -8,8 +8,10 @@ from saxonche import PySaxonProcessor, PyXdmValue, PyXdmItem, PyXdmAtomicValue, 
 import warnings
 import sys
 import re
+import html
 
 from .colors import *
+from .namespaces import ns
 
 
 def create_xdm_dict(proc, mmap):
@@ -78,7 +80,7 @@ class HeiEditionsParser(et.XMLParser):
         super().__init__(*args, **kwargs)
         self.resolvers.add(HeiEditionsResolver())
 
-def heiparse(source, parser=None, xinclude=True, output_format='tree', input_format='file'):
+def heiparse(source, parser=None, xinclude=True, output_format='tree', input_format='file', base_url=''):
     """
     Parse an XML source using a specified parser (dafaults to HeiEditionsParser) and optionally process XInclude directives.
     Args:
@@ -99,7 +101,10 @@ def heiparse(source, parser=None, xinclude=True, output_format='tree', input_for
     if input_format == 'file':
         tree = et.parse(source, parser)
     elif input_format == 'string':
-        root_el = et.fromstring(source, parser)
+        if base_url:
+            root_el = et.fromstring(source, parser, base_url=base_url)
+        else:
+            root_el = et.fromstring(source, parser)
         tree = et.ElementTree(root_el)
     else:
         raise NameError(f"Unknown input_format type {input_format}. Must be 'file' or 'string'.")
@@ -208,3 +213,23 @@ def preprocess_egxml(raw_xml: str) -> str:
     # Regex: capture content between <egXML> and </egXML> non-greedily (DOTALL = allow newlines)
     pattern = re.compile(r"<egXML>(.*?)</egXML>", flags=re.DOTALL)
     return pattern.sub(wrap_with_cdata, raw_xml)
+
+
+def unscape_egxml(input_string):
+    root = heiparse(input_string.encode('utf-8'), input_format='string', output_format="tree")
+    for elem in root.findall(".//tei:egXML", ns):
+        if elem.text is not None:
+            # elem.text = elem.text[9:-3] # indeces to remove <![CDATA[ ... ]]
+            unescaped = html.unescape(elem.text)
+            print(unescaped)
+            try:
+                # Try parsing the content as XML and inserting it
+                wrapper = et.fromstring(f"<wrapper>{unescaped}</wrapper>")
+                elem.clear()
+                elem.text = wrapper.text
+                elem.extend(wrapper)
+            except et.XMLSyntaxError:
+                # If it's not valid XML, just keep it as text
+                elem.text = unescaped
+    input_string = et.tostring(root).decode('utf-8')
+    return input_string

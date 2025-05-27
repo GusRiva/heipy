@@ -13,7 +13,7 @@ import html
 import re
 
 from ..namespaces import ns
-from ..parsers import apply_xslt, heiparse, HeiEditionsParser, validate_xml_with_heieditions_schema, preprocess_egxml
+from ..parsers import apply_xslt, heiparse, HeiEditionsParser, validate_xml_with_heieditions_schema, preprocess_egxml, unscape_egxml
 from ..colors import *
 from ..heiwarning import HeiWarning
 
@@ -232,33 +232,19 @@ class Pipeline(BaseStep):
             input_file = codecs.open(input, "r", "utf-8")
             input_string = preprocess_egxml(input_file.read())
             if xinclude == True:
-                input_string = heiparse(input_string, output_format='str', input_format='string')    
+                input_string = heiparse(input_string.encode('utf-8'), output_format='str', input_format='string', xinclude=True, base_url=input)
         elif xinclude == False:
             input_file = codecs.open(input, "r", "utf-8")
             input_string = input_file.read()
         else:
-            input_string = heiparse(input, output_format='str')
+            input_string = heiparse(input, output_format='str', xinclude=True)
+        
         for step in self.steps:
             input_string = step.execute(input_string)
         
-        # Unescape &lt; &gt; $amp;
         if egxml:
-            root = heiparse(input_string, input_format='string', output_format="tree")
-            for elem in root.findall(".//tei:egXML", ns):
-                if elem.text is not None:
-                    # elem.text = elem.text[9:-3] # indeces to remove <![CDATA[ ... ]]
-                    unescaped = html.unescape(elem.text)
-                    print(unescaped)
-                    try:
-                        # Try parsing the content as XML and inserting it
-                        wrapper = et.fromstring(f"<wrapper>{unescaped}</wrapper>")
-                        elem.clear()
-                        elem.text = wrapper.text
-                        elem.extend(wrapper)
-                    except et.XMLSyntaxError:
-                        # If it's not valid XML, just keep it as text
-                        elem.text = unescaped
-            input_string = et.tostring(root).decode('utf-8')
+            input_string = unscape_egxml(input_string)
+        
         return input_string
 
     def get_steps(self):
