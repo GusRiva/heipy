@@ -99,7 +99,7 @@ def heiparse(source, parser=None, input_format='file', output_format='tree', egx
     """      
 
     parser = parser or HeiEditionsParser()
-    
+
     if input_format == 'file':
         if egxml:
             input_file = codecs.open(source, "r", "utf-8")
@@ -220,20 +220,19 @@ def simple_xslt(input, xslt, output, parameters=None, xinclude=False, egxml=Fals
 def preprocess_egxml(raw_xml: str) -> str:
     def wrap_with_cdata(match):
         content = match.group(1)
-        return f"<egXML><![CDATA[{content}]]></egXML>"
+        return f'<egXML xmlns="http://www.tei-c.org/ns/Examples"><![CDATA[{content}]]></egXML>'
 
     # Regex: capture content between <egXML> and </egXML> non-greedily (DOTALL = allow newlines)
-    pattern = re.compile(r"<egXML>(.*?)</egXML>", flags=re.DOTALL)
+    pattern = re.compile(r"<egXML[^>]*>(.*?)</egXML>", flags=re.DOTALL)
     return pattern.sub(wrap_with_cdata, raw_xml)
 
 
 def unscape_egxml(input_string):
     root = heiparse(input_string.encode('utf-8'), input_format='string', output_format="tree")
-    for elem in root.findall(".//tei:egXML", ns):
+    for elem in root.findall(".//ex:egXML", ns):
         if elem.text is not None:
             # elem.text = elem.text[9:-3] # indeces to remove <![CDATA[ ... ]]
             unescaped = html.unescape(elem.text)
-            print(unescaped)
             try:
                 # Try parsing the content as XML and inserting it
                 wrapper = et.fromstring(f"<wrapper>{unescaped}</wrapper>")

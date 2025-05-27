@@ -4,7 +4,8 @@ ns = {
     "hei": "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS",
     "hc": "https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/",
     "page": "http://schema.primaresearch.org/PAGE/gts/pagecontent/2019-07-15",
-    "mets": "http://www.loc.gov/METS/"
+    "mets": "http://www.loc.gov/METS/",
+    "ex": "http://www.tei-c.org/ns/Examples"
 }
 
 def prefix_format(prefix, el):
