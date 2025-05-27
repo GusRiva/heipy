@@ -234,8 +234,8 @@ class Pipeline(BaseStep):
         for step in self.steps:
             input_string = step.execute(input_string)
         
-        if egxml:
-            input_string = unscape_egxml(input_string)
+        # if egxml:
+        #     input_string = unscape_egxml(input_string)
         
         return input_string
 

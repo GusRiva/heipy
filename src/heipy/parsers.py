@@ -210,8 +210,8 @@ def simple_xslt(input, xslt, output, parameters=None, xinclude=False, egxml=Fals
     
     result = apply_xslt(input_string, xslt, parameters)
 
-    if egxml:
-        result = unscape_egxml(result)
+    # if egxml:
+    #     result = unscape_egxml(result)
 
     with codecs.open(output, 'w', 'utf-8') as output_file:
         output_file.write(result)
