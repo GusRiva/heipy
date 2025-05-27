@@ -228,17 +228,9 @@ class Pipeline(BaseStep):
         if not os.path.isfile(input):
             warnings.warn(f'Could not find file {input}, skipping...', HeiWarning)
             return None
-        if egxml:
-            input_file = codecs.open(input, "r", "utf-8")
-            input_string = preprocess_egxml(input_file.read())
-            if xinclude == True:
-                input_string = heiparse(input_string.encode('utf-8'), output_format='str', input_format='string', xinclude=True, base_url=input)
-        elif xinclude == False:
-            input_file = codecs.open(input, "r", "utf-8")
-            input_string = input_file.read()
-        else:
-            input_string = heiparse(input, output_format='str', xinclude=True)
         
+        input_string = heiparse(input, output_format='str', xinclude=xinclude, egxml=egxml, base_url=input)
+
         for step in self.steps:
             input_string = step.execute(input_string)
         

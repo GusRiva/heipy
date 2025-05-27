@@ -80,7 +80,7 @@ class HeiEditionsParser(et.XMLParser):
         super().__init__(*args, **kwargs)
         self.resolvers.add(HeiEditionsResolver())
 
-def heiparse(source, parser=None, xinclude=True, output_format='tree', input_format='file', base_url=''):
+def heiparse(source, parser=None, input_format='file', output_format='tree', egxml=False, xinclude=False, base_url=''):
     """
     Parse an XML source using a specified parser (dafaults to HeiEditionsParser) and optionally process XInclude directives.
     Args:
@@ -96,20 +96,28 @@ def heiparse(source, parser=None, xinclude=True, output_format='tree', input_for
 
     Raises:
         xml.etree.ElementTree.ParseError: If there is an error during parsing.
-    """
+    """      
+
     parser = parser or HeiEditionsParser()
+    
     if input_format == 'file':
-        tree = et.parse(source, parser)
-    elif input_format == 'string':
-        if base_url:
-            root_el = et.fromstring(source, parser, base_url=base_url)
+        if egxml:
+            input_file = codecs.open(source, "r", "utf-8")
+            input_string = preprocess_egxml(input_file.read())
+            input_string = input_string.encode('utf-8')
+            root_el = et.fromstring(input_string, parser, base_url=base_url)
+            tree = et.ElementTree(root_el)
         else:
-            root_el = et.fromstring(source, parser)
+            tree = et.parse(source, parser)
+    elif input_format == 'string':
+        root_el = et.fromstring(source, parser, base_url=base_url)
         tree = et.ElementTree(root_el)
     else:
         raise NameError(f"Unknown input_format type {input_format}. Must be 'file' or 'string'.")
+
     if xinclude:
         tree.xinclude()
+
     if output_format == 'tree':
         return tree
     elif output_format == 'str':
@@ -180,7 +188,7 @@ def validate_xml_with_heieditions_schema(input_str= None,xml_file=None):
         raise Exception(f"Error during validation: {e}")
     
 
-def simple_xslt(input, xslt, output, parameters=None):
+def simple_xslt(input, xslt, output, parameters=None, xinclude=False, egxml=False):
     """
     Applies an XSLT transformation to an input file and writes the result to an output file.
 
@@ -198,9 +206,13 @@ def simple_xslt(input, xslt, output, parameters=None):
     Returns:
         None
     """
-    input_string = heiparse(input, output_format='str')    
+    input_string = heiparse(input, output_format='str', xinclude=xinclude, egxml=egxml, base_url=input)    
     
     result = apply_xslt(input_string, xslt, parameters)
+
+    if egxml:
+        result = unscape_egxml(result)
+
     with codecs.open(output, 'w', 'utf-8') as output_file:
         output_file.write(result)
 
