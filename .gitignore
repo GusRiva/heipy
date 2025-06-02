@@ -9,3 +9,4 @@
 heipy.egg-info
 *.xpr
 /test.py
+.DS_Store
