@@ -416,6 +416,7 @@ class DeleteStep(BaseStep):
                 elem_name = '//' + elem_name
             xpath_ex = f".{elem_name}"
             for elem in root.xpath(xpath_ex, namespaces=ns):
+                print("Found elem: ", elem, elem.attrib)
                 elem.getparent().remove(elem)
         result = et.tostring(tree, encoding='utf-8').decode('utf-8')
         if self.serial:
