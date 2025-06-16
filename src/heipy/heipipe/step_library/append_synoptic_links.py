@@ -7,20 +7,24 @@ from ...namespaces import ns, prefix_format
 
 
 def append_synoptic_links_funct(root, parameters): 
+    sigla_mapping = dict([(value, key) for key, value in parameters.get('sigla_mapping').items()])
     synoptic_map_path = os.path.abspath(parameters['synoptic_map'])
     synoptic_map_root = et.parse(synoptic_map_path, parser=HeiEditionsParser())
     base_file = parameters.get('base_file')
     listPrefixDef_out = root.find('.//tei:listPrefixDef', namespaces=ns)
     text_ident = None
     for prefixdef in synoptic_map_root.findall('.//tei:prefixDef', namespaces=ns):
-        et.SubElement(listPrefixDef_out, prefix_format('tei', 'prefixDef'), attrib=prefixdef.attrib)
+        ident = prefixdef.get('ident')
         replacement_pattern = prefixdef.get('replacementPattern')
         if replacement_pattern[3:-3] == base_file:
-            text_ident = prefixdef.get('ident')
+            text_ident = ident
+            continue
+        prefixdef_attrib_new = prefixdef.attrib
+        prefixdef_attrib_new['replacementPattern'] = prefixdef_attrib_new.get('replacementPattern', '').replace('../texts/', f'../{sigla_mapping.get(ident)}/')
+        et.SubElement(listPrefixDef_out, prefix_format('tei', 'prefixDef'), prefixdef_attrib_new)
     if text_ident is None:
         print(f"Could not find ident for {prefixdef.attrib}")
         return root
-    
     processed_items = set()
 
     id_index = {el.attrib[prefix_format('xml','id')]: el for el in root.iter() if prefix_format('xml','id') in el.attrib}

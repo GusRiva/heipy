@@ -23,6 +23,9 @@
       </encodingDesc>
    </teiHeader>
    <standOff ana="hc:SynopticMap">
-    <link/>
+      <list ana="hc:GapList">
+         <item/>
+      </list>
    </standOff>
+
 </TEI>

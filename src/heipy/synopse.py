@@ -13,7 +13,7 @@ from .namespaces import ns, prefix_format
 from .heiwarning import HeiWarning
 
 
-def create_synopse(input:list, output:str):
+def create_synopse(input:list, output:str, sigla_mapping:dict=None):
     """
     Creates a synoptic map in the abbreviated syntax from a list of input TEI-XML files and writes the result to an output file.
 
@@ -34,6 +34,7 @@ def create_synopse(input:list, output:str):
     siglum_file_map = set()
     nones = 0
     empty_siglum = 1
+    sigla_mapping = {} if sigla_mapping is None else sigla_mapping
     for input_file in input:
         root = et.parse(input_file, parser=HeiEditionsParser())
         siglum = root.find('./tei:teiHeader//tei:idno[@ana="hc:EditorialSiglum"]', namespaces=ns)
@@ -77,9 +78,13 @@ def create_synopse(input:list, output:str):
         output_root = output_tree.getroot()
 
         listprefixdef = output_root.find('.//tei:listPrefixDef', namespaces=ns) 
-        for sig_file in sorted(siglum_file_map, key= lambda x: x[1]):
+        for sig_info in sorted(siglum_file_map, key= lambda x: x[1]):
+            prefix_ident = sigla_mapping.get(sig_info[0], sig_info[0])
             et.SubElement(listprefixdef, prefix_format('tei', 'prefixDef'), 
-                          {'matchPattern': '(.+)', 'ident': sig_file[0], 'replacementPattern': f"../{sig_file[1]}/$1"})
+                          {'matchPattern': '(.+)', 
+                           'ident': prefix_ident, 
+                           'replacementPattern': f"../{sig_info[1]}/$1",
+                           'ana': 'hc:SynopticTextPrefixDefinition'})
 
         standoff_el = output_root.find('.//tei:standOff', namespaces=ns)
         standoff_el.clear()
@@ -88,22 +93,26 @@ def create_synopse(input:list, output:str):
             for wit in id_hs_dict:
                 previous[wit.get('siglum')] = wit['id']
             link_el = et.Element(prefix_format('tei','link'))
-            target = ' '.join([f'{x['siglum']}:{x['id']}' for x in sorted(id_hs_dict, key= lambda x: x['siglum'])])
+            target = ' '.join([f'{sigla_mapping.get(x['siglum'],x['siglum'])}:{x['id']}' for x in sorted(id_hs_dict, key= lambda x: x['siglum'])])
             # If some testimonies do not have the verse number:
             if len(id_hs_dict) < all_witnesses_len:
                 target += ' '
-                implicit_witnesses = list(set(all_witnesses) ^ set([x['siglum'] for x in id_hs_dict]))
+                implicit_witnesses = sorted(list(set(all_witnesses) ^ set([x['siglum'] for x in id_hs_dict])))
                 target += ' '.join(
-                    f'{x}:right({previous[x]})' 
+                    f'{sigla_mapping.get(x, x)}:right({previous[x]})' 
                     if previous[x] != '' else 
-                    f'{x}:left({starting_elements[x]})'
+                    f'{sigla_mapping.get(x, x)}:left({starting_elements[x]})'
                     for x in implicit_witnesses
                 )
 
             
             link_el.set('target', target)
             standoff_el.append(link_el)
-            
+        
+        list_gap = et.Element(prefix_format("tei","list"), {'ana': 'hc:GapList'})
+        standoff_el.append(list_gap)
+
+
         output_tree.write(output, pretty_print=True, xml_declaration=True, encoding='utf-8')
 
 
