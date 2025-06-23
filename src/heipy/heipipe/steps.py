@@ -504,11 +504,11 @@ class UnwrapStep(BaseStep):
                 'delenda_attr_name': element.get('attrib_name'),
                 'delenda_attr_val': element.get('attrib_val'),
             }]
-            result = apply_xslt(input_string, xslt_file= true_xslt_file,
+            input_string = apply_xslt(input_string, xslt_file= true_xslt_file,
                             parameters=params)
         if self.serial:
-            super()._serialize(result)
-        return result
+            super()._serialize(input_string)
+        return input_string
 
 
 class ValidationStep(BaseStep):
