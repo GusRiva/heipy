@@ -60,6 +60,7 @@ def append_synoptic_links_funct(root, parameters):
                     gap = gaplist.get(hook_ident)
                 else:
                     gap = et.Element(prefix_format('tei', 'gap'))
+                    gap.set('ana', 'hc:PassiveSynopticGap')
                 gap.set(prefix_format('xml', 'id'), gap_xmlid(hook_pos, hook_id))
             else:
                 gap = root.xpath(f'.//tei:gap[@xml:id="{gap_xmlid(hook_pos, hook_id)}"]', namespaces=ns)[0]
