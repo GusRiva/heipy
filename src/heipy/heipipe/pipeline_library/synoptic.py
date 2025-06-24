@@ -2,6 +2,18 @@ from ..steps import Pipeline, AddAttribute, DeleteStep, UnwrapStep
 from ..step_library import *
 from ...namespaces import prefix_format
 
+
+
+milestone_element_map = {
+        'ab' : 'hc:Chunk',
+        'back' : 'hc:ExpressionBack',
+        'body' : 'hc:ExpressionBody',
+        'div' : 'hc:SemanticLogicalDivision',
+        'docDate' : 'hc:ExpressionDate',
+        'docTitle' : 'hc:ExpressionTitle',
+        'front' : 'hc:ExpressionFront',
+    }
+
 class SynopticPipe(Pipeline):
     def __init__(self):
         # Add any steps that need specific parameters
@@ -9,14 +21,16 @@ class SynopticPipe(Pipeline):
         mark_note_as_editorial_step.set_parameter_by_name('note_classes',
                                                           "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
         # List of elements to unwrap
-        to_unwrap = [{'element_name': x} for x in ['front', 'body','div', 'back', 'ab', 'docTitle' ]]
+        # to_unwrap = [{'element_name': x} for x in ['fw']]
 
+        container2milestone_step = container2milestone.get_step()
+        container2milestone_step.set_parameter_by_name('element_map', milestone_element_map)
         
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0
             DeleteStep(elements=['tei:zone[@ana="hc:LineZone"]'], name="delete_facs"),
-            UnwrapStep(elements=to_unwrap, name="Unwrap high level semantic elements", serial=True),
+            # UnwrapStep(elements=to_unwrap, name="Unwrap high level semantic elements", serial=True),
             ptr2ref.get_step(),
             DeleteStep(elements=['tei:metamark',
                                  'tei:fw'
@@ -26,10 +40,13 @@ class SynopticPipe(Pipeline):
             add_id_2_note.get_step(),
             move_note_after_its_target.get_step(),
             revision_spans_for_reading.get_step(),
+            container2milestone_step,
             whitespaces.get_step(),
             number_line_segment_beginnings.get_step(),
-            AddAttribute(match='tei:text', att_name=prefix_format('xml','space'), att_val='preserve'),
+            # AddAttribute(match='tei:text', att_name=prefix_format('xml','space'), att_val='preserve'),
 
+            # For first gap we add xml:id gap_leaf_1 if missing
+            # AddAttribute()
             
             ]
         

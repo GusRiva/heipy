@@ -47,12 +47,18 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None):
             siglum = siglum.text
         siglum_file_map.add((siglum, input_file))
         all_witnesses.append(siglum)
+        
+        # For fragments that start with a gap
+        starting_gap = root.find(".//tei:gap[@xml:id='gap_leaf_1']", namespaces=ns)
+        if starting_gap is not None:
+            starting_elements[siglum] = "gap_leaf_1"
+        
         for line in root.findall('.//tei:l', namespaces=ns):
             line_id = line.get(prefix_format('xml','id'))
-            if siglum not in starting_elements:
-                starting_elements[siglum] = line_id
             if line_id is None:
                 continue
+            if siglum not in starting_elements:
+                starting_elements[siglum] = line_id
             n_att = line.get('n')
             if n_att is None:
                 n_att = "{:.2f}".format(nones / 100)
@@ -66,11 +72,12 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None):
                     nones += 1          
                 else:
                     n_att = "{:.4f}".format(int(digits.group(0)) / 10000)
-                    
             all_verses.setdefault(n_att, []).append({'id': line_id, 'siglum': siglum})
             
     all_verses = dict(sorted(all_verses.items(), key= lambda x: float(x[0].replace(',', '.'))))
     all_witnesses_len = len(all_witnesses)
+
+    # print(all_verses)
     
     with importlib.resources.path('heipy.templates', 'synoptic_map.xml') as template_path:
         template_file = open(template_path, 'rb')
@@ -98,13 +105,15 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None):
             if len(id_hs_dict) < all_witnesses_len:
                 target += ' '
                 implicit_witnesses = sorted(list(set(all_witnesses) ^ set([x['siglum'] for x in id_hs_dict])))
-                target += ' '.join(
-                    f'{sigla_mapping.get(x, x)}:right({previous[x]})' 
-                    if previous[x] != '' else 
-                    f'{sigla_mapping.get(x, x)}:left({starting_elements[x]})'
-                    for x in implicit_witnesses
-                )
-
+                for iwi in implicit_witnesses:
+                    if previous[iwi] != '':
+                        target += f'{sigla_mapping.get(iwi, iwi)}:right({previous[iwi]}) '
+                    else:
+                        if starting_elements[iwi] == 'gap_leaf_1':
+                            target += f'{sigla_mapping.get(iwi, iwi)}:gap_leaf_1 '
+                        else:
+                            target += f'{sigla_mapping.get(iwi, iwi)}:left({starting_elements[iwi]}) '
+                target = target.strip()
             
             link_el.set('target', target)
             standoff_el.append(link_el)

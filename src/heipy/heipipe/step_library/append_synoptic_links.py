@@ -54,6 +54,8 @@ def append_synoptic_links_funct(root, parameters):
             print(f"Could not find {hook_id} from {hook_ident}")
             continue
         
+        
+
         if hook_pos is not None:
             if new_element:
                 if hook_ident in gaplist.keys():
@@ -70,7 +72,9 @@ def append_synoptic_links_funct(root, parameters):
                 hook_el.addnext(gap)
             continue
         
-        # hook_pos == True
+        # hook_pos == None
+        if hook_id == 'gap_leaf_1':
+            continue
         if new_element:
             linkgrp = et.Element(prefix_format('tei', 'linkGrp'))
             linkgrp.set('target', f'#{hook_id}')
