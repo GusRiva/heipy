@@ -47,6 +47,8 @@ class SynopticPipe(Pipeline):
 
             # For first gap we add xml:id gap_leaf_1 if missing
             # AddAttribute()
+
+            suppress_first_cb.get_step()
             
             ]
         

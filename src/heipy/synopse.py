@@ -13,7 +13,7 @@ from .namespaces import ns, prefix_format
 from .heiwarning import HeiWarning
 
 
-def create_synopse(input:list, output:str, sigla_mapping:dict=None):
+def create_synopse(input:list, output:str, sigla_mapping:dict=None, map_criterion = 'n'):
     """
     Creates a synoptic map in the abbreviated syntax from a list of input TEI-XML files and writes the result to an output file.
 
@@ -28,6 +28,9 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None):
     and writes the synopse to the specified output file.
     It is a requirement that the xml:id of the lines match across files.
     """
+    valid_map_criterion = ['n', 'xml:id', 'hei:altN']
+    if map_criterion not in valid_map_criterion:
+        raise NameError(f"The parameter map_criterion must be one of {valid_map_criterion}")
     all_verses = {}
     starting_elements = {}
     all_witnesses = []
@@ -35,6 +38,7 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None):
     nones = 0
     empty_siglum = 1
     sigla_mapping = {} if sigla_mapping is None else sigla_mapping
+    
     for input_file in input:
         root = et.parse(input_file, parser=HeiEditionsParser())
         siglum = root.find('./tei:teiHeader//tei:idno[@ana="hc:EditorialSiglum"]', namespaces=ns)
@@ -59,25 +63,29 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None):
                 continue
             if siglum not in starting_elements:
                 starting_elements[siglum] = line_id
-            n_att = line.get('n')
-            if n_att is None:
-                n_att = "{:.2f}".format(nones / 100)
-                nones += 1
-            try:
-                float(n_att.replace(',', '.'))
-            except:
-                digits = re.search(f'\d+', n_att)
-                if digits is None:
-                    n_att = "{:.3f}".format(nones / 1000)
-                    nones += 1          
-                else:
-                    n_att = "{:.4f}".format(int(digits.group(0)) / 10000)
-            all_verses.setdefault(n_att, []).append({'id': line_id, 'siglum': siglum})
             
-    all_verses = dict(sorted(all_verses.items(), key= lambda x: float(x[0].replace(',', '.'))))
+            verse_key = None
+            if map_criterion == 'n':
+                n_att = line.get('n')
+                if n_att is None:
+                    n_att = "{:.2f}".format(nones / 100)
+                    nones += 1
+                try:
+                    float(n_att.replace(',', '.'))
+                except:
+                    digits = re.search(f'\d+', n_att)
+                    if digits is None:
+                        n_att = "{:.3f}".format(nones / 1000)
+                        nones += 1          
+                    else:
+                        n_att = "{:.4f}".format(int(digits.group(0)) / 10000)
+                verse_key = float(n_att.replace(',', '.'))
+            elif map_criterion == 'xml:id':
+                verse_key = line_id
+            all_verses.setdefault(verse_key, []).append({'id': line_id, 'siglum': siglum})
+                
+    all_verses = dict(sorted(all_verses.items(), key= lambda x: x[0]))
     all_witnesses_len = len(all_witnesses)
-
-    # print(all_verses)
     
     with importlib.resources.path('heipy.templates', 'synoptic_map.xml') as template_path:
         template_file = open(template_path, 'rb')

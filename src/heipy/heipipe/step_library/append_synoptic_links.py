@@ -129,4 +129,4 @@ def target_relative_to_gap(target:str|list):
     return f'{target[0]}:gap-{target[1]}-{target[2]}'
 
 def get_step():
-    return PythonStep(funct=append_synoptic_links_funct, name="create_synoptic_wit")
+    return PythonStep(funct=append_synoptic_links_funct, name="append_synoptic_link")
