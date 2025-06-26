@@ -38,7 +38,7 @@ class SynopticPipe(Pipeline):
             filter_visual_information.get_step(),
             mark_note_as_editorial_step,
             add_id_2_note.get_step(),
-            move_note_after_its_target.get_step(),
+            move_note.get_step(),
             revision_spans_for_reading.get_step(),
             container2milestone_step,
             whitespaces.get_step(),
