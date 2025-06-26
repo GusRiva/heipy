@@ -24,7 +24,7 @@ class BaseStep:
         self.name = name if name is not None else "__None__"
         self.desc = desc
         self.serial = serial
-        self.parameters = parameters
+        self.parameters = parameters if parameters is not None else []
         self.index = -1 # When outside of pipeline
 
     def add_parameter(self, param:dict):
@@ -453,6 +453,7 @@ class PythonStep(BaseStep):
     def __init__(self, funct, parameters=None, name=None, desc=None, serial=False):
         super().__init__(name, desc, serial)
         self.funct = funct
+        self.parameters = parameters if parameters else []
 
     def __str__(self):
         return f"Python step »{self.name}«, using: {self.funct}"

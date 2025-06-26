@@ -25,6 +25,9 @@ class SynopticPipe(Pipeline):
 
         container2milestone_step = container2milestone.get_step()
         container2milestone_step.set_parameter_by_name('element_map', milestone_element_map)
+
+        move_note = move_note.get_step()
+        move_note.set_parameter_by_name('position', 'after')
         
         # SourceDoc Pipeline Standard
         pipe_steps = [
@@ -38,7 +41,7 @@ class SynopticPipe(Pipeline):
             filter_visual_information.get_step(),
             mark_note_as_editorial_step,
             add_id_2_note.get_step(),
-            move_note.get_step(),
+            
             revision_spans_for_reading.get_step(),
             container2milestone_step,
             whitespaces.get_step(),

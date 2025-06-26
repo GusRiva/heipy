@@ -3,7 +3,7 @@ from ...namespaces import ns, prefix_format
 from ..steps import PythonStep
 
 
-def move_note_func(root, parameters={'position': 'after'}):
+def move_note_func(root, parameters):
     # aim:
     #   Process "note" alements carrying the target attribute in this way:
     #   - move the "note" (wherever it is) directly after the element stated as target
@@ -12,7 +12,6 @@ def move_note_func(root, parameters={'position': 'after'}):
     #   - if several targets are indicated in @target, the "note" element
     #       has to be multiplied and placed (with a unique @xml:id) after each of the
     #       targeted elements  
-
 
     # a list of all notes carrying a @target:
     notes_list = root.xpath(".//tei:note[contains(@ana, 'hc:EditorialContent')][@target]", namespaces=ns)
@@ -50,9 +49,12 @@ def move_note_func(root, parameters={'position': 'after'}):
             if target is None:
                 print(f"Could not find target for note: {target}")
                 continue
+            
             note_tail = note.tail if note.tail is not None else ""
             target_tail = target.tail if target.tail is not None else ""
-            # if the note does not have a preceding sibling, i.e. its tail mus be attached to the text of its parent:
+
+            # Here we manage what happens in the place that the note is leaving.
+            # If the note does not have a preceding sibling, i.e. its tail mus be attached to the text of its parent:
             if note.getprevious() is None:
                 if note.getparent() is not None:
                     # if the parent does not have a text:
@@ -69,13 +71,21 @@ def move_note_func(root, parameters={'position': 'after'}):
                 # if the preceding sibling does have a tail:
                 else:
                     note.getprevious().tail += note_tail
-            # move the target's tail to become the note's tail:
-            note.tail = target_tail
-            target.tail = None
-            # move the note after the target:
-            target_parent = target.getparent()
-            target_index = target_parent.index(target)
-            target_parent.insert(target_index + 1, note)
+
+            position = parameters[0].get('position')
+            match position:
+                case 'after':
+                    # move the target's tail to become the note's tail:
+                    note.tail = target_tail
+                    target.tail = None
+                    # move the note after the target:
+                    target_parent = target.getparent()
+                    target_index = target_parent.index(target)
+                    target_parent.insert(target_index + 1, note)
+                case 'last':
+                    note.tail = None
+                    target.insert(len(target), note)
+
 
     return root
 
