@@ -8,7 +8,9 @@ class SemanticPipe(Pipeline):
         mark_note_as_editorial_step = mark_note_as_editorial.get_step()
         mark_note_as_editorial_step.set_parameter_by_name('note_classes',
                                                           "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
-
+        move_note_step = move_note.get_step()
+        move_note_step.set_parameter_by_name('position', 'after')
+        
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0
@@ -22,7 +24,7 @@ class SemanticPipe(Pipeline):
             filter_visual_information.get_step(),
             mark_note_as_editorial_step,
             add_id_2_note.get_step(),
-            move_note.get_step(),
+            move_note_step,
             supply_id_divisions.get_step(),
             revision_spans_for_reading.get_step(),
             whitespaces.get_step(),

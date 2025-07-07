@@ -12,6 +12,8 @@ def move_note_func(root, parameters):
     #   - if several targets are indicated in @target, the "note" element
     #       has to be multiplied and placed (with a unique @xml:id) after each of the
     #       targeted elements  
+    # parameters: 
+    #       position: 'after' or 'last'
 
     # a list of all notes carrying a @target:
     notes_list = root.xpath(".//tei:note[contains(@ana, 'hc:EditorialContent')][@target]", namespaces=ns)
@@ -71,7 +73,7 @@ def move_note_func(root, parameters):
                 # if the preceding sibling does have a tail:
                 else:
                     note.getprevious().tail += note_tail
-
+            
             position = parameters[0].get('position')
             match position:
                 case 'after':
