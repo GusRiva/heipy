@@ -3,7 +3,7 @@ from ..step_library import *
 from ...namespaces import prefix_format
 
 class SemanticPipe(Pipeline):
-    def __init__(self):
+    def __init__(self, parameters = None):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step()
         mark_note_as_editorial_step.set_parameter_by_name('note_classes',
@@ -32,6 +32,15 @@ class SemanticPipe(Pipeline):
             AddAttribute(match='tei:text', att_name=prefix_format('xml','space'), att_val='preserve'),
             # validation.get_step(),
             ]
+        
+        if isinstance(parameters, dict):
+            if parameters.get('inject_structure'):
+                inject_structure_step = inject_structure.get_step()
+                inject_structure3_step = inject_structure3.get_step()
+                pipe_steps.insert(7, inject_structure3_step)
+                pipe_steps.insert(7, inject_structure_step)
+            
+            
         
         description = "Semantic Pipeline - Standard"
         super().__init__(steps=pipe_steps, name="semantic_pipe", desc=description, serial=False)
