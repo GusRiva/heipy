@@ -39,6 +39,7 @@ class SynopticPipe(Pipeline):
                                  'tei:fw'
                                  ]),
             filter_visual_information.get_step(),
+            move_layout_milestones.get_step(),
             mark_note_as_editorial_step,
             add_id_2_note.get_step(),
             move_note_step,
