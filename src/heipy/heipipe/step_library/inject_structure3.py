@@ -26,9 +26,14 @@ def inject_structure3_func(root, parameters=None):
                 new_div.set(attribute, milestone.attrib[attribute])
         # get the xml:id of the milestone:
         xmlid = milestone.get("{http://www.w3.org/XML/1998/namespace}id")
+        if xmlid is None:
+            raise KeyError(f"Could not find milestone {milestone.attrib}. Please check the 'structure_' file.")
         # get the anchor (marking the end of the children of the future <div>):
         anchor_xpath = "//tei:anchor[@spanFrom = '#" + xmlid + "']"
-        anchor = root.xpath(anchor_xpath, namespaces=ns)[0]
+        anchor = root.xpath(anchor_xpath, namespaces=ns)
+        if len(anchor) < 1:
+            raise IndexError(f"Could not find anchor: {anchor_xpath}. Check the 'structure_' file.")
+        anchor = anchor[0]
         # get the index of the milestone in its parent element:
         milestone_index = milestone.getparent().index(milestone)
         # get the index of the anchor in its parent element:

@@ -102,6 +102,18 @@
   <!-- templates used in "flattening" above: -->
   
   <xsl:template match="div|front|body|back" mode="structure">
+    <xsl:variable name="xml_id">
+      <xsl:choose>
+        <xsl:when test="@xml:id">
+          <xsl:value-of select="@xml:id"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>__</xsl:text>
+          <xsl:value-of select="name()"/>
+          <xsl:text>__</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
     <xsl:element name="milestone" namespace="http://www.tei-c.org/ns/1.0">
       <!-- ad-hoc @type used later for reconstructing the original container elements: -->
       <xsl:attribute name="type">
@@ -120,11 +132,14 @@
           </xsl:when>
         </xsl:choose>
       </xsl:attribute>
-      <xsl:copy-of select="@*"></xsl:copy-of>
+      <xsl:copy-of select="@* except @xml"/>
+      <xsl:attribute name="xml:id">
+        <xsl:value-of select="$xml_id"/>
+      </xsl:attribute>
     </xsl:element>
     <xsl:apply-templates mode="structure"></xsl:apply-templates>
-    <xsl:element name="anchor" namespace="http://www.tei-c.org/ns/1.0">
-      <xsl:attribute name="spanFrom" select="'#' || @xml:id"></xsl:attribute>
+    <xsl:element name="anchor" namespace="http://www.tei-c.org/ns/1.0">      
+      <xsl:attribute name="spanFrom" select="'#' || $xml_id"></xsl:attribute>
     </xsl:element>
   </xsl:template>
   
