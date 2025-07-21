@@ -1,5 +1,6 @@
-import argparse
+import os
 import codecs
+import pathlib
 import importlib.resources
 
 import requests
@@ -144,16 +145,18 @@ def set_params_for_saxon(parameter_list, proc: PySaxonProcessor, executable):
                 executable.set_parameter(param, value_f)
 
 
-def apply_xslt(input_string, xslt_file, parameters=None) -> str:
+def apply_xslt(input_string, xslt_file, parameters=None, output_dir = None) -> str:
     parameters = parameters or []
     with PySaxonProcessor(license=False) as proc:
         input_xdm = proc.parse_xml(xml_text=input_string, encoding='utf-8')
         xslt3 = proc.new_xslt30_processor()
+        base_output_path = os.path.dirname(os.path.abspath(xslt_file)) if output_dir is None else output_dir    
         executable = xslt3.compile_stylesheet(
             stylesheet_file=xslt_file)
         if len(parameters) > 0:
             set_params_for_saxon(parameters, proc, executable)
-        result_string = executable.transform_to_string(xdm_node=input_xdm)
+        result_string = executable.transform_to_string(xdm_node=input_xdm, 
+                                                       base_output_uri=pathlib.Path(base_output_path).as_uri() + '/')
         return result_string
     
 
@@ -207,8 +210,8 @@ def simple_xslt(input, xslt, output, parameters=None, xinclude=False, egxml=Fals
         None
     """
     input_string = heiparse(input, output_format='str', xinclude=xinclude, egxml=egxml, base_url=input)    
-    
-    result = apply_xslt(input_string, xslt, parameters)
+    output_dir = os.path.dirname(os.path.abspath(output))
+    result = apply_xslt(input_string, xslt, parameters, output_dir=output_dir)
 
     # if egxml:
     #     result = unscape_egxml(result)
