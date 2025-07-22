@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet 
-  version="3.1"
+  version="3.0"
   xpath-default-namespace="http://www.tei-c.org/ns/1.0" 
   xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -147,14 +147,16 @@
     <xsl:copy-of select="."></xsl:copy-of>
   </xsl:template>
   
+  <!-- main template inserting "flattened" structures from the configuration into the text: -->
   
-  <xsl:variable name="from-ids" select="(for $i in $grouped_structure_resolved_pointers//ptr/@from return substring-after($i, '#'))"/>
-  <xsl:variable name="to-ids" select="(for $i in $grouped_structure_resolved_pointers//ptr/@to return substring-after($i, '#'))"/>
-  <xsl:template match="*">
-    <xsl:variable name="id" select="@xml:id"/>
+  <!-- process all elements targeted by the pointers -->
+  <xsl:template match="
+    *[@xml:id = (for $i in $grouped_structure_resolved_pointers//ptr/@from return substring-after($i, '#'))]
+    |
+    *[@xml:id = (for $i in $grouped_structure_resolved_pointers//ptr/@to return substring-after($i, '#'))]">
     <xsl:choose>
-      <xsl:when test="$id = $from-ids">
-        <!-- Handle from     -->
+      <!-- if the element is targeted by @from, i.e. it should become the first element of a virtual division: -->
+      <xsl:when test="@xml:id = (for $i in $grouped_structure_resolved_pointers//ptr/@from return substring-after($i, '#'))">
         <xsl:variable name="pointer" select="$grouped_structure_resolved_pointers//ptr[substring-after(@from, '#') = current()/@xml:id]"/>
         <!-- insert the children of the "group" element preceding the relevant pointer into the main document
           (before the targeted element): -->
@@ -162,19 +164,17 @@
         <!-- now copy the targeted element: -->
         <xsl:copy-of select="."></xsl:copy-of>
       </xsl:when>
-      <xsl:when test="$id = $to-ids">
-        <!-- handle to -->
+      <!-- if the element is targeted by @to, i.e. it should become the last element of a virtual division: -->
+      <xsl:when test="@xml:id = (for $i in $grouped_structure_resolved_pointers//ptr/@to return substring-after($i, '#'))">
         <xsl:variable name="pointer" select="$grouped_structure_resolved_pointers//ptr[substring-after(@to, '#') = current()/@xml:id]"/>
         <!-- first copy the targeted element: -->
         <xsl:copy-of select="."></xsl:copy-of>
         <!-- now insert the children of the "group" element following the relevant pointer into the main document: -->
         <xsl:copy-of select="$pointer/following-sibling::group[1]/node()"></xsl:copy-of>
       </xsl:when>
-      <xsl:otherwise>
-        <!-- default behavior -->
-        <xsl:next-match/>
-      </xsl:otherwise>
+     
     </xsl:choose>
+    
   </xsl:template>
   
   
