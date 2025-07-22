@@ -5,7 +5,7 @@ import importlib.resources
 
 import requests
 from lxml import etree as et
-from saxonche import PySaxonProcessor, PyXdmValue, PyXdmItem, PyXdmAtomicValue, PyXdmNode, PyXdmMap, PyXdmArray
+from saxonche import PySaxonProcessor, PyXdmValue, PyXdmItem, PyXdmAtomicValue, PyXdmNode, PyXdmMap, PyXdmArray, create_xdm_dict
 import warnings
 import sys
 import re
@@ -13,53 +13,6 @@ import html
 
 from .colors import *
 from .namespaces import ns
-
-
-def create_xdm_dict(proc, mmap):
-    """
-    create_xdm_dict(proc, mmap)
-    Delete when saxon fixes bug
-    """
-    xdmMap = {}
-    xdmValue_ = None
-    for (key, value) in mmap.items():
-        if isinstance(key, str):
-            xdmKey_ = proc.make_string_value(key)
-
-            if isinstance(value, str):
-                xdmValue_ = proc.make_string_value(value)
-            elif isinstance(value,int):
-                xdmValue_ = proc.make_integer_value(value)
-            elif isinstance(value,float):
-                xdmValue_ = proc.make_integer_value(value)
-            elif value in (True, False):
-                xdmValue_ = proc.make_boolean_value(value)
-
-            elif isinstance(value, PyXdmValue):
-                xdmValue_ = value
-
-            elif isinstance(value, PyXdmItem):
-                xdmValue_ = value
-
-            elif isinstance(value, PyXdmAtomicValue):
-                xdmValue_ = value
-            elif isinstance(value, PyXdmNode):
-                xdmValue_ = value
-
-            elif isinstance(value, PyXdmMap):
-                xdmValue_ = value
-
-            elif isinstance(value, PyXdmArray):
-                xdmValue_ = value
-            else:
-                continue
-
-            xdmMap[xdmKey_] = xdmValue_
-        else:
-                   raise Exception("Error in making Dictionary")
-
-    return xdmMap
-
 
 class HeiEditionsResolver(et.Resolver):
     def __init__(self):
@@ -133,7 +86,6 @@ def set_params_for_saxon(parameter_list, proc: PySaxonProcessor, executable):
                 continue
             elif value is True or value is False:
                 value_f = proc.make_boolean_value(value)
-            # Uncomment when saxonica fixes the bug
             elif isinstance(value, dict):
                 xdmdict = create_xdm_dict(proc, value)
                 value_f = proc.make_map(xdmdict)

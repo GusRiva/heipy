@@ -27,7 +27,7 @@
   <xsl:param name="structure"></xsl:param>
   
   <!-- the structure configuration to which the parameter $structure indicates the path: -->
-  <xsl:variable name="structure_variable" select="doc($structure)"/>
+  <xsl:variable name="structure_variable" static="no" select="doc($structure)"/>
   
   <xsl:template match="front|body|back">
     <xsl:choose>
