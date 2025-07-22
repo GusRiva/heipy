@@ -107,14 +107,14 @@ def parse_target(target:str):
             - selector_id (str or None): The ID part of the target string.
             If the target string does not match any of the expected formats, all elements of the tuple will be None.
     """
-    positional = re.match(r'^([a-zA-Z\.\+]+):\b(left|right)\b\((.+)\)$', target)
+    positional = re.match(r'^([a-z][a-z0-9\+\.\-]*):\b(left|right)\b\((.+)\)$', target)
     if positional is not None:
         selector_prefix = positional.group(1)
         selector_position = positional.group(2)
         selector_id = positional.group(3)
         return selector_prefix, selector_position, selector_id
     
-    direct = re.match(r'^([a-zA-Z\.\+]+):(.+)$', target)
+    direct = re.match(r'^([a-z][a-z0-9\+\.\-]*):(.+)$', target)
     if direct is not None:
         return direct.group(1), None, direct.group(2)
     

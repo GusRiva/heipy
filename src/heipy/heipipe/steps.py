@@ -13,7 +13,7 @@ import html
 import re
 
 from ..namespaces import ns
-from ..parsers import apply_xslt, heiparse, HeiEditionsParser, validate_xml_with_heieditions_schema, preprocess_egxml, unscape_egxml
+from ..parsers import apply_xslt, heiparse, HeiEditionsParser, validate_xml_with_heieditions_schema
 from ..colors import *
 from ..heiwarning import HeiWarning
 
