@@ -12,9 +12,13 @@ def append_synoptic_links_funct(root, parameters):
     synoptic_map_root = et.parse(synoptic_map_path, parser=HeiEditionsParser())
     base_file = parameters.get('base_file')
     listPrefixDef_out = root.find('.//tei:listPrefixDef', namespaces=ns)
+    old_prefixDef = listPrefixDef_out.getchildren() # We need to delete repeated prefixDef in the synoptic_map.xml and in the concrete witness. We keep the ones from the synoptic map.
+    old_idents = {x.get('ident'):x for x in old_prefixDef}
     text_ident = None
     for prefixdef in synoptic_map_root.findall('.//tei:prefixDef', namespaces=ns):
         ident = prefixdef.get('ident')
+        if old_idents.get(ident) is not None:
+            listPrefixDef_out.remove(old_idents[ident])
         replacement_pattern = prefixdef.get('replacementPattern')
         if replacement_pattern[3:-3] == base_file:
             text_ident = ident
