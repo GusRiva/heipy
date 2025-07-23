@@ -8,13 +8,18 @@ from lxml import etree as et
 
 def move_milestones(root, parameters):
     new_container_xpath = '(./following::*[name() = "l" or name() = "titlePart"])[1]'
-    movenda = ['pb', 'cb']
+    movenda = ['cb', 'pb']
+    move_context = [prefix_format('tei', x) for x in ['body', 'front', 'back', 'text', 'lg', 'div', 'ab']]
     for mov in movenda:
         for mov_el in root.iter(prefix_format('tei', mov)):
+            parent_tag = mov_el.getparent().tag
+            if parent_tag not in move_context:
+                print("Not moving: ", mov_el.attrib)
+                continue
             next_l = mov_el.xpath(new_container_xpath, namespaces= ns)
             if len(next_l) < 1:
                 continue
-            next_l[0].append(mov_el)
+            next_l[0].insert(0, mov_el)
     return root
 
 def get_step():
