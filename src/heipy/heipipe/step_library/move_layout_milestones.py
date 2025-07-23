@@ -14,7 +14,6 @@ def move_milestones(root, parameters):
         for mov_el in root.iter(prefix_format('tei', mov)):
             parent_tag = mov_el.getparent().tag
             if parent_tag not in move_context:
-                print("Not moving: ", mov_el.attrib)
                 continue
             next_l = mov_el.xpath(new_container_xpath, namespaces= ns)
             if len(next_l) < 1:
