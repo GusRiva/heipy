@@ -34,7 +34,9 @@ def append_synoptic_links_funct(root, parameters):
     id_index = {el.attrib[prefix_format('xml','id')]: el for el in root.iter() if prefix_format('xml','id') in el.attrib}
 
     gaplist_el = synoptic_map_root.find('.//tei:list[@ana="hc:GapList"]', namespaces=ns)
-    gaplist = {item.attrib['corresp']: item[0] for item in gaplist_el.iter(prefix_format("tei","item")) if item.attrib['corresp'].split(':')[0] == text_ident }
+    gaplist = {}
+    if gaplist_el is not None:
+        gaplist = {item.attrib['corresp']: item[0] for item in gaplist_el.iter(prefix_format("tei","item")) if item.attrib['corresp'].split(':')[0] == text_ident }
 
     for link in synoptic_map_root.findall('.//tei:link', namespaces=ns):
         new_element = True

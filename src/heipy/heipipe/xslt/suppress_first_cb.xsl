@@ -9,27 +9,40 @@
     >
     
     <xsl:output method="xml"/>
-
-    <xsl:mode on-no-match="shallow-copy" />
+    <xsl:mode on-no-match="shallow-copy" use-accumulators="cb-count pb-cb-count"/>
     
+    <!-- Accumulator to count cb + Zone milestones -->
+    <xsl:accumulator name="cb-count" as="xs:integer" initial-value="0">
+        <xsl:accumulator-rule match="cb | milestone[contains(@ana, 'hc:Zone')]" select="$value + 1"/>
+    </xsl:accumulator>
+    
+    <!-- Accumulator to track cb count *at* previous pb -->
+    <xsl:accumulator name="pb-cb-count" as="xs:integer" initial-value="0">
+        <xsl:accumulator-rule match="pb" select="accumulator-before('cb-count') + 1"/>
+    </xsl:accumulator>
+    
+    <!-- Template for cb and milestone -->
     <xsl:template match="cb | milestone[contains(@ana, 'hc:Zone')]">
-        <!-- Wieviele cb oder milestone davor?        -->
-        <xsl:variable name="preceding_cb" select="count(preceding::*[self::cb or self::milestone[contains(@ana, 'hc:Zone')]])" />
-        <!-- Wieviele cb oder milestone vor dem letzen pb?        -->
-        <xsl:variable name="preceding_cb_from_pb" select="count(preceding::pb[1]/preceding::*[self::cb or self::milestone[contains(@ana, 'hc:Zone')]])" />
+        <xsl:variable name="cb_before" select="accumulator-before('cb-count')"/>
+        <xsl:variable name="cb_at_pb" select="accumulator-before('pb-cb-count')"/>
         
         <xsl:variable name="new_rendition">
             <xsl:value-of select="@rendition"/>
-               <!-- Genauso viele cb oder milestone vor diesem als vor dem letzen pb?           -->
-            <xsl:if test="$preceding_cb = $preceding_cb_from_pb">
+            <xsl:if test="$cb_before = $cb_at_pb">
                 <xsl:text> hc:Suppress</xsl:text>
             </xsl:if>
         </xsl:variable>
-       
+        
         <xsl:copy>
             <xsl:if test="normalize-space($new_rendition) != ''">
                 <xsl:attribute name="rendition" select="normalize-space($new_rendition)"/>
             </xsl:if>
+            <!-- For testing puposes here:-->
+            <!--<xsl:attribute name="rendition">
+                <xsl:value-of select="$cb_before"/>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="$cb_at_pb"/>
+            </xsl:attribute>-->
             <xsl:apply-templates select="node() | @* except @rendition"/>
         </xsl:copy>
     </xsl:template>

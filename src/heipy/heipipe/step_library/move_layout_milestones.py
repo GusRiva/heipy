@@ -1,8 +1,6 @@
 from ..steps import PythonStep
 from ...namespaces import ns, prefix_format
 
-from lxml import etree as et
-
 # Moves pb and cb to the beginning of next vers, for the synopsis
 
 
@@ -23,8 +21,9 @@ def move_milestones(root, parameters):
     return root  
 
 def find_better_descendant(container):
-    if container.text.strip() != '':
-        return container
+    if container.text is not None:
+        if container.text.strip() != '':
+            return container
     children = container.getchildren()
     if len(children) < 1:
         return container

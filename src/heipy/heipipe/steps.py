@@ -7,29 +7,32 @@ import sys
 import io
 import codecs
 from abc import abstractmethod
-from icecream import ic
 import warnings
-import html
-import re
 
 from ..namespaces import ns
-from ..parsers import apply_xslt, heiparse, HeiEditionsParser, validate_xml_with_heieditions_schema
-from ..colors import *
+from ..parsers import (
+    apply_xslt,
+    heiparse,
+    HeiEditionsParser,
+    validate_xml_with_heieditions_schema,
+)
+from ..colors import GREEN, RED, RESET
 from ..heiwarning import HeiWarning
 
 
 class BaseStep:
-    """ Base class for all steps """
+    """Base class for all steps"""
+
     def __init__(self, name=None, desc=None, serial=False, parameters=None):
         self.name = name if name is not None else "__None__"
         self.desc = desc
         self.serial = serial
         self.parameters = parameters if parameters is not None else []
-        self.index = -1 # When outside of pipeline
+        self.index = -1  # When outside of pipeline
 
-    def add_parameter(self, param:dict):
+    def add_parameter(self, param: dict):
         self.parameters.append(param)
-        return 
+        return
 
     def get_desc(self):
         return self.desc
@@ -40,7 +43,7 @@ class BaseStep:
     def get_name(self):
         return self.name
 
-    def get_parameter_by_name(self, name:str):
+    def get_parameter_by_name(self, name: str):
         if self.parameters is None:
             return None
         for param in self.parameters:
@@ -63,25 +66,27 @@ class BaseStep:
     def set_index(self, idx):
         self.index = idx
 
-    def set_parameters(self, parameters:list):
+    def set_parameters(self, parameters: list):
         """
         Set the parameters for the current instance.
-        Parameters should be a list, one item per parameter. 
+        Parameters should be a list, one item per parameter.
         The parameters are dictionaries. The key is the name of the parameter, the value the content. Can be of the type number, string, dictionary or boolean.
         Args:
             parameters (dict): A dictionary containing the parameters to be set.
         """
         self.parameters = parameters
 
-    def set_parameter_by_name(self, name:str, content):
-        parameter_names = [(list(d.keys())[0], idx) for idx, d in enumerate(self.parameters)]
+    def set_parameter_by_name(self, name: str, content):
+        parameter_names = [
+            (list(d.keys())[0], idx) for idx, d in enumerate(self.parameters)
+        ]
         for param in parameter_names:
             if param[0] != name:
                 continue
             self.parameters[param[1]] = {name: content}
             return
         self.parameters.append({name: content})
-        return       
+        return
 
     def set_serial(self, value: bool):
         self.serial = value
@@ -91,8 +96,8 @@ class BaseStep:
             pass
         if file_name is None:
             file_name = f"tmp/{self.index}_{self.name}.xml"
-        if not file_name.endswith('.xml'):
-            file_name += '.xml'
+        if not file_name.endswith(".xml"):
+            file_name += ".xml"
         output_file_serial = codecs.open(f"{file_name}", "w", "utf-8")
         output_file_serial.write(xml_string)
         output_file_serial.close()
@@ -134,12 +139,13 @@ class Pipeline(BaseStep):
     set_pipestep_parameter(step, parameter_name, parameter_value):
         Sets a parameter for a specific pipeline step by name or index.
     """
+
     def __init__(self, steps=None, name=None, desc=None, serial=False):
         super().__init__(name, desc, serial)
         if steps is None:
             steps = []
         elif not isinstance(steps, list):
-            raise TypeError('steps must be a list')
+            raise TypeError("steps must be a list")
         self.steps = steps
         if len(self.steps) > 0:
             for idx, step in enumerate(self.steps):
@@ -149,9 +155,17 @@ class Pipeline(BaseStep):
     def __str__(self):
         return f"Pipeline »{self.name}« containing {len(self.steps)} steps."
 
-    def add_step(self, step, at_index:int=None, after_step:str=None, before_step:str=None, serial=False, parameters=None):
+    def add_step(
+        self,
+        step,
+        at_index: int = None,
+        after_step: str = None,
+        before_step: str = None,
+        serial=False,
+        parameters=None,
+    ):
         """
-        Adds a step to the pipeline. 
+        Adds a step to the pipeline.
 
         Parameters:
         step (Step): The step to be added to the pipeline. The step can be an instance of any of the subclasses of BaseStep.
@@ -173,41 +187,54 @@ class Pipeline(BaseStep):
             parameters = step.get_parameters() or []
         step.set_parameters(parameters)
 
-
         pos_params = (at_index, after_step, before_step)
         if pos_params.count(None) < 2:
-            raise SyntaxError(f'You can only use one positional paramter for your new step. You are currently using: at_index={at_index}, after_step={after_step}, before_step={before_step}.')      
+            raise SyntaxError(
+                f"You can only use one positional paramter for your new step. You are currently using: at_index={at_index}, after_step={after_step}, before_step={before_step}."
+            )
 
         if step.get_name() in [x.get_name() for x in self.get_steps()]:
-            raise NameError(f"Step with the name »{step.get_name()}« already exists in the Pipeline.")
-        
+            raise NameError(
+                f"Step with the name »{step.get_name()}« already exists in the Pipeline."
+            )
+
         if isinstance(step, Pipeline):
-            print(step) # Here should add handle when a pipeline is added as a step to another pipeline
+            print(
+                step
+            )  # Here should add handle when a pipeline is added as a step to another pipeline
 
         def add_step_intern(idx):
-            step.set_index(idx) 
-            if step.get_name() == '__None__':
-                step.name = '__None__' + str(idx)
+            step.set_index(idx)
+            if step.get_name() == "__None__":
+                step.name = "__None__" + str(idx)
             self.steps.insert(idx, step)
 
         if at_index is not None:
             if at_index > len(self.steps) - 1:
-                warnings.warn(f"Step  »{step.name}«: was added with an index higher than possible: {at_index}. This pipeline has now {len(self.steps)}. Step will not be added.")
+                warnings.warn(
+                    f"Step  »{step.name}«: was added with an index higher than possible: {at_index}. This pipeline has now {len(self.steps)}. Step will not be added."
+                )
                 return
             if at_index < 0:
-                warnings.warn(f"Step  »{step.name}«: Index must be a positive integer (0 or higher). Index now is {at_index}. Step will not be added.")
+                warnings.warn(
+                    f"Step  »{step.name}«: Index must be a positive integer (0 or higher). Index now is {at_index}. Step will not be added."
+                )
                 return
             add_step_intern(at_index)
-        
+
         elif after_step or before_step is not None:
             try:
                 idx_mod = 1 if after_step is not None else 0
-                new_step_idx = [x.get_name() for x in self.get_steps()].index(after_step or before_step)
+                new_step_idx = [x.get_name() for x in self.get_steps()].index(
+                    after_step or before_step
+                )
                 step_index = new_step_idx + idx_mod
                 add_step_intern(step_index)
             except ValueError:
-                warnings.warn(f"Could not find step »{after_step}« in pipeline {self.name}, in relation to which you want to add step {step}. Step will not be added.")
-        
+                warnings.warn(
+                    f"Could not find step »{after_step}« in pipeline {self.name}, in relation to which you want to add step {step}. Step will not be added."
+                )
+
         else:
             step_index = len(self.steps)
             add_step_intern(step_index)
@@ -226,23 +253,25 @@ class Pipeline(BaseStep):
         """
         print(f"Starting Pipeline {self.name} for {input[:60]}")
         if not os.path.isfile(input):
-            warnings.warn(f'Could not find file {input}, skipping...', HeiWarning)
+            warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
             return None
-        
-        input_string = heiparse(input, output_format='str', xinclude=xinclude, egxml=egxml, base_url=input)
+
+        input_string = heiparse(
+            input, output_format="str", xinclude=xinclude, egxml=egxml, base_url=input
+        )
 
         for step in self.steps:
             input_string = step.execute(input_string)
-        
+
         # if egxml:
         #     input_string = unscape_egxml(input_string)
-        
+
         return input_string
 
     def get_steps(self):
         return self.steps
-    
-    def get_step_by_name(self, name:str):
+
+    def get_step_by_name(self, name: str):
         for step in self.get_steps():
             step_name = step.get_name()
             if step_name != name:
@@ -250,9 +279,11 @@ class Pipeline(BaseStep):
             return step
         return
 
-    def remove_step(self, step_name:str=None, step_index:int=None):
+    def remove_step(self, step_name: str = None, step_index: int = None):
         if (step_name, step_index).count(None) != 1:
-            raise SyntaxError(f"The function remove_step() must contain only one of the parameters step_name or step_index. Currently step_name={step_name} , step_index={step_index} .")
+            raise SyntaxError(
+                f"The function remove_step() must contain only one of the parameters step_name or step_index. Currently step_name={step_name} , step_index={step_index} ."
+            )
         if step_index is not None:
             return self.steps.pop(step_index)
 
@@ -260,14 +291,18 @@ class Pipeline(BaseStep):
             for i, step in enumerate(self.steps):
                 if step.get_name() == step_name:
                     return self.steps.pop(i)
-            warnings.warn(f"Could not find step with name »{step_name}« to remove in pipeline.")
+            warnings.warn(
+                f"Could not find step with name »{step_name}« to remove in pipeline."
+            )
         return
 
-    def set_pipestep_parameter(self, step: str | int, parameter_name: str, parameter_value):
+    def set_pipestep_parameter(
+        self, step: str | int, parameter_name: str, parameter_value
+    ):
         """
         Sets a parameter for a specific pipeline step.
 
-        This method allows you to set a parameter for a pipeline step by either 
+        This method allows you to set a parameter for a pipeline step by either
         providing the step's name (as a string) or its index (as an integer).
 
         Args:
@@ -282,16 +317,18 @@ class Pipeline(BaseStep):
             IndexError: If the step index provided as an integer is out of range.
             TypeError: If the `step` argument is neither a string nor an integer.
         """
-        if isinstance(step,str):
+        if isinstance(step, str):
             step_obj = self.get_step_by_name(step)
             if step_obj is None:
-                raise ValueError(f'Could not find parameter with the name {step}')
+                raise ValueError(f"Could not find parameter with the name {step}")
         elif isinstance(step, int):
             if len(self.get_steps()) <= step:
-                raise IndexError(f'The pipeline: {self}, contains only {len(self.get_steps())} steps and you are trying to access step at index {step}.')
+                raise IndexError(
+                    f"The pipeline: {self}, contains only {len(self.get_steps())} steps and you are trying to access step at index {step}."
+                )
             step_obj = self.get_steps()[step]
         else:
-            raise TypeError(f'{step} should be string of integer')
+            raise TypeError(f"{step} should be string of integer")
         step_obj.set_parameter_by_name(parameter_name, parameter_value)
         return
 
@@ -318,7 +355,16 @@ class XsltStep(BaseStep):
             If `pipe_files` is True, the XSLT files are loaded from package resources.
             If `serial` is True, the output is serialized after each transformation.
     """
-    def __init__(self, files=None, parameters=None, name=None, desc=None, serial=False, pipe_files=False):
+
+    def __init__(
+        self,
+        files=None,
+        parameters=None,
+        name=None,
+        desc=None,
+        serial=False,
+        pipe_files=False,
+    ):
         super().__init__(name, desc, serial)
         self.files = [] if files is None else files
         self.pipe_files = pipe_files
@@ -334,15 +380,19 @@ class XsltStep(BaseStep):
         for file in self.files:
             start_time = time.time()  # Record start time
             true_xslt_file = None
-            if self.pipe_files == True:
-                with importlib.resources.path('heipy.heipipe.xslt', file) as xslt_file_path:
+            if self.pipe_files:
+                with importlib.resources.path(
+                    "heipy.heipipe.xslt", file
+                ) as xslt_file_path:
                     true_xslt_file = str(xslt_file_path)
             else:
                 true_xslt_file = str(file)
             if true_xslt_file is None:
                 warnings.warn(f"{RED}Could not find the xslt file: {file}")
                 return input_string
-            input_string = apply_xslt(input_string, true_xslt_file, self.get_parameters())
+            input_string = apply_xslt(
+                input_string, true_xslt_file, self.get_parameters()
+            )
             end_time = time.time()  # Record end time
             elapsed_time = end_time - start_time  # Calculate elapsed time
             # Make this printing conditional on a parameter
@@ -367,7 +417,10 @@ class AddAttribute(BaseStep):
     Returns:
         str: The modified XML string with the added attributes.
     """
-    def __init__(self, match:str, att_name:str, att_val:str, name=None, desc=None, serial=None):
+
+    def __init__(
+        self, match: str, att_name: str, att_val: str, name=None, desc=None, serial=None
+    ):
         super().__init__(name, desc, serial)
         self.match = match
         self.att_name = att_name
@@ -377,12 +430,12 @@ class AddAttribute(BaseStep):
         return f"Add Attribute Step »{self.name}«. match: {self.match}, att_name: {self.att_name}, att_val: {self.att_val}"
 
     def execute(self, input_string):
-        input_string_enc = input_string.encode('utf-8')
+        input_string_enc = input_string.encode("utf-8")
         root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
         matches = root.xpath(f"{self.match}", namespaces=ns)
         for match in matches:
             match.set(self.att_name, self.att_val)
-        result = et.tostring(root, encoding='unicode')
+        result = et.tostring(root, encoding="unicode")
         if self.serial:
             super()._serialize(result)
         return result
@@ -398,7 +451,8 @@ class DeleteStep(BaseStep):
         desc (str, optional): A description of the step. Defaults to None.
         serial (bool, optional): A flag indicating whether to serialize the result. Defaults to None.
     """
-    def __init__(self, elements:list, name=None, desc=None, serial=None):
+
+    def __init__(self, elements: list, name=None, desc=None, serial=None):
         super().__init__(name, desc, serial)
         self.elements = elements
 
@@ -408,16 +462,16 @@ class DeleteStep(BaseStep):
     def execute(self, input_string):
         if len(self.elements) < 1:
             return input_string
-        input_stream = io.BytesIO(input_string.encode('utf-8'))
+        input_stream = io.BytesIO(input_string.encode("utf-8"))
         tree = et.parse(input_stream, parser=HeiEditionsParser())
         root = tree.getroot()
         for elem_name in self.elements:
-            if elem_name[:1] != '/':
-                elem_name = '//' + elem_name
+            if elem_name[:1] != "/":
+                elem_name = "//" + elem_name
             xpath_ex = f".{elem_name}"
             for elem in root.xpath(xpath_ex, namespaces=ns):
                 elem.getparent().remove(elem)
-        result = et.tostring(tree, encoding='utf-8').decode('utf-8')
+        result = et.tostring(tree, encoding="utf-8").decode("utf-8")
         if self.serial:
             super()._serialize(result)
         return result
@@ -450,6 +504,7 @@ class PythonStep(BaseStep):
             Returns:
                 str: The resulting XML string after processing.
     """
+
     def __init__(self, funct, parameters=None, name=None, desc=None, serial=False):
         super().__init__(name, desc, serial)
         self.funct = funct
@@ -459,13 +514,13 @@ class PythonStep(BaseStep):
         return f"Python step »{self.name}«, using: {self.funct}"
 
     def execute(self, input_string):
-        input_string_enc = input_string.encode('utf-8')
+        input_string_enc = input_string.encode("utf-8")
         root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
         if self.parameters is None:
             result = self.funct(root)
         else:
             result = self.funct(root, self.parameters)
-        result = et.tostring(result, encoding='unicode')
+        result = et.tostring(result, encoding="unicode")
         if self.serial:
             super()._serialize(result)
         return result
@@ -487,7 +542,8 @@ class UnwrapStep(BaseStep):
         serial (bool, optional): Whether to serialize the result after execution. Defaults to None.
 
     """
-    def __init__(self, elements:list, name=None, desc=None, serial=None):
+
+    def __init__(self, elements: list, name=None, desc=None, serial=None):
         super().__init__(name, desc, serial)
         self.elements = elements if len(elements) > 0 else []
 
@@ -497,16 +553,21 @@ class UnwrapStep(BaseStep):
     def execute(self, input_string):
         if len(self.elements) < 1:
             return input_string
-        with importlib.resources.path('heipy.heipipe.xslt', 'unwrapFromElements.xsl') as xslt_file_path:
+        with importlib.resources.path(
+            "heipy.heipipe.xslt", "unwrapFromElements.xsl"
+        ) as xslt_file_path:
             true_xslt_file = str(xslt_file_path)
         for element in self.elements:
-            params = [{
-                'delenda_name': element.get('element_name'),
-                'delenda_attr_name': element.get('attrib_name'),
-                'delenda_attr_val': element.get('attrib_val'),
-            }]
-            input_string = apply_xslt(input_string, xslt_file= true_xslt_file,
-                            parameters=params)
+            params = [
+                {
+                    "delenda_name": element.get("element_name"),
+                    "delenda_attr_name": element.get("attrib_name"),
+                    "delenda_attr_val": element.get("attrib_val"),
+                }
+            ]
+            input_string = apply_xslt(
+                input_string, xslt_file=true_xslt_file, parameters=params
+            )
         if self.serial:
             super()._serialize(input_string)
         return input_string
@@ -514,13 +575,16 @@ class UnwrapStep(BaseStep):
 
 class ValidationStep(BaseStep):
     """Validates the xml file. Returns the input to keep processing, but provides warnings in case of failed validation."""
-    def __init__(self, name="validation", desc="Validate the files", serial=None, parameters=None):
-        super().__init__(name,desc,serial)
+
+    def __init__(
+        self, name="validation", desc="Validate the files", serial=None, parameters=None
+    ):
+        super().__init__(name, desc, serial)
         self.parameters = [] if parameters == None else parameters
 
     def __str__(self):
         return f"Validation step »{self.name}«"
-    
+
     def execute(self, input_string):
         try:
             validate_xml_with_heieditions_schema(input_str=input_string)
