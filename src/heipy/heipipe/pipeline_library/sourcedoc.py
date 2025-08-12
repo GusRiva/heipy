@@ -72,6 +72,7 @@ class SourceDocPipe(Pipeline):
             remove_gap_page.get_step(),
             wrap_resolved_content.get_step(),
             prepare_figure_4_source_doc.get_step(),
+            add_vertical_layout.get_step(),
             combine_facsimile_and_text_to_sourcedoc.get_step(),
             ]
         
