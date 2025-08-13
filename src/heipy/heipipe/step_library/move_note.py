@@ -49,7 +49,7 @@ def move_note_func(root, parameters):
             # Find the target
             target = id_index.get(target_id_enum)             
             if target is None:
-                print(f"Could not find target for note: {target}")
+                print(f"Could not find target for note: {target_id_enum}")
                 continue
             
             note_tail = note.tail if note.tail is not None else ""
