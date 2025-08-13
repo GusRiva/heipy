@@ -103,7 +103,7 @@ class BaseStep:
         output_file_serial.close()
 
     @abstractmethod
-    def execute(self, input_string):
+    def execute(self, input_string, serial=False):
         pass
 
 
@@ -239,7 +239,7 @@ class Pipeline(BaseStep):
             step_index = len(self.steps)
             add_step_intern(step_index)
 
-    def execute(self, input, xinclude=False, egxml=False):
+    def execute(self, input, xinclude=False, egxml=False, serial=False):
         """
         Executes the pipeline on the given input file.
 
@@ -247,6 +247,7 @@ class Pipeline(BaseStep):
             input (str): The XML document in its string representation.
             xinclude (bool): Does the starting file contain xinclude elements that need to be resolved at the start of the pipeline? Defaults to False.
             egxml (bool): Does the starting file contain <egXML> elements?
+            serial (bool): If true it writes a file to tmp after each step
 
         Returns:
             str: The processed string after all pipeline steps have been executed.
@@ -259,9 +260,9 @@ class Pipeline(BaseStep):
         input_string = heiparse(
             input, output_format="str", xinclude=xinclude, egxml=egxml, base_url=input
         )
-
+        pipe_serial = True if self.serial or serial else False
         for step in self.steps:
-            input_string = step.execute(input_string)
+            input_string = step.execute(input_string, pipe_serial)
 
         # if egxml:
         #     input_string = unscape_egxml(input_string)
@@ -376,7 +377,7 @@ class XsltStep(BaseStep):
     def get_files(self) -> list:
         return self.files
 
-    def execute(self, input_string) -> str:
+    def execute(self, input_string, serial=False) -> str:
         for file in self.files:
             start_time = time.time()  # Record start time
             true_xslt_file = None
@@ -397,7 +398,7 @@ class XsltStep(BaseStep):
             elapsed_time = end_time - start_time  # Calculate elapsed time
             # Make this printing conditional on a parameter
             # print(f"{GREEN}Time for {file}: {elapsed_time:.4f} seconds{RESET}")
-            if self.serial:
+            if self.serial or serial:
                 super()._serialize(input_string)
         return input_string
 
@@ -429,14 +430,14 @@ class AddAttribute(BaseStep):
     def __str__(self):
         return f"Add Attribute Step »{self.name}«. match: {self.match}, att_name: {self.att_name}, att_val: {self.att_val}"
 
-    def execute(self, input_string):
+    def execute(self, input_string, serial=False):
         input_string_enc = input_string.encode("utf-8")
         root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
         matches = root.xpath(f"{self.match}", namespaces=ns)
         for match in matches:
             match.set(self.att_name, self.att_val)
         result = et.tostring(root, encoding="unicode")
-        if self.serial:
+        if self.serial or serial:
             super()._serialize(result)
         return result
 
@@ -459,7 +460,7 @@ class DeleteStep(BaseStep):
     def __str__(self):
         return f"DeleteStep »{self.name}«. Deletes: {self.elements}"
 
-    def execute(self, input_string):
+    def execute(self, input_string, serial=False):
         if len(self.elements) < 1:
             return input_string
         input_stream = io.BytesIO(input_string.encode("utf-8"))
@@ -472,7 +473,7 @@ class DeleteStep(BaseStep):
             for elem in root.xpath(xpath_ex, namespaces=ns):
                 elem.getparent().remove(elem)
         result = et.tostring(tree, encoding="utf-8").decode("utf-8")
-        if self.serial:
+        if self.serial or serial:
             super()._serialize(result)
         return result
 
@@ -513,7 +514,7 @@ class PythonStep(BaseStep):
     def __str__(self):
         return f"Python step »{self.name}«, using: {self.funct}"
 
-    def execute(self, input_string):
+    def execute(self, input_string, serial=False):
         input_string_enc = input_string.encode("utf-8")
         root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
         if self.parameters is None:
@@ -521,7 +522,7 @@ class PythonStep(BaseStep):
         else:
             result = self.funct(root, self.parameters)
         result = et.tostring(result, encoding="unicode")
-        if self.serial:
+        if self.serial or serial:
             super()._serialize(result)
         return result
 
@@ -550,7 +551,7 @@ class UnwrapStep(BaseStep):
     def __str__(self):
         return f"UnwrapStep »{self.name}«. Unwraps: {self.elements}"
 
-    def execute(self, input_string):
+    def execute(self, input_string, serial=False):
         if len(self.elements) < 1:
             return input_string
         with importlib.resources.path(
@@ -568,7 +569,7 @@ class UnwrapStep(BaseStep):
             input_string = apply_xslt(
                 input_string, xslt_file=true_xslt_file, parameters=params
             )
-        if self.serial:
+        if self.serial or serial:
             super()._serialize(input_string)
         return input_string
 
@@ -585,7 +586,7 @@ class ValidationStep(BaseStep):
     def __str__(self):
         return f"Validation step »{self.name}«"
 
-    def execute(self, input_string):
+    def execute(self, input_string, serial=False):
         try:
             validate_xml_with_heieditions_schema(input_str=input_string)
             print(f"Validation succesful")

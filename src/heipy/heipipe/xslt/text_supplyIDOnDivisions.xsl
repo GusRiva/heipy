@@ -30,7 +30,7 @@
       <xsl:otherwise>
         <xsl:copy>
           <xsl:copy-of select="@*"></xsl:copy-of>
-          <xsl:attribute name="xml:id" select="generate-id()"></xsl:attribute>
+          <xsl:attribute name="xml:id" select="concat(local-name(), '_', generate-id())"></xsl:attribute>
           <xsl:apply-templates></xsl:apply-templates>
         </xsl:copy>
       </xsl:otherwise>

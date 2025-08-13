@@ -30,6 +30,7 @@ class SemanticPipe(Pipeline):
             whitespaces.get_step(),
             number_line_segment_beginnings.get_step(),
             AddAttribute(match='tei:text', att_name=prefix_format('xml','space'), att_val='preserve'),
+            final_cleanup.get_step(),
             # validation.get_step(),
             ]
         

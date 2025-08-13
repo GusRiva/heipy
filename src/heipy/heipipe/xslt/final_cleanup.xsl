@@ -8,9 +8,9 @@
 
 <!-- 
     aim:
-        generate @xml:id on "note" elements which do not have this attribute
+        Everything we want to remove at the veryend
     author: 
-        Jakub Šimek
+        Gustavo Fernández Riva
 -->  
      
   <xsl:output method="xml"/>
@@ -18,12 +18,7 @@
   <!-- Identity template -->
   <xsl:mode on-no-match="shallow-copy" />
   
-  <xsl:template match="note[not(@xml:id)]">
-    <xsl:copy>
-      <xsl:attribute name="xml:id" select="concat('note_', generate-id())"></xsl:attribute>
-      <xsl:copy-of select="@*"></xsl:copy-of>
-      <xsl:apply-templates></xsl:apply-templates>
-    </xsl:copy>
+  <xsl:template match="standOff">
   </xsl:template>
   
 </xsl:stylesheet>
