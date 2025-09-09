@@ -20,5 +20,5 @@ result=$(curl -s -S -f -u "${existuser}:${existpass}" -X GET servhc12.ub.uni-hei
 if [ -z "$result" ]; 
   then echo " \e[31m${type} Register konnte nicht erzeugt werden";
   else echo "\e[39mErzeuge Register ${type}"; 
-  echo $result > converted/indexes/${basename}.xml ;
+  echo $result > tmp/${basename}.xml ;
 fi

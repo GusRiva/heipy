@@ -1,3 +1,4 @@
 include src/heipy/templates/*
 include src/heipy/heipipe/xslt/*
+include src/heipy/heipipe/xslt/index/*
 include src/heipy/schema/*

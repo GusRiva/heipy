@@ -381,9 +381,16 @@ class XsltStep(BaseStep):
         for file in self.files:
             start_time = time.time()  # Record start time
             true_xslt_file = None
+            file_name = file
             if self.pipe_files:
+                base_xsl_location = "heipy.heipipe.xslt"
+                if "/" in file:
+                    file_path_parts = file.split('/')
+                    file_name = file_path_parts[-1]
+                    relpath2file = '.'.join(file_path_parts[:-1])
+                    base_xsl_location += f'.{relpath2file}'
                 with importlib.resources.path(
-                    "heipy.heipipe.xslt", file
+                    base_xsl_location, file_name
                 ) as xslt_file_path:
                     true_xslt_file = str(xslt_file_path)
             else:
