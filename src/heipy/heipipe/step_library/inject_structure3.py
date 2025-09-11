@@ -2,6 +2,7 @@ from lxml import etree as et
 
 from ..steps import PythonStep
 from ...namespaces import ns
+from ...colors import RED, RESET
 
 def inject_structure3_func(root, parameters=None):
     milestones_list = root.xpath("//tei:milestone[@type = 'structure_div' or @type = 'structure_front' or @type = 'structure_body' or @type = 'structure_back']", namespaces=ns)
@@ -19,7 +20,7 @@ def inject_structure3_func(root, parameters=None):
             case "structure_back":
                 new_div = et.Element("{http://www.tei-c.org/ns/1.0}back")
         if new_div is None:
-            raise ValueError(f"Incorrect value for structure: {milestone.get('type')}")
+            raise ValueError(f"{RED}Incorrect value for structure: {milestone.get('type')}{RESET}")
         # copy the attributes from milestone (except @type):
         for attribute in milestone.attrib:
             if attribute != "type":
@@ -27,12 +28,12 @@ def inject_structure3_func(root, parameters=None):
         # get the xml:id of the milestone:
         xmlid = milestone.get("{http://www.w3.org/XML/1998/namespace}id")
         if xmlid is None:
-            raise KeyError(f"Could not find milestone {milestone.attrib}. Please check the 'structure_' file.")
+            raise KeyError(f"{RED}Could not find milestone {milestone.attrib}. Please check the 'structure_' file.{RESET}")
         # get the anchor (marking the end of the children of the future <div>):
         anchor_xpath = "//tei:anchor[@spanFrom = '#" + xmlid + "']"
         anchor = root.xpath(anchor_xpath, namespaces=ns)
         if len(anchor) < 1:
-            raise IndexError(f"Could not find anchor: {anchor_xpath}. Check the 'structure_' file.")
+            raise IndexError(f"{RED}Could not find anchor: {anchor_xpath}. Check the 'structure_' file.{RESET}")
         anchor = anchor[0]
         # get the index of the milestone in its parent element:
         milestone_index = milestone.getparent().index(milestone)
