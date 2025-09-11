@@ -16,7 +16,7 @@ from ..parsers import (
     HeiEditionsParser,
     validate_xml_with_heieditions_schema,
 )
-from ..colors import GREEN, RED, RESET
+from ..colors import BLUE, RED, RESET
 from ..heiwarning import HeiWarning
 
 
@@ -252,7 +252,7 @@ class Pipeline(BaseStep):
         Returns:
             str: The processed string after all pipeline steps have been executed.
         """
-        print(f"Starting Pipeline {self.name} for {input[:60]}")
+        print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{input[:60]}{RESET}")
         if not os.path.isfile(input):
             warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
             return None
