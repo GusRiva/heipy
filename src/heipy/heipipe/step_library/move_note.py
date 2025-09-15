@@ -1,6 +1,8 @@
+import os
 from copy import deepcopy
 from ...namespaces import ns, prefix_format
 from ..steps import PythonStep
+from ...colors import RED, RESET
 
 
 def move_note_func(root, parameters):
@@ -49,7 +51,9 @@ def move_note_func(root, parameters):
             # Find the target
             target = id_index.get(target_id_enum)             
             if target is None:
-                print(f"Could not find target for note: {target_id_enum}")
+                print(f"{RED}Could not find target for note: {target_id_enum}{RESET}")
+                with open('tmp/errors.log', 'a') as error_file:
+                    error_file.write(f"\nCould not find target for note: {target_id_enum}")
                 continue
             
             note_tail = note.tail if note.tail is not None else ""
@@ -60,7 +64,7 @@ def move_note_func(root, parameters):
             if note.getprevious() is None:
                 if note.getparent() is not None:
                     # if the parent does not have a text:
-                    if note.getparent().text == None:
+                    if note.getparent().text is None:
                         note.getparent().text = note_tail
                     # if the parent does have a text:
                     else:
@@ -68,7 +72,7 @@ def move_note_func(root, parameters):
             # if the note does have a preceding sibling:
             else:
                 # if the preceding sibling does not have a tail:
-                if note.getprevious().tail == None:
+                if note.getprevious().tail is None:
                     note.getprevious().tail = note_tail
                 # if the preceding sibling does have a tail:
                 else:
