@@ -20,7 +20,7 @@ class SemanticPipe(Pipeline):
             ptr2ref.get_step(),
             DeleteStep(elements=['tei:metamark',
                                  'tei:fw',
-                                 "tei:label[contains(@ana, 'hc:DivisionMark')]"]),
+                                 "tei:label[contains(@ana, 'hc:DivisionMark')]"], name="delete_irrelevant_elements_for_semantic"),
             filter_visual_information.get_step(),
             mark_note_as_editorial_step,
             add_id_2_note.get_step(),

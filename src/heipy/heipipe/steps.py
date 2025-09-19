@@ -478,7 +478,22 @@ class DeleteStep(BaseStep):
                 elem_name = "//" + elem_name
             xpath_ex = f".{elem_name}"
             for elem in root.xpath(xpath_ex, namespaces=ns):
-                elem.getparent().remove(elem)
+                parent = elem.getparent()
+                if elem.tail:
+                    prev = elem.getprevious()
+                    if prev is not None:
+                        # Append the tail text to the previous sibling’s tail
+                        if prev.tail:
+                            prev.tail += elem.tail
+                        else:
+                            prev.tail = elem.tail
+                    else:
+                        # If no previous sibling, append to parent’s text
+                        if parent.text:
+                            parent.text += elem.tail
+                        else:
+                            parent.text = elem.tail
+                parent.remove(elem)
         result = et.tostring(tree, encoding="utf-8").decode("utf-8")
         if self.serial or serial:
             super()._serialize(result)
