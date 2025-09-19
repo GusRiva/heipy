@@ -12,6 +12,8 @@ milestone_element_map = {
         'docDate' : 'hc:ExpressionDate',
         'docTitle' : 'hc:ExpressionTitle',
         'front' : 'hc:ExpressionFront',
+        'list' : 'hc:List',
+        'trailer' : 'hc:Trailer',
     }
 
 class SynopticPipe(Pipeline):
