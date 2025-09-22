@@ -1,5 +1,8 @@
+from lxml import etree as et
+
 from ..steps import PythonStep
 from ...namespaces import ns, prefix_format
+
 
 # Moves pb and cb to the beginning of next vers, for the synopsis
 
@@ -24,10 +27,11 @@ def find_better_descendant(container):
     if container.text is not None:
         if container.text.strip() != '':
             return container
-    children = container.getchildren()
+    children = [x for x in container.iterchildren(et.Element)]
     if len(children) < 1:
         return container
     first_child = children[0]
+    
     if first_child.tag in [prefix_format('tei', x) for x in ['cb', 'lb', 'milestone', 'w']]:
         # Elements where we don't go further
         return container
