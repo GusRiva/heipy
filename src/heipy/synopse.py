@@ -3,7 +3,7 @@ import copy
 import codecs
 import itertools
 import warnings
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from lxml import etree as et
 import importlib.resources
 import re
@@ -11,6 +11,10 @@ import re
 from .parsers import HeiEditionsParser
 from .namespaces import ns, prefix_format
 from .heiwarning import HeiWarning
+
+
+def sort_by_n(input):
+    return input
 
 
 def create_synopse(input:list, output:str, sigla_mapping:dict=None, map_criterion = 'n'):
@@ -31,10 +35,14 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None, map_criterio
     valid_map_criterion = ['n', 'xml:id', 'hei:altN']
     if map_criterion not in valid_map_criterion:
         raise NameError(f"The parameter map_criterion must be one of {valid_map_criterion}")
-    all_verses = {}
+    all_verses = defaultdict(lambda: {'data': [], 'n': None})
     starting_elements = {}
     all_witnesses = []
+    all_prefixes = []
     siglum_file_map = set()
+    
+    verse_count = {}
+    
     nones = 0
     # empty_siglum = 1
     sigla_mapping = {} if sigla_mapping is None else sigla_mapping
@@ -57,40 +65,48 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None, map_criterio
                 siglum = siglum_el.text
         siglum_file_map.add((siglum, input_file, prefix))
         all_witnesses.append(siglum)
-        
+        all_prefixes.append(prefix)
+        verse_count[prefix] = {'total': 0, 'processed': 0}
         # For fragments that start with a gap
         starting_gap = root.find(".//tei:gap[@xml:id='gap_leaf_1']", namespaces=ns)
         if starting_gap is not None:
-            starting_elements[siglum] = "gap_leaf_1"
+            starting_elements[prefix] = "gap_leaf_1"
         
         for line in root.findall('.//tei:l', namespaces=ns):
             line_id = line.get(prefix_format('xml','id'))
             if line_id is None:
                 continue
-            if siglum not in starting_elements:
-                starting_elements[siglum] = line_id
-            
+            if prefix not in starting_elements:
+                starting_elements[prefix] = line_id
             verse_key = None
+            n_att = line.get('n')
+            if n_att is None:
+                n_att = "{:.2f}".format(nones / 100)
+                nones += 1
+            try:
+                float(n_att.replace(',', '.'))
+            except ValueError:
+                digits = re.search('\d+', n_att)
+                if digits is None:
+                    n_att = "{:.3f}".format(nones / 1000)
+                    nones += 1          
+                else:
+                    n_att = str(int(digits.group(0)) + 100000)
+            n_att = n_att.replace(',', '.')
             if map_criterion == 'n':
-                n_att = line.get('n')
-                if n_att is None:
-                    n_att = "{:.2f}".format(nones / 100)
-                    nones += 1
-                try:
-                    float(n_att.replace(',', '.'))
-                except:
-                    digits = re.search(f'\d+', n_att)
-                    if digits is None:
-                        n_att = "{:.3f}".format(nones / 1000)
-                        nones += 1          
-                    else:
-                        n_att = "{:.4f}".format(int(digits.group(0)) / 10000)
-                verse_key = float(n_att.replace(',', '.'))
+                verse_key = n_att
             elif map_criterion == 'xml:id':
                 verse_key = line_id
-            all_verses.setdefault(verse_key, []).append({'id': line_id, 'siglum': siglum})
-                
-    all_verses = dict(sorted(all_verses.items(), key= lambda x: x[0]))
+            all_verses[verse_key]['data'].append({'id': line_id, 'siglum': prefix, 'n': n_att})
+            verse_count[prefix]['total'] += 1
+            if all_verses[verse_key]['n'] is None:
+                all_verses[verse_key]['n'] = n_att
+    
+    all_verses = OrderedDict(
+        sorted(all_verses.items(), key= lambda x: float(x[1]['n']))
+        )
+    
+    
     all_witnesses_len = len(all_witnesses)
     
     with importlib.resources.path('heipy.templates', 'synoptic_map.xml') as template_path:
@@ -109,29 +125,37 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None, map_criterio
 
         standoff_el = output_root.find('.//tei:standOff', namespaces=ns)
         standoff_el.clear()
-        previous = {x:'' for x in all_witnesses}
-        for verse_nr, id_hs_dict in all_verses.items():
-            print(id_hs_dict)
-            for wit in id_hs_dict:
-                previous[wit.get('siglum')] = wit['id']
+        previous = {x:'' for x in all_prefixes}
+        for verse_id, id_hs_dict in all_verses.items():
+            id_hs_dict_data = id_hs_dict.get("data")
+            for wit in id_hs_dict_data:
+                sig_pre = wit.get('siglum')
+                previous[sig_pre] = wit['id']
+                verse_count[sig_pre]['processed'] += 1
+                if verse_count[sig_pre]['total'] == verse_count[sig_pre]['processed']:
+                    previous[sig_pre] = ''
             link_el = et.Element(prefix_format('tei','link'))
-            target = ' '.join([f'{sigla_mapping.get(x['siglum'],x['siglum'])}:{x['id']}' for x in sorted(id_hs_dict, key= lambda x: x['siglum'])])
+            target = ' '.join([f'{x['siglum']}:{x['id']}' for x in sorted(id_hs_dict_data, key= lambda x: x['siglum'])])
+            
             # If some testimonies do not have the verse number:
-            if len(id_hs_dict) < all_witnesses_len:
+            if len(id_hs_dict_data) < all_witnesses_len:
                 target += ' '
-                implicit_witnesses = sorted(list(set(all_witnesses) ^ set([x['siglum'] for x in id_hs_dict])))
+                implicit_witnesses = sorted(list(set(all_prefixes) ^ set([x['siglum'] for x in id_hs_dict_data])))
                 for iwi in implicit_witnesses:
                     if previous[iwi] != '':
                         target += f'{sigla_mapping.get(iwi, iwi)}:right({previous[iwi]}) '
-                    else:
-                        if starting_elements[iwi] == 'gap_leaf_1':
-                            target += f'{sigla_mapping.get(iwi, iwi)}:gap_leaf_1 '
-                        else:
-                            target += f'{sigla_mapping.get(iwi, iwi)}:left({starting_elements[iwi]}) '
+                    # else:
+                    #     if starting_elements[iwi] == 'gap_leaf_1':
+                    #         target += f'{sigla_mapping.get(iwi, iwi)}:gap_leaf_1 '
+                    #     else:
+                    #         target += f'{sigla_mapping.get(iwi, iwi)}:left({starting_elements[iwi]}) '
                 target = target.strip()
             
+            link_el.set('n', id_hs_dict.get("n"))
             link_el.set('target', target)
             standoff_el.append(link_el)
+        
+        print(verse_count)
         
         list_gap = et.Element(prefix_format("tei","list"), {'ana': 'hc:GapList'})
         standoff_el.append(list_gap)
