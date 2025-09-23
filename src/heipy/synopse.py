@@ -36,20 +36,26 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None, map_criterio
     all_witnesses = []
     siglum_file_map = set()
     nones = 0
-    empty_siglum = 1
+    # empty_siglum = 1
     sigla_mapping = {} if sigla_mapping is None else sigla_mapping
     
     for input_file in input:
         root = et.parse(input_file, parser=HeiEditionsParser())
-        siglum = root.find('./tei:teiHeader//tei:idno[@ana="hc:EditorialSiglum"]', namespaces=ns)
-        if siglum is None:
-            siglum = f'pre{empty_siglum}'
-            empty_siglum += 1
-            # warnings.warn(f"No siglum found in {input_file}. Continuing with next file.", HeiWarning)
-            # continue
+        file_mapping = sigla_mapping.get(input_file.split('/')[-1])
+        siglum = prefix = None
+        if file_mapping:
+            siglum = file_mapping.get('siglum')
+            prefix = file_mapping.get('synoptic_pre')
         else:
-            siglum = siglum.text
-        siglum_file_map.add((siglum, input_file))
+            siglum_el = root.find('./tei:teiHeader//tei:idno[@ana="hc:EditorialSiglum"]', namespaces=ns)
+            if siglum_el is None:
+                print(f"WARNING: Could could find siglum for {input_file} in the configuration file or in the file it self.")
+                continue
+                # siglum = f'pre{empty_siglum}'
+                # empty_siglum += 1
+            else:
+                siglum = siglum_el.text
+        siglum_file_map.add((siglum, input_file, prefix))
         all_witnesses.append(siglum)
         
         # For fragments that start with a gap
@@ -94,7 +100,7 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None, map_criterio
 
         listprefixdef = output_root.find('.//tei:listPrefixDef', namespaces=ns) 
         for sig_info in sorted(siglum_file_map, key= lambda x: x[1]):
-            prefix_ident = sigla_mapping.get(sig_info[0], sig_info[0])
+            prefix_ident = sig_info[2]
             et.SubElement(listprefixdef, prefix_format('tei', 'prefixDef'), 
                           {'matchPattern': '(.+)', 
                            'ident': prefix_ident, 
@@ -105,6 +111,7 @@ def create_synopse(input:list, output:str, sigla_mapping:dict=None, map_criterio
         standoff_el.clear()
         previous = {x:'' for x in all_witnesses}
         for verse_nr, id_hs_dict in all_verses.items():
+            print(id_hs_dict)
             for wit in id_hs_dict:
                 previous[wit.get('siglum')] = wit['id']
             link_el = et.Element(prefix_format('tei','link'))
