@@ -11,3 +11,7 @@ ns = {
 def prefix_format(prefix, el):
     "Adds namespace to elment"
     return "{" + ns.get(prefix) + "}" + el
+
+def ns_tags(namespace_uri, *local_names):
+    """Convert local tag names to Clark notation"""
+    return [f'{{{namespace_uri}}}{name}' for name in local_names]
