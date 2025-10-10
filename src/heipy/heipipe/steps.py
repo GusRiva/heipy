@@ -272,7 +272,7 @@ class Pipeline(BaseStep):
     def get_steps(self):
         return self.steps
 
-    def get_step_by_name(self, name: str):
+    def get_step_by_name(self, name: str) -> BaseStep:
         for step in self.get_steps():
             step_name = step.get_name()
             if step_name != name:

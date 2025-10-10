@@ -1,6 +1,6 @@
 from ..steps import Pipeline, AddAttribute, DeleteStep, UnwrapStep
 from ..step_library import *
-from ...namespaces import prefix_format
+from ..step_library.synoptic import change_prefixdef_ref
 
 
 
@@ -61,4 +61,12 @@ class SynopticPipe(Pipeline):
         description = "Synoptic Pipeline - Standard"
         super().__init__(steps=pipe_steps, name="synoptic_pipe", desc=description, serial=False)
         
+
+class SynopticMapPipe(Pipeline):
+    def __init__(self):
+        pipe_steps= [
+            change_prefixdef_ref.get_step()
+        ]
+        description = "Pipeline for the synoptic map"
+        super().__init__(steps=pipe_steps, name="synoptic_map_pipe", desc=description, serial=False)
 
