@@ -19,6 +19,11 @@ class HeiEditionsResolver(et.Resolver):
         super().__init__()
 
     def resolve(self, system_url, public_id, context):
+
+        if system_url == "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt":
+            with importlib.resources.open_text('heipy.schema', 'heieditions-entities.txt') as entities_file:
+                return self.resolve_string(entities_file.read(), context)
+
         if system_url.startswith("https://digi.ub.uni-heidelberg.de/"):
             response = requests.get(system_url)
             return self.resolve_string(response.text, context)
@@ -102,14 +107,15 @@ def apply_xslt(input_string, xslt_file, parameters=None, output_dir = None) -> s
     with PySaxonProcessor(license=False) as proc:
         input_xdm = proc.parse_xml(xml_text=input_string, encoding='utf-8')
         xslt3 = proc.new_xslt30_processor()
-        base_output_path = os.path.dirname(os.path.abspath(xslt_file)) if output_dir is None else output_dir    
+        base_output_path = os.path.dirname(os.path.abspath(xslt_file)) if output_dir is None else output_dir
         executable = xslt3.compile_stylesheet(
             stylesheet_file=xslt_file)
         if len(parameters) > 0:
             set_params_for_saxon(parameters, proc, executable)
-        result_string = executable.transform_to_string(xdm_node=input_xdm, 
-                                                       base_output_uri=pathlib.Path(base_output_path).as_uri() + '/')
+        result_string = executable.transform_to_string(xdm_node=input_xdm,
+                                                        base_output_uri=pathlib.Path(base_output_path).as_uri() + '/')
         return result_string
+                
     
 
 def validate_xml_with_heieditions_schema(input_str= None,xml_file=None):

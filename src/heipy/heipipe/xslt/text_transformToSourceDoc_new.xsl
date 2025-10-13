@@ -7,9 +7,17 @@
   xmlns="http://www.tei-c.org/ns/1.0">
 
   <xsl:output method="xml"/>
-  
+
   <!-- Identity template -->
   <xsl:mode on-no-match="shallow-copy" />
+
+  <!-- Keys for O(1) lookups instead of O(n) // searches -->
+  <xsl:key name="lb-by-zone" match="lb" use="substring-after(@hei:belongsToZone, '#')"/>
+  <xsl:key name="cb-by-facs" match="cb" use="substring-after(@facs, '#')"/>
+  <xsl:key name="milestone-zone-beginning-by-facs" match="milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning']" use="substring-after(@facs, '#')"/>
+  <xsl:key name="milestone-line-segment" match="milestone[tokenize(@ana, '\s+') = 'hc:LineSegmentBeginning']" use="concat(substring-after(@hei:belongsToZone, '#'), '|', @hei:belongsToLine)"/>
+  <xsl:key name="lb-by-facs" match="lb" use="substring-after(@facs, '#')"/>
+  <xsl:key name="zone-by-id" match="zone" use="@xml:id"/>
   
   <xsl:template match="/TEI">
     <xsl:copy>
@@ -28,6 +36,9 @@
   
   <xsl:template match="zone">
     <xsl:variable name="zone_id" select="@xml:id"/>
+    <!-- Cache lookups that might be used multiple times -->
+    <xsl:variable name="cb_for_zone" select="key('cb-by-facs', $zone_id)"/>
+    <xsl:variable name="milestone_for_zone" select="key('milestone-zone-beginning-by-facs', $zone_id)"/>
     <xsl:copy>  
         <!-- copy itself as element and copy all its attributes: -->
         <xsl:copy-of select="@*"></xsl:copy-of>
@@ -36,10 +47,9 @@
         <xsl:choose>
           <!-- if the <zone> is a hc:ImageZone or hc:GraphicZone and contains other <zone>s: -->
           <xsl:when test="tokenize(@ana, '\s+') = ('hc:ImageZone','hc:GraphicZone') and zone">
-            <xsl:apply-templates select="//cb[substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-              |
-              //milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning'][substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-              " mode="complex_figure"><xsl:with-param name="figure_zone_id" select="$zone_id"></xsl:with-param></xsl:apply-templates>               
+            <xsl:apply-templates select="$cb_for_zone/following-sibling::seg[1]/node() | $milestone_for_zone/following-sibling::seg[1]/node()" mode="complex_figure">
+              <xsl:with-param name="figure_zone_id" select="$zone_id"></xsl:with-param>
+            </xsl:apply-templates>               
           </xsl:when>
           <!-- if the <zone> contains other <zone>s (i.e. if it serves as container in the layout declaration): -->
           <xsl:when test="zone">
@@ -49,7 +59,7 @@
          
           <xsl:when test="tokenize(@ana, '\s+') = 'hc:TextZone'">
               <!-- for each <lb> connected to this <zone>: -->
-              <xsl:for-each select="//lb[substring-after(@hei:belongsToZone, '#') = $zone_id]">
+              <xsl:for-each select="key('lb-by-zone', $zone_id)">
                 <!-- sort the <lb>s according to their @n (works even with two numbers separated by dot because this is interpreted as decimal) -->
                 <xsl:sort select="@n" data-type="number"></xsl:sort>
                 <xsl:variable name="line_number" select="@n"/>
@@ -73,20 +83,15 @@
               </xsl:for-each>
                   
               <!-- handling cases where there are no lines in a text zone but an editorial gap (and possibly also some milestones): -->
-              <xsl:if test="//cb[substring-after(@facs, '#') = $zone_id]/following-sibling::element()[1]/self::seg[@type = 'zone']
-                or
-                //milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning'][substring-after(@facs, '#') = $zone_id]/following-sibling::element()[1]/self::seg[@type = 'zone']
-                ">
-                <xsl:apply-templates select="//cb[substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                  |
-                  //milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning'][substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                  "></xsl:apply-templates>
+              <xsl:if test="$cb_for_zone/following-sibling::element()[1]/self::seg[@type = 'zone']
+                or $milestone_for_zone/following-sibling::element()[1]/self::seg[@type = 'zone']">
+                <xsl:apply-templates select="$cb_for_zone/following-sibling::seg[1]/node() | $milestone_for_zone/following-sibling::seg[1]/node()"></xsl:apply-templates>
               </xsl:if>                
           </xsl:when>
           
           <xsl:when test="tokenize(@ana, '\s+') = 'hc:LineZone'">
             <xsl:variable name="text_zone_id" select="ancestor::zone[tokenize(@ana, '\s+') = 'hc:TextZone']/@xml:id"/>
-            <xsl:variable name="corresp_lb" select="//lb[substring-after(@facs, '#') = $zone_id]"/>
+            <xsl:variable name="corresp_lb" select="key('lb-by-facs', $zone_id)"/>
             <xsl:variable name="line_number" select="$corresp_lb/@n"/>
             <xsl:element name="line" namespace="http://www.tei-c.org/ns/1.0">
               <xsl:copy-of select="$corresp_lb/@ana|$corresp_lb/@rendition"/>
@@ -111,29 +116,19 @@
           </xsl:when>
           
           <xsl:when test="tokenize(@ana, '\s+') = 'hc:GapZone'">
-              <xsl:apply-templates select="//cb[substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                |
-                //milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning'][substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                "></xsl:apply-templates>                
+              <xsl:apply-templates select="$cb_for_zone/following-sibling::seg[1]/node() | $milestone_for_zone/following-sibling::seg[1]/node()"></xsl:apply-templates>
           </xsl:when>
           <xsl:when test="tokenize(@ana, '\s+') = 'hc:SpaceZone'">
-              <xsl:apply-templates select="//cb[substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                |
-                //milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning'][substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                "></xsl:apply-templates>                
+              <xsl:apply-templates select="$cb_for_zone/following-sibling::seg[1]/node() | $milestone_for_zone/following-sibling::seg[1]/node()"></xsl:apply-templates>
           </xsl:when>
           <xsl:when test="tokenize(@ana, '\s+') = ('hc:ImageZone','hc:GraphicZone')">
-              <xsl:apply-templates select="//cb[substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                |
-                //milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning'][substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                "><xsl:with-param name="figure_zone_id" select="$zone_id"></xsl:with-param></xsl:apply-templates>               
+              <xsl:apply-templates select="$cb_for_zone/following-sibling::seg[1]/node() | $milestone_for_zone/following-sibling::seg[1]/node()">
+                <xsl:with-param name="figure_zone_id" select="$zone_id"></xsl:with-param>
+              </xsl:apply-templates>
           </xsl:when>
           <xsl:when test="tokenize(@ana, '\s+') = 'hc:TableZone'">
-                <xsl:apply-templates select="//cb[substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                  |
-                  //milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning'][substring-after(@facs, '#') = $zone_id]/following-sibling::seg[1]/node()
-                  "></xsl:apply-templates>               
-              </xsl:when>
+              <xsl:apply-templates select="$cb_for_zone/following-sibling::seg[1]/node() | $milestone_for_zone/following-sibling::seg[1]/node()"></xsl:apply-templates>
+          </xsl:when>
         </xsl:choose>
     </xsl:copy>
   </xsl:template>
@@ -144,7 +139,7 @@
     <xsl:copy>
       <xsl:copy-of select="@*[not(local-name() = 'facs')]"></xsl:copy-of>
       <xsl:copy-of select="*[not(local-name() = 'figure')]"></xsl:copy-of>
-      <xsl:for-each select="//zone[@xml:id = $figure_zone_id]/zone">
+      <xsl:for-each select="key('zone-by-id', $figure_zone_id)/zone">
         <xsl:variable name="child_zone_self" select="."/>
         <xsl:variable name="child_zone_id" select="@xml:id"/>
         <xsl:copy>
@@ -157,7 +152,7 @@
                 <xsl:copy-of select="$child_figure/node()"></xsl:copy-of>
                 <xsl:if test="tokenize($child_zone_self/@ana, '\s+') = 'hc:TextZone' and not(boolean($child_zone_self/*))">
                   <!-- for each <lb> connected to this <zone>: -->
-                  <xsl:for-each select="//lb[substring-after(@hei:belongsToZone, '#') = $child_zone_id]">
+                  <xsl:for-each select="key('lb-by-zone', $child_zone_id)">
                     <!-- sort the <lb>s according to their @n (works even with two numbers separated by dot because this is interpreted as decimal) -->
                     <xsl:sort select="@n" data-type="number"></xsl:sort>
                     <xsl:variable name="line_number" select="@n"/>
@@ -187,7 +182,7 @@
             <xsl:otherwise>
               <xsl:if test="tokenize(@ana, '\s+') = 'hc:TextZone' and not(boolean(*))">
                 <!-- for each <lb> connected to this <zone>: -->
-                <xsl:for-each select="//lb[substring-after(@hei:belongsToZone, '#') = $child_zone_id]">
+                <xsl:for-each select="key('lb-by-zone', $child_zone_id)">
                   <!-- sort the <lb>s according to their @n (works even with two numbers separated by dot because this is interpreted as decimal) -->
                   <xsl:sort select="@n" data-type="number"></xsl:sort>
                   <xsl:variable name="line_number" select="@n"/>
@@ -221,11 +216,8 @@
   
   <xsl:template name="getLineSegmentBeginning">
     <xsl:param name="zone_id"/>
-    <xsl:param name="line_number"/>    
-    <xsl:for-each select="//milestone[tokenize(@ana, '\s+') = 'hc:LineSegmentBeginning']
-      [substring-after(@hei:belongsToZone, '#') = $zone_id]
-      [@hei:belongsToLine = $line_number]
-      ">
+    <xsl:param name="line_number"/>
+    <xsl:for-each select="key('milestone-line-segment', concat($zone_id, '|', $line_number))">
       <xsl:sort select="@n" data-type="number"></xsl:sort>
       <xsl:variable name="seg_ana" as="item()*">
         <xsl:for-each select="tokenize(@ana, '\s+')">
