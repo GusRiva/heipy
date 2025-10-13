@@ -1,0 +1,106 @@
+<!-- List of character entities used in heiEDITIONS -->
+<!-- This list of character entities is heavily inspired by and partly copied from the list maintained by Menota (https://www.menota.org/menota-entities.txt) -->
+<!-- For characters which are not part of the unicode standard the TEI element "g" is used as character placeholder, pointing to a character definition. -->
+<!-- In these cases, the Unicode codepoint only serves as a mapping providing a similar glyph which can be used for visualization purposes. -->
+
+<!-- Special letter forms (glyphs) -->
+<!-- LATIN CAPITAL LETTER R ROTUNDA --> <!ENTITY Rrot "&#xA75A;">
+<!-- LATIN SMALL LETTER R ROTUNDA --> <!ENTITY rrot "&#xA75B;">
+
+<!-- Combining diacritical abbreviation marks -->
+<!-- COMBINING ABBREVIATION MARK BAR ABOVE --> <!ENTITY bar "<g ref='char:bar'>&#x0304;</g>">
+<!-- COMBINING DOUBLE ACUTE ACCENT --> <!ENTITY combdblac "&#x030B;">
+<!-- COMBINING DOUBLE GRAVE ACCENT --> <!ENTITY combdblgr "&#x030F;">
+<!-- COMBINING ABBREVIATION MARK CURL BELOW --> <!ENTITY curlbl "<g ref='char:curlbl'>&#x0327;</g>">
+<!-- COMBINING ABBREVIATION MARK DOUBLE BAR ABOVE --> <!ENTITY doublebar "<g ref='char:doublebar'>&#x033F;</g>">
+<!-- COMBINING ABBREVIATION MARK ER ABOVE --> <!ENTITY er "<g ref='char:er'>&#x035B;</g>">
+<!-- COMBINING ABBREVIATION MARK RE ABOVE --> <!ENTITY re "<g ref='char:re'>&#x0314;</g>">
+<!-- COMBINING ABBREVIATION MARK ZIGZAG ABOVE --> <!ENTITY zig "<g ref='char:zig'>&#x035B;</g>">
+<!-- COMBINING ABBREVIATION MARK CURL ABOVE --> <!ENTITY curl "<g ref='char:curl'>&#x0313;</g>">
+<!-- COMBINING LATIN SMALL LETTER FLATTENED OPEN A ABOVE --> <!ENTITY ra "&#x1DD3;">
+<!-- COMBINING ABBREVIATION MARK SUPERSCRIPT RA OPEN A FORM WITH BAR ABOVE --> <!ENTITY rabar "<g ref='char:rabar'>&#xF1C1;</g>">
+<!-- COMBINING LATIN SMALL LETTER R ROTUNDA --> <!ENTITY urrot "&#x1DE3;">
+<!-- COMBINING ABBREVIATION MARK SUPERSCRIPT UR LEMNISKATE FORM --> <!ENTITY urlemn "<g ref='char:urlemn'>&#xF1C2;</g>">
+<!-- COMBINING US ABOVE --> <!ENTITY us "&#x1DD2;">
+
+<!-- Other combining diacritical marks  -->
+<!-- COMBINING GRAVE ACCENT --> <!ENTITY combgrave "&#x0300;">
+<!-- COMBINING ACUTE ACCENT --> <!ENTITY combacute "&#x0301;">
+<!-- COMBINING MACRON --> <!ENTITY combmacr "&#x0304;">
+<!-- COMBINING DOUBLE ACUTE ACCENT --> <!ENTITY combdblac "&#x030B;">
+<!-- COMBINING CARON --> <!ENTITY combcar "&#x030C;">
+<!-- COMBINING CIRCUMFLEX ACCENT --> <!ENTITY combcirc "&#x0302;">
+<!-- COMBINING BREVE --> <!ENTITY combbreve "&#x0306;">
+<!-- COMBINING DOT ABOVE --> <!ENTITY combdot "&#x0307;">
+<!-- COMBINING DIAERESIS --> <!ENTITY combuml "&#x0308;">
+<!-- COMBINING COMMA ABOVE --> <!ENTITY combcomma "&#x0313;">
+<!-- COMBINING APOSTROPHE-LIKE MARK I-UMLAUT ABOVE --> <!ENTITY iuml "<g ref='char:iuml'>&#x0313;</g>">
+<!-- COMBINING LATIN SMALL LETTER A --> <!ENTITY asup "&#x0363;">
+<!-- COMBINING LATIN SMALL LETTER E --> <!ENTITY esup "&#x0364;">
+<!-- COMBINING LATIN SMALL LETTER I --> <!ENTITY isup "&#x0365;">
+<!-- COMBINING LATIN SMALL LETTER DOTLESS I --> <!ENTITY inodotsup "<g ref='char:inodotsup'>&#xF02F;</g>">
+<!-- COMBINING LATIN SMALL LETTER O --> <!ENTITY osup "&#x0366;">
+<!-- COMBINING LATIN SMALL LETTER U --> <!ENTITY usup "&#x0367;">
+<!-- COMBINING LATIN SMALL LETTER V --> <!ENTITY vsup "&#x036E;">
+<!-- COMBINING LATIN SMALL LETTER W --> <!ENTITY wsup "<g ref='char:wsup'>&#xF03C;</g>">
+<!-- COMBINING TILDE --> <!ENTITY combtilde "&#x0303;">
+<!-- COMBINING TWO DIAGONAL DOTS ABOVE --> <!ENTITY diagdots "<g ref='char:diagdots'>&#x0308;</g>">
+<!-- COMBINING CAUDA --> <!ENTITY cauda "<g ref='char:cauda'>&#x0328;</g>">
+
+<!-- Greek combining diacritical marks -->
+<!-- COMBINING GREEK PERISPOMENI --> <!ENTITY combperispomeni "&#x0342;">
+
+<!-- Other abbreviation marks -->
+<!-- LATIN SMALL LETTER D WITH STROKE --> <!ENTITY dstrok "&#x0111;">
+<!-- LATIN ABBREVIATION SIGN SMALL DE --> <!ENTITY de "<g ref='char:de'>&#xF159;</g>">
+<!-- LATIN CAPITAL LETTER K WITH DIAGONAL STROKE --> <!ENTITY Kstrleg "&#xA742;">
+<!-- LATIN SMALL LETTER K WITH DIAGONAL STROKE --> <!ENTITY kstrleg "&#xA743;">
+<!-- LATIN SMALL LETTER CON --> <!ENTITY condes "&#xA76F;">
+<!-- LATIN SMALL LETTER P WITH STROKE THROUGH DESCENDER --> <!ENTITY per "&#xA751;">
+<!-- LATIN SMALL LETTER P WITH FLOURISH --> <!ENTITY pro "&#xA753;">
+<!-- LATIN SMALL LETTER Q WITH STROKE THROUGH DESCENDER --> <!ENTITY qbardes "&#xA757;">
+<!-- LATIN SMALL LETTER Q WITH DIAGONAL STROKE --> <!ENTITY qds "&#xA759;">
+<!-- LATIN CAPITAL LETTER RUM ROTUNDA --> <!ENTITY RUM "&#xA75C;">
+<!-- LATIN SMALL LETTER RUM ROTUNDA --> <!ENTITY rum "&#xA75D;">
+<!-- LATIN SMALL LETTER T WITH CURL --> <!ENTITY tcurl "<g ref='char:tcurl'>&#xF199;</g>">
+<!-- LATIN SMALL LETTER IS --> <!ENTITY is "&#xA76D;">
+<!-- LATIN SMALL LETTER ET --> <!ENTITY etfin "&#xA76B;">
+<!-- TIRONIAN SIGN ET --> <!ENTITY et "&#x204A;">
+<!-- LATIN ABBREVIATION SIGN SMALL ET WITH STROKE --> <!ENTITY etslash "<g ref='char:etslash'>&#xF158;</g>">
+<!-- LATIN ABBREVIATION SIGN SMALL LETTER L WITH HIGH STROKE --> <!ENTITY lhighstrok "<g ref='char:lhighstrok'>&#xA749;</g>">
+<!-- LATIN SMALL LETTER LONG S WITH FLOURISH --> <!ENTITY slongflour "<g ref='char:slongflour'>&#xE8B7;</g>">
+<!-- LATIN ABBREVIATION SIGN SPACING BASE-LINE SMALL US --> <!ENTITY usbase "<g ref='char:usbase'>&#xF1A6;</g>">
+<!-- LATIN ABBREVIATION SIGN SMALL LETTER N WITH LONG RIGHT LEG --> <!ENTITY nlrlegab "<g ref='char:nlrlegab'>&#x019E;</g>">
+
+<!-- Ligatures -->
+<!-- LATIN SMALL LIGATURE CT --> <!ENTITY ctlig "<g ref='char:ctlig'>&#xEEC5;</g>">
+<!-- LATIN SMALL LIGATURE FT --> <!ENTITY ftlig "<g ref='char:ftlig'>&#xEECB;</g>">
+<!-- LATIN SMALL LETTER Q LIGATED WITH FINAL ET --> <!ENTITY qet "<g ref='char:qet'>&#xE8BF;</g>">
+<!-- LATIN EARLY MODERN ET CETERA LIGATURE --> <!ENTITY etcem "<g ref='char:etcem'>&#x204A;c</g>">
+<!-- LATIN EARLY MODERN ET CETERA LIGATURE WITH FLATTENED OPEN A --> <!ENTITY etcemra "<g ref='char:etcemra'>&#x204A;c&#x1DD3;</g>">
+
+<!-- Double glyphs representing a simple character -->
+<!-- DOUBLE LATIN SMALL LETTER F REPRESENTING THE CORRESPONDING SIMPLE CAPITAL LETTER --> <!ENTITY dblf4F "<g ref='char:dblf4F'>F</g>">
+<!-- DOUBLE LATIN SMALL LETTER L REPRESENTING THE CORRESPONDING SIMPLE CAPITAL LETTER --> <!ENTITY dbll4L "<g ref='char:dbll4L'>L</g>">
+
+<!-- Punctuation marks -->
+<!-- COMMA POSITURA -->	 <!ENTITY posit "<g ref='char:posit'>&#xF1E2;</g>">
+<!-- PUNCTUS ELEVATUS --> <!ENTITY punctelev "<g ref='char:punctelev'>&#xF161;</g>">
+<!-- PUNCTUS ELEVATUS DIAGONAL STROKE --> <!ENTITY punctelevdiag "<g ref='char:punctelevdiag'>&#xF1F0;</g>">
+<!-- TWO DOTS OVER COMMA POSITURA --> <!ENTITY bidotscomposit "<g ref='char:bidotscomposit'>&#xF1F2;</g>">
+
+<!-- Symbols -->
+<!-- CURRENCY SIGN --> <!ENTITY curren "&#x00A4;">
+<!-- PILCROW SIGN --> <!ENTITY para "&#x00B6;">
+<!-- GERMAN PENNY SIGN --> <!ENTITY pennygerm "&#x20B0;">
+<!-- FLOREN SIGN WITH LOOP --> <!ENTITY florloop "<g ref='char:florloop'>&#xF2E8;</g>">
+<!-- DUTCH LIBRA SIGN --> <!ENTITY libradut "<g ref='char:libradut'>&#xF2EA;</g>">
+<!-- INSERTION SYMBOL UP ARROWHEAD --> <!ENTITY insup "<g ref='char:insup'>&#x2303;</g>">
+<!-- INSERTION SYMBOL DOWN ARROWHEAD --> <!ENTITY insdown "<g ref='char:insdown'>&#x2304;</g>">
+
+<!-- Spaces -->
+<!-- EM SPACE --> <!ENTITY emsp "&#x2003;">
+<!-- NARROW NO-BREAK SPACE --> <!ENTITY nnbsp "&#x202F;">
+
+<!-- Monograms -->
+<!-- ALBRECHT DÃœRER MONOGRAM --> <!ENTITY adm "<g ref='char:adm'>AD</g>">

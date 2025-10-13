@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+  "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" xml:base="./">
+  <!-- Map the online entities file to the local copy -->
+  <system systemId="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt"
+          uri="file:heieditions-entities.txt"/>
+  <uri name="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt"
+       uri="file:heieditions-entities.txt"/>
+
+  <!-- Map the online RNG schema to the local copy -->
+  <system systemId="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng"
+          uri="file:tei_hes.rng"/>
+  <uri name="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng"
+       uri="file:tei_hes.rng"/>
+</catalog>
