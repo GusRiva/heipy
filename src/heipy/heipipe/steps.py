@@ -241,7 +241,7 @@ class Pipeline(BaseStep):
 
     def execute(self, input, xinclude=False, egxml=False, serial=False):
         """
-        Executes the pipeline on the given input file.
+        Executes the pipeline on the given input file with optimized batching.
 
         Args:
             input (str): The XML document in its string representation.
@@ -252,6 +252,8 @@ class Pipeline(BaseStep):
         Returns:
             str: The processed string after all pipeline steps have been executed.
         """
+        from saxonche import PySaxonProcessor
+
         print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{input[:60]}{RESET}")
         if not os.path.isfile(input):
             warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
@@ -261,13 +263,55 @@ class Pipeline(BaseStep):
             input, output_format="str", xinclude=xinclude, egxml=egxml, base_url=input
         )
         pipe_serial = True if self.serial or serial else False
-        for step in self.steps:
-            input_string = step.execute(input_string, pipe_serial)
+
+        # Process steps with batching optimization
+        i = 0
+        current_data = input_string
+        is_xdm = False
+        proc = None
+
+        while i < len(self.steps):
+            step = self.steps[i]
+
+            # Check if we can batch XSLT steps
+            if isinstance(step, (XsltStep, UnwrapStep)):
+                # Look ahead for consecutive XSLT-based steps
+                j = i + 1
+                while j < len(self.steps) and isinstance(self.steps[j], (XsltStep, UnwrapStep)):
+                    j += 1
+
+                # Create processor for batch using context manager
+                with PySaxonProcessor(license=False) as proc:
+                    # Execute batch
+                    for k in range(i, j):
+                        batch_step = self.steps[k]
+                        output_xdm = (k < j - 1)  # Keep XDM until last step in batch
+
+                        current_data = batch_step.execute(
+                            input_string=current_data if not is_xdm else None,
+                            serial=pipe_serial,
+                            input_xdm=current_data if is_xdm else None,
+                            output_xdm=output_xdm,
+                            proc=proc
+                        )
+                        is_xdm = output_xdm
+
+                # Processor automatically closed after context
+                i = j
+
+            else:
+                # Non-XSLT step - use regular execute
+                if is_xdm:
+                    # This shouldn't happen if batching logic is correct
+                    raise RuntimeError("Non-XSLT step received XDM input")
+
+                current_data = step.execute(current_data, pipe_serial)
+                i += 1
 
         # if egxml:
-        #     input_string = unscape_egxml(input_string)
+        #     current_data = unscape_egxml(current_data)
 
-        return input_string
+        return current_data
 
     def get_steps(self):
         return self.steps
@@ -377,11 +421,31 @@ class XsltStep(BaseStep):
     def get_files(self) -> list:
         return self.files
 
-    def execute(self, input_string, serial=False) -> str:
+    def execute(self, input_string=None, serial=False, input_xdm=None, output_xdm=False, proc=None):
+        """
+        Execute XSLT transformation(s).
+
+        Args:
+            input_string: XML string (if input_xdm is None)
+            serial: Whether to serialize output to file
+            input_xdm: PyXdmNode input (optional, for batched execution)
+            output_xdm: If True, return XDM instead of string
+            proc: PySaxonProcessor instance (optional, for batched execution)
+
+        Returns:
+            str or PyXdmNode depending on output_xdm
+        """
+        from saxonche import PySaxonProcessor
+
+        current_data = input_xdm if input_xdm is not None else input_string
+        is_xdm = input_xdm is not None
+
         for file in self.files:
-            start_time = time.time()  # Record start time
+            start_time = time.time()
             true_xslt_file = None
             file_name = file
+
+            # Resolve file path
             if self.pipe_files:
                 base_xsl_location = "heipy.heipipe.xslt"
                 if "/" in file:
@@ -389,25 +453,43 @@ class XsltStep(BaseStep):
                     file_name = file_path_parts[-1]
                     relpath2file = '.'.join(file_path_parts[:-1])
                     base_xsl_location += f'.{relpath2file}'
-                with importlib.resources.path(
-                    base_xsl_location, file_name
-                ) as xslt_file_path:
+                with importlib.resources.path(base_xsl_location, file_name) as xslt_file_path:
                     true_xslt_file = str(xslt_file_path)
             else:
                 true_xslt_file = str(file)
+
             if true_xslt_file is None:
                 warnings.warn(f"{RED}Could not find the xslt file: {file}")
-                return input_string
-            input_string = apply_xslt(
-                input_string, true_xslt_file, self.get_parameters()
+                return current_data
+
+            # Determine if this is the last file in this step
+            is_last_file = (file == self.files[-1])
+            # Keep as XDM during processing, only convert to string on last file if output_xdm=False
+            should_output_xdm = (not is_last_file) or output_xdm
+
+            # Apply transformation
+            current_data = apply_xslt(
+                input_string=current_data if not is_xdm else None,
+                xslt_file=true_xslt_file,
+                parameters=self.get_parameters(),
+                input_xdm=current_data if is_xdm else None,
+                output_xdm=should_output_xdm,
+                proc=proc
             )
-            end_time = time.time()  # Record end time
-            elapsed_time = end_time - start_time  # Calculate elapsed time
-            # Make this printing conditional on a parameter
-            # print(f"{GREEN}Time for {file}: {elapsed_time:.4f} seconds{RESET}")
-            if self.serial or serial:
-                super()._serialize(input_string)
-        return input_string
+            is_xdm = should_output_xdm
+
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print(f"Time for {file}: {elapsed_time:.4f} seconds")
+
+        # Result is already in the requested format
+        result = current_data
+
+        if self.serial or serial:
+            if not output_xdm:
+                super()._serialize(result)
+
+        return result
 
 
 class AddAttribute(BaseStep):
@@ -573,14 +655,34 @@ class UnwrapStep(BaseStep):
     def __str__(self):
         return f"UnwrapStep »{self.name}«. Unwraps: {self.elements}"
 
-    def execute(self, input_string, serial=False):
+    def execute(self, input_string=None, serial=False, input_xdm=None, output_xdm=False, proc=None):
+        """
+        Execute unwrap transformation(s).
+
+        Args:
+            input_string: XML string (if input_xdm is None)
+            serial: Whether to serialize output to file
+            input_xdm: PyXdmNode input (optional, for batched execution)
+            output_xdm: If True, return XDM instead of string
+            proc: PySaxonProcessor instance (optional, for batched execution)
+
+        Returns:
+            str or PyXdmNode depending on output_xdm
+        """
+        from saxonche import PySaxonProcessor
+
         if len(self.elements) < 1:
-            return input_string
+            return input_xdm if input_xdm is not None else input_string
+
+        current_data = input_xdm if input_xdm is not None else input_string
+        is_xdm = input_xdm is not None
+
         with importlib.resources.path(
             "heipy.heipipe.xslt", "unwrapFromElements.xsl"
         ) as xslt_file_path:
             true_xslt_file = str(xslt_file_path)
-        for element in self.elements:
+
+        for idx, element in enumerate(self.elements):
             params = [
                 {
                     "delenda_name": element.get("element_name"),
@@ -588,12 +690,30 @@ class UnwrapStep(BaseStep):
                     "delenda_attr_val": element.get("attrib_val"),
                 }
             ]
-            input_string = apply_xslt(
-                input_string, xslt_file=true_xslt_file, parameters=params
+            # Determine if this is the last element
+            is_last_element = (idx == len(self.elements) - 1)
+            # Keep as XDM during processing, only convert to string on last element if output_xdm=False
+            should_output_xdm = (not is_last_element) or output_xdm
+
+            # Apply transformation
+            current_data = apply_xslt(
+                input_string=current_data if not is_xdm else None,
+                xslt_file=true_xslt_file,
+                parameters=params,
+                input_xdm=current_data if is_xdm else None,
+                output_xdm=should_output_xdm,
+                proc=proc
             )
+            is_xdm = should_output_xdm
+
+        # Result is already in the requested format
+        result = current_data
+
         if self.serial or serial:
-            super()._serialize(input_string)
-        return input_string
+            if not output_xdm:
+                super()._serialize(result)
+
+        return result
 
 
 class ValidationStep(BaseStep):
