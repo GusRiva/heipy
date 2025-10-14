@@ -134,6 +134,9 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
         base_output_path = os.path.dirname(os.path.abspath(xslt_file)) if output_dir is None else output_dir
         executable = xslt3.compile_stylesheet(stylesheet_file=xslt_file)
 
+        # Set base output URI for resolving relative URIs in xsl:result-document
+        executable.set_base_output_uri(pathlib.Path(base_output_path).as_uri() + '/')
+
         if len(parameters) > 0:
             set_params_for_saxon(parameters, proc, executable)
 
