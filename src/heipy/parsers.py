@@ -120,46 +120,10 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
     """
     parameters = parameters or []
 
-    # If processor is provided (batched mode), use it; otherwise create new one
-    if proc is None:
-        # Create processor with context manager for single transformation
-        with PySaxonProcessor(license=False) as proc:
-            # Parse input if needed
-            if input_xdm is None:
-                if input_string is None:
-                    raise ValueError("Either input_string or input_xdm must be provided to apply_xslt")
-                input_xdm = proc.parse_xml(xml_text=input_string, encoding='utf-8')
-
-            # Compile and execute XSLT
-            xslt3 = proc.new_xslt30_processor()
-            base_output_path = os.path.dirname(os.path.abspath(xslt_file)) if output_dir is None else output_dir
-            executable = xslt3.compile_stylesheet(stylesheet_file=xslt_file)
-
-            if len(parameters) > 0:
-                set_params_for_saxon(parameters, proc, executable)
-
-            # Set the global context item for the transformation
-            # input_xdm could be a PyXdmValue (sequence) or PyXdmItem (single item)
-            # If it's a sequence, get the first item; otherwise use it directly
-            if hasattr(input_xdm, '__iter__') and hasattr(input_xdm, 'size') and input_xdm.size > 0:
-                context_item = input_xdm[0]  # Get first item from sequence
-            else:
-                context_item = input_xdm  # Already a single item
-            executable.set_global_context_item(xdm_item=context_item)
-
-            if output_xdm:
-                # Return XDM value for next XSLT step
-                # Use apply_templates_returning_value which accepts PyXdmValue, not just PyXdmNode
-                result_xdm = executable.apply_templates_returning_value(xdm_value=input_xdm)
-                return result_xdm
-            else:
-                # Return string
-                # Use apply_templates_returning_string which works with PyXdmValue
-                result_string = executable.apply_templates_returning_string(xdm_value=input_xdm)
-                return result_string
-    else:
-        # Batched mode - processor already exists, don't close it
+    def _execute_transformation(proc):
+        """Inner function to execute the actual transformation."""
         # Parse input if needed
+        nonlocal input_xdm
         if input_xdm is None:
             if input_string is None:
                 raise ValueError("Either input_string or input_xdm must be provided to apply_xslt")
@@ -184,14 +148,17 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
 
         if output_xdm:
             # Return XDM value for next XSLT step
-            # Use apply_templates_returning_value which accepts PyXdmValue, not just PyXdmNode
-            result_xdm = executable.apply_templates_returning_value(xdm_value=input_xdm)
-            return result_xdm
+            return executable.apply_templates_returning_value(xdm_value=input_xdm)
         else:
             # Return string
-            # Use apply_templates_returning_string which works with PyXdmValue
-            result_string = executable.apply_templates_returning_string(xdm_value=input_xdm)
-            return result_string
+            return executable.apply_templates_returning_string(xdm_value=input_xdm)
+
+    # If processor is provided (batched mode), use it; otherwise create new one
+    if proc is None:
+        with PySaxonProcessor(license=False) as proc:
+            return _execute_transformation(proc)
+    else:
+        return _execute_transformation(proc)
                 
     
 
