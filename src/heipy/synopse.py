@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import codecs
 import itertools
 import warnings
@@ -8,6 +9,7 @@ import importlib.resources
 import re
 import networkx as nx
 from itertools import permutations
+import shutil
 
 from .parsers import HeiEditionsParser
 from .namespaces import ns, prefix_format, ns_tags
@@ -334,7 +336,7 @@ def create_synopse_graphs(
         )
 
     sigla_mapping = {} if sigla_mapping is None else sigla_mapping
-    output_file = output if output is not None else 'synopses/synoptic.xml'
+    output_file = output if output is not None else 'synopses/default/synoptic.xml'
     tags_to_consider = ["l", "p"]
     witness_graphs = {}
     syn_graph = nx.Graph()
@@ -368,7 +370,8 @@ def create_synopse_graphs(
         graph1 = witness_graphs[pre1]
         graph2 = witness_graphs[pre2]
         start_node = [node for node in graph1.nodes() if graph1.in_degree(node) == 0][0]
-        process_node(start_node, syn_graph, graph1, pre1, graph2, pre2, None, None)
+        print(f"Starting processing nodes from {pre1} to {pre2}")
+        process_nodes(start_node, syn_graph, graph1, pre1, graph2, pre2, None, None)
 
     non_gap_graph = syn_graph.subgraph([x for x in syn_graph.nodes() if syn_graph.nodes[x].get('type') != 'gap'])
     cliques = list()
@@ -399,6 +402,7 @@ def create_synopse_graphs(
 
     
     os.makedirs(os.path.dirname(output_file), exist_ok= True)
+    
     with codecs.open(output_file, mode='w', encoding='utf-8') as output:
         output.write('''<?xml version='1.0' encoding='UTF-8'?>
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
@@ -431,12 +435,14 @@ def create_synopse_graphs(
             output.write(f'<link target="{' '.join(cliq)}"/>')
         output.write('</standOff></TEI>')
     
-
+    # Create the backup copy
+    output_file_path = Path(output_file)
+    shutil.copy2(output_file, output_file_path.with_name(f"{output_file_path.stem}.bak{output_file_path.suffix}"))
     
     return
 
 
-def process_node(
+def process_nodes(
     start_node: str,
     G: nx.Graph,
     source_g: nx.DiGraph,
@@ -463,7 +469,7 @@ def process_node(
     while stack:
         node, previous = stack.pop()
         
-        print(f"Process node: {source_pre}:{node}")
+        # print(f"Process node: {source_pre}:{node}")
         
         if node in visited:
             print(f"DEBUG: Cycle detected! Node {node} in {source_pre} already visited.")
