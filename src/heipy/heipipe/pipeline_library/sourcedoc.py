@@ -1,5 +1,5 @@
 from ..steps import Pipeline
-from ..step_library import *
+from ..step_library import initials, revision_spans, transcription_note, connect_lb_and_segment, move_physical_beginnings, whitespaces,  number_line_segment_beginnings, split_everything_at_physical_beginnings, split_word_at_physical_beginnings, remove_gap_page, wrap_resolved_content, prepare_figure_4_source_doc, add_vertical_layout, combine_facsimile_and_text_to_sourcedoc, mark_note_as_editorial, container2milestone
 
 
 milestone_element_map = {
@@ -58,6 +58,7 @@ class SourceDocPipe(Pipeline):
         pipe_steps = [
             # Index: 0
             initials.get_step(),
+            revision_spans.get_step(),
             transcription_note.get_step(),
             connect_lb_and_segment.get_step(),
             move_physical_beginnings.get_step(),

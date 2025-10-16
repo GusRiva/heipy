@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet 
+<xsl:stylesheet
   version="3.0"
-  xpath-default-namespace="http://www.tei-c.org/ns/1.0" 
+  xpath-default-namespace="http://www.tei-c.org/ns/1.0"
   xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:err="http://www.w3.org/2005/xqt-errors"
   xmlns="http://www.tei-c.org/ns/1.0">
 
   <xsl:output method="xml"/>
@@ -102,8 +103,8 @@
               <!-- set @xml:space on "preserve" -->
               <xsl:attribute name="xml:space" select="'preserve'"/>
               
-              <xsl:if test="$corresp_lb[1]/following-sibling::element()[1]/self::seg[@type = 'line']">
-                <xsl:apply-templates select="$corresp_lb[1]/following-sibling::seg[1]/node()"/>
+              <xsl:if test="$corresp_lb/following-sibling::element()[1]/self::seg[@type = 'line']">
+                <xsl:apply-templates select="$corresp_lb/following-sibling::seg[1]/node()"/>
               </xsl:if>
               
               
@@ -217,21 +218,37 @@
   <xsl:template name="getLineSegmentBeginning">
     <xsl:param name="zone_id"/>
     <xsl:param name="line_number"/>
-    <xsl:for-each select="key('milestone-line-segment', concat($zone_id, '|', $line_number))">
-      <xsl:sort select="@n" data-type="number"></xsl:sort>
-      <xsl:variable name="seg_ana" as="item()*">
-        <xsl:for-each select="tokenize(@ana, '\s+')">
-          <xsl:if test=". != 'hc:LineSegmentBeginning'">
-            <xsl:value-of select="."/>
-          </xsl:if>
-        </xsl:for-each>
-      </xsl:variable>
-      <xsl:element name="seg" namespace="http://www.tei-c.org/ns/1.0">
-        <xsl:attribute name="ana" select="'hc:LineSegment ' || string-join($seg_ana, ' ')"></xsl:attribute>
-        <xsl:copy-of select="@*[not(local-name() = ('belongsToZone', 'belongsToLine', 'ana', 'break'))]"></xsl:copy-of>
-        <xsl:apply-templates select="following-sibling::seg[1]/node()"></xsl:apply-templates>
-      </xsl:element>
-    </xsl:for-each>
+    <xsl:try>
+      <xsl:for-each select="key('milestone-line-segment', concat($zone_id, '|', $line_number))">
+        <xsl:sort select="@n" data-type="number"></xsl:sort>
+        <xsl:variable name="seg_ana" as="item()*">
+          <xsl:for-each select="tokenize(@ana, '\s+')">
+            <xsl:if test=". != 'hc:LineSegmentBeginning'">
+              <xsl:value-of select="."/>
+            </xsl:if>
+          </xsl:for-each>
+        </xsl:variable>
+        <xsl:element name="seg" namespace="http://www.tei-c.org/ns/1.0">
+          <xsl:attribute name="ana" select="'hc:LineSegment ' || string-join($seg_ana, ' ')"></xsl:attribute>
+          <xsl:copy-of select="@*[not(local-name() = ('belongsToZone', 'belongsToLine', 'ana', 'break'))]"></xsl:copy-of>
+          <xsl:apply-templates select="following-sibling::seg[1]/node()"></xsl:apply-templates>
+        </xsl:element>
+      </xsl:for-each>
+      <xsl:catch errors="*">
+        <xsl:message terminate="yes">
+          <xsl:text>ERROR in getLineSegmentBeginning: Failed to process line segment for zone_id="</xsl:text>
+          <xsl:value-of select="$zone_id"/>
+          <xsl:text>" and line_number="</xsl:text>
+          <xsl:value-of select="$line_number"/>
+          <xsl:text>". </xsl:text>
+          <xsl:text>This likely means an &lt;lb&gt; element's @facs attribute points to a non-existent zone, or multiple &lt;lb&gt; elements share the same @facs reference. </xsl:text>
+          <xsl:text>Error code: </xsl:text>
+          <xsl:value-of select="$err:code"/>
+          <xsl:text>, Description: </xsl:text>
+          <xsl:value-of select="$err:description"/>
+        </xsl:message>
+      </xsl:catch>
+    </xsl:try>
   </xsl:template> 
   
   
