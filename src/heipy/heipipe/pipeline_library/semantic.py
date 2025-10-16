@@ -26,7 +26,7 @@ class SemanticPipe(Pipeline):
             add_id_2_note.get_step(),
             move_note_step,
             supply_id_divisions.get_step(),
-            revision_spans_for_reading.get_step(),
+            revision_spans.get_step(),
             whitespaces.get_step(),
             number_line_segment_beginnings.get_step(),
             AddAttribute(match='tei:text', att_name=prefix_format('xml','space'), att_val='preserve'),
