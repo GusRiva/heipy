@@ -45,7 +45,7 @@ class SynopticPipe(Pipeline):
             mark_note_as_editorial_step,
             add_id_2_note.get_step(),
             move_note_step,
-            revision_spans_for_reading.get_step(),
+            revision_spans.get_step(),
             container2milestone_step,
             whitespaces.get_step(),
             number_line_segment_beginnings.get_step(),
