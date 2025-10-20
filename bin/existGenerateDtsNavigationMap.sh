@@ -15,7 +15,7 @@ if [ -z ${existpass} ]; then
   exit
 fi
 
-echo "\e[42mVerarbeitung von Sigle ${sigle}\e[49m"
+echo "\e[42mDTS: Sigle ${sigle}\e[49m"
 echo "\e[39murl: http://servhc12.ub.uni-heidelberg.de:8080/exist/apps/DWorkEditionen/modules/dts/generateNavigationMap.xql?col=${edition}/semantic/${sigle}&store=yes${param}"
 result=$(curl -s -S -f -u "${existuser}:${existpass}" -X GET "http://servhc12.ub.uni-heidelberg.de:8080/exist/apps/DWorkEditionen/modules/dts/generateNavigationMap.xql?col=${edition}/semantic/${sigle}&store=yes${param}")
 if [ -z "$result" ]; 
