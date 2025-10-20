@@ -435,8 +435,6 @@ class XsltStep(BaseStep):
         Returns:
             str or PyXdmNode depending on output_xdm
         """
-        from saxonche import PySaxonProcessor
-
         current_data = input_xdm if input_xdm is not None else input_string
         is_xdm = input_xdm is not None
 
@@ -480,7 +478,7 @@ class XsltStep(BaseStep):
 
             end_time = time.time()
             elapsed_time = end_time - start_time
-            print(f"Time for {file}: {elapsed_time:.4f} seconds")
+            # print(f"Time for {file}: {elapsed_time:.4f} seconds")
 
         # Result is already in the requested format
         result = current_data

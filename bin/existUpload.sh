@@ -16,10 +16,10 @@ if [ -z ${existpass} ]; then
   exit
 fi
 
-curl -X PUT -H "Content-type: application/xml" --upload-file $file "http://servhc12.ub.uni-heidelberg.de:8080/exist/rest/db/resources/projects/${path}/${fbase}" -u "${existuser}:${existpass}"
+curl -sSX PUT -H "Content-type: application/xml" --upload-file $file "http://servhc12.ub.uni-heidelberg.de:8080/exist/rest/db/resources/projects/${path}/${fbase}" -u "${existuser}:${existpass}"
 
 if [ -n "${reindex}" ]; then
   echo "trigger reindex"
-  curl -s -S "https://digi.ub.uni-heidelberg.de/diglit/_reindex/${reindex}" | grep -v -E "<pre>|<h1>"
+  curl -sS "https://digi.ub.uni-heidelberg.de/diglit/_reindex/${reindex}" | grep -v -E "<pre>|<h1>"
 fi
 echo "eXist upload for ›${path}‹ finished."
