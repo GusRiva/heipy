@@ -8,6 +8,7 @@ import io
 import codecs
 from abc import abstractmethod
 import warnings
+from saxonche import PySaxonProcessor
 
 from ..namespaces import ns
 from ..parsers import (
@@ -239,7 +240,7 @@ class Pipeline(BaseStep):
             step_index = len(self.steps)
             add_step_intern(step_index)
 
-    def execute(self, input, xinclude=False, egxml=False, serial=False):
+    def execute(self, input, xinclude=False, egxml=False, debug_options=None):
         """
         Executes the pipeline on the given input file with optimized batching.
 
@@ -247,22 +248,21 @@ class Pipeline(BaseStep):
             input (str): The XML document in its string representation.
             xinclude (bool): Does the starting file contain xinclude elements that need to be resolved at the start of the pipeline? Defaults to False.
             egxml (bool): Does the starting file contain <egXML> elements?
-            serial (bool): If true it writes a file to tmp after each step
+            debug_options (list): Which debug options should be active. Available options: time, serial.
 
         Returns:
             str: The processed string after all pipeline steps have been executed.
         """
-        from saxonche import PySaxonProcessor
-
         print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{input[:60]}{RESET}")
         if not os.path.isfile(input):
             warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
             return None
-
+        
+        debug_options = debug_options if debug_options is not None else []
         input_string = heiparse(
             input, output_format="str", xinclude=xinclude, egxml=egxml, base_url=input
         )
-        pipe_serial = True if self.serial or serial else False
+        pipe_serial = True if self.serial or 'serial' in debug_options else False
 
         # Process steps with batching optimization
         i = 0
@@ -272,6 +272,7 @@ class Pipeline(BaseStep):
 
         while i < len(self.steps):
             step = self.steps[i]
+            start_time = time.time()
 
             # Check if we can batch XSLT steps
             if isinstance(step, (XsltStep, UnwrapStep)):
@@ -308,6 +309,10 @@ class Pipeline(BaseStep):
                 current_data = step.execute(current_data, pipe_serial)
                 i += 1
 
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            if 'time' in debug_options:
+                print(f"Elapsed time for '{step.get_name()}': {elapsed_time}")
         # if egxml:
         #     current_data = unscape_egxml(current_data)
 
@@ -439,7 +444,7 @@ class XsltStep(BaseStep):
         is_xdm = input_xdm is not None
 
         for file in self.files:
-            start_time = time.time()
+            # start_time = time.time()
             true_xslt_file = None
             file_name = file
 
@@ -476,8 +481,8 @@ class XsltStep(BaseStep):
             )
             is_xdm = should_output_xdm
 
-            end_time = time.time()
-            elapsed_time = end_time - start_time
+            # end_time = time.time()
+            # elapsed_time = end_time - start_time
             # print(f"Time for {file}: {elapsed_time:.4f} seconds")
 
         # Result is already in the requested format
