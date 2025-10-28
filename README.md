@@ -38,3 +38,20 @@ input (str): The path to the input TEI XML file.
 output (str): The path where the transformed XML file will be saved.
 
 
+## CLI options
+usage: all.py [-h] [--semantic] [--synoptic] [--sourcedoc] [--debug [OPTION ...]] [text_files ...]
+
+Shared argument parser for my scripts
+
+positional arguments:
+  text_files            List of input files
+
+options:
+  -h, --help            show this help message and exit
+  --semantic, -sem      Semantic pipeline
+  --synoptic, -syn      Synoptic pipeline
+  --sourcedoc, -sou     SourceDoc pipeline
+  --debug [OPTION ...]  Enable debug options. Use without arguments for all options.
+                        Available options:
+                            • time    - Show execution time for functions.
+                            • serial  - Serialize the result of each step into a file to be stored in the tmp directory.
