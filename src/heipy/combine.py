@@ -76,7 +76,7 @@ def combine_sourcedoc(files:list, output_path:str):
     main_sourcedoc.addnext(new_sourcedoc)
     sourcedoc_parent = main_sourcedoc.getparent()
     sourcedoc_parent.remove(main_sourcedoc)
-
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     tree.write(output_path, encoding='utf-8', xml_declaration=True)
 
 
