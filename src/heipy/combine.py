@@ -1,5 +1,6 @@
 import warnings
 import os
+from pathlib import Path
 
 from lxml import etree as et
 from .parsers import heiparse
@@ -18,7 +19,9 @@ def merge_zones(zone_already, new_zone):
         zone_already.append(l)
     return
 
-def combine_sourcedoc(files:list, output_path:str):
+def combine_sourcedoc(files:list, output_path:str | Path):
+    if isinstance(output_path, str):
+        output_path = Path(output_path)
     first_file_path = files[0]
     tree = None
     try:
@@ -30,7 +33,8 @@ def combine_sourcedoc(files:list, output_path:str):
         return
     root = tree.getroot()
     if len(files) < 2:
-        tree.write(output_path, encoding='utf-8', xml_declaration=True)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        tree.write(str(output_path), encoding='utf-8', xml_declaration=True)
         return
     main_sourcedoc = root.find('.//tei:sourceDoc', ns)
     if main_sourcedoc is None:
@@ -72,12 +76,13 @@ def combine_sourcedoc(files:list, output_path:str):
                 continue
             merge_zones(layout_zone_old, child)
             # last_surface.append(child)
-
+            
     main_sourcedoc.addnext(new_sourcedoc)
     sourcedoc_parent = main_sourcedoc.getparent()
     sourcedoc_parent.remove(main_sourcedoc)
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    tree.write(output_path, encoding='utf-8', xml_declaration=True)
+    
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    tree.write(str(output_path), encoding='utf-8', xml_declaration=True)
 
 
 
