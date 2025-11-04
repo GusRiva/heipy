@@ -36,9 +36,11 @@ class SemanticPipe(Pipeline):
         
         if isinstance(parameters, dict):
             if parameters.get('inject_structure'):
-                inject_structure_step = inject_structure.get_step()
-                inject_structure3_step = inject_structure3.get_step()
-                pipe_steps.insert(7, inject_structure3_step)
+                # inject_structure_step = inject_structure.get_step()
+                # inject_structure3_step = inject_structure3.get_step()
+                # pipe_steps.insert(7, inject_structure3_step)
+                # pipe_steps.insert(7, inject_structure_step)
+                inject_structure_step = inject_structure_new.get_step()
                 pipe_steps.insert(7, inject_structure_step)
             
             
