@@ -88,6 +88,7 @@
 <!-- PUNCTUS ELEVATUS --> <!ENTITY punctelev "<g ref='char:punctelev'>&#xF161;</g>">
 <!-- PUNCTUS ELEVATUS DIAGONAL STROKE --> <!ENTITY punctelevdiag "<g ref='char:punctelevdiag'>&#xF1F0;</g>">
 <!-- TWO DOTS OVER COMMA POSITURA --> <!ENTITY bidotscomposit "<g ref='char:bidotscomposit'>&#xF1F2;</g>">
+<!-- VIRGULA SUSPENSIVA --> <!ENTITY virgsusp "<g ref='char:virgsusp'>&#xF1F4;</g>">
 
 <!-- Symbols -->
 <!-- CURRENCY SIGN --> <!ENTITY curren "&#x00A4;">
@@ -103,4 +104,4 @@
 <!-- NARROW NO-BREAK SPACE --> <!ENTITY nnbsp "&#x202F;">
 
 <!-- Monograms -->
-<!-- ALBRECHT DÃœRER MONOGRAM --> <!ENTITY adm "<g ref='char:adm'>AD</g>">
+<!-- ALBRECHT DÜRER MONOGRAM --> <!ENTITY adm "<g ref='char:adm'>AD</g>">
