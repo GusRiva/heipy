@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://raw.githubusercontent.com/TEI-Correspondence-SIG/CMIF/master/schema/cmi-customization.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Automatically created letter index of the digital scholarly edition </title>
+                <editor>Katharina Brückmann <email>katharina.brueckmann@ub.uni-heidelberg.de</email></editor>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>
+                    <orgName>Heidelberg University Library</orgName>
+                </publisher>
+                <idno type="url"></idno>
+                <date></date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by/4.0/">This file is licensed under the terms of the Creative Commons License CC-BY 4.0.</licence>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <bibl type="online"></bibl>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc/>
+    </teiHeader>
+    <text>
+        <body>
+            <p/>
+        </body>
+    </text>
+</TEI>
