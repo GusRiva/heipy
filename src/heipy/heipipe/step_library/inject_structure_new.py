@@ -6,7 +6,7 @@ from ...namespaces import ns
 from ...colors import RED, RESET
 
 
-def inject_structure3_func(root: et.Element, parameters=None):
+def inject_structure_func(root: et.Element, parameters=None):
     """
     Inject div structure into TEI document based on a structure configuration file.
 
@@ -50,6 +50,12 @@ def inject_structure3_func(root: et.Element, parameters=None):
     if not source_text:
         raise ValueError(f"{RED}No text element found in source document{RESET}")
     source_text = source_text[0]
+    
+    # Remove old front, body, back from source text
+    et.strip_tags(root, ["{http://www.tei-c.org/ns/1.0}front",
+                         "{http://www.tei-c.org/ns/1.0}body",
+                         "{http://www.tei-c.org/ns/1.0}back"])
+    
 
     # Create index of all elements with xml:id for fast lookup
     id_index = {}
@@ -70,13 +76,6 @@ def inject_structure3_func(root: et.Element, parameters=None):
             new_element = build_structural_element(child, root, id_index)
             if new_element is not None:
                 new_structure_elements.append(new_element)
-
-    # Remove old front, body, back from source text
-    for child in list(source_text):
-        if child.tag in ["{http://www.tei-c.org/ns/1.0}front",
-                         "{http://www.tei-c.org/ns/1.0}body",
-                         "{http://www.tei-c.org/ns/1.0}back"]:
-            source_text.remove(child)
 
     # Add new structure elements
     for elem in new_structure_elements:
@@ -195,7 +194,7 @@ def collect_elements_from_range(start_id, end_id, id_index):
     if parent is None:
         print(f"{RED}Warning: Start element has no parent{RESET}")
         return []
-
+    
     if end_element.getparent() != parent:
         print(f"{RED}Warning: Start and end elements are not siblings{RESET}")
         return []
@@ -233,4 +232,4 @@ def copy_element(element):
 
 
 def get_step():
-    return PythonStep(funct=inject_structure3_func, name="inject_structure_new")
+    return PythonStep(funct=inject_structure_func, name="inject_structure_new")
