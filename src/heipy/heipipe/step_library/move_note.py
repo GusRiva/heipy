@@ -1,4 +1,3 @@
-import os
 from copy import deepcopy
 from ...namespaces import ns, prefix_format
 from ..steps import PythonStep
