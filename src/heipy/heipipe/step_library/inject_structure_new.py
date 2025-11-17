@@ -52,9 +52,10 @@ def inject_structure_func(root: et.Element, parameters=None):
     source_text = source_text[0]
     
     # Remove old front, body, back from source text
-    et.strip_tags(root, ["{http://www.tei-c.org/ns/1.0}front",
+    et.strip_tags(source_text, ["{http://www.tei-c.org/ns/1.0}front",
                          "{http://www.tei-c.org/ns/1.0}body",
-                         "{http://www.tei-c.org/ns/1.0}back"])
+                         "{http://www.tei-c.org/ns/1.0}back",
+                         "{http://www.tei-c.org/ns/1.0}div"])
     
 
     # Create index of all elements with xml:id for fast lookup

@@ -10,19 +10,16 @@ class SemanticPipe(Pipeline):
                                                           "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
         move_note_step = move_note.get_step()
         move_note_step.set_parameter_by_name('position', 'after')
-        filter_visual_info = filter_visual_information.get_step()
-        filter_visual_info.add_parameter({'rendition': 'keep'})
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0
             # validation.get_step(),
             DeleteStep(elements=['tei:zone[@ana="hc:LineZone"]'], name="delete_facs"),
-            # header_listchange.get_step(),
-            ptr2ref.get_step(),
+            filter_visual_information.get_step(),
             DeleteStep(elements=['tei:metamark',
                                  'tei:fw',
                                  "tei:label[contains(@ana, 'hc:DivisionMark')]"], name="delete_irrelevant_elements_for_semantic"),
-            filter_visual_info,
+            ptr2ref.get_step(),
             
             mark_note_as_editorial_step,
             add_id_2_note.get_step(),
@@ -39,7 +36,7 @@ class SemanticPipe(Pipeline):
         if isinstance(parameters, dict):
             if parameters.get('inject_structure'):
                 inject_structure_step = inject_structure_new.get_step()
-                pipe_steps.insert(7, inject_structure_step)
+                pipe_steps.insert(3, inject_structure_step)
             
             
         
