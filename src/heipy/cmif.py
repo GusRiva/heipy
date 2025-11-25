@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import importlib.resources
+import json
 import uuid
 from pathlib import Path
 from lxml import etree as et
@@ -201,5 +202,6 @@ def create_cmif_export(files: list,
             cmif_profileDesc.append(cmif_correspDesc)
 
     write_xml_to_file(cmif_tree, output_path)
-    print(issues_in_CMIF_export)
+    sorted_issues_in_CMIF_export_json = json.dumps(dict(sorted(issues_in_CMIF_export.items())))
+    print(sorted_issues_in_CMIF_export_json)
     return
