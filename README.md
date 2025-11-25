@@ -75,8 +75,11 @@ import sys
 files = [] # include files here
 project_name = sys.argv[1]
 output_path = sys.argv[2]
+edition_doi = "https://..." # hc:editionWebsiteIdentifier
+edition_title = "..."
+edition_citation = "..." # hc:RecommendedBibliographicReferenceForEditionWebsite
 
-create_cmif_export(files, project_name, output_path)
+create_cmif_export(files, project_name, output_path, edition_doi, edition_title, edition_citation)
 ```
 * adjust the control file (e.g. bin/control.sh) to call cmif_export.py and upload the generated CMIF file to exist:
 ```commandline
