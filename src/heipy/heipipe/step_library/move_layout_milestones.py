@@ -7,7 +7,7 @@ from ...namespaces import ns, prefix_format
 # Moves pb and cb to the beginning of next vers, for the synopsis
 
 
-def move_milestones(root, parameters):
+def move_milestones(root, parameters=None):
     """
     Moves page break (pb) and column break (cb) elements to the beginning of the next
     verse (l), titlePart, or paragraph (p) element.

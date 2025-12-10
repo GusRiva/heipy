@@ -6,10 +6,10 @@ class SemanticPipe(Pipeline):
     def __init__(self, parameters = None):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step()
-        mark_note_as_editorial_step.set_parameter_by_name('note_classes',
+        mark_note_as_editorial_step.set_parameter('note_classes',
                                                           "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
         move_note_step = move_note.get_step()
-        move_note_step.set_parameter_by_name('position', 'after')
+        move_note_step.set_parameter('position', 'after')
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0

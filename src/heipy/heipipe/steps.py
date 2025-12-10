@@ -1,24 +1,27 @@
 # steps.py
-import importlib
-import os
-import time
-from lxml import etree as et
-import sys
-import io
 import codecs
-from abc import abstractmethod
+import importlib
+import io
+import os
+import sys
+import time
 import warnings
+from abc import abstractmethod
+from typing import Literal
+from lxml import etree as et
 from saxonche import PySaxonProcessor
 
 from ..namespaces import ns
+from ..colors import BLUE, RED, RESET
+from ..heiwarning import HeiWarning, HeiDeprecationWarning
 from ..parsers import (
     apply_xslt,
     heiparse,
     HeiEditionsParser,
     validate_xml_with_heieditions_schema,
+    normalize_parameters,
+    OutputFormat
 )
-from ..colors import BLUE, RED, RESET
-from ..heiwarning import HeiWarning
 
 
 class BaseStep:
@@ -28,11 +31,62 @@ class BaseStep:
         self.name = name if name is not None else "__None__"
         self.desc = desc
         self.serial = serial
-        self.parameters = parameters if parameters is not None else []
-        self.index = -1  # When outside of pipeline
+        self.parameters = normalize_parameters(parameters if parameters is not None else {})
+        self.index = None # Outside of pipeline
 
-    def add_parameter(self, param: dict):
-        self.parameters.append(param)
+    def add_parameter(self, *args, **kwargs):
+        """
+        Add a parameter to the step.
+
+        Supports two calling styles:
+        1. add_parameter(name, value) - Recommended
+        2. add_parameter({'key': 'value'}) - Legacy, deprecated
+
+        Args:
+            *args: Either (name, value) or (dict,)
+            **kwargs: Not used, for future compatibility
+        """
+        if len(args) == 1 and isinstance(args[0], dict):
+            # Legacy format: add_parameter({'key': 'value'})
+            warnings.warn(
+                "Passing a dictionary to add_parameter is deprecated. "
+                "Please use add_parameter(name, value) instead.",
+                HeiDeprecationWarning,
+                stacklevel=2
+            )
+            self.parameters.update(args[0])
+        elif len(args) == 2:
+            # New format: add_parameter('key', 'value')
+            name, value = args
+            if not isinstance(name, str):
+                raise TypeError(f"name must be a string, got {type(name)}")
+            self.parameters[name] = value
+        else:
+            raise TypeError(
+                f"add_parameter() takes 1 (dict) or 2 (name, value) positional arguments "
+                f"but {len(args)} were given"
+            )
+        return
+
+    def add_parameters(self, parameters: dict):
+        """
+        Add multiple parameters at once from a dictionary.
+
+        This is the recommended way to add multiple parameters.
+
+        Args:
+            parameters (dict): Dictionary of parameter name-value pairs to add
+
+        Example:
+            step.add_parameters({
+                'param1': 'value1',
+                'param2': 'value2',
+                'param3': 'value3'
+            })
+        """
+        if not isinstance(parameters, dict):
+            raise TypeError(f"parameters must be a dict, got {type(parameters)}")
+        self.parameters.update(parameters)
         return
 
     def get_desc(self):
@@ -45,19 +99,25 @@ class BaseStep:
         return self.name
 
     def get_parameter_by_name(self, name: str):
+        """
+        Get a parameter value by name.
+
+        Args:
+            name: Parameter name to retrieve
+
+        Returns:
+            Parameter value or None if not found
+        """
         if self.parameters is None:
             return None
-        for param in self.parameters:
-            key = [*param][0]
-            if key == name:
-                return param[key]
-        return None
+        return self.parameters.get(name)
 
     def get_parameters(self):
         """
         Get the parameters for the current instance.
-        Args:
-            parameters (dict): A dictionary containing the parameters to be set.
+
+        Returns:
+            dict: A dictionary containing the parameters
         """
         return self.parameters
 
@@ -67,26 +127,42 @@ class BaseStep:
     def set_index(self, idx):
         self.index = idx
 
-    def set_parameters(self, parameters: list):
+    def set_parameters(self, parameters):
         """
         Set the parameters for the current instance.
-        Parameters should be a list, one item per parameter.
-        The parameters are dictionaries. The key is the name of the parameter, the value the content. Can be of the type number, string, dictionary or boolean.
+
         Args:
-            parameters (dict): A dictionary containing the parameters to be set.
+            parameters (dict or list): A dictionary containing the parameters to be set.
+                Legacy list format [{'key1': 'val1'}, {'key2': 'val2'}] is also supported
+                but deprecated. Use {'key1': 'val1', 'key2': 'val2'} instead.
         """
-        self.parameters = parameters
+        self.parameters = normalize_parameters(parameters)
+
+    def set_parameter(self, key: str, content):
+        """
+        Set a specific parameter by name.
+        Args:
+            name: Parameter name
+            content: Parameter value
+        """
+        self.parameters[key] = content
+        return
 
     def set_parameter_by_name(self, name: str, content):
-        parameter_names = [
-            (list(d.keys())[0], idx) for idx, d in enumerate(self.parameters)
-        ]
-        for param in parameter_names:
-            if param[0] != name:
-                continue
-            self.parameters[param[1]] = {name: content}
-            return
-        self.parameters.append({name: content})
+        """
+        Set a specific parameter by name.
+        DEPRECATED: Use set_parameter() instead.
+        Args:
+            name: Parameter name
+            content: Parameter value
+        """
+        warnings.warn(
+            "set_parameter_by_name() is deprecated. "
+            "Please use set_parameter(key, value) instead.",
+            HeiDeprecationWarning,
+            stacklevel=2
+        )
+        self.parameters[name] = content
         return
 
     def set_serial(self, value: bool):
@@ -240,7 +316,12 @@ class Pipeline(BaseStep):
             step_index = len(self.steps)
             add_step_intern(step_index)
 
-    def execute(self, input, xinclude=False, egxml=False, debug_options=None):
+    def execute(self, 
+                input, 
+                xinclude=False, 
+                egxml=False,
+                output_format: Literal["str", "etree", "bytes"] = "str", 
+                debug_options=None):
         """
         Executes the pipeline on the given input file with optimized batching.
 
@@ -253,6 +334,7 @@ class Pipeline(BaseStep):
         Returns:
             str: The processed string after all pipeline steps have been executed.
         """
+        output_format = OutputFormat(output_format)
         print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{input[:60]}{RESET}")
         if not os.path.isfile(input):
             warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
@@ -260,7 +342,7 @@ class Pipeline(BaseStep):
         
         debug_options = debug_options if debug_options is not None else []
         input_string = heiparse(
-            input, output_format="str", xinclude=xinclude, egxml=egxml, base_url=input
+            input, output_format=OutputFormat.STR, xinclude=xinclude, egxml=egxml, base_url=input
         )
         pipe_serial = True if self.serial or 'serial' in debug_options else False
 
@@ -315,8 +397,10 @@ class Pipeline(BaseStep):
                 print(f"Elapsed time for '{step.get_name()}': {elapsed_time}")
         # if egxml:
         #     current_data = unscape_egxml(current_data)
-
-        return current_data
+        if output_format == OutputFormat.STR:
+            return current_data
+        if output_format == OutputFormat.ETREE:
+            return current_data
 
     def get_steps(self):
         return self.steps
@@ -415,10 +499,20 @@ class XsltStep(BaseStep):
         serial=False,
         pipe_files=False,
     ):
-        super().__init__(name, desc, serial)
+        # Set default name to __XsltStep__ instead of __None__
+        if name is None:
+            name = "__XsltStep__"
+        super().__init__(name, desc, serial, parameters)
         self.files = [] if files is None else files
         self.pipe_files = pipe_files
-        self.parameters = [] if parameters is None else parameters
+
+        # Warn if no XSLT files provided
+        if len(self.files) == 0:
+            warnings.warn(
+                "An XsltStep with no XSLT files does nothing and is skipped",
+                HeiWarning,
+                stacklevel=2
+            )
 
     def __str__(self):
         return f"XSLStep »{self.name}« containing {len(self.files)} transformations {self.files} and {len(self.parameters)} parameters {self.parameters if len(self.parameters) > 0 else ''}."
@@ -456,8 +550,8 @@ class XsltStep(BaseStep):
                     file_name = file_path_parts[-1]
                     relpath2file = '.'.join(file_path_parts[:-1])
                     base_xsl_location += f'.{relpath2file}'
-                with importlib.resources.path(base_xsl_location, file_name) as xslt_file_path:
-                    true_xslt_file = str(xslt_file_path)
+                xslt_files = importlib.resources.files(base_xsl_location)
+                true_xslt_file = str(xslt_files.joinpath(file_name))
             else:
                 true_xslt_file = str(file)
 
@@ -511,9 +605,15 @@ class AddAttribute(BaseStep):
         str: The modified XML string with the added attributes.
     """
 
+
     def __init__(
-        self, match: str, att_name: str, att_val: str, name=None, desc=None, serial=None
+
+        self, match:  str, att_name:  str, att_val:  str, name=None, desc=None, serial=None
+
     ):
+        # Set default name to __AddAttribute__ instead of __None__
+        if name is None:
+            name = "__AddAttribute__"
         super().__init__(name, desc, serial)
         self.match = match
         self.att_name = att_name
@@ -546,8 +646,19 @@ class DeleteStep(BaseStep):
     """
 
     def __init__(self, elements: list, name=None, desc=None, serial=None):
+        # Set default name to __Delete__ instead of __None__
+        if name is None:
+            name = "__Delete__"
         super().__init__(name, desc, serial)
         self.elements = elements
+
+        # Warn if no elements provided
+        if len(self.elements) == 0:
+            warnings.warn(
+                "A DeleteStep with no elements does nothing and is skipped",
+                HeiWarning,
+                stacklevel=2
+            )
 
     def __str__(self):
         return f"DeleteStep »{self.name}«. Deletes: {self.elements}"
@@ -614,9 +725,11 @@ class PythonStep(BaseStep):
     """
 
     def __init__(self, funct, parameters=None, name=None, desc=None, serial=False):
-        super().__init__(name, desc, serial)
+        # Set default name to __PythonStep__ instead of __None__
+        if name is None:
+            name = "__PythonStep__"
+        super().__init__(name, desc, serial, parameters)
         self.funct = funct
-        self.parameters = parameters if parameters else []
 
     def __str__(self):
         return f"Python step »{self.name}«, using: {self.funct}"
@@ -624,7 +737,7 @@ class PythonStep(BaseStep):
     def execute(self, input_string, serial=False):
         input_string_enc = input_string.encode("utf-8")
         root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
-        if self.parameters is None:
+        if self.parameters is None or len(self.parameters) == 0:
             result = self.funct(root)
         else:
             result = self.funct(root, self.parameters)
@@ -652,8 +765,19 @@ class UnwrapStep(BaseStep):
     """
 
     def __init__(self, elements: list, name=None, desc=None, serial=None):
+        # Set default name to __Unwrap__ instead of __None__
+        if name is None:
+            name = "__Unwrap__"
         super().__init__(name, desc, serial)
         self.elements = elements if len(elements) > 0 else []
+
+        # Warn if no elements provided
+        if len(self.elements) == 0:
+            warnings.warn(
+                "An UnwrapStep with no elements does nothing and is skipped",
+                HeiWarning,
+                stacklevel=2
+            )
 
     def __str__(self):
         return f"UnwrapStep »{self.name}«. Unwraps: {self.elements}"
@@ -680,37 +804,45 @@ class UnwrapStep(BaseStep):
         current_data = input_xdm if input_xdm is not None else input_string
         is_xdm = input_xdm is not None
 
-        with importlib.resources.path(
-            "heipy.heipipe.xslt", "unwrapFromElements.xsl"
-        ) as xslt_file_path:
-            true_xslt_file = str(xslt_file_path)
+        xslt_files = importlib.resources.files("heipy.heipipe.xslt")
+        true_xslt_file = str(xslt_files.joinpath("unwrapFromElements.xsl"))
 
-        for idx, element in enumerate(self.elements):
-            params = [
-                {
-                    "delenda_name": element.get("element_name"),
-                    "delenda_attr_name": element.get("attrib_name"),
-                    "delenda_attr_val": element.get("attrib_val"),
-                }
-            ]
-            # Determine if this is the last element
-            is_last_element = (idx == len(self.elements) - 1)
-            # Keep as XDM during processing, only convert to string on last element if output_xdm=False
-            should_output_xdm = (not is_last_element) or output_xdm
+        # Define inner function to process all elements with a shared processor
+        def _process_elements(shared_proc):
+            nonlocal current_data, is_xdm
 
-            # Apply transformation
-            current_data = apply_xslt(
-                input_string=current_data if not is_xdm else None,
-                xslt_file=true_xslt_file,
-                parameters=params,
-                input_xdm=current_data if is_xdm else None,
-                output_xdm=should_output_xdm,
-                proc=proc
-            )
-            is_xdm = should_output_xdm
+            for idx, element in enumerate(self.elements):
+                params = [
+                    {
+                        "delenda_name": element.get("element_name"),
+                        "delenda_attr_name": element.get("attrib_name"),
+                        "delenda_attr_val": element.get("attrib_val"),
+                    }
+                ]
+                # Determine if this is the last element
+                is_last_element = (idx == len(self.elements) - 1)
+                # Keep as XDM during processing, only convert to string on last element if output_xdm=False
+                should_output_xdm = (not is_last_element) or output_xdm
 
-        # Result is already in the requested format
-        result = current_data
+                # Apply transformation with shared processor
+                current_data = apply_xslt(
+                    input_string=current_data if not is_xdm else None,
+                    xslt_file=true_xslt_file,
+                    parameters=params,
+                    input_xdm=current_data if is_xdm else None,
+                    output_xdm=should_output_xdm,
+                    proc=shared_proc
+                )
+                is_xdm = should_output_xdm
+
+            return current_data
+
+        # If processor provided (batched mode), use it; otherwise create one for all iterations
+        if proc is not None:
+            result = _process_elements(proc)
+        else:
+            with PySaxonProcessor(license=False) as shared_proc:
+                result = _process_elements(shared_proc)
 
         if self.serial or serial:
             if not output_xdm:
@@ -725,8 +857,7 @@ class ValidationStep(BaseStep):
     def __init__(
         self, name="validation", desc="Validate the files", serial=None, parameters=None
     ):
-        super().__init__(name, desc, serial)
-        self.parameters = [] if parameters == None else parameters
+        super().__init__(name, desc, serial, parameters)
 
     def __str__(self):
         return f"Validation step »{self.name}«"
@@ -734,7 +865,7 @@ class ValidationStep(BaseStep):
     def execute(self, input_string, serial=False):
         try:
             validate_xml_with_heieditions_schema(input_str=input_string)
-            print(f"Validation succesful")
+            print("Validation successful")
         except Exception as e:
             warnings.warn(f"{RED}Validation failed. {e}{RESET}")
             sys.exit(1)
