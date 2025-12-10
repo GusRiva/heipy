@@ -1,0 +1,1191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+<!DOCTYPE TEI
+[
+<!ENTITY % heiEDITIONS_entities SYSTEM "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt">
+%heiEDITIONS_entities; ]>
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title ana="hc:MainTitle">La Vie de saint Grégoire</title>
+                <title ana="hc:Subtitle">Édition numérique du fragment b</title>
+                <editor>
+                    <persName>Vanessa Obry</persName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/1035792648</idno>
+                    <idno ana="hc:ORCIDURI">https://orcid.org/0000-0002-9700-0829</idno>
+                    <affiliation>
+                        <orgName>Université de Haute-Alsace</orgName>
+                        <idno ana="hc:GNDURI">https://d-nb.info/gnd/1080894-2</idno>
+                    </affiliation>
+                </editor>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>
+                    <orgName>Universitätsbibliothek Heidelberg</orgName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/2002498-8</idno>
+                    <listRef>
+                        <ptr ana="hc:URLReference" target="https://www.ub.uni-heidelberg.de/"/>
+                    </listRef>
+                </publisher>
+                <pubPlace>
+                    <placeName>Heidelberg</placeName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/4023996-2</idno>
+                </pubPlace>
+                <date when="2026">2026</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by-sa/4.0">
+                        <p>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</p>
+                    </licence>
+                </availability>
+                <idno ana="hc:DOI hc:EditionWebsiteIdentifier">https://doi.org/10.11588/edition.vsgd</idno>
+                <!-- <idno ana="hc:DOI hc:ReadingViewIdentifier">###</idno>-->
+                <listBibl>
+                    <bibl ana="hc:RecommendedBibliographicReference">La Vie de saint Grégoire. Édition numérique du fragment b, éd. par Vanessa Obry. Dans: La Vie de saint Grégoire. Édition numérique fondée sur les manuscrits, par Françoise Laurent, Ilsiona Nuh et Vanessa Obry, avec la collaboration de Marie-Sophie Masse et Victor Millet. Heidelberg : Universitätsbibliothek, 2024. DOI: <idno ana="hc:DOI">https://doi.org/10.11588/edition.vsgd</idno>.</bibl>
+                </listBibl>
+            </publicationStmt>
+            <notesStmt>
+                <note/>
+            </notesStmt>
+            <sourceDesc>
+                <msDesc>
+                    <msIdentifier>
+                        <settlement>
+                            <placeName>London</placeName>
+                            <idno ana="hc:GNDURI">http://d-nb.info/gnd/4074335-4</idno>
+                        </settlement>
+                        <repository>
+                            <orgName>British Library</orgName>
+                            <idno ana="hc:GNDURI">https://d-nb.info/gnd/1023420-2</idno>
+                        </repository>
+                        <idno ana="hc:Shelfmark">ms. Additional 47663</idno>
+                        <idno ana="hc:EditorialSiglum">b</idno>
+                    </msIdentifier>
+                    <additional>
+                        <surrogates>
+                            <listBibl>
+                                <bibl ana="hc:BibliographicReferenceForOnlineFacsimile">La Vie de saint Grégoire – British Library, Additional MS 47663, digital copy. London 2024 (Permalink: <ptr ana="hc:URLReference" target="https://doi.org/10.11588/diglit.73281"/></bibl>
+                            </listBibl>
+                        </surrogates>
+                    </additional>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <listPrefixDef>
+                <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"> </prefixDef>
+                <prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"> </prefixDef>
+            </listPrefixDef>
+            <hei:elementsWithTokenizedContent include="l head ab trailer"/>
+        </encodingDesc>
+    </teiHeader>
+
+    <facsimile>
+        <surface ana="hc:Page" xml:id="b_84r" n="84r">
+            <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bl_add47663/0001" mimeType="image/*"/>
+            <zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="b_84r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="b_84r-b" n="b"/>
+            </zone>
+        </surface>
+        <surface ana="hc:Page" xml:id="b_84v" n="84v">
+            <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bl_add47663/0002" mimeType="image/*"/>
+            <zone ana="hc:MainColumn hc:TextZone" xml:id="b_84v-a" n="a"/>
+            <zone ana="hc:MarginalZone hc:TextZone" xml:id="b_84v-b" n="b" hei:placeRef="hc:PageTop"/>
+        </surface>
+    </facsimile>
+    
+    <text ana="hc:CourtlyRomance hc:ExpressionFragmentThroughLoss">
+        <body>
+            <gap xml:id="gap_1" rendition="hc:Lost" unit="leaf" extent="unknown"><desc>Le début du fragment correspond au 1939e vers du manuscrit B1, dont ce témoin semble proche. Il pourrait donc manquer environ 12 ou 13 feuillets, copiés sur 2 colonnes d'environ 38 vers. La numérotation actuelle du feuillet conservé à la British Library indique le nombre 84 au dos du feuillet, de sorte qu'il a été numéroté à l'envers. Nous corrigeons ici la numérotation, suivant l'ordre du texte. Et aussi commenter la mauvaise foliation du fragment et de la BL.</desc></gap>
+            <pb n="84r" facs="#b_84r"/>
+            <cb n="a" facs="#b_84r-a"/>
+            <l n="1" xml:id="l_1" hei:altN="1">
+                <lb n="1"/>
+                <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                <w xml:id="w_1_1"><gap rendition="hc:CutOff" unit="character" extent="unknown"/><damage rendition="hc:Faded">enu</damage></w>
+            </l>
+            <lg ana="hc:Couplet">
+                <l n="2" hei:altN="2" xml:id="l_2">
+                    <lb n="2"/>
+                    <gap rendition="hc:Faded" unit="line" quantity="1"/>
+                </l>
+                <l n="2126.249" hei:altN="3" xml:id="l_2126.249">
+                    <lb n="3"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.249_1">guereſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.249_2">ſur</w>
+                    <c> </c>
+                    <w xml:id="w_2126.249_3">ceſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.249_4">oſ</w>
+                </l>
+                <l n="2126.250" hei:altN="4" xml:id="l_2126.250">
+                    <lb n="4"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.250_1"><gap rendition="hc:CutOff" unit="character" extent="unknown"/>eſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.250_2">fil</w>
+                    <c> </c>
+                    <w xml:id="w_2126.250_3">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.250_4">ſun</w>
+                    <c> </c>
+                    <w xml:id="w_2126.250_5">doſ</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.251" hei:altN="5" xml:id="l_2126.251">
+                    <lb n="5"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.251_1">co<choice><am>&bar;</am><ex>m</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.251_2"><choice><orig>v</orig><reg>u</reg></choice>ne</w>
+                    <c> </c>
+                    <w xml:id="w_2126.251_3">beſte</w>
+                </l>
+                <l n="2126.252" hei:altN="6" xml:id="l_2126.252">
+                    <lb n="6"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.252_1"><gap rendition="hc:CutOff" unit="character" extent="unknown"/>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.252_2">deſkeſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.252_3">la</w>
+                    <c> </c>
+                    <w xml:id="w_2126.252_4">teſte</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.255" hei:altN="7" xml:id="l_2126.255">
+                    <lb n="7"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.255_1"> <gap rendition="hc:Faded" unit="character" extent="unknown"/>en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.255_2">demei<choice><am>&bar;</am><ex>n</ex></choice>tena<choice><am>&bar;</am><ex>n</ex></choice></w>
+                </l>
+                <l n="2126.256" hei:altN="8" xml:id="l_2126.256">
+                    <lb n="8"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.256_1">il</w>
+                    <c> </c>
+                    <w xml:id="w_2126.256_2">vu<choice><am>&bar;</am><ex>n</ex></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.256_3">q<choice><am>&bar;</am><ex>ue</ex></choice>rant</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.261" hei:altN="9" xml:id="l_2126.261">
+                    <lb n="9"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.261_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>arſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.261_2">ſy</w>
+                    <c> </c>
+                    <w xml:id="w_2126.261_3">ſu<choice><am>&bar;</am><ex>n</ex></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.261_4">cheu</w>
+                </l>
+                <l n="2126.260" hei:altN="10" xml:id="l_2126.260">
+                    <lb n="10"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <gap rendition="hc:Faded" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.260_1">beiſez</w>
+                    <c> </c>
+                    <gap rendition="hc:Illegible" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.260_2">a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.260_3">pieſ</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.262" hei:altN="11" xml:id="l_2126.262">
+                    <lb n="11"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.262_1">a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.262_2">cel</w>
+                    <c> </c>
+                    <w xml:id="w_2126.262_3">ſeint</w>
+                    <c> </c>
+                    <w xml:id="w_2126.262_4">hom</w>
+                </l>
+                <l n="2126.263" hei:altN="12" xml:id="l_2126.263">
+                    <lb n="12"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.263_1">au</w>
+                    <c> </c>
+                    <w xml:id="w_2126.263_2">ſire</w>
+                    <c> </c>
+                    <gap rendition="hc:Illegible" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.263_3">rome</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.264" hei:altN="13" xml:id="l_2126.264">
+                    <lb n="13"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.264_1"> <gap rendition="hc:Faded" unit="character" extent="unknown"/>umeſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.264_2">ſ</w>
+                    <w xml:id="w_2126.264_3">a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.264_4">t<choice><seg ana="hc:AbbreviatedTokenSegment">a<am>&er;</am></seg><seg ana="hc:ExpandedTokenSegment"><ex>r</ex>a</seg></choice>miſ</w>
+                </l>
+                <l n="2126.265" hei:altN="14" xml:id="l_2126.265">
+                    <lb n="14"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.265_1">a<choice><orig>u</orig><reg>v</reg></choice>um</w>
+                    <c> </c>
+                    <w xml:id="w_2126.265_2">quiſ</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.266" hei:altN="15" xml:id="l_2126.266">
+                    <lb n="15"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.266_1">ſeit</w>
+                    <c> </c>
+                    <w xml:id="w_2126.266_2">loez</w>
+                </l>
+                <l n="2126.267" hei:altN="16" xml:id="l_2126.267">
+                    <lb n="16"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.267_1">demuſtrez</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.268" hei:altN="17" xml:id="l_2126.268">
+                    <lb n="17"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.268_1">od</w>
+                    <c> </c>
+                    <w xml:id="w_2126.268_2">n<choice><am>&us;</am><ex>us</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.268_3">ſire</w>
+                </l>
+                <l n="2126.269" hei:altN="18" xml:id="l_2126.269">
+                    <lb n="18"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.269_1">v<choice><am>&us;</am><ex>us</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.269_2">deſire</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.270" hei:altN="19" xml:id="l_2126.270">
+                    <lb n="19"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.270_1"><gap rendition="hc:CutOff" unit="character" extent="unknown"/>pondi</w>
+                </l>
+                <l n="2126.271" hei:altN="20" xml:id="l_2126.271">
+                    <lb n="20"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.271_1"><gap rendition="hc:CutOff" unit="character" extent="unknown"/>lle</w>
+                    <c> </c>
+                    <w xml:id="w_2126.271_2">ai</w>
+                    <c> </c>
+                    <w xml:id="w_2126.271_3">oi</w>
+                    <c> </c>
+                    <w xml:id="w_2126.271_4">ici</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.274" hei:altN="21" xml:id="l_2126.274">
+                    <lb n="21"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.274_1"><gap rendition="hc:Illegible" unit="character" extent="unknown"/>eſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.274_2">ne</w>
+                    <c> </c>
+                    <w xml:id="w_2126.274_3">me</w>
+                    <c> </c>
+                    <w xml:id="w_2126.274_4">vire<choice><am>&bar;</am><ex>n</ex></choice>t</w>
+                </l>
+                <l n="2126.275" hei:altN="22" xml:id="l_2126.275">
+                    <lb n="22"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.275_1"><damage rendition="hc:Faded">il</damage></w>
+                    <c> </c>
+                    <w xml:id="w_2126.275_2">me</w>
+                    <c> </c>
+                    <w xml:id="w_2126.275_3">deſirent</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.276" hei:altN="23" xml:id="l_2126.276">
+                    <lb n="23"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.276_1">alez</w>
+                    <c> </c>
+                    <w xml:id="w_2126.276_2">v<choice><am>&us;</am><ex>us</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.276_3">en</w>
+                </l>
+                <l n="2126.277" hei:altN="24" xml:id="l_2126.277">
+                    <lb n="24"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.277_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>i</w>
+                    <c> </c>
+                    <w xml:id="w_2126.277_2"><choice><orig>i</orig><reg>j</reg></choice>eo</w>
+                    <c> </c>
+                    <w xml:id="w_2126.277_3">rien</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.278" hei:altN="25" xml:id="l_2126.278">
+                    <lb n="25"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <gap rendition="hc:Faded" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.278_1">ſi</w>
+                    <c> </c>
+                    <w xml:id="w_2126.278_2">n</w>
+                    <w xml:id="w_2126.278_3">ai</w>
+                    <c> </c>
+                    <w xml:id="w_2126.278_4">meſt<choice><am>&er;</am><ex>ier</ex></choice></w>
+                </l>
+                <l n="2126.279" hei:altN="26" xml:id="l_2126.279">
+                    <lb n="26"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.279_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>olier</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.280" hei:altN="27" xml:id="l_2126.280">
+                    <lb n="27"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.280_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>aru<gap rendition="hc:Faded" unit="character" quantity="1"/></w>
+                </l>
+                <l n="2126.281" hei:altN="28" xml:id="l_2126.281">
+                    <lb n="28"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.281_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>ti=e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.281_2"><gap rendition="hc:Illegible" unit="character" extent="unknown"/>dom</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.282" hei:altN="29" xml:id="l_2126.282">
+                    <lb n="29"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.282_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.282_2">coniſeient</w>
+                </l>
+                <l n="2126.283" hei:altN="30" xml:id="l_2126.283">
+                    <lb n="30"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.283_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.283_2">ſa<choice><orig>u</orig><reg>v</reg></choice>eient</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.284" hei:altN="31" xml:id="l_2126.284">
+                    <lb n="31"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.284_1">eſperitable</w>
+                </l>
+                <l n="2126.285" hei:altN="32" xml:id="l_2126.285">
+                    <lb n="32"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.285_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>coniſable</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.286" hei:altN="33" xml:id="l_2126.286">
+                    <lb n="33"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.286_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>co<choice><orig>u</orig><reg>v</reg></choice>ent</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.287" hei:altN="34" xml:id="l_2126.287">
+                    <lb n="34"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.287_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>ent</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.288" hei:altN="35" xml:id="l_2126.288">
+                    <lb n="35"/>
+                    <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+                    <w xml:id="w_2126.288_1"><gap rendition="hc:Faded" unit="character" extent="unknown"/>oire</w>
+                </l>
+            </lg>
+                        <gap rendition="hc:Faded" unit="line" quantity="1"/>   
+            <gap rendition="hc:CutOff" unit="line" quantity="2"/>
+            <!--  VM: Voir le commentaire après le v. 68  Vanessa : J'ai modifié ainsi : la ligne effacée est illisible et l'évaluation du nombre de lignes coupées est  permise par B1, B2 et B3. Sous quelle forme mettre une note?  -->
+            <cb n="b" facs="#b_84r-b"/>
+            <lg ana="hc:Couplet">
+                <l n="2126.292" hei:altN="36" xml:id="l_2126.292">
+                    <lb n="1"/>
+                    <w xml:id="w_2126.292_1"><hi rendition="hc:RedStrikethrough">L</hi>eſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.292_2">cardinalſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.292_3">ici</w>
+                    <c> </c>
+                    <w xml:id="w_2126.292_4">por</w>
+                    <c> </c>
+                    <w xml:id="w_2126.292_5">tei</w>
+                </l>
+                <l n="2126.293" hei:altN="37" xml:id="l_2126.293">
+                    <lb n="2"/>
+                    <w xml:id="w_2126.293_1"><hi rendition="hc:RedStrikethrough">P</hi>ur</w>
+                    <c> </c>
+                    <w xml:id="w_2126.293_2">paſtur</w>
+                    <c> </c>
+                    <w xml:id="w_2126.293_3">fere</w>
+                    <c> </c>
+                    <w xml:id="w_2126.293_4">de</w>
+                    <c> </c>
+                    <w xml:id="w_2126.293_5">la</w>
+                    <c> </c>
+                    <w xml:id="w_2126.293_6">lei</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.294" hei:altN="38" xml:id="l_2126.294">
+                    <lb n="3"/>
+                    <w xml:id="w_2126.294_1"><hi rendition="hc:RedStrikethrough">P</hi>ar</w>
+                    <c> </c>
+                    <w xml:id="w_2126.294_2">nun</w>
+                    <c> </c>
+                    <w xml:id="w_2126.294_3">de</w>
+                    <c> </c>
+                    <w xml:id="w_2126.294_4">ſeinte</w>
+                    <c> </c>
+                    <w xml:id="w_2126.294_5">obedience</w>
+                </l>
+                <l n="2126.295" hei:altN="39" xml:id="l_2126.295">
+                    <lb n="4"/>
+                    <w xml:id="w_2126.295_1"><hi rendition="hc:RedStrikethrough">D</hi>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.295_2">tei</w>
+                    <c> </c>
+                    <w xml:id="w_2126.295_3">mener</w>
+                    <c> </c>
+                    <w xml:id="w_2126.295_4">fai</w>
+                    <c> </c>
+                    <w xml:id="w_2126.295_5">n<choice><am>&us;</am><ex>us</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.295_6">conſente</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.299" hei:altN="40" xml:id="l_2126.299">
+                    <lb n="5"/>
+                    <w xml:id="w_2126.299_1"><hi rendition="hc:RedStrikethrough">O</hi>u</w>
+                    <c> </c>
+                    <w xml:id="w_2126.299_2"><choice><orig>I</orig><reg>j</reg></choice>ameſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.299_3">certeſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.299_4">pur</w>
+                    <c> </c>
+                    <w xml:id="w_2126.299_5">nul</w>
+                    <c> </c>
+                    <w xml:id="w_2126.299_6">rien</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.300" hei:altN="41" xml:id="l_2126.300">
+                    <lb n="6"/>
+                    <w xml:id="w_2126.300_1"><hi rendition="hc:RedStrikethrough">C</hi>eſte</w>
+                    <c> </c>
+                    <w xml:id="w_2126.300_2">roche</w>
+                    <c> </c>
+                    <w xml:id="w_2126.300_3">ne</w>
+                    <c> </c>
+                    <w xml:id="w_2126.300_4">guerpirai</w>
+                </l>
+                <l n="2126.301" hei:altN="42" xml:id="l_2126.301">
+                    <lb n="7"/>
+                    <w xml:id="w_2126.301_1"><hi rendition="hc:RedStrikethrough">N</hi>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.301_2">de</w>
+                    <c> </c>
+                    <w xml:id="w_2126.301_3">ci</w>
+                    <c> </c>
+                    <w xml:id="w_2126.301_4">meſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.301_5">ne</w>
+                    <c> </c>
+                    <w xml:id="w_2126.301_6">me</w>
+                    <c> </c>
+                    <w xml:id="w_2126.301_7">mo<choice><orig>u</orig><reg>v</reg></choice>erai</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.304" hei:altN="43" xml:id="l_2126.304">
+                    <lb n="8"/>
+                    <w xml:id="w_2126.304_1"><hi rendition="hc:RedStrikethrough">D</hi>eſkeſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.304_2">la</w>
+                    <c> </c>
+                    <w xml:id="w_2126.304_3">clef</w>
+                    <c> </c>
+                    <w xml:id="w_2126.304_4">ſerrat</w>
+                    <c> </c>
+                    <w xml:id="w_2126.304_5">t<choice><am>&osup;</am><ex>ro</ex></choice><choice><orig>u</orig><reg>v</reg></choice>e</w>
+                </l>
+                <l n="2126.305" hei:altN="44" xml:id="l_2126.305">
+                    <lb n="9"/>
+                    <w xml:id="w_2126.305_1"><hi rendition="hc:RedStrikethrough">K</hi></w>
+                    <c> </c>
+                    <w xml:id="w_2126.305_2">cil</w>
+                    <c> </c>
+                    <w xml:id="w_2126.305_3">a<choice><orig>u</orig><reg>v</reg></choice>eit</w>
+                    <c> </c>
+                    <w xml:id="w_2126.305_4">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.305_5">mer</w>
+                    <c> </c>
+                    <w xml:id="w_2126.305_6">gete</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.307" hei:altN="45" xml:id="l_2126.307">
+                    <lb n="10"/>
+                    <w xml:id="w_2126.307_1"><hi rendition="hc:RedStrikethrough">K</hi>i</w>
+                    <c> </c>
+                    <w xml:id="w_2126.307_2">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.307_3">la</w>
+                    <c> </c>
+                    <w xml:id="w_2126.307_4">roche</w>
+                    <c> </c>
+                    <w xml:id="w_2126.307_5">me</w>
+                    <c> </c>
+                    <w xml:id="w_2126.307_6">menat</w>
+                </l>
+                <l n="2126.306" hei:altN="46" xml:id="l_2126.306">
+                    <lb n="11"/>
+                    <w xml:id="w_2126.306_1"><hi rendition="hc:RedStrikethrough"><choice><am>&et;</am><ex>et</ex></choice></hi></w>
+                    <c> </c>
+                    <w xml:id="w_2126.306_2">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.306_3">ſeſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.306_4">firgeſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.306_5">me</w>
+                    <c> </c>
+                    <w xml:id="w_2126.306_6">ſerrat</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.308" hei:altN="47" xml:id="l_2126.308">
+                    <lb n="12"/>
+                    <label ana="hc:SectionMarker" hei:placeRef="hc:ColumnMarginLeft"><c>&para;</c></label>
+                    <w xml:id="w_2126.308_1"><hi rendition="hc:RedStrikethrough">K</hi><choice><seg ana="hc:AbbreviatedTokenSegment">n<am>&bar;</am></seg><seg ana="hc:ExpandedTokenSegment"><ex>a</ex>n</seg></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.308_2">le</w>
+                    <c> </c>
+                    <w xml:id="w_2126.308_3">peſcherſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.308_4">ceo</w>
+                    <c> </c>
+                    <w xml:id="w_2126.308_5">entent</w>
+                </l>
+                <l n="2126.309" hei:altN="48" xml:id="l_2126.309">
+                    <lb n="13"/>
+                    <w xml:id="w_2126.309_1"><hi rendition="hc:RedStrikethrough">ſ</hi>i</w>
+                    <c> </c>
+                    <w xml:id="w_2126.309_2">en</w>
+                    <w xml:id="w_2126.309_3">plora</w>
+                    <c> </c>
+                    <w xml:id="w_2126.309_4">molt</w>
+                    <c> </c>
+                    <w xml:id="w_2126.309_5">tendrem<choice><am>&bar;</am><ex>en</ex></choice>t</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.310" hei:altN="49" xml:id="l_2126.310">
+                    <lb n="14"/>
+                    <w xml:id="w_2126.310_1"><hi rendition="hc:RedStrikethrough">a</hi></w>
+                    <c> </c>
+                    <w xml:id="w_2126.310_2">ſa</w>
+                    <c> </c>
+                    <w xml:id="w_2126.310_3">ſeint<choice><am>&urrot;</am><ex>ur</ex></choice>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.310_4">priſt</w>
+                    <c> </c>
+                    <w xml:id="w_2126.310_5">la</w>
+                    <c> </c>
+                    <w xml:id="w_2126.310_6">clef</w>
+                </l>
+                <l n="2126.311" hei:altN="50" xml:id="l_2126.311">
+                    <lb n="15"/>
+                    <w xml:id="w_2126.311_1"><hi rendition="hc:RedStrikethrough">ſ</hi>i</w>
+                    <c> </c>
+                    <w xml:id="w_2126.311_2"><gap rendition="hc:Illegible" unit="character" quantity="2"/></w>
+                    <c> </c>
+                    <w xml:id="w_2126.311_3">defermat</w>
+                    <c> </c>
+                    <w xml:id="w_2126.311_4">mult</w>
+                    <c> </c>
+                    <w xml:id="w_2126.311_5">ſwef</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.312" hei:altN="51" xml:id="l_2126.312">
+                    <lb n="16"/>
+                    <label ana="hc:SectionMarker" hei:placeRef="hc:ColumnMarginLeft"><c>&para;</c></label>
+                    <w xml:id="w_2126.312_1"><hi rendition="hc:RedStrikethrough">S</hi>eint</w>
+                    <c> </c>
+                    <w xml:id="w_2126.312_2">g<choice><am>&er;</am><ex>re</ex></choice>g<choice><am>&er;</am><ex>oire</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.312_3">deu</w>
+                    <c> </c>
+                    <w xml:id="w_2126.312_4">me</w>
+                    <c> </c>
+                    <w xml:id="w_2126.312_5">m<choice><am>&er;</am><ex>er</ex></choice>cie</w>
+                </l>
+                <l n="2126.313" hei:altN="52" xml:id="l_2126.313">
+                    <lb n="17"/>
+                    <w xml:id="w_2126.313_1"><hi rendition="hc:RedStrikethrough">K</hi>i</w>
+                    <c> </c>
+                    <w xml:id="w_2126.313_2">leſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.313_3">pechurſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.313_4">paſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.313_5">ne</w>
+                    <c> </c>
+                    <w xml:id="w_2126.313_6">oblie</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.314" hei:altN="53" xml:id="l_2126.314">
+                    <lb n="18"/>
+                    <w xml:id="w_2126.314_1"><hi rendition="hc:RedStrikethrough">ſ</hi>eint</w>
+                    <c> </c>
+                    <w xml:id="w_2126.314_2">g<choice><am>&er;</am><ex>re</ex></choice>g<choice><am>&er;</am><ex>oire</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.314_3">fu</w>
+                    <c> </c>
+                    <w xml:id="w_2126.314_4">ſi</w>
+                    <c> </c>
+                    <w xml:id="w_2126.314_5">de</w>
+                    <c> </c>
+                    <w xml:id="w_2126.314_6">fiz</w>
+                </l>
+                <l n="2126.315" hei:altN="54" xml:id="l_2126.315">
+                    <lb n="19"/>
+                    <w xml:id="w_2126.315_1"><hi rendition="hc:RedStrikethrough">p</hi>enez</w>
+                    <c> </c>
+                    <w xml:id="w_2126.315_2"><choice><am>&et;</am><ex>et</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.315_3">ſi</w>
+                    <c> </c>
+                    <w xml:id="w_2126.315_4">anientit</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.316" hei:altN="55" xml:id="l_2126.316">
+                    <lb n="20"/>
+                    <w xml:id="w_2126.316_1"><hi rendition="hc:RedStrikethrough">K</hi>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.316_2">ſor</w>
+                    <c> </c>
+                    <w xml:id="w_2126.316_3">ſu<choice><am>&bar;</am><ex>n</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.316_4">ſei<choice><am>&bar;</am><ex>n</ex></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.316_5">corſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.316_6">n</w>
+                    <w xml:id="w_2126.316_7">ad</w>
+                    <c> </c>
+                    <w xml:id="w_2126.316_8">ly</w>
+                    <c> </c>
+                    <w xml:id="w_2126.316_9">deu</w>
+                    <c> </c>
+                    <w xml:id="w_2126.316_10">ſerf<gap rendition="hc:Faded" unit="character" quantity="1"/></w>
+                </l>
+                <l n="2126.317" hei:altN="56" xml:id="l_2126.317">
+                    <lb n="21"/>
+                    <w xml:id="w_2126.317_1"><hi rendition="hc:RedStrikethrough">f</hi>orſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.317_2">ſoul</w>
+                    <c> </c>
+                    <w xml:id="w_2126.317_3">leſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.317_4">blanc</w>
+                    <c> </c>
+                    <w xml:id="w_2126.317_5">oſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.317_6"><choice><am>&et;</am><ex>et</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.317_7">leſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.317_8">nerf</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.318" hei:altN="57" xml:id="l_2126.318">
+                    <lb n="22"/>
+                    <w xml:id="w_2126.318_1"><hi rendition="hc:RedStrikethrough">N</hi>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.318_2">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.318_3">ſteant</w>
+                    <c> </c>
+                    <w xml:id="w_2126.318_4">ne</w>
+                    <c> </c>
+                    <w xml:id="w_2126.318_5">pout</w>
+                    <c> </c>
+                    <w xml:id="w_2126.318_6">eſter</w>
+                </l>
+                <l n="2126.319" hei:altN="58" xml:id="l_2126.319">
+                    <lb n="23"/>
+                    <w xml:id="w_2126.319_1"><hi rendition="hc:RedStrikethrough">N</hi>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.319_2">de</w>
+                    <c> </c>
+                    <w xml:id="w_2126.319_3">ſeſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.319_4">piez</w>
+                    <c> </c>
+                    <w xml:id="w_2126.319_5"><choice><orig>v</orig><reg>u</reg></choice>n</w>
+                    <c> </c>
+                    <w xml:id="w_2126.319_6">paſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.319_7">aler</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.320" hei:altN="59" xml:id="l_2126.320">
+                    <lb n="24"/>
+                    <w xml:id="w_2126.320_1"><hi rendition="hc:RedStrikethrough">C</hi>il</w>
+                    <c> </c>
+                    <w xml:id="w_2126.320_2">ly</w>
+                    <c> </c>
+                    <w xml:id="w_2126.320_3">priſtrent</w>
+                    <c> </c>
+                    <w xml:id="w_2126.320_4">ent<choice><am>&esup;</am><ex>re</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.320_5">lor</w>
+                    <c> </c>
+                    <w xml:id="w_2126.320_6">braſ</w>
+                </l>
+                <l n="2126.321" hei:altN="60" xml:id="l_2126.321">
+                    <lb n="25"/>
+                    <w xml:id="w_2126.321_1"><hi rendition="hc:RedStrikethrough">ſ</hi>i</w>
+                    <c> </c>
+                    <w xml:id="w_2126.321_2">l</w>
+                    <w xml:id="w_2126.321_3">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.321_4">porte<choice><am>&er;</am><ex>ren</ex></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.321_5">tot</w>
+                    <c> </c>
+                    <w xml:id="w_2126.321_6">laſ</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.322" hei:altN="61" xml:id="l_2126.322">
+                    <lb n="26"/>
+                    <w xml:id="w_2126.322_1"><hi rendition="hc:RedStrikethrough">E</hi>inz</w>
+                    <c> </c>
+                    <w xml:id="w_2126.322_2">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.322_3">la</w>
+                    <c> </c>
+                    <w xml:id="w_2126.322_4">meſun</w>
+                    <c> </c>
+                    <w xml:id="w_2126.322_5">aſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.322_6">peſchur</w>
+                </l>
+                <l n="2126.323" hei:altN="62" xml:id="l_2126.323">
+                    <lb n="27"/>
+                    <w xml:id="w_2126.323_1"><hi rendition="hc:RedStrikethrough">ſ</hi>i</w>
+                    <c> </c>
+                    <w xml:id="w_2126.323_2">baignere<choice><am>&bar;</am><ex>n</ex></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.323_3">cel</w>
+                    <c> </c>
+                    <w xml:id="w_2126.323_4">bon</w>
+                    <c> </c>
+                    <w xml:id="w_2126.323_5">ſeignur</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.324" hei:altN="63" xml:id="l_2126.324">
+                    <lb n="28"/>
+                    <w xml:id="w_2126.324_1"><hi rendition="hc:RedStrikethrough"><choice><am>&et;</am><ex>et</ex></choice></hi></w>
+                    <c> </c>
+                    <w xml:id="w_2126.324_2">q<choice><seg ana="hc:AbbreviatedTokenSegment">n<am>&bar;</am></seg><seg ana="hc:ExpandedTokenSegment"><ex>ua</ex>n</seg></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.324_3">il</w>
+                    <c> </c>
+                    <w xml:id="w_2126.324_4">fu</w>
+                    <c> </c>
+                    <w xml:id="w_2126.324_5">bien</w>
+                    <c> </c>
+                    <w xml:id="w_2126.324_6">ſe<choice><orig>i</orig><reg>j</reg></choice>ornez</w>
+                </l>
+                <l n="2126.325" hei:altN="64" xml:id="l_2126.325">
+                    <lb n="29"/>
+                    <w xml:id="w_2126.325_1"><hi rendition="hc:RedStrikethrough"><choice><am>&et;</am><ex>et</ex></choice></hi></w>
+                    <c> </c>
+                    <w xml:id="w_2126.325_2">aaſe</w>
+                    <c> </c>
+                    <w xml:id="w_2126.325_3"><choice><am>&et;</am><ex>et</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.325_4"><choice><am>&et;</am><ex>et</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.325_5">reco<choice><orig>u</orig><reg>v</reg></choice>reiez</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.326" hei:altN="65" xml:id="l_2126.326">
+                    <lb n="30"/>
+                    <w xml:id="w_2126.326_1"><hi rendition="hc:RedStrikethrough">ſ</hi>i</w>
+                    <c> </c>
+                    <w xml:id="w_2126.326_2">fu<choice><am>&bar;</am><ex>n</ex></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.326_3">ſon</w>
+                    <c> </c>
+                    <w xml:id="w_2126.326_4">eire</w>
+                    <c> </c>
+                    <w xml:id="w_2126.326_5">bien</w>
+                    <c> </c>
+                    <w xml:id="w_2126.326_6">eſtuire</w>
+                </l>
+                <l n="2126.327" hei:altN="66" xml:id="l_2126.327">
+                    <lb n="31"/>
+                    <w xml:id="w_2126.327_1"><hi rendition="hc:RedStrikethrough">P</hi><choice><am>&urrot;</am><ex>ur</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.327_2">ly</w>
+                    <c> </c>
+                    <w xml:id="w_2126.327_3">a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.327_4">rome</w>
+                    <c> </c>
+                    <w xml:id="w_2126.327_5">toſt</w>
+                    <c> </c>
+                    <w xml:id="w_2126.327_6"><choice><am>&condes;</am><ex>con</ex></choice>dure</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.328" hei:altN="67" xml:id="l_2126.328">
+                    <lb n="32"/>
+                    <w xml:id="w_2126.328_1"><hi rendition="hc:RedStrikethrough">S</hi>eint</w>
+                    <c> </c>
+                    <w xml:id="w_2126.328_2">g<choice><am>&er;</am><ex>re</ex></choice>g<choice><am>&er;</am><ex>oire</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.328_3">lor</w>
+                    <c> </c>
+                    <w xml:id="w_2126.328_4">afiat</w>
+                </l>
+                <l n="2126.329" hei:altN="68" xml:id="l_2126.329">
+                    <lb n="33"/>
+                    <damage rendition="hc:Faded">
+                        <unclear>
+                    <w xml:id="w_2126.329_1">ke</w>
+                    <c> </c>
+                    <w xml:id="w_2126.329_2"><choice><orig>i</orig><reg>j</reg></choice>a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.329_3">a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.329_4">rome</w>
+                    <c> </c>
+                    <w xml:id="w_2126.329_5">n</w>
+                    <w xml:id="w_2126.329_6">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.329_7">irat</w>
+                        </unclear>
+                    </damage>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+            <l n="2126.330" hei:altN="69" xml:id="l_2126.330">
+                <lb n="34"/>
+                <damage rendition="hc:Faded">
+                    <unclear>
+                        <w xml:id="w_2126.330_1">ſe</w>
+                        <c> </c>
+                        <w xml:id="w_2126.330_2">leſ</w>
+                        <c> </c>
+                        <w xml:id="w_2126.330_3">tables</w>
+                    </unclear>
+                </damage>
+                <gap rendition="hc:Faded" unit="character" extent="unknown"/>
+            </l>
+                <l n="2126.331" hei:altN="70" xml:id="l_2126.331">
+                    <lb n="35"/>
+                    <damage rendition="hc:Faded">
+                        <unclear>
+                            <w xml:id="w_2126.331_1">k</w>
+                            <w xml:id="w_2126.331_2">el</w>
+                            <c> </c>
+                            <w xml:id="w_2126.331_3">teit</w>
+                        </unclear>
+                    </damage>
+                    <gap rendition="hc:Faded" unit="character" extent="unknown"/>
+                </l>
+            </lg>
+            <gap rendition="hc:Faded" unit="line" quantity="1"/>   
+            <gap rendition="hc:CutOff" unit="line" quantity="2"/>
+            <!--  VM: Ce texte est-il vraiment illisible ? Roques a-t-il un texte à ce sujet et peut-on travailler sur cette base avec <damage> et <unclear> ?
+                Si le texte n'est vraiment plus lisible, nous ne mettons pas de <lg> et <l>, mais simplement un <gap>.
+            Vanessa : j'ai modifié ainsi, je pense que c'est plus juste (je me suis aidée de Roques mais surtout du texte de B1 -->
+            <pb n="84v"/>
+            <milestone ana="hc:ZoneBeginning" facs="#b_84v-b"/>
+            <lb n="1"/>
+            <fw>
+                <w>dont</w><c> </c>
+                <w>n</w><w>i</w><c> </c>
+                <w>ad</w><c> </c>
+                <w>ore</w><c> </c>
+                <w><choice><orig>v</orig><reg>u</reg></choice>n</w><c> </c>
+                <w>fuſelet</w>
+            </fw>
+            <cb n="a" facs="#b_84v-a"/>
+            <lg ana="hc:Couplet">
+                <l n="2126.337" hei:altN="71" xml:id="l_2126.337">
+                    <lb n="1"/>
+                    <w xml:id="w_2126.337_1"><hi rendition="hc:RedStrikethrough">d</hi>ont</w>
+                    <c> </c>
+                    <w xml:id="w_2126.337_2">n</w>
+                    <c> </c>
+                    <w xml:id="w_2126.337_3">i</w>
+                    <w xml:id="w_2126.337_4">ad</w>
+                    <c> </c>
+                    <w xml:id="w_2126.337_5">ore</w>
+                    <c> </c>
+                    <w xml:id="w_2126.337_6"><choice><orig>v</orig><reg>u</reg></choice>n</w>
+                    <c> </c>
+                    <w xml:id="w_2126.337_7">fuſelet</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.338" hei:altN="72" xml:id="l_2126.338">
+                    <lb n="2"/>
+                    <w xml:id="w_2126.338_1"><damage rendition="hc:BrokenOff">N</damage></w>
+                    <w xml:id="w_2126.338_2">a<choice><orig>u</orig><reg>v</reg></choice>eit</w>
+                    <c> </c>
+                    <w xml:id="w_2126.338_3">eſte</w>
+                    <c> </c>
+                    <w xml:id="w_2126.338_4">xvii</w>
+                    <metamark ana="hc:NumberMark">.</metamark>
+                    <c> </c>
+                    <w xml:id="w_2126.338_5">anz</w>
+                    <c> </c>
+                    <w xml:id="w_2126.338_6">paſſe</w>
+                </l>
+                <l n="2126.339" hei:altN="73" xml:id="l_2126.339">
+                    <lb n="3"/>
+                    <w xml:id="w_2126.339_1"><gap rendition="hc:BrokenOff" unit="character" quantity="2"/></w>
+                    <c> </c>
+                    <w xml:id="w_2126.339_2">iert</w>
+                    <c> </c>
+                    <w xml:id="w_2126.339_3">chauz</w>
+                    <c> </c>
+                    <w xml:id="w_2126.339_4"><choice><am>&et;</am><ex>et</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.339_5"><choice><orig>i</orig><reg>j</reg></choice>uſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.339_6">verſe</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.340" hei:altN="74" xml:id="l_2126.340">
+                    <lb n="4"/>
+                    <w xml:id="w_2126.340_1"><gap rendition="hc:Faded" unit="character" quantity="1"/>uoi</w>
+                    <c> </c>
+                    <w xml:id="w_2126.340_2">en</w>
+                    <c> </c>
+                    <w xml:id="w_2126.340_3">irrai</w>
+                    <c> </c>
+                    <w xml:id="w_2126.340_4"><choice><orig>i</orig><reg>j</reg></choice>eo</w>
+                    <c> </c>
+                    <w xml:id="w_2126.340_5">pluſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.340_6">co<choice><am>&bar;</am><ex>n</ex></choice>tant</w>
+                    <pc>·</pc>
+                </l>
+                <l n="2126.341" hei:altN="75" xml:id="l_2126.341">
+                    <lb n="5"/>
+                    <w xml:id="w_2126.341_1"><damage rendition="hc:Faded">Il</damage></w>
+                    <c> </c>
+                    <w xml:id="w_2126.341_2">plout</w>
+                    <c> </c>
+                    <w xml:id="w_2126.341_3">a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.341_4">deu</w>
+                    <c> </c>
+                    <w xml:id="w_2126.341_5">par</w>
+                    <c> </c>
+                    <w xml:id="w_2126.341_6">ſun</w>
+                    <c> </c>
+                    <w xml:id="w_2126.341_7">comand</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.342" hei:altN="76" xml:id="l_2126.342">
+                    <lb n="6"/>
+                    <w xml:id="w_2126.342_1"><gap rendition="hc:BrokenOff" unit="character" quantity="1"/>e</w>
+                    <c> </c>
+                    <w xml:id="w_2126.342_2">leſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.342_3">tableſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.342_4">ſunt</w>
+                    <c> </c>
+                    <w xml:id="w_2126.342_5">t<choice><am>&osup;</am><ex>ro</ex></choice><choice><orig>u</orig><reg>v</reg></choice>ez</w>
+                </l>
+                <l n="2126.343" hei:altN="77" xml:id="l_2126.343">
+                    <lb n="7"/>
+                    <w xml:id="w_2126.343_1"><gap rendition="hc:Faded" unit="character" quantity="1"/></w>
+                    <c> </c>
+                    <w xml:id="w_2126.343_2">a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.343_3">ſeint</w>
+                    <c> </c>
+                    <w xml:id="w_2126.343_4">g<choice><am>&er;</am><ex>re</ex></choice>g<choice><am>&er;</am><ex>ore</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.343_5">reportez</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.344" hei:altN="78" xml:id="l_2126.344">
+                    <lb n="8"/>
+                    <w xml:id="w_2126.344_1"><gap rendition="hc:Faded" unit="character" quantity="1"/>u<del rendition="hc:Underdotted">i</del>tre<choice><orig><c> </c></orig><reg/></choice>ſi</w>
+                    <c> </c>
+                    <w xml:id="w_2126.344_2">ſunt</w>
+                    <c> </c>
+                    <w xml:id="w_2126.344_3">ſeineſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.344_4"><choice><am>&et;</am><ex>et</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.344_5">beleſ</w>
+                </l>
+                <l n="2126.345" hei:altN="79" xml:id="l_2126.345">
+                    <lb n="9"/>
+                    <w xml:id="w_2126.345_1"><hi rendition="hc:RedStrikethrough"><choice><am>&et;</am><ex>et</ex></choice></hi></w>
+                    <c> </c>
+                    <w xml:id="w_2126.345_2">bien</w>
+                    <c> </c>
+                    <w xml:id="w_2126.345_3">entierſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.345_4"><choice><am>&et;</am><ex>et</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.345_5">no<choice><orig>u</orig><reg>v</reg></choice>eleſ</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.346" hei:altN="80" xml:id="l_2126.346">
+                    <lb n="10"/>
+                    <w xml:id="w_2126.346_1"><hi rendition="hc:RedStrikethrough">C</hi>om</w>
+                    <c> </c>
+                    <w xml:id="w_2126.346_2">a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.346_3">cel</w>
+                    <c> </c>
+                    <w xml:id="w_2126.346_4"><choice><orig>i</orig><reg>j</reg></choice>ur</w>
+                    <c> </c>
+                    <w xml:id="w_2126.346_5">k</w>
+                    <w xml:id="w_2126.346_6">il</w>
+                    <c> </c>
+                    <w xml:id="w_2126.346_7">leſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.346_8">i</w>
+                    <w xml:id="w_2126.346_9">miſt</w>
+                </l>
+                <l n="2126.347" hei:altN="81" xml:id="l_2126.347">
+                    <lb n="11"/>
+                    <w xml:id="w_2126.347_1"><hi rendition="hc:RedStrikethrough">K</hi>ar</w>
+                    <c> </c>
+                    <w xml:id="w_2126.347_2">dampne<choice><orig><c> </c></orig><reg/></choice>deu</w>
+                    <c> </c>
+                    <w xml:id="w_2126.347_3">del</w>
+                    <c> </c>
+                    <w xml:id="w_2126.347_4">ciel</w>
+                    <c> </c>
+                    <w xml:id="w_2126.347_5">le</w>
+                    <c> </c>
+                    <w xml:id="w_2126.347_6">fiſt</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.348" hei:altN="82" xml:id="l_2126.348">
+                    <lb n="12"/>
+                    <w xml:id="w_2126.348_1"><hi rendition="hc:RedStrikethrough"><choice><am>&et;</am><ex>et</ex></choice></hi></w>
+                    <c> </c>
+                    <w xml:id="w_2126.348_2">ſu<choice><am>&bar;</am><ex>n</ex></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.348_3">leſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.348_4">clerſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.348_5"><choice><orig>i</orig><reg>j</reg></choice>oiuſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.348_6"><choice><am>&et;</am><ex>et</ex></choice></w>
+                    <c> </c>
+                    <w xml:id="w_2126.348_7">leez</w>
+                </l>
+                <l n="2126.349" hei:altN="83" xml:id="l_2126.349">
+                    <lb n="13"/>
+                    <w xml:id="w_2126.349_1"><hi rendition="hc:RedStrikethrough">I</hi>snelem<choice><am>&bar;</am><ex>en</ex></choice>t</w>
+                    <c> </c>
+                    <w xml:id="w_2126.349_2">ſaillent</w>
+                    <c> </c>
+                    <w xml:id="w_2126.349_3">aſ</w>
+                    <c> </c>
+                    <w xml:id="w_2126.349_4">piez</w>
+                </l>
+            </lg>
+            <lg ana="hc:Couplet">
+                <l n="2126.351" hei:altN="84" xml:id="l_2126.351">
+                    <lb n="14"/>
+                    <w xml:id="w_2126.351_1"><damage rendition="hc:Faded"><hi rendition="hc:RedStrikethrough">T</hi></damage>ot</w>
+                    <c> </c>
+                    <w xml:id="w_2126.351_2">dreit</w>
+                    <c> </c>
+                    <w xml:id="w_2126.351_3">a</w>
+                    <pc>.</pc>
+                    <c> </c>
+                    <w xml:id="w_2126.351_4">rome</w>
+                    <c> </c>
+                    <w xml:id="w_2126.351_5">l</w>
+                    <w xml:id="w_2126.351_6">a<choice><orig><c> </c></orig><reg/></choice>menerent</w>
+                </l>
+                <l n="2126.352" hei:altN="85" xml:id="l_2126.352">
+                    <lb n="15"/>
+                    <w xml:id="w_2126.352_1"><gap rendition="hc:BrokenOff" unit="character" quantity="1"/>a</w>
+                    <c> </c>
+                    <w xml:id="w_2126.352_2">apoſtoilite</w>
+                    <c> </c>
+                    <w xml:id="w_2126.352_3">ly</w>
+                    <c> </c>
+                    <w xml:id="w_2126.352_4">dunerent</w>
+                </l>
+            </lg>
+        </body>
+        <back>
+            <trailer ana="hc:Colophon">
+                <lb n="16"/>
+                <w>Explicit</w>
+                <c> </c>
+                <w>vita</w>
+                <c/>
+                <w>ſet</w>
+                <c> </c>
+                <w>gregorii</w>
+                <lb n="17"/>
+                <w><hi rendition="hc:RedStrikethrough">I</hi>n</w>
+                <w>romani<hi rendition="hc:RedStrikethrough">s</hi></w>
+            </trailer>
+        </back>
+    </text>
+</TEI>

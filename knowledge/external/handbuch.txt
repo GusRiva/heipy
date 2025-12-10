@@ -1,0 +1,1045 @@
+Hartmann von Aue – digital: TEI-Handbuch
+Dieses TEI-Handbuch ist die Grundlage für die Erstellung der XML-Dateien in allen digitalen Editionen von ›Hartmann von Aue – digital‹. Es ist abhängig von den Richtlinien, die heiEditions über das Validierungsschema und die dazugehörige Dokumentation festlegt. Alle Attributwerte müssen der Ontologie heiEDITIONS Concepts folgen. Die Beispiele wurden oft in den nicht relevanten Aspekte ein wenig vereinfacht, um auf das jeweils Wichtige zu fokussieren. Ursprünglich war es eine vereinfachte Anleitung für Mitarbeiterinnen und Mitarbeiter. Den manchmal etwas didaktischen Ansatz und Ton, der noch aus jener Zeit des Projektbeginns stammt, haben wir nicht gänzlich aufgegeben, weil er sich als sehr nützlich erwiesen hat. Das TEI-Handbuch hängt selbstverständlich zusammen mit den Prinzipien der Textgestaltung.
+
+Inhalt
+Struktur und Metadaten
+XML-Deklaration und TEI-Root-Element
+Der TEI-Header
+Das Element <facsimile>
+Das Element <text>
+Titel und Kolophon
+Der Text
+Transkription der Handschriften
+Seite, Spalte und physische Zeile
+Verspaar und Vers
+Wort und Tokenisierung
+Spatium. Zusammen- und Getrenntschreibung
+Grapheme und Majuskeln
+Sonderzeichen, Diakritika und Superskripte
+Initialen
+Anweisungszeichen für Initialen
+Hervorhebungen
+Zeichensetzung der Handschrift
+Metazeichen
+@xml:id und @target
+Hinzufügungen, Streichungen, Substitutionen
+Hinzufügungen / Streichungen und Tokenisierung
+Bilder
+Zeilensprung
+Zeilenüberlauf
+Nicht ausgeführte Worte oder Zeilen
+Verswiederholungen und ähnliche Verse
+Lücken und beschädigter Text
+Abkürzungen
+Abschnittszusammenfassungen
+Umstellungen
+Lagensignaturen und Reklamanten
+Anmerkungen
+Editorische Bearbeitung
+Regularisierung
+Zahlen
+Editorische Eingriffe und Korrekturen
+Editorische Behandlung der Spatien
+Editorische Behandlung der Zeichensetzung
+Editorische Behandlung von Umstellungen
+Editorische Behandlung fehlender Wortteile bei <gap>
+Struktur und Metadaten
+XML-Deklaration und TEI-Root-Element
+Die Deklarationen für XML und Schema sind für alle Dateien folgende:
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+Für die Erkennung der Entities braucht es folgende Deklaration (Absätze beachten):
+
+<!DOCTYPE TEI SYSTEM "https://digi.ub.uni-heidelberg.de/schema/tei/ heiEDITIONS/declarations/heieditions-entities.txt">
+
+Das Root-Element <TEI> enthält folgende Attribute und Werte:
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument">
+
+Der TEI-Header
+Das Element <teiHeader> enthält zunächst nur die zwei Kindelemente <fileDesc> und <encodingDesc>. Sie werden nach folgendem Modell gefüllt (bitte anpassen an den jeweiligen Text).
+
+<teiHeader>
+  <fileDesc>
+    <titleStmt>
+      <title ana="hc:MainTitle">Hier steht der Werktitel, z.B. Iwein</title>
+      <title ana="hc:Subtitle">Hier steht z.B.: 'digitale Edition der Handschrift B'</title>
+      <author>
+        <persName>Hartmann von Aue</persName>
+        <idno ana="hc:GNDURI">https://d-nb.info/gnd/118546228</idno>
+      </author>
+      <editor>
+        <persName>Hier steht der Name des Herausgebers dieses spezifischen Textes</persName>
+        <idno ana="hc:GNDURI">Hier steht die URL zum GND-Datensatz der Person</idno>
+        <idno ana="hc:ORCIDURI">Hier steht die URL zu ORCID des Herausgebers</idno>
+        <affiliation>
+          <orgName>Universitäte des Herausgebers</orgName>
+          <idno ana="hc:GNDURI">Hier steht die URL zum GND-Datensatz dieser Institution</idno>
+         </affiliation>
+      </editor>
+      <funder>
+        <orgName>Hier steht der Name der fördernden Institution, z.B. DFG</orgName>
+        <idno ana="hc:DOI">Hier steht die URL zum GND-Datensatz dieser Institution</idno>
+      </funder>
+    </titleStmt>
+    <editionStmt>
+      <edition>Z.B. "Transkription, Edition, Anmerkungen"</edition>
+    </editionStmt>
+    <publicationStmt>
+      <publisher>
+        <orgName>Universitätsbibliothek Heidelberg</orgName>
+        <idno ana="hc:GNDURI">https://d-nb.info/gnd/2002498-8</idno>
+        <listRef>
+          <ptr ana="hc:URLReference" target="https://www.ub.uni-heidelberg.de/"/>
+        </listRef>
+      </publisher>
+      <pubPlace>
+        <placeName>Heidelberg</placeName>
+        <idno ana="hc:GNDURI">https://d-nb.info/gnd/4023996-2</idno>
+      </pubPlace>
+      <date when="2024">2024</date>
+      <availability>
+        <licence target="https://creativecommons.org/licenses/by-sa/4.0">
+          <p>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</p>
+        </licence>
+      </availability>
+      <idno ana="hc:DOI hc:EditionWebsiteIdentifier">Hier steht die d.o.i. der Gesamtedition</idno>
+      <idno ana="hc:DOI hc:ReadingViewIdentifier">Hier steht die d.o.i. der Leseansicht</idno>
+      <listBibl>
+        <bibl ana="hc:RecommendedBibliographicReference">Hier steht die bibliographische Referenz der Einzeltextedition, z.B.: Hartmann von Aue: <emph>Iwein</emph>. Digitale Edition der Handschrift X, hg. von XXX. In: Hartmann von Aue: <emph>Iwein</emph>. Textgeschichtliche digitale Edition, hg. von Victor Millet, Emilio González Miranda und Lorena Pérez Ben. Heidelberg: Universitätsbibliothek, 2019–2025. DOI: <idno ana="hc:DOI">https://doi.org/10.11588/edition.iwd</idno> [Datum des Abrufs].</bibl>
+      </listBibl>
+    </publicationStmt>
+    <notesStmt>
+      <note>Hier stehen Danksagungen, spezifische Nennungen der fördernden Institutionen, sowie weitere Informationen. Es lassen sich mehrere Anmerkungen hintereinander stellen.</note>
+    </notesStmt>
+    <sourceDesc>
+      <msDesc>
+        <msIdentifier>
+          <settlement>
+            <placeName>Hier steht der Ort, wo sich die Handschrift befindet</placeName>
+            <idno ana="hc:GNDURI">Hier steht die URL zum GND-Datensatz dieses Orts</idno>
+          </settlement>
+          <repository>
+            <orgName>Hier steht die besitzende Institution</orgName>
+            <idno ana="hc:GNDURI">Hier steht die URL zum GND-Datensatz dieser Institution</idno>
+          </repository>
+          <idno ana="hc:Shelfmark">Hier steht die Signatur der Handschrift</idno>
+          <idno ana="hc:EditorialSiglum">Hier steht die Sigle der Handschrift</idno>
+        </msIdentifier>
+        <additional>
+          <surrogates>
+            <listBibl>
+              <bibl ana="hc:BibliographicReferenceForOnlineFacsimile">Hier steht die bibliographische Referenz des Digitalisats: z.B. Hartmann von Aue: Iwein – Universitätsbibliothek Heidelberg, Cod. Pal. germ. 397. Online-Ausgabe. Heidelberg: Universitätsbibliothek 2009 (Bibliotheca Palatina – digital) (Permalink: <ptr ana="hc:URLReference" target="https://digi.ub.uni-heidelberg.de/diglit/cpg397"/>; DOI: <idno ana="hc:DOI">https://doi.org/10.11588/diglit.199</idno>; IIIF-Manifest [v3.0]: <ptr ana="hc:IIIFManifestURL" target="https://digi.ub.uni-heidelberg.de/diglit/iiif3/cpg397/manifest"/>)</bibl>
+            </listBibl>
+          </surrogates>
+        </additional>
+      </msDesc>
+    </sourceDesc>
+  </fileDesc>
+  <encodingDesc>
+    <listPrefixDef>
+      <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"> </prefixDef>
+      <prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"> </prefixDef>
+    </listPrefixDef>
+    <hei:elementsWithTokenizedContent include="l head ab trailer"/>
+  </encodingDesc>
+</teiHeader>
+Das Element <facsimile>
+Zwischen dem TEI-Header und dem Text steht das Element <facsimile>. Es dient der Synchronisierung zwischen Text und digitalem Faksimile. Es wird mit der Information zu Seiten (<surface>), Abbildungen (<graphic>) und Bildbereichen (<zone>) gefüllt.
+
+Jede Seite der Handschrift wird als <surface> erfasst. Das Element hat die Attribute @ana (mit dem Wert hc:Page), @xml:id (dessen Wert die Sigle der Handschrift und die Seitenzahl ist, z.B. b_12v) und @n (mit dem Wert der Seitenzahl, z.B. 12v).
+
+Als erstes Kindelement der <surface> steht das Element <graphic> mit dem Attribut @url und als Attributwert die url der digitalen Abbildung dieser Seite. Das Element ist leer.
+
+Als weitere Kindelemente von <surface> folgen nun so viele Elemente <zone> wie die Seite Bildbereiche hat. Bildbereiche der Seite sind Spalten und evtl. existierende Randbereiche. Eine einspaltig beschriebene Seite hat also ein einziges Element <zone>, eine zweispaltig beschriebene Seite mit einer Lagenzählung im unteren Rand hat drei <zone>-Elemente.
+
+Das System geht von einer vertikalen Zonen-Sequenz aus. Wenn also mehrere Zonen hintereinander deklariert werden, wird davon ausgegangen, dass sie sich untereinander befinden. Aus diesem Grund müssen nebeneinander stehende Spalten gruppiert werden in ein übergeordnetes <zone>-Element. Es führt das Attribut @ana mit dem Wert hc:HorizontalLayout.
+
+<zone>-Elemente für Spalten haben die Attribute @ana (mit dem Wert hc:Column), @xml:id (dessen Wert ist ›Sigle der Handschrift‹_›Seitenzahl‹-›Spalte‹, z.B. b_12v-a) und @n (mit dem Wert des Spaltenbuchstabens, z.B. a).
+
+<zone>-Elemente für Randbereiche haben die Attribute @ana (mit dem Wert hc:MarginalZone) und @xml:id (dessen Wert ist ›Sigle der Handschrift‹_›Seitenzahl‹-›ein Buchstabe mehr als die letzte Spalte‹, z.B. b_12v-b). Bei Bereichen mit besonderer Ausrichtung (z.B. bei zentrierten oder rechtsbündigen Lagensignaturen) kann auch @rendition zum Einsatz kommen (mit Werten wie hc:SelfAlignmentCentered oder hc:SelfAlignmentRight. Das Element <zone> ist leer.
+
+Beispiel (zweispaltige Handschrift mit einem Randbereich unten):
+
+<surface ana="hc:Page" xml:id="D_330" n="330">
+  <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bncf_cod_b_r_226/0048/image"/>
+  <zone ana="hc:MainZone hc:HorizontalLayout">
+    <zone ana="hc:Column" xml:id="D_330-a" n="a"/>
+    <zone ana="hc:Column" xml:id="D_330-b" n="b"/>
+  </zone>
+  <zone ana="hc:MarginalZone" xml:id="D_330-c" hei:placeRef="hc:PageBottom hc:PageMarginRight"/>
+</surface>
+Zu Randbereichen wie Lagensignaturen und Reklamanten Lagensignaturen und Reklamanten; zu @xml:id @xml:id und @target.
+
+Das Element <text>
+Auf das Element <facsimile> folgt nun der Text. Das Element <text> enthält das Attribut @ana, dessen Wert aus zwei Bestandteilen besteht: zum einen hc:CourtlyRomance und zum anderen, je nach Fall, hc:CompleteExpression oder hc:ExpressionFragmentThroughLoss.
+
+Wir unterteilen die Hartmannschen Erzähltexte nicht in Sektionen (<div>). Einzige Ausnahme ist der Erek, wo der sog. ›Mantel-Teil‹ und der ›Erek-Teil‹ jeweils getrennte Sektionen bilden.
+
+Titel und Kolophon
+Das Element <text> enthält immer das Element <body>. Es kann auch die Elemente <front> und/oder <back> enthalten. Sie sind für Schreiber-Titel und Kolophone gedacht.
+
+In <front> werden die Titel notiert, die manche Schreiber dem Werk voranstellen und die nicht zu Hartmanns Text gehören. Falls so ein Titel in der Handschrift existiert, wird ein <front>–Element angelegt. Als erste Kindelemente stehen <pb> und <cb> (Seite, Spalte und physische Zeile). An dritter Stelle wird ein Element <docTitle> angelegt mit einem Kindelement <titlePart>. In diesem wird nun der Titel eingetragen, tokenisiert (Wort und Tokenisierung) und mit Angabe der <lb> (Seite, Spalte und physische Zeile).
+
+Beispiel:
+
+<front>
+  <pb n="5v"/>
+  <cb n="c"/>
+  <docTitle>
+    <titlePart>
+      <lb n="49"/>
+      <hi hei:color="Red">
+        <w>Von</w>
+        <w>künig</w>
+        <w>Artus</w>
+        <w>hochzeit</w>
+      </hi>
+    </titlePart>
+  </docTitle>
+</front>
+In <back> hingegen werden typischerweise Schreiberkolophone eingetragen. Das Element <back> enthält ein Kindelement <trailer> mit dem Attribut @ana und dem Wert hc:Colophon.
+
+Beispiel:
+
+<back>
+  <trailer ana="hc:Colophon">
+    <lb n="50"/>
+    <w>Amen</w>
+  </trailer>
+</back>
+Manchmal enthalten Kolophone Verzierungen, die wir als <metamark> (Zeichensetzung der Handschrift) mit dem Attribut @ana und dem Wert hc:DecorativeMarker taggen.
+
+Ist der Schreibertitel oder das Kolophon in Versen geschrieben, so erfassen wir diese mit dem Element <l>. Wir nummerieren Verse in diesen Paratexten nur mit dem Attribute @n, dessen Wert im Titel tp beginnt und im Kolophon mit t, also z.B. <l n="t7"/>. @hei:altN oder @xml:id kommen in der Regel nicht zum Einsatz.
+
+Titel und Kolophone werden tokenisiert (Wort und Tokenisierung), aber die Wort-Elemente enthalten keine @xml:id.
+
+Der Text
+Wir benutzen drei Arten von Elementen im Text: strukturelle, semantische und Alternativkonstruktionen.
+
+Strukturelle Elemente (z.B. <pb>, <cb>, <lb>, <gap>, <milestone> u.a.) sind deskriptiv und objektiv und beschreiben Eigenschaften der Handschrift. Sie funkitonieren wie Markierungen und sind immer leer (Seite, Spalte und physische Zeile, Lücken und beschädigter Text).
+
+Die häufigsten semantischen Elemente sind <l>, <w>, <hi>, <pc>. Sie gründen auf unseren Definitionen: wir entscheiden, ob ihr Inhalt ein Wort, ein Vers oder ein Satzzeichen etc. ist.
+
+Alternativkonstruktionen (<choice>, <subst>) enthalten immer zwei mögliche Darstellungsoptionen, müssen also jeweils zwei Kindelemente enthalten (Editorische Eingriffe und Korrekturen, Hinzufügungen, Streichungen, Substitutionen). Das erlaubt es, entweder das eine oder das andere zu visualisieren.
+
+Transkription der Handschriften
+Seite, Spalte und physische Zeile
+Der Beginn einer neuen Seite wird getaggt mit <pb>. Auch der Beginn der ersten Seite wird markiert; dies geschieht eventuell bereits in <front> Titel und Kolophon. Das Element <pb> ist immer leer. Es steht – wie alle Elemente – immer möglichst weit 'oben' in der xml-Struktur: Bei Handschriften mit abgesetzten Versen also hinter dem Schluss der letzten <lg> der vorangehenden Seite, oder, wenn von einem Verspaar ein Vers auf jeder Seite steht, hinter dem Schluss der letzten <l>. Bei Handschriften ohne abgesetzte Verse allerdings steht das Element an der ensprechenden Stelle, auch innerhalb eines Wortes.
+
+Das Element <pb> enthält immer das Attribut @n; der Wert des Attributs ist die Blatt- und Seitenzahl, z.B.: <pb n="2r"/>, oder <pb n="28v"/>.
+
+Es enthält auch immer das Attribut @facs, welches einen Verweis auf die @xml:id enthält, die diese Seite im Element <facsimile> erhalten hat, z.B.: <pb n="35r" facs="#A_35r"/>.
+
+Der Beginn einer neuen Spalte wird getaggt mit <cb>. Auch dieses Element ist immer leer. In einspaltigen Handschriften steht es immer hinter dem Element <pb>. Bei mehrspaltigen Handschriften steht es außerdem hinter dem letzten Vers oder Verspaar der vorangehenden Spalte und vor der ersten Zeile der neuen Spalte.
+
+Es enthält immer das Attribut @n; der Wert des Attributs ist der Buchstabe für die jeweilige Spalte (a, b, c), z.B.: <cb n= "a"=/> oder <cb n="b"/>
+
+Es enthält auch immer das Attribut @facs, welches einen Verweis auf die @xml:id enthält, die diese Spalte im Element <facsimile> erhalten hat, z.B.: <cb n="a" facs="#A_35r-a"/>.
+
+Der Beginn einer neuen physischen Zeile wird getaggt mit <lb>. Dieses Element ist immer leer. Es enthält immer das Attribut @n; der Wert des Attributs ist die Nummer der physischen Zeile in der aktuellen Spalte, z.B.:
+
+<l>
+  <lb n="23"/>
+    <w/>
+    <w/>
+    <w/>
+</l>
+Die Position von <lb> in Bezug zu <l> (ober innerhalb oder außerhalb) ist im Grunde irrelevant; <lb> kann auch mitten im Wort stehen stehen. Aus praktischen Gründen setzen wir überall dort, wo der Versbeginn mit dem Zeilenbeginn zusammenfällt, <lb> als erstes Kindelement von <l> (s. das Beispiel hier oben).
+
+Zu Worttrennung beim Zeilenwechsel Wort und Tokenisierung; zu Zeilenüberhängen Zeilenüberlauf.
+
+Verspaar und Vers
+Jedes Verspaar steht innerhalb des Elements <lg>. Es führt das Attribut @ana mit den Werten hc:Couplet (=Reimpaar, das häufigste), hc:Tercet oder hc:Quatrain. Nur bei Versen ohne Reimpartner bleibt das Attribut weg; eigentlich bräuchte ein lose stehender Vers nicht in einer <lg> zu stehen, aber wir haben es aus pragmatischen Gründen so gehalten.
+
+Jeder Vers steht innerhalb des Elements <l>. Dieses Element führt drei Attribute: @n, @xml:id und @hei:altN:
+
+Das Attribut @n führt als Wert die Versnummer nach der jeweiligen Standard-Edition. Wir benutzen diese Nummerierung als Identifizierung der Verse. Zusatzverse oder Verse, die komplett anders sind aber einen ›Standardvers‹ an der Stelle ersetzen (wir nennen sie auch ›Ersatzverse‹), erhalten eine Zusatznummerierung. Zusatznummern bestehen grundsätzlich aus der Standard-Nummer des vorangehenden Verses und (je nach Text und Fachtradition) einen angehängten Buchstaben (z.B. 123a / 123b im ›Armen Heinrich‹ oder im ›Gregorius‹) oder eine durch Komma getrennte Zusatzzahl (z.B. 123,1 / 123,2 im ›Iwein‹).
+
+Das Attribut @xml:id (@xml:id und @target) enthält als Wert fast immer dieselbe Nummer wie @n, mit einem ›l‹ (wie ›line‹) und einem Unterstrich davor. Zum Beispiel:
+
+<l n="123" xml:id="l_123"/>
+<l n="123a" xml:id="l_123a"/>
+<l n="123,1" xml:id="l_123.1"/>
+Da eine @xml:id im Attributwert kein Komma führen darf, wird dieses durch einen Punkt ersetzt.
+
+Das Attribut @hei:altN, das eine alternative Nummerierung der Verse ermöglicht, zählt die Verse strikt in der Reihenfolge der Handschrift.
+
+<l n="123" xml:id="l_123" hei:altN="121"/>
+<l n="123a" xml:id="l_123a" hei:altN="122"/>
+<l n="123,1" xml:id="l_123.1" hei:altN="123"/>
+Über die @xml:id wird die Korrespondenz und Synchronisierung der jeweiligen Verse in den verschiedenen Handschriften kontrolliert. Verse mit gleicher @xml:id in zwei verschiedenen Dateien können dadurch bei der Visualisierung auf gleicher Höhe angezeigt werden. Bei Zusatzversen, die ja eine andere @xml:id haben, entstehen dadurch zusätzliche Zeilen; bei einer Parallelansicht verschiedener Zeugnisse wird in den Handschrift, die diese Verse nicht haben, eine Leerzeile an der entsprechenden Stelle angezeigt. Bei sog. ›Ersatzversen‹, d.h. komplett geänderte Zeilen, deren Reimpartner aber der entsprechende ›Standardvers‹ ist, wollen wir aber in der Visualisierung hier meist keine leeren Zeilen in den anderen Textzeugen anzeigen. Deswegen geben wir in diesen Fällen der @xml:id den Wert des Standardverses an. Der Vers zeigt damit eine anderen Nummer an, steht aber auf gleicher Höhe wie die anderen.
+
+<l n="323" xml:id="l_323"> ... </l>
+<l n="323a" xml:id="l_324"> ... </l>
+<l n="325" xml:id="l_325"> ... </l>
+Der Zusatzvers 323a nimmt die Position des Verses 324 ein; da wir ihn auch an dieser Position zeigen wollen, geben wir ihm die @xml:id, die in anderen Dateien der Vers 324 hat.
+
+Bei Versumstellungen durch den Schreiber folgt die Transkription zunächst der physischen Versanordnung der Handschrift. Das bedeutet, dass die Nummern der <lb>-Elemente stets konsekutiv bleiben; die Nummern der <l>-Elemente hingegen werden angepasst (zur editorischen Behandlung Editorische Behandlung von Umstellungen). Zum Beispiel:
+
+<l n="113" xml:id="l_113" hei:altN="109">
+  <lb n="24"/> ... </l>
+<l n="112" xml:id="l_112" hei:altN="110">
+  <lb n="25"/> ... </l>
+Fehlt ein Vers oder fehlen eine Gruppe von Versen in der Handschrift, stehen sie schlicht nicht in der Transkription:
+
+<l n="101" xml:id="l_101" hei:altN="101">
+  <lb n="24"/> ... </l>
+<l n="114" xml:id="l_114" hei:altN="102">
+  <lb n="25"/> ... </l>
+Bei hinzugefügten Versen werden die notwendigen <l> und <lg>-Elemente hinzugefügt. Zm Beispiel:
+
+<lg ana="hc:Couplet">
+  <l n="117" xml:id="l_117" hei:altN="117">
+    <lb n="11"/> ... </l>
+  <l n="118" xml:id="l_118" hei:altN="118">
+    <lb n="12"/> ... </l>
+</lg>
+<lg ana="hc:Couplet">
+  <l n="118a" xml:id="l_118a" hei:altN="119">
+    <lb n="13"/> ... </l>
+  <l n="118b" xml:id="l_118b" hei:altN="120">
+    <lb n="14"/> ... </l>
+</lg>
+<lg ana="hc:Couplet">
+  <l n="119" xml:id="l_119" hei:altN="121">
+    <lb n="15"/> ... </l>
+  <l n="120" xml:id="l_120" hei:altN="122">
+    <lb n="16"/> ... </l>
+</lg>
+Für versehentlich falsch geordnete Verse, die der Schreiber mit Umstellungszeichen wieder in die richtige Reihenfolge bringt Umstellungen.
+
+Fehlende und zusätzliche Verse, sog. ›Ersatzverse‹, Versumstellungen und Reimänderungen werden in der Konkordanz markiert.
+
+Wort und Tokenisierung
+Jedes linguistische Wort wird getaggt mit dem Element <w>. Dies nennen wir auch ein Token. Jedes Wort führt eine @xml:id (@xml:id und @target) mit der Struktur ›Element_Versnummer_laufende Nummer‹, z.B.: <xml:id="w_765_1"> (=erstes Element <w> im Vers 765).
+
+Da wir Worte im Element <w> nach linguistischen Kriterien erfassen, kann die Zusammen- oder Getrenntschreibung der Handschrift wiedergegeben werden. Spatien aber haben nicht mehr unbedingt die Funktion der Worttrennung; Spatium. Zusammen- und Getrenntschreibung.
+
+Bei Worttrennung am Zeilenende in der Handschrift wird an der entsprechenden Stelle innerhalb des Wortes das <lb> mit der Nummer der neuen Zeile eingefügt, sowie mit dem Attribut <break="no">. Steht ein Trennungszeichen im Dokument, wird dieses als <metamark> (Metazeichen) erfasst, mit dem Attribut <ana="hc:Hyphen">, darin das Trennungszeichen. Z.B.:
+
+<lb n="26"/>
+<w/><w/><w/><w>vrüme<metamark ana="hc:Hyphen">⸗</metamark><lb n="27" break="no"/>keit</w>
+Regeln für die Tokenisierung:
+
+Wir definieren nach linguistischen Kriterien, was ein Wort ist. Im Zweifelsfall richten wir uns nach den Wörterbüchern, die allerdings auch nicht immer einheitlich sind. In Handschriften des 15. Jahrhunderts finden sich häufig Komposita, die im 13. Jahrhundert noch nicht lexikalisiert waren. Das respektieren wir.
+
+Pronominaladverbien und trennbare Verbpräfixe werden immer getrennt. Beispiele:
+
+daran → <w>dar</w><w>an</w>
+warumbe → <w>war</w><w>umbe</w>
+abebrechen → <w>abe</w><w>brechen</w>
+Bei Kontraktionen (Proklise, Enklise und Krasis) werden die Worte ebenfalls getrennt:
+
+Gehört der Vokal im Bereich der Krasis eindeutig (auch) zu dem zweiten Wort, so wird vor ihm getrennt; gehört er nur zu dem ersten Wort, wird nach ihm getrennt. Beispiele:
+sageter → <w>saget</w><w>er</w> (= sagete er)
+zen → <w>z</w><w>en</w> (= ze den)
+zun → <w>zu</w><w>n</w> (= zuo den)
+Gehört ein Konsonant im Bereich der Krasis eindeutig (auch) zu dem ersten Wort, so wird nach ihm getrennt; gehört er nur zur zweiten Form, so wird vor ihm getrennt. Beispiele:
+mirz → <w>mir</w><w>z</w>(= mir ez)
+alsi → <w>als</w><w>i</w> (= alse si)
+Dreifache Kontraktion (deiswar, destwar oder deswar) wird auf gleiche Weise behandelt:
+destwar → <w>de</w><w>st</w><w>war</w>
+Bei Kontraktion mit dem Pronomen der 2. Pers. Sing. du stellen wir das ⟨t⟩ oder ⟨d⟩ an der Grenze immer zum Personalpronomen.
+mahtu → <w>mah</w><w>tu</w>
+mustu → <w>muos</w><w>tu</w>
+soltu → <w>sol</w><w>tu</w>
+bistu → <w>bis</w><w>tu</w>
+magstu → <w>mags</w><w>tu</w>
+sagestu → <w>sages</w><w>tu</w>
+wellestu → <w>welles</w><w>tu</w>
+Zahlen werden mit dem Element <num> erfasst, welches das Attribut @value führt, z.B.:
+
+<num value="12">xii</num>
+Spatium. Zusammen- und Getrenntschreibung
+Die Tokenisierung von Worten nach linguistischen Kriterien muss unterschieden werden von ihrer Zusammenschreibung oder Getrenntschreibung. Zwischen zwei Worten steht in der Regel ein Spatium. Spatien werde getaggt mit dem Element <c>, dessen Inhalt ein Spatium ist.
+
+<c> </c>
+Dieses taggen von Spatien ist eine Besonderheit dieses Datenmodells, das hilft, die Zusammen- und Getrenntschreibung in Transkription und Edition besser zu steuern.
+
+Werden zwei Worte in der Handschrift zusammen geschrieben, bleibt das Spatium in der Transkription weg. Es kann aber in der Edition ergänzt werden Editorische Behandlung der Spatien.
+
+Bei der Tilgung und Ergänzung ganzer Wörter in der Handschrift muss im Code jeweils ein Spatium getilgt bzw. ergänzt werden, damit bei der Darstellung die Worte nicht zusammen geschrieben erscheinen. Z.B.:
+
+<w>Swer</w><c> </c>
+<w>an</w><c> </c>
+<add><w>rehte</w><c> </c></add>
+<w>güete</w>
+Zusammen- und Getrenntschreibung ist in Handschriften bei weitem nicht immer eindeutig. Im Zweifelsfall werden die Worte so erfasst, wie es die Wörterbücher vorsehen: stehen zwei verschiedene Worte nahe beieinander, sind aber nicht eindeutig zusammengeschrieben, transkribieren wir sie als getrennt; sind innerhalb eines Wortes zwei Buchstaben ein klein wenig voneinander entfernt, ohne dass es sich aber um eine eindeutige Getrenntschreibung handelt, wird das Wort zusammengeschrieben. Dies zu entscheiden, liegt im Ermessen des Transkribenden.
+
+Bei deutlicher Getrenntschreibung innerhalb eines grammatischen Wortes (z.B. bei Verbpräfixen) wird das Wort als solches in einem einzigen <w>-Element erfasst und die Trennung mit einem ›optionalem‹ Spatium markiert, das jedoch für die Editionsansicht gelöscht wird:
+
+<w>ge<choice><orig><c> </c></orig><reg/></choice>lesen</w>
+Umgekehrt gilt: Bei eindeutiger Zusammenschreibung zweier Worte werden beide als getrennte Tokens erfasst. Ihre Zusammenschreibung in der Handschrift wird dadurch gekennzeichnet, dass kein Spatium <c> zwischen den beiden Tokens steht. Will man in der Edition die beiden Worte getrennt erscheinen lassen, kann man das Spatium editorisch hinzufügen Editorische Behandlung der Spatien:
+
+<w>ze</w><choice><orig/><reg><c> </c></reg></choice><w>lesen</w>
+Ein Zeilensprung <lb> fügt automatisch in der Visualisierung ein Spatium ein. Aber bei Handschriften mit nicht abgesetzten Versen, wo also nicht immer <lb> vor dem folgenden Vers steht, fügen wir an diesen Stellen (also am Ende der Verse, die mitten in der Zeile enden) ein Spatium ein, damit sich das letzte Wort des ersten Verses und das erste des folgenden in der Ansicht nicht berühren.
+
+Grapheme und Majuskeln
+Wir übertragen mit der Hand geschriebene Texte in eine mechanische Schrift. Das bedeutet, dass ein variables und polymorphes zu einem einförmigen Zeichensystem vereinfacht und vereinheitlicht wird. Wir reproduzieren also nicht die verschiedenen Allographen der Handschriften (unterschiedliche Formen von ⟨z⟩, ⟨d⟩, ⟨r⟩, ⟨s⟩ usw.), sondern schreiben immer nur die entsprechenden Grapheme neuzeitlicher Druckschrift. Einzige Ausnahme ist das Schaft-s ›ſ‹, weil dies oft schon von mittelalterlichen Schreibern mit ⟨f⟩ verwechselt wurde. Es kann bei der Textprozessierung leicht zu ⟨s⟩ normalisiert werden.
+
+Majuskeln von Minuskeln zu unterscheiden, ist vor allem in späteren Handschriften nicht leicht. Eine Majuskel sollte einen anderen Schriftzug haben als die entsprechende Minuskel (wie heute in ⟨aA⟩, ⟨bB⟩, ⟨dD⟩, ⟨eE⟩, ⟨fF⟩, ⟨gG⟩). Aber auch so ist es manchmal schwierig, weil Grapheme, die wir als Majuskeln transkribieren würden, plötzlich im Wortinneren erscheinen. Da wir die mittelalterlichen Grapheme nicht reproduzieren, transkribieren wir sinnweise: nur klare Majuskeln am Wortanfang werden als solche erfasst; alles andere sind Minuskeln. Ausgenommen sind alle litterae notabiliores, also Initialen, rubrizierte Versanfänge und sonstige hervorgehobene Anfangsbuchstaben, die wir immer als Majuskeln transkribieren
+
+Sonderzeichen, Diakritika und Superskripte
+Diakritika und Superskripte werden mit den Entities erfasst, die Medieval Unicode Font Initiative (MUFI) festgelegt hat. Entities kommen auch als oder Abkürzungszeichen zum Einsatz (Abkürzungen) für manche Metamarks. Hier können die Entities für Diakritika und Supraskripte eingesehen werden.
+
+Die Entities lassen sich in Oxygen sowohl im Text- wie im Author-Modus leicht über die Sidebar ›Entities‹ eingeben: Menü → Window → Schow View → Entities.
+
+Initialen
+Initialen werden getaggt mit dem Element <hei:initial>. Sie führen drei Attribute:
+
+@rendition, das den Initialentypus bezeichnet; dessen häufigster Wert ist hc:Lombard, doch das Schema sieht unter anderem auch vor: hc:FlourishInitial (Fleuronné-Initiale), hc:SilhouetteInitial (Silhouetten-Initiale), hc:ScrollworkInitial (Rankeninitiale), hc:SpaltleistenInitial (Spaltleisteninitiale), hc:FigureInitial (Figureninitiale), hc:AnthropomorphicInitial (anthropomorphe Initiale), hc:ZoomorphicInitial (Tierinitiale), hc:HistoriatedInitial (historisierte Initiale);
+@hei:color, das die Farbe bestimmt, z.B. Red, Blue, Gold; und
+@hei:heightLines, das die Höhe der Initiale in Zeilen angibt, dessen Wert also eine volle Zahl ist.
+Initialen, für die der Schreiber ein Anweisungszeichen (Anweisungszeichen für Initialen) hinterlassen hat, werden zusätzlich mit einer @xml:id versehen
+
+Vorgezeichnete, aber nicht ausgeführte Initialen, die in Form, Format und Platzierung aber bereits die Initiale zeigen, werden wie normale Initialen erfasst, erhalten aber zusätzlich in @rendition den Wert: hc:Sketch. Dieser ist kompatibel mit den anderen Attributwerten, z.B. hc: Sketch hc:Lombard.
+
+Nicht ausgeführte Initialen, für die Raum freigelassen wurde oder die am Spaltenrand zu stehen hatten, werden mit einer besonderen <choice>-Konstruktion erfasst: in deren Kindelement <orig> steht ein leeres Element <space> für den Freiraum (optional kann dieses <space> auch ein Element <desc> für die freie Beschreibung eines Phänomens enthalten); anstatt eines <reg> steht hier das Element <supplied>, mit dem Kindelement <hei:initial> (Initialen), ohne Attribute. Beispiel:
+
+<w>
+  <choice>
+    <orig>
+      <space rendition="hc:BlankAreaLeftForInitial" unit="character" quantity="1" hei:indents="4">
+        <desc xml:lang="de">Aussparung für Initiale</desc>
+      </space>
+    </orig>
+    <supplied><hei:initial>S</hei:initial></supplied>
+  </choice>wer</w>
+Manche Handschriften setzen anstatt Initialen oder in Abwechslung mit ihnen ein Paragraphenzeichen oder Pilcrow ⟨¶⟩. Sie werden getaggt als <label> mit dem Attribut <ana="hc:SectionMarker"> und dem Attribut @hei:PlaceRef. Das Paragraphenzeichen muss im Element <c> stehen. Dies alles stellen wir außerhalb des Verses <l>. Außerdem muss in diesen Fällen das Element <lb> vor dem <label> stehen.
+
+In der Transkriptionsansicht sollen die Paragraphenzeichen sichtbar sein. Aber in der Editionsansicht wollen wir sie nicht; sie werden bei der Verarbeitung daher unterdrückt. Stattdessen wollen wir, dass in der Editionsansicht der erste Buchstabe des ersten Verses wie die Initialen fett gedruckt erscheint. Dazu taggen wir diesen ersten Buchstaben mit <seg ana="hc:EditorialEmphasis">
+
+<lb n="7"/>
+<label ana="hc:SectionMarker" hei:PlaceRef="hc:PageMarginLeft"><c>¶</c></label>
+<l n="12">
+  <w xml:id="w_1234_1"><seg ana="hc:EditorialEmphasis">N</seg>u</w> ...
+</l>
+Anweisungszeichen für Initialen
+Die Anweisungen für Initialen sind keine Metamarks, weil sie ja Buchstaben sind. Für sie wurde das Elemene <hei:cue> geschaffen. Wir setzen das Element immer unmittelbar vor das Wort, das die Initiale enthält, auf die das Zeichen verweist.
+
+Wir versehen das Element <hei:cue> immer mit einem Attribut <ana="hc:CueInitial"> und einem Attribut @hei:PlaceRef, dessen Wert meist hc:InSpace oder hc:PageMarginLeft bzw. hc:PageMarginRight sein wird, der aber auch ein anderer sein kann (Hinzufügungen, Streichungen, Substitutionen).
+
+Außerdem verweist das Attribut @target auf die @xml:id der zugehörigen Initiale (Initialen).
+
+Der Buchstabe der Anweisung steht in einem Kindelement <c>. Beispiel:
+
+<hei:cue ana="hc:CueInitial" hei:placeRef="hc:InSpace" target="#hei:initial_37"><c>d</c></hei:cue>
+Hervorhebungen
+Hervorhebung durch farbige Schrift wird getaggt mit dem Element <hi> mit dem Attribut @hei:color und den Werten Red, Green, Blue etc. Ist ein ganzes Wort farbig geschrieben, steht das Element <hi> außerhalb des <w>-Elements, ebenso bei mehreren Wörtern.
+
+Hervorhebung der Versanfänge durch rote Striche (typisch für Papierhandschriften) wird ebenfalls getaggt mit <hi>; diesmal kommt das Attribut @rendition ins Spiel, mit dem Wert hc:RedStroke, in manchen Fällen auch hc:RedRetrace. Hervorhebung der Versanfänge durch Herausrücken der Anfangsbuchstaben in die Versalienspalte wird ebenfalls getaggt mit <hi> und dem Attribut @rendition, doch in diesen Fällen lautet der Attributwert hc:Versal. Hervorgehobene Buchstaben am Versanfang werden als Majuskeln transkribiert.
+
+Auf spätere Unterstreichungen oder sonstige Hervorhebungen von moderneren Händen verweisen wir in <note> (Anmerkungen).
+
+Kadellen (oder Cadellen) sind in normaler Tinte ausgeschmückte Buchstaben, die aber keine Initialen sind; sie leiten keine Abschnitte ein, sie stehen auch nicht an herausragender Stelle. Sie erscheinen in der Regel in der obersten Zeile einer Spalte und müssen daher auch nicht immer der erste Buchstabe im Vers sein. Wir taggen sie mit dem Element <hi>, dem Attribut @rendition und dem Wert hc:Cadel.
+
+In manchen (seltenen) Fällen finden sich in den Handschriften Stellen, in denen beschädigte oder verblasste Buchstaben oder Wörter von späterer Hand nachgezeichnet worden sind. Wir taggen solche Fälle mit <retrace>, ohne Attribute. Dieses Element kann innerhalb eines <w> stehen, meist aber sind mehrere Wörter gleichzeitig davon betroffen und <retrace> steht als Elternelement von <w>.
+
+Zeichensetzung der Handschrift
+Als Satzzeichen taggen wir (mit <pc>) Zeichen, die in irgendeiner Form eine sprachliche oder syntaktische Bedeutung haben. Das sind in der Regeln Virgeln ›/‹ oder vor allem Reimpunkte ›·‹ (Punkt auf Mitte). Wir setzen das Satzzeichen vor das Spatium zwischen zwei Worten:
+
+<w/>
+<pc>·</pc>
+<c> </c>
+<w/>
+Am Ende eines Verses ist, wenn der folgende Vers mit einer neuen <lb> beginnt, kein Spatium hinter dem <pc> nötig.
+
+Satzzeichen werden individuell erfasst, so dass zwei evtl. aufeinander folgende Zeichen in zwei unterschiedlichen Tags <pc> stehen.
+
+<pc>.</pc><pc>/</pc>
+Zur editorischen Behandlung von Satzzeichen Editorische Behandlung von Umstellungen
+
+Metazeichen
+Metazeichen sind weder Buchstaben noch Ziffern noch Satzzeichen (obwohl manchmal auch Buchstaben die Funktion von Metazeichen einnehmen, z.B. bei Umstellungszeichen). Das können Worttrennungszeichen, Korrekturzeichen, Einweisungszeichen oder Ähnliches sein. Sie werden getaggt als <metamark> und führen das Attribut @ana, dessen Wert, je nach Funktion des Zeichens, eine der folgenden Optionen sein wird: hc:Hyphen (Trennstrich, Wort und Tokenisierung), hc:RunOverMark (Zeilenanschlusszeichen), hc:WordDivider (Worttrenner), hc:CorrectionMark (Korrekturzeichen), hc:InsertionMark (Einweisungszeichen), hc:TranspositionMark (Umstellungszeichen), hc:ReferenceMark (Verweiszeichen), hc:WordMark (Wort-Zeichen), hc:NumberMark (Nummer-Zeichen), hc:DecorativeMark (Ziermarker), hc:LineDelimiter (Zeilenabgrenzungszeichen), hc:CueNumeral (Anweisung für Nummer). Ein Word-Mark ist ein Zeichen, das manchmal bei Worten zum Einsatz kommt, die nur aus einem Vokal bestehen (z.B. ê), um anzuzeigen, dass dies kein falscher Wortansatz ist, sondern ein volles Wort; z.B. ⟨|ê|⟩ oder ⟨ê'⟩. Number-Mark sind in der Regel gehobene Punkte, die in mittelalterliche Schrift Ziffern als Nummern markieren, z.B. ⟨·xxii·⟩.
+
+Metamarks können außerdem das Attribut @hei:PlaceRef führen.
+
+Im Unterschied zu Trennungszeichen oder anderen Marken, die im Schreibprozess entstanden, stehen Einweisungszeichen zusätzlich im Element <add> (Hinzufügungen, Streichungen, Substitutionen), wobei in diesen Fällen das Attribut @hei:PlaceRef am <add> steht. Ein Wort wie Hu,nd, mit Einweisungszeichen und über der Zeile nachgetragenem n würde also wie folgt kodiert:
+
+<w>Hu<add hei:PlaceRef="hc:Below"><metamark ana="hc:InsertionMark">,</metamark></add><add hei:PlaceRef="hc:Above">n</add>d</w>
+@xml:id und @target
+Elemente, die markiert werden sollen, um an anderer Stelle auf sie zu verweisen, werden mit einer @xml:id versehen. Der Wert des Attributs muss eine in der Datei einzigartige Zeichenkette sein, @xml:ids dürfen sich also nicht wiederholen. Zur Einheitlichkeit wählen wir folgenden Aufbau von @xml:ids: "Element_Versnummer_laufendeNummer". So wäre z.B. eine <xml:id="w_765_1"> sofort erkennbar als Element ›Wort‹, Vers 765, erstes Wort des Verses. Prinzipiell tragen alle Wörter (<w>) und Verse (<l>) @xml:ids. Bei den Versen dienen die IDs der Synchronisierung zwischen Zeilen aus unterschiedlichen Zeugnissen. Bei den Wörtern sollen sie später der linguistischen Annotation dienen. IDs, die sich nicht auf Bereiche des Textes beziehen, haben allerdings eine andere Struktur, Das Element <facsimile>.
+
+Auf @xml:ids wird verwiesen mit dem Attribut @target, dessen Wert die @xml:id des Elements ist, auf das verwiesen wird, mit einer Raute davor, z.B.: <target="#w_765_1">.
+
+Hinzufügungen, Streichungen, Substitutionen
+Das Element <del> taggt eine Streichung in der Handschrift. Die Art der Streichung wird durch das Attribut @rendition angegeben, dessen Wert je nach Fall sein kann: hc:Erased (radiert), hc:Strikethrough (durchgestrichen), hc:RedStrikethrough (rot durchgestrichen), hc:Overwritten (überschrieben), hc:Overpainted (übermalt), hc:Underlined (unterstrichen), hc:Underdotted (unterpungiert), hc:Overdotted (überpungiert), hc:Adapted (angepasst). Die Attributwerte sind kombinierbar.
+
+Hinzufügungen des Schreibers oder einerwerden getaggt als <add>. Das Attribut @hei:placeRef gibt an, wo diese Hinzufügung steht: hc:AboveLine, hc:BelowLine, hc:Inline, hc:PageMarginLeft, hc:PageMarginRight, hc:ColumnMarginLeft, hc:ColumnMarginRight. Es gibt weitere Werte in heiEditions Concepts
+
+Eine Substitution liegt dann vor, wenn ein Schreiber etwas Geschriebenes streicht und durch etwas Anderes ersetzt. Ein Element <subst> enthält zwangsmäßig und ausschließlich die Elemente <del> und <add>. Die Attribute für <del> und <add> sind die oben angegebenen. Wenn Buchstaben nicht gestrichen sondern durch Überschreibung angepasst wurden, führen beide Elemente das Attribut @rendition mit dem Wert hc:Adapted.
+
+Beispiele:
+
+Buchstabe im Wort hinzugefügt:
+<w>so<add hei:placeRef="hc:AboveLine">l</add></w>
+Buchstabe im Wort gestrichen:
+<w>leit<del rendition="hc:Underlined">e</del></w>
+Buchstabe im Wort ersetzt:
+<w>w<subst><del rendition="hc:Underdotted hc:Overdotted">o</del><add hei:placeRef="hc:AboveLine">a</add></subst>rt</w>
+Buchstabe im Wort ersetzt:
+<w>w<subst><del rendition="hc:Adapted">o</del><add rendition="hc:Adapted">a</add></subst>rt</w>
+Wort gestrichen:
+<del rendition="hc:Strikethrough"><w>überflüssig</w></del>
+Wort hinzugefügt:
+<add hei:placeRef="hc:ColumnMarginRight"><w>neu</w></add>
+Wort(e) ersetzt:
+<subst><del rendition="hc:Erased"><w>falsche</w><w>Wörter</w></del><add hei:placeRef="hc:Superimposed"><w>richtige</w><w>Wörter</w></add></subst>
+Wenn der Schreiber den Anfang eines Wortes schreibt, es durchstreicht und dann richtig weiterschreibt, taggen wir das in der Regel ebenfalls als Substitution. Z.B.:
+
+<subst><del rendition="hc:Strikethrough"><w>l</w></del><add hei:placeRef="hc:InLine"><w>weib</w></add></subst>
+Bei offensichtlich stehengelassenen losen Buchstaben oder bei wiederholten Wörtern ohne Streichung ist es eine Entscheidung der Herausgeber, ob hier etwas getilgt werden soll. Siehe daher Editorische Behandlung der Spatien.
+
+Bei Streichungen und Ergänzungen ganzer Wörter gehört auch ein Spatium <c> in <del> oder in <add>, damit die Darstellung korrekt bleibt:
+
+<subst>
+  <del rendition="hc:Erased">
+    <w>falsche</w><c> </c><w>Wörter</w><c> </c>
+  </del>
+  <add hei:placeRef="hc:AboveLine">
+    <w>richtige</w><c> </c><w>Worte</w><c> </c>
+  </add>
+</subst>
+Streichungen ganzer Verse durch den Schreiber werden nicht mit <del> getaggt, sondern mit <delSpan>; wie alle ›span‹-Elemente ist es leer, ein <anchor>-Element markiert das Ende des Gestrichenen. Auf die @xml:id im <ancho> verweist das Attribut @spanTo im <delSpan>:
+
+<delSpan rendition="hc:Strikethrough" spanTo="#delSpan_7657_1"/>
+  <l n="7657"><w>niuwan</w><w>durh</w><w>ir</w><w>übermuot</w></l>
+<anchor xml:id="delSpan_7657_1"/>
+Bei Ergänzungen ganzer Verse (oder mehr) im Bereich des Textspiegels trifft dasselbe zu wie in vorangehenden Absatz, nur wird hier mit <addSpan> operiert.
+
+Ergänzungen ganzer Verse am Seitenrand müssen allerdings zusätzlich zum <addSpan> mit einem neuen Zonenbeginn und am Ende einen Zonenwechsel getaggt werden. Denn die Marginalie muss im Element <facsimile> als marginale Textzone deklariert werden. Und das bedeutet, dass im Text die Zonenwechsel mit <milestone> angegeben werden müssen. In der neuen Zone gilt eine neue Zeilenzählung, die mit ›1‹ beginnt. Das geschieht nach folgendem Modell:
+
+<addSpan hei:placeRef="hc:ColumnMarginLeft" spanTo="#f_addSpan_646_1"/>
+  <milestone ana="hc:ZoneBeginning" facs="#f_8r-c"/>
+  <l n="646" xml:id="l_646" hei:altN="538"/>
+    <lb n="1"/>
+    <w>groz</w>
+    <w>ungenade</w>
+    <w>da</w>
+    <w>geschach</w>
+<anchor xml:id="f_addSpan_646_1"/>
+<milestone ana="hc:ZoneShift" facs="#f_8r-a"/>
+Hinzufügungen / Streichungen und Tokenisierung
+Manchmal führt die Korrektur des Autors zu einem neuen Wort. Z.B. stunde. Meist wollen wir in solchen Fällen nur das Ergebnis tokenisieren:
+
+<w>s<add hei:placeRef="hc:AboveLine">t</add>unde</w>
+In besonderen Fällen aber, z.B. weil die Verschreibung interessant und vielsagend ist oder weil die Korrektur offensichtlich erst bei einer Überarbeitung stattgefunden hat, ließen sich auch zwei Tokens innerhalb einer <choice>-Konstruktion setzen; das zweite bleibt leer und verweist auf das erste:
+
+Beispiel 1: sunde → stunde
+
+<choice>
+  <w xml:id="w_123_1">s<add hei:placeRef="hc:AboveLine" corresp="#w_123_2">t</add>unde</w>
+  <w xml:id="w_123_2" copyOf="# w_123_1"/>
+</choice>
+Beispiel 2: hundes → bundes
+
+<choice>
+  <w xml:id="w_4567_1">
+    <subst>
+      <del rendition="hc:Strikethrough" corresp="#w_4567_1">h</del>
+      <add hei:placeRef="hc:AboveLine" corresp="#w_4567_2">b</add>
+    </subst>undes </w>
+  <w xml:id="w_4567_2" copyOf="# w_4567_1"/>
+</choice>
+Wo man kein <subst> einsetzen kann, weil das <del> und <add> nicht direkt adjazent sind, kommt <substJoin> zum Einsatz; <del> und <add> werden mit @xml:id ausgestattet und das <substJoin> setzt sie miteinander in Beziehung:
+
+Beispiel 1: ihie (das h stellt sich zwischen das <del> und das <add>, was in <subst> nicht erlaubt ist):
+
+<choice>
+  <w xml:id="w_5276_5">
+    <del xml:id="del_5276_5_1" rendition="hc:Erased" corresp="#w_5276_5">i</del>h <add xml:id="add_5276_5_1" hei:placeRef="hc:Inline" corresp="#w_5276_6">ie</add>
+  </w>
+  <w xml:id="w_5276_6" copyOf="#w_5276_5"/>
+</choice>
+<substJoin target="#del_5276_5_1 #add_5276_5_1"/>
+Beispiel 2: ich dir → yrs
+
+<del rendition="hc:Strikethrough" xml:id="del_162_3">
+  <w xml:id="w_162_3">ich</w>
+  <c> </c>
+</del>
+<choice>
+  <w xml:id="w_162_4">
+    <del xml:id="del_162_4_1" rendition="hc:Strikethrough" corresp="#w_162_4">d</del>
+    <del xml:id="del_162_4_2" rendition="hc:Adapted" corresp="#w_162_4">i</del>
+    <add xml:id="add_162_4_1" rendition="hc:Adapted" corresp="#w_162_5">y</add>r </w>
+  <w xml:id="w_162_5" copyOf="#w_162_4"/>
+</choice>
+<add xml:id="add_162_6" hei:placeRef="hc:Inline">
+  <w xml:id="w_162_6">s</w>
+</add>
+<substJoin target="#del_162_3 #del_162_4_1 #del_162_4_2 #add_162_4_1 #add_162_6"/>
+Bilder
+Abbildungen in den Handschriften werden im Element <facsimile> als <zone> deklariert. An der entsprechenden Stelle in der Datei wird die neue Zone dann mit <milestone ana="hc:ZoneBeginning"> initiiert. Zusätzlich erhält dieses Element das Attribut @facs mit dem Bezug auf die @xml:id der <zone> in <facsimile>
+
+Die Abbildungen selbst taggen wir mit dem Element <figure> Dieses Element führt immer das Attribut @n mit der laufenden Nummer der Abbildung; und optional das Attribut @label, wenn man der Abbildung einen Titel geben will.
+
+Das Element <figure> enthält die Kindelemente <figDesc>, das eine kurze Beschreibung der Abbildung in wenigen Worten bietet, und <note>, das eine Erklärung der Abbildung enthält; <note> führt immer das Attribut <ana="hc:EditorialContent">.
+
+Beispiel:
+
+<milestone ana="hc:ZoneBeginning" facs="#B_44r-b"/>
+<figure n="1">
+    <figDesc>Zeichnung eines Falken in roter Tinte</figDesc>
+    <note ana="hc:EditorialContent">[Inhalt der Anmerkung]</note>
+</figure>
+Zeilensprung
+Bei Handschriften, die die Verse nicht absetzen, werden Zeilensprünge im Versinnern normal mit einem <lb>-Element mit seinem Attribut @n an der entsprechenden Position markiert.
+
+Dasselbe geschieht, wenn der Zeilensprung im Wortinneren stattfindet. In diesen Fällen sollte am <lb> noch das Attribut @break stehen, mit dem Wert no.
+
+Wird das Wort mit einem Trennungszeichen getrennt, wird dieses mit einem <metamark> getaggt (mit Attribut <ana="hc:Hyphen">), das vor dem <lb> steht; (Wort und Tokenisierung und Zeichensetzung der Handschrift)
+
+Beispiele:
+
+<w>min<lb n="4" break="no"/>ne</w>
+oder
+<w>vol<metamark ana="hc:Hyphen">⸗</metamark><lb n="4" break="no"/>get</w>
+Dies ist kompatibel mit Spalten- oder Seitenumbrüchen. Dann stehen vor dem <lb>-Element die entsprechenden Elemente <pb> und <cb> (Seite, Spalte und physische Zeile).
+
+Zeilenüberlauf
+Wir sprechen von Zeilenüberlauf, wenn Teile des Versendes aus Platzgründen am Ende der vorangehenden oder folgenden Zeile vervollständigt wurden. Zeilenüberläufe erscheinen v.a. in Handschriften mit abgesetzten Versen; aber sie finden sich auch in Handschriften ohne abgesetzte Verse, z.B. wenn in der Folgezeile ein neuer Abschnitt mit einer Initiale beginnt.
+
+Gelangt dieser Überlauf in eine Zeile, in der anderer, regulärer Text steht, bilden sich dadurch Zeilensegmente. Der Überlauf ist also ein Teil des Verses, das in einem Segment einer anderen Zeile steht. Wir kodieren diesen Überlauf innerhalb des Verses (<l>), zu dem er gehört, zeigen aber die Zugehörigkeit zu einer anderen Zeile <lb> an.
+
+Der Beginn des ersten Zeilensegments in einer Zeile braucht (wenn es sich um regulären Text handelt, der keine weitere Information benötigt) nicht markiert zu werden. Den Beginn eines neuen Zeilensegments (z.B. das Segment mit dem Überlauf) markieren wir als Punkt (wie <lb> oder <pb>) mit <milestone>. Dieser Punkt steht allerdings im Vers (<l>) zu dem der Text gehört. Hierzu gehört ein Attribut @ana mit 2 Werten: hc:LineSegmentBeginning und hc:RunOverAbove bzw. hc:RunOverBelow. Außerdem ein Attribut <n="2"> mit der Nummer des Segments. Zusätzlich ist hier ein Attribut @hei:belongsToLine erforderlich, mit dem angegeben wird, in welcher Zeile (physische Zeile, also <lb>, nicht <l>!) der Überlauf steht. Dadurch können auch Überläufe erfasst werden, die nicht in der Zeile unmittelbar davor oder danach stehen.
+
+Oft wird die Überhangzeile durch Striche vom Rest der Zeile getrennt oder mit der ›Mutterzeile‹ verbunden. Diese Zeichen werden als <metamark> getaggt; sie führen ein Attribut @ana mit dem Wert hc:RunOverMark (Metazeichen)
+
+Das ist alles kompatibel mit Worttrennung (Wort und Tokenisierung.
+
+Wenn der Zeilenüberlauf ein ganzes Wort umfasst, dann muss vor dem ersten <milestone> ein Spatium <c> stehen.
+
+Beispiele:
+
+Normaler Zeilenüberhang nach unten:
+<l n="419">
+  <lb n="26"/>
+  <w>...</w><w>...</w><w>...</w><w>...</w>
+  <c> </c>
+  <milestone ana="hc:LineSegmentBeginning hc:RunOverBelow" n="2" hei:belongsToLine="27"/>
+  <w>...</w><w>...</w>
+</l>
+Doppelter Zeilenüberhang nach oben:
+<l n="419">
+  <lb n="26"/>
+  <w>...</w><w>...</w><w>...</w><w>...</w>
+  <c> </c>
+  <milestone ana="hc:LineSegmentBeginning hc:RunOverAbove" n="2" hei:belongsToLine="25"/>
+  <w/><w/>
+  <milestone ana="hc:LineSegmentBeginning hc:RunOverAbove" n="2" hei:belongsToLine="24"/>
+  <w/>
+</l>
+Überlauf nach oben mit Worttrennung (Wort und Tokenisierung) und Überlaufzeichen:
+<l n="419">
+  <lb n="26"/>
+  <w>...</w><w>...</w><w>...</w><w>...</w>
+  <w>vrüme<metamark ana="hc:Hyphen">⸗</metamark>
+    <milestone ana="hc:LineSegmentBeginning hc:RunOverAbove" n="2" hei:belongsToLine="25" break="no"/>
+    <metamark ana="hc:RunOverMark">|</metamark>keit</w>
+</l>
+Steht der Zeilenüberlauf in der nachfolgenden Zeile, regulär ausgerichtet und ohne weitere Markierung, kann nicht von einem Zeilenüberlauf gesprochen werden; wir taggen einfach mit <lb> innerhalb von <l> Wird der überschüssige Text aber in dieser nachfolgenden Zeile nach rechts gerückt oder sonst als Überlauf markiert, dann wird die Zeile mit <lb> getaggt, zusätzlich aber erhält das <lb> das Attribut <rendition="hc:FlushRight">, sowie das Attribut <rendition="hc:FlushRight"> (andere Ausrichtungsfunktionen sind möglich hc:Centered, hc:RightIndent u.a.):
+<l n="419">
+  <lb n="26"/>
+  <w>...</w><w>...</w><w>...</w><w>...</w>
+  <lb n="27" ana="hc:RunOverBelow" rendition="hc:FlushRight"/>
+  <w>...</w><w>...</w>
+</l>
+Zwischen den Zeilen ergänzte Überläufe werden ebenfalls mit <lb> getaggt, allerdings erhält hier die Nummer am @n den Wert x.1. Außerdem steht in diesen Fällen das Attribut @ana mit den Werten hc:InterlinearLine hc:RunOverAbove (meist stehen die Interlinearzeilen über der regulären Zeile, aber nicht zwingend), sowie optional das Attribut @rendition z.B. mit dem Wert hc:FlushRight:
+<l n="419">
+  <lb n="26"/>
+  <w>...</w><w>...</w><w>...</w><w>...</w>
+  <lb n="26.1" ana="hc:InterlinearLine hc:RunOverAbove" rendition="hc:FlushRight"/>
+  <w>...</w><w>...</w>
+</l>
+Überlaufzeilen, die über der ersten regulären Textzeile stehen, erhalten die Nummer <n="0">; evtl. weitere Überlaufzeilen ›nach oben‹ würden negative Nummern erhalten. Überlaufzeilen unter der letzten regulären Textzeile werden als normale Zeilen (<lb>) behandelt und erhalten die entsprechende Nummer.
+Nicht ausgeführte Worte oder Zeilen
+Manchmal lässt der Schreiber eine Zeile frei, trägt aber nicht den Vers ein. Meist geschieht das, wenn der Reimpartner verloren ist. Zuweilen geschieht es aber auch, wenn durch Änderung im Vers der Reim verlorengegangen ist und der Schreiber meint, es fehle ein Reimpartner. In diesen Fällen taggen wir kein <l>, tragen lediglich das <lb>ein und daraufhin ein <space>
+
+Beispiel
+
+<lb n="23"/>
+<space xml:id="space_1234">
+  <desc xml:lang="de">Freiraum wahrscheinlich für Vers 1234 ausgespart.</desc>
+</space>
+Diese Kodierung soll innerhalb von <lg> stehen.
+
+Besonders bei einzelnen ausgelassenen Worten, für die der Schreiber einen Freiraum gelassen hat, kann aus einer anderen Handschrift das Wort (oder der Vers) mit <supplied> ergänzt werden (vgl. den Gebrauch dieses Elements in Initialen). Dies ist aber bereits eine editorische Bearbeitung.
+
+Beispiel:
+
+<l n="5638">
+  <lb n="23"/><w>daz</w><c> </c>
+  <choice>
+    <orig>
+      <space xml:id="space_23">
+        <desc xml:lang="de">Freiraum für fehlendes Wort. Bla schwätz.</desc>
+      </space>
+    </orig>
+    <supplied>
+      <w>dienen</w><c> </c>
+    </supplied>
+  </choice>
+  <w>solt</w><c> </c><w>in</w><c> </c><w>beiden</w>
+</l>
+Zu fehlenden Worten oder Zeilen ohne Freiraum in der Handschrift siehe Editorische Eingriffe und Korrekturen .
+
+Verswiederholungen und ähnliche Verse
+Bei ähnlichen Versen, die wahrscheinlich oder möglicherweise intentional aufeinander Bezug nehmen, taggen wir diese Zugehörigkeit mit dem Attribut @@corresp Element <l> der beiden korrespondierenden Verse. Der Attributwert ist ein Pointer und verweist mit einer Raute auf die @xml:id am <l> des jeweils anderen Verses. Z.B.:
+
+<l n="23" xml:id="l_23" corresp="#l_897">...</l> [...]
+<l n="897" xml:id="l_897" corresp="#l_23">...</l>
+Verswiederholungen unterscheiden sich von diesen ähnlichen Versen dadurch, dass wir sie als Editoren für irgendwie fehlerhaftig halten. Das kann der Fall sein z.B. bei einer Verspaarwiederholung nach einem Blattwechsel, oder bei einer Verswiederholung, die die Reimpaarstruktur (und oft auch die Syntax) durchbricht. Solche Wiederholungen werden mit dem Attribut @hei:Replicates im <l>-Element des wiederholten Verses gekennzeichnet. Der Attributwert ist ein Pointer und verweist mit einer Raute auf die @xml:id am <l> des ›ursprünglichen‹ Verses:
+
+<l n="24" xml:id="l_24">...</l>
+[...]
+<l n="45,1" hei:Replicates="#l_24">...</l>
+Da wir Verse nicht nur laufend zählen (mit @hei:altN), sondern vor allem auch (über das Attribut @n) identifizieren, muss zunächst bestimmt werden, welcher Vers der ›wiederholte‹ und welcher das ›Original‹ ist. Ist dies geklärt, kann das Attribut @hei:Replicates nur im ›wiederholten‹ Vers stehen, der dann in der Regel eine ›Zusatznummer‹ erhält. Sollte dies nicht klar sein, müsste das Attribut in beiden Versen stehen.
+
+Es gibt Fälle, in denen ein Teil einer Zeile den entsprechenden Teil einer anderen Zeile wiederholt (meist weil der Schreiber mitten im Vers in die falsche Zeile gesprungen ist). In diesen Fällen werden die jeweils korrespondieren Versteile mit dem Element <seg> (segment) getaggt und attributiv mit @@xml:id und @hei:Replicates aufeinander bezogen.
+
+<l n="6936"><w>Das</w><w>er</w><w>den</w><seg xml:id="seg_6936_1"><w>tot</w> <w>ſehen</w><w>ſol</w></seg></l>
+<l n="6936,1"><w>Das</w><w>doch</w><w>dem</w><w>andern</w><seg hei:Replicates="#seg_6936_1"><w>dot</w><w>ſehin</w><w>ſol</w></seg></l>
+Lücken und beschädigter Text
+Beschädigten Text taggen wir mit dem Element <damage>. Es führt das Attribut @rendition; die häufigsten Werte dieses Attributs (unter den vielen im Schema vorgesehenen) sind: hc:CutOff – hc:Erased – hc:Faded – hc:Lost – hc:Mould – hc:Perforated – hc:RubbedOff – hc:Stained – hc:TornOff.
+
+Oft ist es eine Ermessensfrage, wann ein Text als ›beschädigt‹ markiert wird. In einer gut erhaltenen Handschrift tendieren wir dazu, auch kleinere Schäden zu taggen. In einer stark beschädigten Handschrift tendieren wir dazu, nur dann ein <damage> zu setzen, wenn die Lesbarkeit beeinträchtigt ist.
+
+Ist im Fall von <damage> ein Lesung möglich, aber unsicher, wird der Text zusätzlich mit dem Kindelement <unclear> getaggt. Dieses Element führt keine Attribute; diese befinden sich ausschließlich im Elternelement <damage>.
+
+Als ›Lücken‹ bezeichnen wir Textverlust durch materielle Beschädigung des Textträgers. Sie werden getaggt mit <gap>. Dieses Element ist immer leer. Ein <gap> führt das Attribut @rendition; die häufigsten Werte dieses Attributs (unter den vielen im Schema vorgesehenen) sind: hc:CutOff – hc:Erased – hc:Faded – hc:Illegible – hc:Lost – hc:Mould – hc:Perforated – hc:RubbedOff – hc:Stained – hc:TornOff.
+
+Außerdem führt <gap> die Attribute @unit und @extent bzw. @quantity. @unit gibt an, was verloren ist (character=Buchstabe[n] [nur innerhalb von <l>]; lineZeile[n]; page=Seiten[n]). Wenn berechnet werden kann, wieviele von diesen Einheiten verloren sind, steht dies im Attribut @quantity (z.B. <unit="line"> <quantity="4">). Kann man nicht wissen, wieviel verloren ist, dann kommt statt @quantity das Attribut @extent mit dem Wert unknown zum Einsatz.
+
+Ist ein Teil eines Wortes ebenso wie folgende (oder vorherige) Worte verloren, muss ein <gap> sowohl innerhalb des <w> stehen, wie außerhalb.
+
+Steht vor oder hinter einem <gap> ein vollständiges Wort, fügen wir zwischen beiden Elementen ein Spatium <c> ein; betrifft die Lücke ein Teil des Wortes, dann fügen wir stattdessen ein ›editorisches Spatium‹ ein:
+
+<w>beschä<gap/></w>
+<choice>
+    <orig/>
+    <reg><c> </c></reg>
+</choice>
+<w/><w/><pc>.</pc>
+Fehlen mehrere Worte, dann werden sie alle durch ein einziges <gap> ersetzt.
+
+Bei Lücken, die größer sind als ein Vers, setzen wir lediglich <gap>, außerhalb von <l> und <lg>.
+
+Bei Fragmenten kommt es wiederholt vor, dass ein Vers verloren gegangen ist, der Reimpartner davor oder danach aber erhalten ist. In diesen Fällen taggen wir den Vers als Lücke:
+
+<l><gap/></l>
+Wir drücken damit aus, dass der verlorene Text einem Vers entspricht. Über die Grenze des Reimpaars gehen wir jedoch nicht hinaus. Ein Problem stellt die Nummerierung solcher nicht mehr vorhandenen oder nicht mehr lesbaren Verse dar: Können wir aus dem Reimwort und dem Kontext schließen, dass hier wahrscheinlich der gleiche Vers stand, der in den übrigen Handschriften an dieser Stelle überliefert ist, dann setzen wir das <l> und vergeben ihm die zu erwartende Standard-Nummer. Können wir nicht so sicher sein in dieser Annahme, z.B. weil im Reimpartner der Reim fehlt oder weil der Kontext geändert ist, dann nummerieren wir diesen Vers nicht.
+
+Bei Handschriften mit nicht abgesetzten Verse, in denen am Ende eines Verse mitten in der Zeile ein Lücke vorliegt, setzen wir hinter das <gap> ein Spatium, damit sich die Worte in der Transkriptionsansicht nicht mit der Lücke berühren:
+
+<lb n="1"/>
+<l>
+  <gap rendition="hc:CutOff" unit="character" extent="unknown"/>
+  <choice><orig/><reg><c> </c></reg></choice>
+</l>
+<l n="1234">
+  <w/><w/>
+</l>
+Zur Möglichkeit, ein fehlendes Wortteil zur ergänzen, siehe Editorische Behandlung fehlender Wortteile bei <gap>)
+
+Abkürzungen
+Abkürzungen werden innerhabl von <w> mit einer <choice>-Konstruktion getaggt, welche das Abkürzungszeichen in <am> erfasst, die Auflösung in <ex> wiedergibt. In der Regel bleibt der Buchstabe, an dem die Abkürzung hängt, unberührt.
+
+Das Abkürzungszeichen in <am> wird in der Regel eingegeben als Entitiy. Wir übernehmen die Entities des MUFI-Projekts. Hier finden Sie die Liste der Entities für Abkürzungen der Hartmann-Projekte. Die Entities lassen sich, wenn man sie nicht auswendig kann, sowohl im Text- wie im Author-Modus von Oxygen leicht über die Sidebar ›Entities‹ eingeben: Menü → Window → Schow View → Entities.
+
+Die Auflösung einer Abkürzung steht im Element <ex>. Dieses Element steht direkt im Anschluss an das <am> innerhalb der <choice>. Die Auflösung ist nicht immer mechanisch und folgt grammatischen Regeln, so kann eine̅ aufgelöst werden als einem oder einen; er-Abkürzungen müssen in manchen Fällen als re aufgelöst werden, usw. Die Markierung und Auflösung von Abkürzungen ist also schon Teil einer editorischen Arbeit und erfordert entsprechendes Ermessen.
+
+Beispiele:
+
+un&bar; → und: <w>un<choice><am>&bar;</am><ex>d</ex></choice></w>
+v&er;ſehe&bar; → verſehen: <w>v<choice><am>&er;</am><ex>er</ex></choice>ſehe<choice><am>&bar;</am><ex>n</ex></choice></w>
+Besondere Fälle:
+
+Die Iwein-Hs. A (Heidelberg) verwendet als Abkürzung für und oft die Form un. Wir kodieren das, indem wir anstatt eines Abkürzungszeichens einfach mit <seg> ein hochgestelltes n einsetzten:
+<w>u<choice><am><seg rendition="hc:Superscript">n</seg></am><ex>nd</ex></choice></w>
+Eine Abkürzung hat keine Entity: dc → daz. Hier dient das c als Abkürzungszeichen im <am>. Parallel dazu auch wc → waz:
+<w>w<choice><am>c</am><ex>az</ex></choice></w>
+Es gibt Handschriften, die schreiben dasselbe mit ⟨z⟩: dz → daz; hier verfahren wir ein wenig anders, denn wir lassen das ⟨z⟩ aus der Konstruktion heraus:
+<w>d<choice><am/><ex>a</ex></choice>z</w>
+Abkürzung in Versalien oder Rubrizierungen:
+
+<w><hi rendition="hc:Versal">H</hi><choice><am>&er;</am><ex>er</ex></choice>re</w>
+<w><hi rendition="hc:RedStroke">D</hi><choice><am>&er;</am><ex>er</ex></choice></w>
+Auflösung der Abkürzung und Umkehr der Buchstaben: Manche Abkürzungen werden ›nach hinten‹ aufgelöst, das heißt, dass die Buchstaben, die durch die Auflösung hinzukommen, vor dem Buchstaben stehen, an dem das Abkürzungszeichen steht: welln̄ → wellen (dagegen: wellē > wellen); gegn̄ → gegen; ſatl̄ → satel; tiefl̄ → tiefel; hr͛ → her; hc͛z → hercz. Den -er-Haken assoziieren wir dem vorangehenden Buchstaben. Aber bei den anderen Abkürzungszeichen geht das nicht: da wir das Abkürzungszeichen immer hinter den Buchstaben stellen, muss die Reihenfolge der Zeichen bei der Auflösung des Kürzungszeichens geändert werden. Wir tun dies mit einer zusätzlichen Sondermarkierung mit zwei nebeneinanderstehenden <seg>; im ersten steht der Basisbuchstabe und das Abkürzungszeichen und im zweiten die Auflösung und der Basisbuchstabe:
+
+<w>well<choice>
+    <seg ana="hc:AbbreviatedTokenSegment">n<am>&bar;</am></seg>
+    <seg ana="hc:ExpandedTokenSegment"><ex>e</ex>n</seg>
+  </choice>
+</w>
+<w>tief<choice>
+    <seg ana="hc:AbbreviatedTokenSegment">l<am>&bar;</am></seg>
+    <seg ana="hc:ExpandedTokenSegment"><ex>e</ex>l</seg>
+  </choice>
+</w>
+<w>h<choice>
+    <seg ana="hc:AbbreviatedTokenSegment">r<am>&er;</am></seg>
+    <seg ana="hc:ExpandedTokenSegment"><ex>er</ex>r</seg>
+  </choice>
+</w>
+Tokenisierung und Abkürzung 1: In besonderen Fällen enthalten Abkürzungen klitisch angehängte Pronomina oder Negationspartikeln, sodass eine korrekte Tokenisierung erst nach der Auflösung der Abkürzung erfolgen kann. Solche Fälle lösen wir, indem wir die <choice>-Konstruktion mit der Abkürzung in ein separates <w>-Element setzen:
+
+moht&er; → moht er
+<w>moht</w><w><choice><am>&er;</am><ex>er</ex></choice></w>
+Tokenisierung und Abkürzung 2: Komplexer sind solche Fälle, in denen die Auflösung der Abkürzung zwei Tokens ergibt, die Auflösung sich aber auf beide Tokens verteilt. Wir lösen dies, indem wir eine <choice>-Konstuktion außerhalb des Wortes setzen, welche die Kindelemente <abbr> und <expan> enthält. Im ersten steht die abgekürzte Form, untokenisiert; im zweiten stehen dann die beiden Tokens mit der Auflösung:
+
+wan&de;r → wand er
+<choice>
+  <abbr>wan<am>&de;</am>r</abbr>
+  <expan>
+    <w xml:id="w_4690_1">wan<ex>d</ex></w>
+    <c> </c>
+    <w xml:id="w_4690_2"><ex>e</ex>r</w>
+  </expan>
+</choice>
+Abschnittszusammenfassungen
+Hartmanns Texte enthalten keine Abschnitte, doch einige Handschriften enthalten Abschnittszusammenfassungen der Art ›Hier kommt Herr Iwein an den Brunnen‹. Diese Stücke taggen wir mit dem Element <label> und dem Attribut <ana="hc:SummaryLabel">. Sie werden tokenisiert, aber die Worte erhalten keine @xml:ids
+
+Wo Abschnittszusammenfassungen in Randbereiche der Textzeilen geraten, kommt die Zeilensegmentierung zum Wirken, die bei Zeilenüberläufen beschrieben wurde ().
+
+Umstellungen
+Für die Kodierung der Umstellungen von Wörtern und Wortgruppen wird der Text zunächst so transkribiert, wie er in der Handschrift steht. Am Versende wird dann mit <listTranspose> die Umstellung dokumentiert. Das Kindelement <transpose> enthält eine Sequenz von <ptr>-Elementen, welche umzustellenden Wörter in der richtigen Reihenfolge (d.h. in der Reihenfolge nach der durchgeführten Umstellung) als Verweise auflisten.
+
+Umstellungszeichen dokumentieren wir in der Transkription mit <metamark ana="hc:TranspositionMark">. Ihr Attribut @target (@xml:id und @target) verweist jeweils auf das Wort oder die Wörter, auf das bzw. auf die sich das Umstellungszeichen als Anweisung bezieht.
+
+Beispiel:
+
+Hs.: Der "auch "ſey ſelb → Der ſey auch ſelb
+<w xml:id="w_13_1">Der</w>
+<c> </c>
+<metamark ana="hc:TranspositionMark" hei:placeRef="hc:AboveLine" target="#w_13_2">"</metamark>
+<w xml:id="w_13_2">auch</w>
+<c> </c>
+<metamark ana="hc:TranspositionMark" hei:placeRef="hc:AboveLine" target="#w_13_3">"</metamark>
+<w xml:id="w_13_3">sey</w>
+<c> </c>
+<w>ſelb</w>
+<listTranspose>
+  <transpose>
+    <ptr target="#w_13_3"/>
+    <ptr target="#w_13_2"/>
+  </transpose>
+</listTranspose>
+Dasselbe gilt auch für Umstellungen auf Versebene, ganz gleich ob die Verse abgesetzt werden oder nicht.
+
+Beispiel:
+
+<l n="3400" xml:id="l_3400" hei:altN="3399">
+  <lb n="16"/>
+  <metamark ana="hc:TranspositionMark" hei:placeRef="hc:ColumnMarginLeft">b</metamark>
+  <w>Von</w><c> </c><w>bezzern</w><c> </c><w>zvhten</w><c> </c><w>wart</w><c> </c><w>geborn</w>
+</l>
+<l n="3399" xml:id="l_3399" hei:altN="3400">
+  <lb n="17"/>
+  <metamark ana="hc:TranspositionMark" hei:placeRef="hc:ColumnMarginLeft">a</metamark>
+  <w>Daz</w><c> </c><w>er</w><c> </c><w>den</w><c> </c><w>ſın</w><c> </c><w>hat</w><c> </c><w>verlorn</w>
+</l>
+<listTranspose>
+  <transpose>
+    <ptr target="#l_3399"/>
+    <ptr target="#l_3400"/>
+  </transpose>
+</listTranspose>
+Lagensignaturen und Reklamanten
+Lagensignaturen und Reklamanten (sowie evtl. andere Phänomene außerhalb des Textspiegels) bilden gesonderte Zonen, die als solche in <facsimile> deklariert werden (Das Element <facsimile>). Deswegen muss die Kodierung von Lagensignaturen und Reklamanten mit dem Zonenwechsel beginnen, z.B. <milestone ana="hc:ZoneBeginning" n="b" facs="#b_12v-b">
+
+Wie alle neuen Zonen, müssen Signaturen mit einem <lb n="1"> begonnen werden.
+
+Wir kodieren die Signaturen und Reklamanten mit dem Element <fw>, das ein Attribut @ana führt, welches folgende Werte haben kann: hc:Catchword (Reklamante), hc:QuireSignature (Lagensignatur), hc:PageHeader, hc:ColumnHeader, hc:PageFooter, hc:ColumnFooter, hc:PageNumeral, hc:ColumnNumeral.
+
+Wir stellen das Element <fw> an das Ende der Seite, zu der sie gehören, also vor dem <pb> der folgenden Seite.
+
+Beispiel (angepasst an das Beispiel oben Das Element <facsimile>):
+
+<milestone ana="hc:ZoneBeginning" facs="#b_12v-b"/>
+<lb n="1"/>
+<fw ana="hc:QuireSignature">
+  <num value="2">
+    <w>
+      <choice><orig>ıı</orig><reg>secund</reg></choice>
+      <choice><am>ꝰ</am><ex>us</ex></choice>
+    </w>
+  </num>
+</fw>
+<w>-Elemente in Reklamanten erhalten keine @xml:id.
+
+Die Zonen-Deklaration von Randbereichen im Element <facsimile> folgt folgendem Muster:
+
+<surface xml:id="Bb_263v" ana="hc:Page" n="263v">
+  <graphic url="https://digi.ub.uni-heidelberg.de/diglit/fmb_cb72_fol256-265/0016" mimeType="image"/>
+  <zone ana="hc:HorizontalLayout">
+    <zone xml:id="Bb_263v-a" ana="hc:MainColumn hc:TextZone" n="a"/>
+    <zone xml:id="Bb_263v-b" ana="hc:MainColumn hc:TextZone" n="b"/>
+  </zone>
+  <zone xml:id="Bb_263v-c" ana="hc:MarginalZone hc:TextZone" rendition="hc:SelfAlignmentCentered" hei:placeRef="hc:PageBottom"/>
+</surface>
+Anmerkungen
+Anmerkungen werden mit dem Element <note> getaggt, sowohl Anmerkungen der Handschriften wie Anmerkungen zur Transkription oder Edition. Anmerkungen der Handschriften sind in der Regel Glossen oder Nota-Zeichen (zu Textergänzungen Hinzufügungen, Streichungen, Substitutionen). Anmerkungen zur Transkription beschreiben Phänomene der Handschrift, die für den Textbestand irrelevant sind, z.B. zeitlich nicht bestimmbare Unterstreichungen oder Markierungen, Wiederholungen besonderer Eigenheiten, Verzierungen außerhalb des Schriftspiegels, Federproben, etc. Editorische Anmerkungen sind typischerweise Erklärungen für Eingriffe oder Ähnliches.
+
+Wir stellen die <note>-Elemente in der Regel hinter den Abschluss des Verses, also hinter <l>.
+
+Das Element <note> enthält das Attribut @ana. Dafür sind in heiEditions vielfache Werte vorgesehen. Wir beschränken uns im Prinzip auf folgende: Für Anmerkungen, die in der Handschrift stehen, benutzen wir in der Regel hc:Gloss (Glosse) oder hc:NotaBene (Notazeichen); Anmerkungen zur Transkription erhalten den Wert hc:TranscriptionNote; für Anmerkungen zu editorischen Entscheidungen verwenden wir hc:TextConstitutionNote.
+
+Das Element <note> enthält zusätzlich das Attribut @target, mit dem auf die @xml:id des Verses verwiesen wird, auf den sich die Anmerkung bezieht. (@xml:id und @target). Wir beziehen die Anmerkungen im Prinzip nicht auf spezifische Worte, weil dies in der Editionsansicht einen großen Freiraum hinter dem Wort hinterlässt.
+
+Innerhalb der Anmerkungen werden Zitate aus der Handschrift, aus anderen Handschriften oder aus dem edierten Text mit <quote> getaggt; sie erscheinen kursiv. Für hypothetische Formen oder z.B. Infinitive der zitierten Verben oder Worte in anderen alten Sprachen (v.a. Lateinisch) verwenden wir <mentioned>; sie erscheinen ebenfalls kursiv. Uneigentliche Rede, besondere Bedeutung von Worten, Bedeutungsangaben oder markieren wir mit einfachen Anführungszeichen; Zitate aus Forschungsliteratur stehen zwischen doppelten Anführungszeichen.
+
+Editorische Bearbeitung
+Regularisierung
+Da wir die Texte nicht in ein Normalmittelhochdeutsch überführen, sprechen wir eher von ›Regularisierung‹ als von ›Normalisierung‹. Die editorischen Entscheidungen bezüglich was regularisiert wird und was nicht, stehen auf der Seite Textgestaltung des Hartmann-Portals.
+
+Ähnlich wie bei Abkürzungen werden Regularisierungen mit einem <choice>-Konstrukt erfasst. Die Schreibung der Handschrift wird wiedergegeben im Element <orig>. Die Regularisierung wird erfasst im Element <reg>.
+
+Beispiele:
+
+vnd → und
+<w><choice><orig>v</orig><reg>u</reg></choice>nd</w>
+ivncfrowe → juncfrowe
+<w><choice><orig>i</orig><reg>j</reg></choice><choice><orig>v</orig><reg>u</reg></choice>ncfrowe</w>
+wrden → wurden
+<w><choice><orig>w</orig><reg>wu</reg></choice>rden</w>
+Regularisierung einer Initiale:
+<w><hei:initial><choice><orig>U</orig><reg>V</reg></choice></hei:initial>il</w>
+Regularisierung eines Supraskripts:
+<w>bo<choice><orig>&vsup;</orig><reg>u</reg></choice>ste</w>
+Supraskripte, die bei der Auflösung mit dem Vokal, auf dem sie stehen, ein neues Graphem ergeben (z.B. aͤ → æ), und Supraskripte, die bei der Normalisierung vor dem Vokal stehen müssen, werden mit dem entsprechenden Vokal im <orig> und im <reg> erfasst:
+
+waͤre → wære
+<w>w<choice><orig>a&esup;</orig><reg>æ</reg></choice>re</w>
+moͮste → muoste
+<w>m<choice><orig>o&vsup;</orig><reg>uo</reg></choice>ste</w>
+Abkürzung mit Regularisierung: Durch die Trennung von Buchstaben und Abkürzungszeichen verlaufen die Regularisierung des ersten und die Auflösung des zweiten in parallelen <choice>-Konstruktionen.
+
+v̅ → und
+<choice><orig>v</orig><reg>u</reg></choice><choice><am>&bar;</am><ex>nd</ex></choice>
+Zahlen
+Zahlen im Text, die bei einer editorischen Bearbeitung aufgelöst werden müssen, werden tokenisiert und das Element <num> über eine Konstruktion mit <choice>, <orig> und <reg> aufgelöst:
+
+<w xml:id="w_6340_4"><choice><orig><num value="14">xiiij</num></orig><reg>viertzehen</reg></choice></w>
+Zahlen in Randbereichen (typischerweise Blattnummern, Lagennummern, Jahreszahlen in Kolophonen, usw.) bleiben in der Regel unberührt.
+
+Editorische Eingriffe und Korrekturen
+Ähnlich wie bei Abkürzungen werden editorische Eingriffe mit einem <choice>-Konstrukt erfasst. Die Schreibung der Handschrift wird wiedergegeben im Element <sic>. Die editorische Korrektur wird erfasst im Element <corr>.
+
+Beispiele:
+
+Korrektur von Buchstaben:
+<w>mi<choice><sic>m</sic><corr>nn</corr></choice>e</w>
+Fehlende Buchstaben:
+<w>wa<choice><sic/><corr>z</corr></choice>er</w>
+Fehlende Wörter: das <w> steht innerhalb des <corr>, weil ja das Wort erst dadurch entsteht, dass es eingefügt wird. Das Spatium danach darf nicht vergessen werden.
+<choice><sic/><corr><w>in</w><c> </c></corr></choice>
+Bei der Korrektur ändert sich das Wort, was ein neues Token erfordert: Vch → Ovch
+<choice>
+  <w xml:id="w_145_1">
+    <choice>
+      <sic corresp="#w_145_1"/>
+      <corr corresp="#w_145_2">o</corr>
+    </choice>vch</w>
+  <w xml:id="w_145_2" copyOf="#w_145_1"/>
+</choice>
+Worte, die wir aus grammatischen oder semantischen Gründen für überflüssig und fehl am Platz halten, streichen wir auf gleiche Weise. Hier muss auch das entsprechende Spatium gelöscht werden:
+
+<w>vrauwe</w><c> </c>
+<choice><sic><w>vür</w><c> </c></sic><corr/></choice>
+<w>Lunet</w>
+Hingegen unterdrücken wir wiederholte Worte oder Satzteile, die nicht gestrichen sind, durch <surplus> (immer zusammen mit dem dazugehörigen Spatium):
+
+<w>do</w><c> </c>
+<w>kam</w><c> </c>
+<surplus><w>kam</w><c> </c></surplus>
+<w>gegangen</w>
+Entscheidet man editorisch, dass Sätze oder Satzteile, die über die Versgrenze hinausgehen, zu streichen sind, kodieren wir den Beginn der Streichung mit dem Element <milestone>, das die Attribute <ana="hc:EditorialDeletionSpan"> und <spanTo="anchor_1"> führt. Am Ende der Tilgung steht das Element <anchor> mit einer @xml:id. Die Kodierung ist parallel der Streichung ganzer Verse durch den Schreiber, vgl. Hinzufügungen, Streichungen, Substitutionen, Nr. 6.
+
+<l>. . .</l>
+<milestone ana="hc:EditorialDeletionSpan" spanTo="#anchor_1"/>
+<l>. . .</l>
+<anchor xml:id="anchor_1"/>
+<l>. . .</l>
+Parallel dazu funktionieren editorische Einfügungen ganzer Verse oder von Blöcken, die über die Versgrenze hinausgehen (z.B. weil der Schreiber etwas offensichtlich übersprungen hat). Es ändert sich lediglich der Attriburtwert von @ana im <milestone>:
+
+<l>. . .</l>
+<milestone ana="hc:EditorialAdditionSpan" spanTo="#anchor_2"/>
+<l>. . .</l>
+<anchor xml:id="anchor_2"/>
+<l>. . .</l>
+Editorisch ergänzte Verse führen weder ein Attribut @hei:altN noch enthalten sie ein Element <lb>.
+
+Editorische Behandlung der Spatien
+Getrennt tokenisierte Worte, die in der Handschrift zusammen geschrieben werden, müssen nicht unbedingt in der Edition getrennt erscheinen. irs, hastu oder ensprach können durchaus zusammen erscheinen, wenn sie in der Handschrift zusammen stehen. Dazu ist editorisch nichts zu tun: da ein Spatium fehlt, werden die beiden Worte auch im Editionstext zusammenstehen.
+
+Bei Worten, die in der Handschrift auseinander geschrieben werden, die aber linguistisch ein Wort sind und als solches tokenisiert wurden (ver lazen, uber wunden, ougen weide), wird das Spatium erfasst und mit <orig> + <reg> in einer <choice>-Konstruktion gelöscht (das <reg> bleibt leer); (Spatium. Zusammen- und Getrenntschreibung).
+
+<w>ougen</w><choice><orig><c> </c></orig><reg/></choice>weide
+Editorisch bearbeitet werden müssen jene Fälle, in denen Worte in der Handschrift zusammen geschrieben werden (wo also in der Transkription kein Spatium steht), die wir aber in der Edition auseinander halten wollen. Das geschieht mit einer <choice>-Konstruktion, in der <orig> leer ist und das <reg> ein Spatium enthält:
+
+<w>ze</w><choice><orig/><reg><c> </c></reg></choice><w>swert</w>
+In manchen (besonderes späteren) Handschriften mit nicht abgesetzten Versen setzt der Schreiber einen Bindestrich am Ende der Zeile, um Worte zu verbinden, die wir getrennt tokenisieren:
+
+<w>her</w><metamark ana="hc:Hyphen">=</metamark><lb n="15"/><w>ab</w>
+In solchen Fällen würde die Visualisierung wegen des <lb>-Elements ein Spatium zwischen beide Tokens einfügen. Wollen wir in der Edition aber die Worte zusammen schreiben, dann genügt es, auch in solchen Fällen ein Attribut <break="no"> in das <lb>-Element zu setzen. Das Attribut widerspricht dann zwar der expliziten Tokenisierung, ist aber im Einklang mit dem Trennstrich.
+
+Editorische Behandlung der Zeichensetzung
+Editorische Zeichensetzung wird eingefügt mit <choice>-Konstruktionen. Dabei führt das <reg>-Element immer das Attribut <ana="hc:PunctuationRegularization">.
+
+Wenn die Handschrift keine Zeichensetzung hat, bleibt das <orig> leer:
+
+<choice><orig/><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice>
+Hat die Handschrift an der entsprechenden Stelle ein Satzzeichen oder einen Reimpunkt (Zeichensetzung der Handschrift), steht dieses im <orig> und wird im <reg> ersetzt bzw. unterdrückt:
+
+<choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice>
+Bei direkter Rede steht evtl. ein Doppelpunkt (oder ein Komma) am vorangehenden Wort, das Anführungszeichen aber am ersten Redewort. Dazwischen muss das Spatium stehen:
+
+<w>...</w>
+<choice><orig/><reg ana="hc:PunctuationRegularization"><pc>:</pc></reg></choice>
+<c> </c>
+<choice><orig/><reg ana="hc:PunctuationRegularization"><pc>›</pc></reg></choice>
+<w>...</w>
+Am Ende von direkter Rede werden die beiden Satzzeichen (Punkt / Komma / usw. und Anführungszeichen) in getrennten <pc>-Elementen erfasst.
+
+<choice><orig/><reg ana="hc:PunctuationRegularization"><pc>?</pc><pc>‹</pc></reg></choice>
+<choice><orig/><reg ana="hc:PunctuationRegularization"><pc>‹</pc><pc>,</pc></reg></choice>
+Editorische Behandlung von Umstellungen
+Worte oder Verse, die im Vergleich zu anderen Handschriften in geänderter Reihenfolge stehen, bezeichnen wir als Umstellungen. Den Terminus nutzen wir frei von textkritischer Semantik. Wort- oder Versumstellungen, die vom Schreiber gekennzeichnet sind, wurden bereits oben (Umstellungen) behandelt.
+
+Wollen wir als Herausgeber Worte umstellen, um Sätze verständlich zu machen, zeigen wir mit einem Element <link> und dem Attribut @target die richtige Reihenfolge der Worte an. Das Attribut <ana="hc:EditorialTransposition"> gibt die Art der Umstellung an. Das gilt auch für Fälle, in denen die Worte, die umgestellt werden sollen, nicht nebeneinander stehen, oder für mehr als zwei Worte.
+
+Beispiel:
+
+und ſi ſin in ir muote → und ſin ſi in ir muote
+<l>
+  <w xml:id="w_2706_1">und</w>
+  <w xml:id="w_2706_2">ſi</w>
+  <w xml:id="w_2706_3">ſin</w>
+  <w xml:id="w_2706_4">in</w>
+  <w xml:id="w_2706_5">ir</w>
+  <w xml:id="w_2706_6">muote</w>
+</l>
+<link ana="hc:EditorialTransposition" target="#w_2706_3 #w_2706_2"/>
+Die Umstellung einer Wortgruppe geschieht, indem man im Attribut @target die Wortspanne angibt: @target="#range(w_2706_4,w_2706_6) #range(w_2706_2,w_2706_3)". Das würde ergeben: und in ir muote ſi ſin. Man kann auch ein einzelnes Wort und eine Wortspanne gegenseitig austauschen.
+
+Versumstellungen, die vom Schreiber nicht gekennzeichnet sind, aber von den Herausgebern als notwendig betrachtet werden für die Herstellung einer korrekten Syntax und Semantik, werden auf gleiche Weise hergestellt, nur verweist das Attribut @target in diesem Fall auf die @xml:id der betroffenen Verse. Auch hier gilt, dass nur die Verse referenziert werden müssen, die umzustellen sind, alles Andere bleibt unberührt.
+
+Editorische Behandlung fehlender Wortteile bei <gap>
+Fehlt ein Teil eines Wortes durch Materialverlust und kann das Wort dank der erhaltenen Buchstaben mit einiger Sicherheit erkannt werden, dann kann es editorisch vervollständigt werden:
+
+<w>Iwe<gap rendition="hc:Stained" unit="character" quantity="2"/></w>
+Dies kann mit <choice>, <orig> und <supplied> editorisch ergänzt werden zu:
+
+<w>Iwe<choice><orig><gap rendition="hc:Stained" unit="character" quantity="2"/></orig><supplied>in</supplied></choice></w>
+Anmerkungen
+1Letzte Aktualisierung: März 2025.
+2Bei der Erfassung dieses Handbuchs in TEI hat Xabier Atanes Gómez (Santiago de Compostela) mitgeholfen.
+
+ Universitätsbibliothek Heidelberg Impressum Datenschutzerklärung https://doi.org/10.11588/portal.hvad

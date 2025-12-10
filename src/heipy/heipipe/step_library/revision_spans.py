@@ -4,8 +4,8 @@ from ..steps import PythonStep
 from ...namespaces import prefix_format
 
 
-def revision_spans_funct(root, parameters):
-        # Map span types to their ana values
+def revision_spans_funct(root, parameters=None):
+    # Map span types to their ana values
     span_config = {
         prefix_format('tei','delSpan'): 'hc:DeletionSpan',
         prefix_format('tei','addSpan'): 'hc:AdditionSpan'

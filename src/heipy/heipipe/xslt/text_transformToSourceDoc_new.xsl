@@ -12,7 +12,6 @@
   <!-- Identity template -->
   <xsl:mode on-no-match="shallow-copy" />
 
-  <!-- Keys for O(1) lookups instead of O(n) // searches -->
   <xsl:key name="lb-by-zone" match="lb" use="substring-after(@hei:belongsToZone, '#')"/>
   <xsl:key name="cb-by-facs" match="cb" use="substring-after(@facs, '#')"/>
   <xsl:key name="milestone-zone-beginning-by-facs" match="milestone[tokenize(@ana, '\s+') = 'hc:ZoneBeginning']" use="substring-after(@facs, '#')"/>
@@ -218,6 +217,7 @@
   <xsl:template name="getLineSegmentBeginning">
     <xsl:param name="zone_id"/>
     <xsl:param name="line_number"/>
+    <xsl:text> HERE </xsl:text>
     <xsl:try>
       <xsl:for-each select="key('milestone-line-segment', concat($zone_id, '|', $line_number))">
         <xsl:sort select="@n" data-type="number"></xsl:sort>

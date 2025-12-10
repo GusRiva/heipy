@@ -78,7 +78,7 @@ def move_note_func(root, parameters):
                 else:
                     note.getprevious().tail += note_tail
             
-            position = parameters[0].get('position')
+            position = parameters.get('position')
             match position:
                 case 'after':
                     # move the target's tail to become the note's tail:
@@ -91,7 +91,6 @@ def move_note_func(root, parameters):
                 case 'last':
                     note.tail = None
                     target.insert(len(target), note)
-
 
     return root
 

@@ -6,13 +6,16 @@ import importlib.resources
 import requests
 from lxml import etree as et
 from saxonche import PySaxonProcessor, PyXdmValue, PyXdmItem, PyXdmAtomicValue, PyXdmNode, PyXdmMap, PyXdmArray, create_xdm_dict
-import warnings
 import sys
 import re
 import html
+import warnings
+from enum import Enum
+from typing import Literal
 
 from .colors import *
 from .namespaces import ns
+from .heiwarning import HeiWarning, HeiDeprecationWarning
 
 class HeiEditionsResolver(et.Resolver):
     def __init__(self):
@@ -39,7 +42,59 @@ class HeiEditionsParser(et.XMLParser):
         super().__init__(*args, **kwargs)
         self.resolvers.add(HeiEditionsResolver())
 
-def heiparse(source, parser=None, input_format='file', output_format='tree', egxml=False, xinclude=False, base_url=''):
+
+class OutputFormat(Enum):
+    # Output formats for parsers and pipelines
+    STR = "str"
+    ETREE = "etree"
+    BYTES = "bytes"
+
+
+def normalize_parameters(parameters):
+    """
+    Normalize parameters to dictionary format.
+
+    Converts list-of-dicts format to plain dict format for cleaner API.
+    Issues deprecation warning if list format is detected.
+
+    Args:
+        parameters: Either a dict (new format) or list of single-key dicts (old format)
+
+    Returns:
+        dict: Normalized parameters as a plain dictionary
+    """
+    if parameters is None:
+        return {}
+
+    if isinstance(parameters, dict):
+        return parameters
+
+    if isinstance(parameters, list):
+        # Legacy format: [{'key1': 'val1'}, {'key2': 'val2'}]
+        if len(parameters) > 0:
+            warnings.warn(
+                "Passing parameters as a list of dictionaries is deprecated. "
+                "Please use a plain dictionary instead: {'key1': 'val1', 'key2': 'val2'}",
+                HeiDeprecationWarning,
+                stacklevel=3
+            )
+        # Convert list format to dict
+        result = {}
+        for param in parameters:
+            if isinstance(param, dict):
+                result.update(param)
+        return result
+
+    raise TypeError(f"parameters must be a dict or list, got {type(parameters)}")
+
+
+def heiparse(source, 
+             parser=None, 
+             input_format='file', 
+             output_format: Literal["str", "etree", "bytes"] = "etree", 
+             egxml=False, 
+             xinclude=False, 
+             base_url=''):
     """
     Parse an XML source using a specified parser (dafaults to HeiEditionsParser) and optionally process XInclude directives.
     Args:
@@ -47,7 +102,7 @@ def heiparse(source, parser=None, input_format='file', output_format='tree', egx
         parser (xml.etree.ElementTree.XMLParser, optional): The parser to use for parsing the XML. 
             If not provided, a default `HeiEditionsParser` instance will be used.
         xinclude (bool, optional): Whether to process XInclude directives in the XML. Defaults to True.
-        output_format (str, optional): Output as 'tree' (lxml etree object) or as 'str' (string)
+        output_format (str, optional): Output as 'etree' (lxml etree object) or as 'str' (string)
         input_format (str, optional): Input as 'file' (file-like object or path) or as 'string' (the xml string)
 
     Returns:
@@ -56,7 +111,7 @@ def heiparse(source, parser=None, input_format='file', output_format='tree', egx
     Raises:
         xml.etree.ElementTree.ParseError: If there is an error during parsing.
     """      
-
+    output_format = OutputFormat(output_format)
     parser = parser or HeiEditionsParser()
 
     if input_format == 'file':
@@ -77,29 +132,36 @@ def heiparse(source, parser=None, input_format='file', output_format='tree', egx
     if xinclude:
         tree.xinclude()
 
-    if output_format == 'tree':
+    if output_format == OutputFormat.ETREE:
         return tree
-    elif output_format == 'str':
+    elif output_format == OutputFormat.STR:
         return et.tostring(tree, method="xml", encoding="unicode")
     else:
         raise TypeError("The output_format parameter must be either 'tree' or 'str'")
 
-def set_params_for_saxon(parameter_list, proc: PySaxonProcessor, executable):
-    for parameter in parameter_list:
-        for param, value in parameter.items():
-            if value is None:
-                continue
-            elif value is True or value is False:
-                value_f = proc.make_boolean_value(value)
-            elif isinstance(value, dict):
-                xdmdict = create_xdm_dict(proc, value)
-                value_f = proc.make_map(xdmdict)
-            elif value.isnumeric():
-                value_f = proc.make_float_value(value)
-            else:
-                value_f = proc.make_string_value(value)
-            if value_f is not None:
-                executable.set_parameter(param, value_f)
+def set_params_for_saxon(parameters:dict, proc: PySaxonProcessor, executable):
+    """
+    Set parameters for Saxon processor.
+
+    Args:
+        parameters: Dictionary of parameter name-value pairs
+        proc: PySaxonProcessor instance
+        executable: Compiled XSLT executable
+    """
+    for param, value in parameters.items():
+        if value is None:
+            continue
+        elif value is True or value is False:
+            value_f = proc.make_boolean_value(value)
+        elif isinstance(value, dict):
+            xdmdict = create_xdm_dict(proc, value)
+            value_f = proc.make_map(xdmdict)
+        elif isinstance(value, str) and value.isnumeric():
+            value_f = proc.make_float_value(value)
+        else:
+            value_f = proc.make_string_value(str(value))
+        if value_f is not None:
+            executable.set_parameter(param, value_f)
 
 
 def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=None, input_xdm=None, output_xdm=False, proc=None):
@@ -109,7 +171,7 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
     Args:
         input_string: XML string (if input_xdm is None)
         xslt_file: Path to XSLT file
-        parameters: XSLT parameters
+        parameters: Dictionary of XSLT parameters (or legacy list format)
         output_dir: Output directory for base URI
         input_xdm: PyXdmNode object (optional, for batched XSLT steps)
         output_xdm: If True, return XDM node instead of string
@@ -118,7 +180,7 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
     Returns:
         str or PyXdmNode depending on output_xdm
     """
-    parameters = parameters or []
+    parameters = normalize_parameters(parameters)
 
     def _execute_transformation(proc):
         """Inner function to execute the actual transformation."""

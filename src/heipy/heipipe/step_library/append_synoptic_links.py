@@ -10,7 +10,10 @@ _POSITIONAL_REGEX = re.compile(r'^([a-z][a-z0-9\+\.\-]*):\b(left|right)\b\((.+)\
 _DIRECT_REGEX = re.compile(r'^([a-z][a-z0-9\+\.\-]*):(.+)$')
 
 
-def append_synoptic_links_funct(root, parameters): 
+def append_synoptic_links_funct(root, parameters=None):
+    if parameters is None:
+        Warning.warn("parameters for append_synoptic_links is empty, this does nothing.")
+        return root
     sigla_mapping = parameters.get('sigla_mapping')
     synoptic_map_path = os.path.abspath(parameters['synoptic_map'])
     synoptic_map_root = et.parse(synoptic_map_path, parser=HeiEditionsParser())

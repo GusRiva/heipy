@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+<!DOCTYPE TEI 
+[
+<!ENTITY % heiEDITIONS_entities SYSTEM "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt">
+%heiEDITIONS_entities; ]>
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Max und Moritz B</title>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>
+                    <orgName/>
+                </publisher>
+                <pubPlace/>
+                <date/>
+                <availability>
+                    <p/>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Information about the source.</p>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <listPrefixDef>
+                <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/> 
+                <prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"/> 
+            </listPrefixDef>
+        </encodingDesc>
+    </teiHeader>
+
+    <text ana="hc:CompleteExpression">
+        <body>
+            <div ana="hc:Section" xml:id="section_1">
+                <pb n="1"/>
+                <cb n="b"/>
+                <lb n="15"/>
+                <head xml:id="head_1">
+                    <hi hei:color="Red">Vorrede</hi>
+                </head>
+                <lg>
+                    <lb n="16"/>
+                    <l xml:id="v_1" n="1">Mancher gibt sich viele Müh’</l>
+                    <lb n="17"/>
+                    <l xml:id="v_2" n="2">Mit dem lieben Federvieh;</l>
+                </lg>
+                <lb n="18"/>
+                <label xml:id="label_1" ana="hc:DivisionMark">
+                    <hi hei:color="Red">argumentum primum</hi>
+                </label>
+                <lg>
+                    <lb n="19"/>
+                    <l xml:id="v_3" n="3">Einesteils der Eier wegen,</l>
+                    <lb n="20"/>
+                    <l xml:id="v_4" n="4">Welche diese Vögel legen,</l>
+                </lg>
+                <label xml:id="label_2" ana="hc:DivisionMark">
+                    <hi hei:color="Red">argumentum secundum</hi>
+                </label>
+                <lg>
+                    <lb n="21"/>
+                    <l xml:id="v_5" n="5">Zweitens: weil man dann und wann</l>
+                    <lb n="22"/>
+                    <l xml:id="v_6" n="6">Einen Braten essen kann;</l>
+                </lg>
+                <label xml:id="label_3" ana="hc:DivisionMark">
+                    <hi hei:color="Red">argumentum tertium</hi>
+                </label>
+                <lg>
+                    <lb n="23"/>
+                    <l xml:id="v_7" n="7">Drittens aber nimmt man auch</l>
+                    <lb n="24"/>
+                    <l xml:id="v_8" n="8">Ihre Federn zum Gebrauch</l>
+                </lg>
+                <lg>
+                    <lb n="25"/>
+                    <l xml:id="v_9" n="9">In die Kissen und die Pfühle,</l>
+                    <lb n="26"/>
+                    <l xml:id="v_10" n="10">Denn man liegt nicht gerne kühle.</l>
+                </lg>
+                <note xml:id="note_1" ana="hc:Gloss">Frigus unam de proprietatibus naturae dicit Philosophus</note>
+            </div>
+            <div ana="hc:Section" xml:id="section_2">
+                <head xml:id="head_2"><hi hei:color="Red">Capitulum primum</hi></head>
+                <lg>
+                    <lb n="27"/>
+                    <l xml:id="v_12" n="12">Die das auch nicht gerne wollte,</l>
+                    <pb n="2"/>
+                    <cb n="a"/>
+                    <lb n="1"/>
+                    <l xml:id="v_11" n="11">Seht, da war die Witwe Bolte,</l>                    
+                </lg>
+                <lg>
+                    <lb n="2"/>
+                    <l xml:id="v_13" n="13">Ihrer Hühner waren drei</l>
+                    <lb n="3"/>
+                    <l xml:id="v_14" n="14">Und ein stolzer Hahn dabei.</l>
+                </lg>
+                <lg>
+                    <lb n="4"/>
+                    <l xml:id="v_16" n="16">Was ist hier jetzt wohl zu tun?</l>                   
+                    <lb n="5"/>
+                    <l xml:id="v_15" n="15">Max und Moritz dachten nun:</l>
+                </lg>
+                <lg>
+                    <lb n="6"/>
+                    <l xml:id="v_17" n="17">Ganz geschwinde, eins, zwei, drei,</l>
+                    <lb n="7"/>
+                    <l xml:id="v_18" n="18">Schneiden sie sich Brot entzwei,</l>
+                </lg>
+                <lg>
+                    <lb n="8"/>
+                    <l xml:id="v_19" n="19">In vier Teile, jedes Stück</l>
+                    <lb n="9"/>
+                    <l xml:id="v_20" n="20">Wie ein kleiner Finger dick.</l>
+                    <lb n="10"/>
+                    <l xml:id="v_20a" n="20.1">So man’s macht in Köpenick.</l>
+                </lg>
+                <lg>
+                    <lb n="11"/>
+                    <l xml:id="v_21" n="21">Diese binden sie an Fäden,</l>
+                    <lb n="12"/>
+                    <l xml:id="v_22" n="22">Übers Kreuz, ein Stück an jeden,</l>
+                </lg>
+                <lg>
+                    <lb n="13"/>
+                    <l xml:id="v_23" n="23">Und verlegen sie genau</l>
+                    <lb n="14"/>
+                    <l xml:id="v_24" n="24">In den Hof der guten Frau.</l>
+                </lg>
+                <milestone ana="hc:ZoneBeginning"/>
+                <lb n="1"/>
+                <label xml:id="label_4" ana="hc:DivisionMark"><hi hei:color="Red">¶</hi></label>
+                <milestone ana="hc:ZoneShift"/>
+                <lg>
+                    <lb n="15"/>
+                    <l xml:id="v_25" n="25">Kaum hat dies der Hahn gesehen,</l>
+                    <lb n="16"/>
+                    <l xml:id="v_26" n="26">Fängt er auch schon an zu krähen:</l>
+                </lg>
+                <lg>
+                    <lb n="17"/>
+                    <l xml:id="v_27" n="27">Kikeriki! Kikikerikih!!</l>
+                    <lb n="18"/>
+                    <l xml:id="v_28" n="28">Tak tak tak! – da kommen sie.</l>
+                </lg>
+                <lg>
+                    <lb n="19"/>
+                    <l xml:id="v_29" n="29">Hahn und Hühner schlucken munter</l>
+                    <lb n="20"/>
+                    <l xml:id="v_30" n="30">Jedes ein Stück Brot hinunter;</l>
+                </lg>
+                <lg>
+                    <lb n="21"/>
+                    <l xml:id="v_31" n="31">Aber als sie sich besinnen,</l>
+                    <lb n="22"/>
+                    <l xml:id="v_32" n="32">Konnte keines recht von hinnen.</l>
+                </lg>
+            </div>
+        </body>               
+    </text>  
+    
+</TEI>
