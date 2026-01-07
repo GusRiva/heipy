@@ -1,5 +1,7 @@
 import datetime
 import hashlib
+import sys
+import warnings
 import importlib.resources
 import json
 import uuid
@@ -12,89 +14,182 @@ from .parsers import heiparse
 issues_in_CMIF_export = {}
 
 
-def set_cmif_correspAction_type(correspAction: et.Element,
-                                cmif_correspAction: et.Element,
-                                filename:str) -> None:
+def element_exists_in_parent(parent: et.Element, tag: str, text_value: str, ref_value: str = None) -> bool:
     """
-    Transforms the various correspondence types usable in a heiEditions-correspAction-Element
-    to valid cmif Attributes and adds them to the cmif_correspAction-Element.
+    Checks if an element with name *tag* exists in *parent*. If yes, @ref=*ref_value* is compared between them;
+    if no *ref_value* is given, a string comparison of *text_value* between them is used instead.
+    This function is used to prevent the addition of duplicates.
     """
-    ana_type = correspAction.get("ana")
-    if ana_type is None:
-        print(f"Could not find attribute @ana in correspAction in the file {filename}. Please add the attribute value "
-              f"and re-start the CMIF export.")
+    xpath = f"./{tag}"
+    existing_elements = parent.findall(xpath, namespaces=ns)
+    if not existing_elements:
+        return False
+    for element in existing_elements:
+        if ref_value:
+            if element.get('ref') == ref_value:
+                return True
+        else:
+            if element.text == text_value:
+                return True
+    return False
+
+
+def add_cmif_persName_to_correspAction(correspAction: et.Element, cmif_correspAction: et.Element):
+    # if our guidelines are changed and multiple persNames can be stored in a single correspAction, adjust here
+    persName_element = correspAction.find(".//tei:persName", namespaces=ns)
+    if persName_element is None:
         return
 
-    if "CorrespondenceAuthoring" in ana_type:
-        cmif_correspAction.set("type", "sent")
-    elif "DesignationAsCorrespondenceAddressee" in ana_type:
-        cmif_correspAction.set("type", "received")
-    elif "CorrespondenceReceiving" in ana_type:
-        cmif_correspAction.set("type", "received")
-    elif "CorrespondenceSending" in ana_type:
-        cmif_correspAction.set("type", "sent")
-    else:
-        print(f"Attribute {ana_type} in file {filename} has not been mapped to a CMIF type "
-              "(allowed: 'sent' or 'received'), yet. Please correct this in the output and update the mapping.")
-
-    return
-
-
-def add_cmif_persName_to_correspAction(correspAction: et.Element, cmif_correspAction: et.Element) -> None:
-    cmif_persName = et.SubElement(cmif_correspAction, "persName")
-    cmif_persName.text = correspAction.find(".//tei:persName", namespaces=ns).text
+    persName_str = persName_element.text
     persName_parent = correspAction.find(".//tei:persName", namespaces=ns).getparent()
-    persName_idno = persName_parent.find(".//tei:idno[@ana='hc:GNDURI']", namespaces=ns)
-    if persName_idno is not None:
-        cmif_persName.set("ref", persName_idno.text)
+    persName_idno_element = persName_parent.find(".//tei:idno[@ana='hc:GNDURI']", namespaces=ns)
+    persName_idno_str = persName_idno_element.text if persName_idno_element is not None else None
+
+    if element_exists_in_parent(cmif_correspAction, "persName", persName_str, persName_idno_str):
+        return
+
+    cmif_persName = et.SubElement(cmif_correspAction, "persName")
+    cmif_persName.text = persName_str
+
+    if persName_idno_str is not None:
+        cmif_persName.set("ref", persName_idno_str)
     return
 
 
 def add_cmif_placeName_to_correspAction(correspAction: et.Element,
                                         cmif_correspAction: et.Element,
-                                        filename: str) -> None:
+                                        filename: str):
     for place_info in correspAction.findall("./tei:location", namespaces=ns):
+        placeName_element = place_info.find("./tei:placeName", namespaces=ns)
+        if placeName_element is None:
+            continue
+        placeName_str = placeName_element.text
+        geonames_idno_element = place_info.find("./tei:idno[@ana = 'hc:GeonamesURI']", namespaces=ns)
+        geonames_idno_str = geonames_idno_element.text if geonames_idno_element is not None else None
+
+        if element_exists_in_parent(cmif_correspAction, "placeName", placeName_str, geonames_idno_str):
+            continue
+
         cmif_placeName = et.SubElement(cmif_correspAction, "placeName")
-        cmif_placeName.text = place_info.find("./tei:placeName", namespaces=ns).text
-        geonames_idno = place_info.find("./tei:idno[@ana = 'hc:GeonamesURI']", namespaces=ns).text
-        if geonames_idno is not None:
-            cmif_placeName.set("ref", geonames_idno)
+        cmif_placeName.text = placeName_str
+        if geonames_idno_str:
+            cmif_placeName.set("ref", geonames_idno_str)
         else:
-            message = f"Included {cmif_placeName.text} without Geonames-ID."
+            message = f"Included {placeName_str} without Geonames-ID."
             issues_in_CMIF_export.setdefault(filename, []).append(message)
-        cmif_correspAction.append(cmif_placeName)
     return
 
 
-def add_cmif_date_to_correspAction(correspAction: et.Element, cmif_correspAction: et.Element) -> None:
-    for date in correspAction.findall("./tei:date", namespaces=ns):
+def add_cmif_date_to_correspAction(correspAction: et.Element, cmif_correspAction: et.Element):
+    date_elements: list = correspAction.findall("./tei:date", namespaces=ns)
+    if not date_elements:
+        return
+    if len(date_elements) > 1:
+        warnings.warn("More than one date element in a single correspAction.")
+    date = date_elements[0]
+    cmif_date = cmif_correspAction.find(".//date", namespaces=ns)  # should always only be one
+
+    # no date entries in correspAction, yet: add date
+    if cmif_date is None:
         cmif_date = et.SubElement(cmif_correspAction, "date")
         for attr, val in date.attrib.items():
             cmif_date.set(attr, val)
-        cmif_correspAction.append(cmif_date)
+        return
+
+    # handling in case of duplicates (CMIF: multiple correspActions of the same type must be combined into a single one)
+    date_attrs = sorted(date.items())
+    cmif_date_attrs = sorted(cmif_date.items())
+
+    # date is already included in cmif entry
+    if date_attrs == cmif_date_attrs:
+        return
+
+    # cmif date entry does not contain this date, but other attributes:
+    combined_attrs = cmif_date_attrs + date_attrs
+    unresolved_date_attrs = ["notBefore", "notAfter", "notBefore-iso",
+                             "notAfter-iso"]  # waiting for examples before implementing
+    resolved_date_attrs = ["from", "to", "when", "when-iso", "from-iso", "to-iso"]
+    all_dates = []
+    cert_order = {'high': 1, 'medium': 2, 'low': 3}
+    cert_value = 0
+    for attr, val in combined_attrs:
+        if attr in unresolved_date_attrs:
+            warnings.warn(f"Unresolved date attribute in correspAction: {attr}: {val}")
+            sys.exit(1)
+        elif attr in resolved_date_attrs:
+            all_dates.append(val)
+        elif attr == "cert":  # set the lowest certainty value used if multiple ones were found in the correspAction's dates
+            if cert_order.get(val) > cert_value:
+                cert_value = cert_order[val]
+                cmif_date.set("cert", val)
+
+    if all_dates:
+        all_dates.sort()  # Sonderfälle wie <date when="--12-12"> ergänzen, in WM nicht enthalten
+        if len(set(all_dates)) == 1:
+            cmif_date.set("when", all_dates[0])
+        else:
+            cmif_date.set('from', all_dates[0])
+            cmif_date.set('to', all_dates[-1])
+            if "when" in cmif_date.attrib:
+                del cmif_date.attrib['when']
     return
 
 
-def create_cmif_correspAction(correspAction: et.Element, filename: str) -> et.Element:
-    cmif_correspAction = et.Element("correspAction")
-    set_cmif_correspAction_type(correspAction, cmif_correspAction, filename)
-    add_cmif_persName_to_correspAction(correspAction, cmif_correspAction)
-    add_cmif_placeName_to_correspAction(correspAction, cmif_correspAction, filename)
-    add_cmif_date_to_correspAction(correspAction, cmif_correspAction)
-    return cmif_correspAction
+def create_cmif_correspActions(correspActions: list[et.Element], cmif_correspDesc: et.Element, filename: str) -> None:
+    sent_actions, received_actions = extract_correspActions_by_type(correspActions, filename)
+    cmif_sent_action = combine_correspActions_of_single_type_to_cmif_correspAction(sent_actions, "sent", filename)
+    cmif_received_action = combine_correspActions_of_single_type_to_cmif_correspAction(received_actions, "received",
+                                                                                       filename)
+    cmif_correspDesc.append(cmif_sent_action)
+    cmif_correspDesc.append(cmif_received_action)
+    return
+
+
+def extract_correspActions_by_type(correspActions: list[et.Element], filename: str) -> tuple[
+    list[et.Element], list[et.Element]]:
+    send_types = ["hc:CorrespondenceAuthoring", "hc:CorrespondenceSending"]
+    receive_types = ["hc:DesignationAsCorrespondenceAddressee", "hc:CorrespondenceReceiving"]
+
+    sent_actions = [ca for ca in correspActions if ca.attrib.get("ana") in send_types]
+    received_actions = [ca for ca in correspActions if ca.attrib.get("ana") in receive_types]
+    other_actions = [ca for ca in correspActions if
+                     ca.attrib.get("ana") not in send_types and ca.attrib.get("ana") not in receive_types]
+    if other_actions:
+        print(f"{filename} contains correspAction-types that have not been mapped to a CMIF type (allowed: 'sent' or "
+              f"'received'), yet or it has no correspAction-types. Please correct this and update the mapping.")
+    return sent_actions, received_actions
 
 
 def create_cmif_correspDesc(doc: et.Element, ref: str, edition_uuid: str, filename: str) -> et.Element:
-    cmif_correspDesc = et.Element("correspDesc", ref=ref, source='#' + edition_uuid, key=filename[:-4])
+    cmif_correspDesc = et.Element("correspDesc", ref=ref,
+                                  source='#' + edition_uuid)  # key=filename[:-4]: Stefan Dumont: nur für richtige Nummerierung wie in gedruckten Editionen intendiert
     correspDescs = doc.findall(".//tei:correspDesc", namespaces=ns)
     if not correspDescs:
         issues_in_CMIF_export.setdefault(filename, []).append("No correspDesc-element found. Skipped for CMIF export.")
         return None
-    for correspDesc in correspDescs: # if CMIF guidelines are changed and multiple correspDescs should result in multiple cmif_correspDescs, change here
-        for correspAction in correspDesc.findall(".//tei:correspAction", namespaces=ns):
-            cmif_correspAction = create_cmif_correspAction(correspAction, filename)
-            cmif_correspDesc.append(cmif_correspAction)
+
+    correspActions = [correspAction for correspDesc in correspDescs for correspAction in
+                      correspDesc.findall(".//tei:correspAction", namespaces=ns)]
+    create_cmif_correspActions(correspActions, cmif_correspDesc, filename)
+
     return cmif_correspDesc
+
+
+def combine_correspActions_of_single_type_to_cmif_correspAction(actions, action_type, filename):
+    cmif_correspAction = et.Element("correspAction")
+    cmif_correspAction.set("type", action_type)
+
+    if not actions:
+        pers_name = et.SubElement(cmif_correspAction, "persName")
+        pers_name.text = "Unbekannt"
+        return cmif_correspAction
+
+    for action in actions:
+        add_cmif_persName_to_correspAction(action, cmif_correspAction)
+        add_cmif_placeName_to_correspAction(action, cmif_correspAction, filename)
+        add_cmif_date_to_correspAction(action, cmif_correspAction)
+
+    return cmif_correspAction
 
 
 def write_xml_to_file(xml: et.ElementTree, output_path: str | Path) -> None:
@@ -120,7 +215,7 @@ def create_xml_suitable_uuid_from_string(value: str) -> str:
     a number, it is replaced with a character in order to allow the UUID to be used as a valid xml:id"""
     hex_string = hashlib.md5(value.encode("UTF-8")).hexdigest()
     id = str(uuid.UUID(hex=hex_string))
-    if id[0].isnumeric(): # would lead to an invalid XML id
+    if id[0].isnumeric():  # would lead to an invalid XML id
         x = "0123456789"
         y = "abcdefghij"
         translation_table = str.maketrans(x, y)
@@ -160,7 +255,7 @@ def doc_is_correspondence(doc: et.Element) -> bool:
                             "hc:LetterCard",
                             "hc:PicturePostcard",
                             "hc:Postcard",
-                            "hc:Telegram"]     # envelope nicht (nur an div)
+                            "hc:Telegram"]  # envelope nicht (nur an div)
     for type in correspondence_types:
         if type in doc_type:
             return True
@@ -182,8 +277,8 @@ def create_cmif_export(files: list,
         doc_root = doc.getroot()
         if not doc_is_correspondence(doc_root):
             issues_in_CMIF_export.setdefault(file, []).append(
-                "Document's type is not included in correspondence types; "
-                "thus the file is not included in CMIF export.")
+                "Document's type is not included in correspondence types. "
+                "File is not included in CMIF export.")
             continue
 
         correspondence_doi_elements = [idno for idno in doc_root.findall(".//tei:idno", namespaces=ns)
@@ -192,7 +287,7 @@ def create_cmif_export(files: list,
             issues_in_CMIF_export.setdefault(file, []).append(
                 "No ReadingViewIdentifier found. File is not included in CMIF export.")
             continue
-        
+
         correspondence_doi = correspondence_doi_elements[0].text
         cmif_correspDesc = create_cmif_correspDesc(doc_root,
                                                    correspondence_doi,
@@ -201,6 +296,8 @@ def create_cmif_export(files: list,
         if cmif_correspDesc is not None:
             cmif_profileDesc.append(cmif_correspDesc)
 
+    sort_container = cmif_tree.find(".//tei:profileDesc", namespaces=ns)
+    sort_container[:] = sorted(sort_container, key=lambda el: el.get("ref"))
     write_xml_to_file(cmif_tree, output_path)
     sorted_issues_in_CMIF_export_json = json.dumps(dict(sorted(issues_in_CMIF_export.items())))
     print(sorted_issues_in_CMIF_export_json)
