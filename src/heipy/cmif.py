@@ -234,7 +234,10 @@ def initialize_cmif_file(project_name: str,
 
     bibl = cmif.find(".//tei:bibl", namespaces=ns)
     bibl.set(prefix_format('xml', 'id'), edition_uuid)
-    bibl.text = edition_citation
+    edition_citation_element = et.fromstring(f'<temp_wrapper_tag>{edition_citation}</temp_wrapper_tag>')
+    bibl.text = edition_citation_element.text
+    for child in edition_citation_element:
+        bibl.append(child)
 
     title = cmif.find(".//tei:title", namespaces=ns)
     title.text = title.text + "“" + edition_title + "”"
