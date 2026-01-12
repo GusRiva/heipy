@@ -25,7 +25,7 @@ def _add_prefix_to_ids(root:et.Element, prefix:str):
     xml_id = '{http://www.w3.org/XML/1998/namespace}id'
     prefix = f'_{prefix}'
     all_ids = set()
-    for elem in root.iter():
+    for elem in root.iter(tag=et.Element):
         localname = et.QName(elem).localname
         if localname in ['zone', 'surface']:
             continue
