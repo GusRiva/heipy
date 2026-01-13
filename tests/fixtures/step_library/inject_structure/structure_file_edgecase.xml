@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/structure_configuration_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/structure_configuration_schema.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <listPrefixDef>
+        <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"> </prefixDef>
+        <prefixDef ident="wit" matchPattern="(.+)" replacementPattern="input_basic.xml#$1"> </prefixDef>
+    </listPrefixDef>
+    
+    <text>
+        <body>
+            <div ana="hc:Section" xml:id="AH_A_1" rendition="hc:DisplayDivision">
+                <head ana="hc:EditorialContent">Heinrichs Krankheit (V. 1–458)</head>
+                <ptr target="wit:range(v_1,v_4)"/>
+            </div>
+            <div ana="hc:Section" xml:id="AH_A_2" rendition="hc:DisplayDivision">
+                <head ana="hc:EditorialContent">Opferbereitschaft des Mädchens (V. 459–854)</head>
+                <ptr target="wit:range(v_5,v_9)"/>
+            </div>
+            <div ana="hc:Section" xml:id="AH_A_3" rendition="hc:DisplayDivision">
+                <head ana="hc:EditorialContent">Beschluss und Fahrt nach Salerno (V. 855–1170)</head>
+                <ptr target="wit:range(v_10,v_13)"/>
+            </div>
+            
+        </body>
+    </text>
+</TEI>

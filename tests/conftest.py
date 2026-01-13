@@ -15,7 +15,7 @@ from lxml import etree as et
 from saxonche import PySaxonProcessor
 
 # Import heipy modules
-from heipy.parsers import HeiEditionsParser
+from heipy.parsers import HeiEditionsParser, heiparse
 from heipy.namespaces import ns
 
 
@@ -34,11 +34,16 @@ def minimal_fixtures_dir(fixtures_dir):
     """Return path to minimal TEI fixtures."""
     return fixtures_dir / "minimal"
 
+@pytest.fixture(scope="session")
+def complex_fixtures_dir(fixtures_dir):
+    """Return path to minimal TEI fixtures."""
+    return fixtures_dir / "complex"
+
 
 @pytest.fixture(scope="session")
 def step_fixtures_dir(fixtures_dir):
     """Return path to step-specific fixtures."""
-    return fixtures_dir / "step_fixtures"
+    return fixtures_dir / "step_library"
 
 
 # ============================================================================
@@ -113,30 +118,6 @@ def basic_tei(minimal_fixtures_dir, hei_parser):
     - Single paragraph in body
     """
     path = minimal_fixtures_dir / "basic_tei.xml"
-    if not path.exists():
-        # Return a minimal inline TEI if fixture file doesn't exist yet
-        minimal_xml = """<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
-  <teiHeader>
-    <fileDesc>
-      <titleStmt>
-        <title>Test Document</title>
-      </titleStmt>
-      <publicationStmt>
-        <p>Test</p>
-      </publicationStmt>
-      <sourceDesc>
-        <p>Test</p>
-      </sourceDesc>
-    </fileDesc>
-  </teiHeader>
-  <text>
-    <body>
-      <p xml:id="p1">Test paragraph.</p>
-    </body>
-  </text>
-</TEI>"""
-        return et.fromstring(minimal_xml.encode('utf-8'), parser=hei_parser)
     return et.parse(str(path), parser=hei_parser)
 
 
@@ -155,52 +136,47 @@ def tei_with_entities(minimal_fixtures_dir, hei_parser):
     path = minimal_fixtures_dir / "tei_with_entities.xml"
     return et.parse(str(path), parser=hei_parser)
 
+@pytest.fixture
+def tei_with_xinclude_path(minimal_fixtures_dir):
+    """
+    Path to TEI document with xi:include function.
+    Contains:
+    - heiEDITIONS schema declaration
+    - xi Prefix definition
+    - xi:include
+    Used for testing entity preservation through load/write cycles.
+    """
+    return minimal_fixtures_dir / "tei_with_xinclude.xml"
+    
+
 
 # ============================================================================
-# XML Comparison Fixtures
+# XML Comparison Functions
 # ============================================================================
-
-@pytest.fixture
-def xml_equal():
-    """
-    Provide XML comparison function that preserves whitespace.
-
-    Usage:
-        def test_transformation(xml_equal):
-            result = transform(input_xml)
-            assert xml_equal(result, expected)
-    """
-    from tests.helpers.xml_compare import xml_equal as _xml_equal
-    return _xml_equal
-
-
-@pytest.fixture
-def xml_diff():
-    """
-    Provide XML diff function for detailed comparison output.
-
-    Usage:
-        def test_transformation(xml_diff):
-            diff = xml_diff(result, expected)
-            if diff:
-                print(diff)
-    """
-    from tests.helpers.xml_compare import xml_diff as _xml_diff
-    return _xml_diff
-
-
-@pytest.fixture
-def assert_xml_equal():
-    """
-    Provide assertion function for XML equality with detailed diff.
-
-    Usage:
-        def test_transformation(assert_xml_equal):
-            result = transform(input_xml)
-            assert_xml_equal(result, expected, "Transform failed")
-    """
-    from tests.helpers.xml_compare import assert_xml_equal as _assert_xml_equal
-    return _assert_xml_equal
+#
+# XML comparison functions are available in tests.helpers.xml_compare
+# Import them directly in your test files instead of using fixtures:
+#
+# from tests.helpers.xml_compare import xml_equal, assert_xml_equal, assert_text_equal
+#
+# Available functions:
+#   - xml_equal(): Compare two XML trees for equality (element-based)
+#   - xml_diff(): Generate detailed diff between XML trees
+#   - assert_xml_equal(): Assert XML equality with detailed error messages
+#   - assert_xml_structure_equal(): Compare structure only (ignore text)
+#   - assert_xml_contains(): Check if XML fragment is contained
+#   - text_equal(): Compare XML documents as text strings
+#   - assert_text_equal(): Assert text equality with detailed diff
+#   - normalize_prologue(): Normalize XML prologue formatting
+#
+# Example usage:
+#     from tests.helpers.xml_compare import xml_equal
+#
+#     def test_transformation(fixture_loader):
+#         result = transform(input_xml)
+#         assert xml_equal(result, expected)
+#
+# ============================================================================
 
 
 # ============================================================================

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet 
+<xsl:stylesheet
   version="3.0"
-  xpath-default-namespace="http://www.tei-c.org/ns/1.0" 
+  xpath-default-namespace="http://www.tei-c.org/ns/1.0"
   xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   >
@@ -20,6 +20,14 @@
 
   <!-- Identity template -->
   <xsl:mode on-no-match="shallow-copy" />
+
+  <!-- Ensure hei namespace is declared on root element -->
+  <xsl:template match="/*">
+    <xsl:copy copy-namespaces="no">
+      <xsl:namespace name="hei">https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS</xsl:namespace>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
 
   <xsl:template match="lb | milestone[tokenize(@ana, '\s+') = 'hc:LineSegmentBeginning']" priority="1">
     <xsl:copy>

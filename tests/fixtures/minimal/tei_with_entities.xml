@@ -16,7 +16,7 @@
       </sourceDesc>
     </fileDesc>
   </teiHeader>
-  <text ana="hc:Essay">
+  <text ana="hc:Essay" xml:id="text_1">
     <body>
       <p xml:id="p1">
         <w xml:id="w1">co<choice><am>&bar;</am><ex>m</ex></choice></w>

@@ -24,7 +24,7 @@ class StepFixtureLoader:
     XML pairs and configuration files for step tests.
 
     Fixture Directory Structure:
-        step_fixtures/
+        step_library/
             step_name/
                 input.xml           # Default input
                 expected.xml        # Default expected output
@@ -152,6 +152,82 @@ class StepFixtureLoader:
                 return json.load(f)
         else:
             raise ValueError(f"Unsupported config format: {format}")
+
+    def load(self, relative_path: str, return_string: bool = False) -> Union[et._ElementTree, str]:
+        """
+        Load a fixture file using a relative path (hybrid API).
+
+        This is a flexible method for loading any fixture within the fixtures_base
+        directory using a simple relative path. It complements the structured
+        methods (load_step_fixture, load_step_pair) by allowing direct path access.
+
+        Args:
+            relative_path: Path relative to fixtures_base (e.g., 'step_name/input_basic.xml'
+                          or 'mark_note_as_editorial/input_basic.xml')
+            return_string: If True, return XML as string instead of ElementTree
+
+        Returns:
+            Parsed XML ElementTree, or XML string if return_string=True
+
+        Raises:
+            FileNotFoundError: If file doesn't exist
+            ValueError: If file is not valid XML
+
+        Example:
+            >>> loader = StepFixtureLoader(fixtures_base)
+            >>> # Load as ElementTree (default)
+            >>> tree = loader.load('mark_note_as_editorial/input_basic.xml')
+            >>> # Load as string
+            >>> xml_str = loader.load('mark_note_as_editorial/input_basic.xml', return_string=True)
+        """
+        # Construct full path
+        full_path = self.fixtures_base / relative_path
+
+        # Check existence
+        if not full_path.exists():
+            raise FileNotFoundError(
+                f"Fixture not found: {full_path}\n"
+                f"Relative path: {relative_path}\n"
+                f"Fixtures base: {self.fixtures_base}"
+            )
+
+        # Parse XML
+        try:
+            tree = et.parse(str(full_path), parser=self.parser)
+        except et.XMLSyntaxError as e:
+            raise ValueError(
+                f"Invalid XML in fixture {full_path}: {e}"
+            )
+
+        # Return in requested format
+        if return_string:
+            return et.tostring(tree, encoding='unicode')
+        return tree
+
+    def tree_to_string(self, tree: Union[et._ElementTree, et._Element]) -> str:
+        """
+        Convert an ElementTree to XML string.
+
+        Helper method for converting loaded fixtures to strings suitable
+        for passing to step.execute().
+
+        Args:
+            tree: ElementTree or Element object
+
+        Returns:
+            XML string with unicode encoding
+
+        Example:
+            >>> tree = loader.load('step_name/input.xml')
+            >>> xml_str = loader.tree_to_string(tree)
+            >>> result = step.execute(xml_str)
+        """
+        if isinstance(tree, et._Element):
+            return et.tostring(tree, encoding='unicode')
+        elif isinstance(tree, et._ElementTree):
+            return et.tostring(tree.getroot(), encoding='unicode')
+        else:
+            raise TypeError(f"Expected Element or ElementTree, got {type(tree)}")
 
     def get_step_fixture_path(self, step_name: str, fixture_name: str = "input") -> Path:
         """

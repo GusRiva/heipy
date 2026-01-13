@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Test Document</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Test publication statement</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Test source <note>This note should never be editorial</note>description</p>
+        <p>Test source <note ana="hc:BiblicalNote">This note should never be editorial</note>description</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text ana="hc:Article">
+    <body>
+      <p xml:id="p1">Test paragraph with <note ana="hc:TextCriticalNote">This note is editorial</note>some content.</p>
+      <p xml:id="p2">Another paragraph for testing.<note ana="hc:Footnote">This note is not editorial</note></p>
+      <note>This note is editorial</note>
+    </body>
+    <back>
+      <p>Back <note ana="hc:TextCriticalNote">This note is editorial</note>test. 
+        <note ana="hc:Comment">This note is also editorial</note></p>
+    </back>
+  </text>
+</TEI>
