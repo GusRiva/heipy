@@ -217,7 +217,6 @@
   <xsl:template name="getLineSegmentBeginning">
     <xsl:param name="zone_id"/>
     <xsl:param name="line_number"/>
-    <xsl:text> HERE </xsl:text>
     <xsl:try>
       <xsl:for-each select="key('milestone-line-segment', concat($zone_id, '|', $line_number))">
         <xsl:sort select="@n" data-type="number"></xsl:sort>
