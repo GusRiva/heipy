@@ -1,6 +1,5 @@
 __all__ = ['add_id_2_note',
            'add_vertical_layout',
-           'combine_facsimile_and_text_to_sourcedoc', 
            'connect_lb_and_segment', 
            'container2milestone',
            'filter_visual_information',
