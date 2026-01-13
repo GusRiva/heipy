@@ -9,7 +9,7 @@ fixtures/
 ├── minimal/              # Minimal reusable TEI documents
 │   ├── basic_tei.xml
 │   ├── tei_with_entities.xml
-└── step_fixtures/        # Step-specific input/expected pairs
+└── step_llibrary/        # Step-specific input/expected pairs
     └── {step_name}/
         ├── input_*.xml
         ├── expected_*.xml

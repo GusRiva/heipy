@@ -74,7 +74,8 @@ def normalize_parameters(parameters):
         if len(parameters) > 0:
             warnings.warn(
                 "Passing parameters as a list of dictionaries is deprecated. "
-                "Please use a plain dictionary instead: {'key1': 'val1', 'key2': 'val2'}",
+                "Please use a plain dictionary instead: {'key1': 'val1', 'key2': 'val2'}. "
+                f"You are currently using {parameters}",
                 HeiDeprecationWarning,
                 stacklevel=3
             )

@@ -1,0 +1,74 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Test Document</title>
+			</titleStmt>
+			<publicationStmt>
+				<p>Test publication statement</p>
+			</publicationStmt>
+			<sourceDesc>
+				<p>Test source description</p>
+			</sourceDesc>
+		</fileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface ana="hc:Page" xml:id="A1_1r" n="1r">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0001/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+		</surface>
+		<surface ana="hc:Page" xml:id="A1_1v" n="1v">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0002/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a"/>
+		</surface>
+	</facsimile>
+	<text ana="hc:Article">
+		<body>
+		<!-- No text no tail -->
+		<lg>
+			<l>Der du von dem Himmel bist, </l>
+			<l>Alles <delSpan spanTo="#delSpan_1"/><hi rendition="hc:Bold">Leid und Schmerzen stillest,</hi></l>
+		</lg>
+		<lg>
+			<l>Den, der doppelt elend ist,</l>
+			<anchor xml:id="delSpan_1"/>
+			<l>Doppelt mit Erquickung füllest,</l>
+		</lg>
+			
+		<!-- text no tail -->
+		<lg>
+			<l>Der du von dem Himmel bist, </l>
+			<l>Alles <addSpan spanTo="#addSpan_2"/>Leid <hi rendition="hc:Bold">und Schmerzen stillest,</hi></l>
+		</lg>
+		<lg>
+			<l>Den, der doppelt elend ist,</l>
+			<anchor xml:id="addSpan_2"/>
+			<l>Doppelt mit Erquickung füllest,</l>
+		</lg>
+			
+		<!-- text + tail -->
+		<lg>
+			<l>Der du von dem Himmel bist, </l>
+			<l>Alles <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_3"/>Leid <hi rendition="hc:Bold">und Schmerzen </hi>stillest,</l>
+		</lg>
+		<lg>
+			<l>Den, der doppelt elend ist,</l>
+			<anchor xml:id="addSpan_3"/>
+			<l>Doppelt mit Erquickung füllest,</l>
+		</lg>
+			
+		<!-- text + tail + tail -->
+		<lg>
+			<l>Der du von dem Himmel bist, </l>
+			<l>Alles <milestone ana="hc:EditorialDeletionSpan" spanTo="#delSpan_4"/>Leid <hi>und Schmerzen </hi>stillest, <hi>Doppelt mit </hi>Erquickung füllest,</l>
+		</lg>
+		<lg>
+			<l>Den, der doppelt elend ist,</l>
+			<anchor xml:id="delSpan_4"/>
+			<l>Doppelt mit Erquickung füllest,</l>
+		</lg>
+		
+
+		</body>
+	</text>
+</TEI>

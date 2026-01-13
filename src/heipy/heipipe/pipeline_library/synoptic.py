@@ -1,4 +1,5 @@
 from ..steps import Pipeline, AddAttribute, DeleteStep, UnwrapStep
+from ..step_library.semantic import revision_spans
 from ..step_library import *
 from ..step_library.synoptic import change_prefixdef_ref
 

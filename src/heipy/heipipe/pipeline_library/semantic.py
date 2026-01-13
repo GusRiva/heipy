@@ -1,6 +1,8 @@
 from ..steps import Pipeline, AddAttribute, DeleteStep
 from ..step_library import *
+from ..step_library.semantic import revision_spans
 from ...namespaces import prefix_format
+
 
 class SemanticPipe(Pipeline):
     def __init__(self, parameters = None):
@@ -20,12 +22,11 @@ class SemanticPipe(Pipeline):
                                  'tei:fw',
                                  "tei:label[contains(@ana, 'hc:DivisionMark')]"], name="delete_irrelevant_elements_for_semantic"),
             ptr2ref.get_step(),
-            
+            revision_spans.get_step(),
             mark_note_as_editorial_step,
             add_id_2_note.get_step(),
             move_note_step,
             supply_id_divisions.get_step(),
-            revision_spans.get_step(),
             whitespaces.get_step(),
             number_line_segment_beginnings.get_step(),
             AddAttribute(match='tei:text', att_name=prefix_format('xml','space'), att_val='preserve'),
@@ -35,7 +36,7 @@ class SemanticPipe(Pipeline):
         
         if isinstance(parameters, dict):
             if parameters.get('inject_structure'):
-                inject_structure_step = inject_structure_new.get_step()
+                inject_structure_step = inject_structure.get_step()
                 pipe_steps.insert(3, inject_structure_step)
             
             
