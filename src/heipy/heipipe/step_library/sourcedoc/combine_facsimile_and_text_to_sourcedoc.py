@@ -27,7 +27,7 @@ def combine_facsimile_text(root: et.Element, parameters=None):
     
     for zone_id, lbs in lb_by_belongsto.items():
         zone = text_zones_by_id.get(zone_id[1:])
-        lbs_sorted = sorted(lbs, key = lambda x: int(x.get('n')))
+        lbs_sorted = sorted(lbs, key = lambda x: float(x.get('n')))
         for lb in lbs_sorted:
             line = et.Element(tei_ns /'line', attrib= {xml_ns / 'space': 'preserve'})
             if lb.get('facs') is not None:
