@@ -23,7 +23,7 @@ class TestSourcedocPipeline:
         """Test that complex TEI can be processed without error."""
         pipeline_compare_flow(SourceDocPipe(), 
                               complex_fixtures_dir / "Gregoire_A3_Paris.xml", 
-                              generate_auto=False
+                              generate_auto=True
                               )
         
     def test_sourcedoc_milestones(self, complex_fixtures_dir):

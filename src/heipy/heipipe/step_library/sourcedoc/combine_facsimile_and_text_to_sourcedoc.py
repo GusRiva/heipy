@@ -87,9 +87,12 @@ def append_text(element, text):
 
 
 def process_following(lb, line):
-    for following_el in lb.xpath('following-sibling::*'):
+    for following_el in lb.itersiblings():
         if following_el.tag in stopper_tags:
             break
+        if isinstance(following_el.tag, type(et.Comment)):
+            # Do not include comment nodes
+            continue
         if following_el.tag == tei_ns / 'milestone':
             milestone_ana = following_el.get('ana')
             if "hc:ZoneBeginnning" in milestone_ana or "hc:ZoneShift" in milestone_ana:
