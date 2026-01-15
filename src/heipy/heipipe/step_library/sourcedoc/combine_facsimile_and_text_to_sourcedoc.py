@@ -9,6 +9,9 @@ stopper_tags = [tei_ns / x for x in ["lb", 'pb', 'cb']]
 def combine_facsimile_text(root: et.Element, parameters=None):
     sourcedoc_el = et.Element( tei_ns / 'sourceDoc')
     facsimile_el = root.find('tei:facsimile', ns)
+    if facsimile_el is None:
+        root.append(sourcedoc_el)
+        return root
     text_zones_by_id = { x.get(xml_ns / 'id'): x 
                         for x in 
                         facsimile_el.xpath("//tei:zone[contains(@ana, 'hc:TextZone')]", namespaces=ns)}

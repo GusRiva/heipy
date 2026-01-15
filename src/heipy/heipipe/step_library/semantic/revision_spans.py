@@ -25,8 +25,13 @@ span_config = {
 
 
 def revision_spans_funct(root, parameters=None):
-    text_element = root.find("tei:text", ns)
-    spans_and_anchors = text_element.xpath(
+    start_element = root.find("tei:text", ns)
+    print([x for x in root])
+    if start_element is None:
+        start_element = root.find("tei:sourceDoc", ns)
+    if start_element is None:
+        raise SyntaxError("Could not find a text or sourcedoc element.")
+    spans_and_anchors = start_element.xpath(
         ".//tei:delSpan | .//tei:addSpan | .//tei:milestone[@ana='hc:EditorialAdditionSpan'] | .//tei:milestone[@ana='hc:EditorialDeletionSpan'] | .//tei:anchor",
         namespaces=ns,
     )
@@ -62,7 +67,6 @@ def revision_spans_funct(root, parameters=None):
                     continue
             if processed_ancestor:
                 continue
-
             if node in anchor_ancestors:
                 if node.text is not None and node.text.strip() != '':
                     new_wrap = et.Element(this_span_config.get('basic'))
@@ -76,6 +80,8 @@ def revision_spans_funct(root, parameters=None):
                 break
             elif node.tag in [tei_ns / x for x in ['lb']] or (node.attrib.get('ana') is not None and 'hc:EditorialContent' in node.attrib.get('ana')):
                 wrap_tail(node, this_span_config, span_to)
+            elif node.tag == tei_ns / "line":
+                continue
             else:
                 previous_ana = node.attrib.get('ana')
                 new_ana = this_ana

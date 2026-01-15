@@ -25,71 +25,76 @@
 	<text ana="hc:Article">
 		<body>
 			<!-- 1 -->
+			<pb facs="#A1_1r"/>
+			<cb facs="#A1_1r-a"/>
 			<head>
             <lb n="1"/>Wanderers Nachtlied <delSpan rendition="hc:Strikethrough" spanTo="#delSpan_1"/>eigenhändig aufgezeichnet</head>
-			<l ana="hc:EditorialLine"><lb n="2"/>Über allen Gipfeln ist Ruh</l>
+			<l><lb n="2"/>Über allen Gipfeln ist Ruh</l>
 			<l><lb n="3"/>In allen Wipfeln spürest du</l>
 			<l>Kaum<lb n="4"/>einen <persName><w>Wolfgang</w> <w>Goe<anchor xml:id="delSpan_1"/>the</w></persName> Hauch</l>
 			<l><lb n="5"/>Die Vögelein schweigen im Walde.</l>
 			
 			<!-- 2 -->
 			<lg>
+				<lb n="6"/>
 				<addSpan spanTo="#addSpan_1"/>
 				<l>Der du von dem Himmel bist, </l>
-				<l>Alles Leid und Schmerzen stillest,</l>
+				<lb n="7"/><l>Alles Leid und Schmerzen stillest,</l>
 			</lg>
 			<lg>
-				<l>Den, der doppelt elend ist,</l>
-				<l>Doppelt mit Erquickung füllest,</l>
+				<lb n="8"/><l>Den, der doppelt elend ist,</l>
+				<lb n="9"/><l>Doppelt mit Erquickung füllest,</l>
 			</lg>
 			<lg>
-				<l>Ach, ich bin des<anchor xml:id="addSpan_1"/> Treibens müde!</l>
-				<l>Was soll all der Schmerz und Lust?</l>
-				<l>Süßer Friede,</l>
-				<l>Komm, ach komm in meine Brust!</l>
+				<lb n="10"/><l>Ach, ich bin des<anchor xml:id="addSpan_1"/> Treibens müde!</l>
+				<lb n="11"/><l>Was soll all der Schmerz und Lust?</l>
+				<lb n="12"/><l>Süßer Friede,</l>
+				<lb n="13"/><l>Komm, ach komm in meine Brust!</l>
 			</lg>
 			
 			<!-- 3 -->
+			<pb facs="#A1_1v"/>
+			<cb facs="#A1_1v-a"/>
 			<lg>
-				<l>Der du von dem Himmel bist, </l>
+				<lb n="1"/><l>Der du von dem Himmel bist, </l>
 				<addSpan spanTo="#addSpan_3"/>
-				<l>Alles <hi rendition="hc:Bold">Leid und Schmerzen stillest,</hi></l>
+				<lb n="2"/><l>Alles <hi rendition="hc:Bold">Leid und Schmerzen stillest,</hi></l>
 			</lg>
 			<lg>
-				<l>Den, der doppelt elend ist,</l>
-				<l>Doppelt mit Erquickung füllest,</l>
+				<l>Den, der <lb n="3"/>doppelt elend ist,</l>
+				<l>Doppelt mit <lb n="4"/>Erquickung füllest,</l>
 			</lg>
 			<lg>
-				<l><hi>A</hi>ch, ich <hi rendition="hc:Bold">bin des<anchor xml:id="addSpan_3"/> Treibens</hi> müde!</l>
-				<l>Was soll all der Schmerz und Lust?</l>
-				<l>Süßer Friede,</l>
-				<l>Komm, ach komm in meine Brust!</l>
+				<lb n="5"/><l><hi>A</hi>ch, ich <hi rendition="hc:Bold">bin des<anchor xml:id="addSpan_3"/> Treibens</hi> müde!</l>
+				<lb n="6"/><l>Was soll all der Schmerz und Lust?</l>
+				<lb n="7"/><l>Süßer Friede,</l>
+				<lb n="8"/><l>Komm, ach komm in meine Brust!</l>
 			</lg>
 			
 			<!-- 4 -->
 			<lg>
-				<l>Der du von dem Himmel bist, </l>
-				<l>Alles <delSpan spanTo="#delSpan_4"/><hi rendition="hc:Bold">Leid und Schmerzen stillest,</hi></l>
+				<lb n="9"/><l>Der du von dem Himmel bist, </l>
+				<lb n="10"/><l>Alles <delSpan spanTo="#delSpan_4"/><hi rendition="hc:Bold">Leid und Schmerzen stillest,</hi></l>
 			</lg>
 			<lg>
-				<l>Den, der doppelt elend ist,</l>
-				<l>Doppelt mit Erquickung füllest,</l>
+				<lb n="11"/><l>Den, der doppelt elend ist,</l>
+				<lb n="12"/><l>Doppelt mit Erquickung füllest,</l>
 			</lg>
 			<lg>
-				<l>Ach, ich <hi rendition="Red">bin des<anchor xml:id="delSpan_4"/> Treibens</hi> müde!</l>
-				<l>Was soll all der Schmerz und Lust?</l>
-				<l>Süßer Friede,</l>
-				<l>Komm, ach komm in meine Brust!</l>
+				<lb n="13"/><l>Ach, ich <hi rendition="hc:Bold">bin des<anchor xml:id="delSpan_4"/> Treibens</hi> müde!</l>
+				<lb n="14"/><l>Was soll all der Schmerz und Lust?</l>
+				<lb n="15"/><l>Süßer Friede,</l>
+				<lb n="16"/><l>Komm, ach komm in meine Brust!</l>
 			</lg>
 			
 			<!-- 5 -->
 			<lg>
-				<l>Der du von dem Himmel bist, </l>
-				<l>Alles <delSpan spanTo="#delSpan_5"/>Leid <hi rendition="hc:Bold">und Schmerzen stillest,</hi></l>
+				<lb n="17"/><l>Der du von dem Himmel bist, </l>
+				<lb n="18"/><l>Alles <delSpan spanTo="#delSpan_5"/>Leid <hi rendition="hc:Bold">und Schmerzen stillest,</hi></l>
 			</lg>
 			<lg>
-				<l>Den, der doppelt<anchor xml:id="delSpan_5"/> elend ist,</l>
-				<l>Doppelt mit Erquickung füllest,</l>
+				<lb n="19"/><l>Den, der doppelt<anchor xml:id="delSpan_5"/> elend ist,</l>
+				<lb n="20"/><l>Doppelt mit Erquickung füllest,</l>
 			</lg>
 
 		</body>

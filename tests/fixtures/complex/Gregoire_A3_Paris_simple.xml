@@ -45,33 +45,12 @@
                     </licence>
                 </availability>
                 <idno ana="hc:DOI hc:EditionWebsiteIdentifier">https://doi.org/10.11588/edition.vsgd</idno>
-                <!-- <idno ana="hc:DOI hc:ReadingViewIdentifier">###</idno>-->
                 <listBibl>
                     <bibl ana="hc:RecommendedBibliographicReference">La Vie de saint Grégoire, édition numerique du manuscrit A3, éd. par Françoise Laurent. Dans: La Vie de saint Grégoire. Textgeschichtliche digitale Edition, hg. von Françoise Laurent, Ilsiona Nuh und Vanessa Obry, unter Mitarbeit von Marie-Sophie Masse und Victor Millet. Heidelberg: Universitätsbibliothek, 2026. DOI: <idno ana="hc:DOI">https://doi.org/10.11588/edition.vsgd</idno> [Datum des Abrufs].</bibl>
                 </listBibl>
             </publicationStmt>
             <sourceDesc>
-                <msDesc>
-                    <msIdentifier>
-                        <settlement>
-                            <placeName>Paris</placeName>
-                            <idno>IdRef: 027244520</idno>
-                        </settlement>
-                        <repository>
-                            <orgName>Bibliothèque nationale de France</orgName>
-                            <idno>IdRef: 02649891X</idno>
-                        </repository>
-                        <idno ana="hc:Shelfmark">ms. Français 1545</idno>
-                        <idno ana="hc:EditorialSiglum">A3</idno>
-                    </msIdentifier>
-                    <additional>
-                        <surrogates>
-                            <listBibl>
-                                <bibl ana="hc:BibliographicReferenceForOnlineFacsimile">Paris, Bibliothèque nationale de France, ms. Français 1545, Vie de saint Grégoire (A3) (Permalink: <ptr ana="hc:URLReference" target="https://doi.org/10.11588/diglit.73282"/>).</bibl>
-                            </listBibl>
-                        </surrogates>
-                    </additional>
-                </msDesc>
+                <p></p>
             </sourceDesc>
         </fileDesc>
         <encodingDesc>
@@ -5027,7 +5006,7 @@
         </body>
         <back>
             <trailer>
-                <lb n="40"/>
+                <lb n="44"/>
                 <w>Amen</w>
             </trailer>
         </back>
