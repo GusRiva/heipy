@@ -50,7 +50,6 @@ def move_note_func(root, parameters):
             # Find the target
             target = id_index.get(target_id_enum)             
             if target is None:
-                print(note.attrib)
                 print(f"{RED}Could not find target for note: {target_id_enum}{RESET}")
                 with open('tmp/errors.log', 'a') as error_file:
                     error_file.write(f"\nCould not find target for note: {target_id_enum}")

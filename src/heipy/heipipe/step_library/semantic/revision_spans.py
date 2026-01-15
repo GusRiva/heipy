@@ -26,7 +26,6 @@ span_config = {
 
 def revision_spans_funct(root, parameters=None):
     start_element = root.find("tei:text", ns)
-    print([x for x in root])
     if start_element is None:
         start_element = root.find("tei:sourceDoc", ns)
     if start_element is None:
