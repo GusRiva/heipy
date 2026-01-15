@@ -1,7 +1,7 @@
 from lxml import etree as et
 
-from ...steps import PythonStep
-from ....namespaces import tei_ns, xml_ns, hei_ns, ns
+from ..steps import PythonStep
+from ...namespaces import tei_ns, xml_ns, hei_ns, ns
 
 
 # This step expands the delSpan and addSpan and milestones in the semantic pipeline

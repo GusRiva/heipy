@@ -47,13 +47,13 @@ class TestSourcedocPipeline:
     def test_sourcedoc_revision_spans(self, step_fixtures_dir, complex_fixtures_dir):
         """Test that revision spans are processed correctly."""
         pipeline_compare_flow(SourceDocPipe(), 
-                              step_fixtures_dir / "semantic.revision_spans/input_basic.xml", 
+                              step_fixtures_dir / "revision_spans/input_basic.xml", 
                               complex_fixtures_dir / "output/sourcedoc/revision_spans_basic.xml", 
                               generate_auto=True
                               )
     
         pipeline_compare_flow(SourceDocPipe(), 
-                              step_fixtures_dir / "semantic.revision_spans/input_complex.xml", 
+                              step_fixtures_dir / "revision_spans/input_complex.xml", 
                               complex_fixtures_dir / "output/sourcedoc/revision_spans_complex.xml", 
                               generate_auto=True
                               )

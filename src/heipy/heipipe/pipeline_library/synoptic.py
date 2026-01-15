@@ -1,5 +1,5 @@
 from ..steps import Pipeline, AddAttribute, DeleteStep, UnwrapStep
-from ..step_library.semantic import revision_spans
+from ..step_library import revision_spans
 from ..step_library import mark_note_as_editorial, container2milestone, move_note, move_layout_milestones, ptr2ref, filter_visual_information, add_id_2_note, whitespaces,number_line_segment_beginnings, suppress_first_cb
 from ..step_library.synoptic import change_prefixdef_ref
 

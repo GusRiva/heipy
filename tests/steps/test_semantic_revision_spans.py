@@ -1,6 +1,6 @@
-"""Tests for semantic.revision_spans step."""
+"""Tests for revision_spans step."""
 
-from heipy.heipipe.step_library.semantic import revision_spans
+from heipy.heipipe.step_library import revision_spans
 from tests.helpers.xml_compare import vanilla_compare_flow
 
 
