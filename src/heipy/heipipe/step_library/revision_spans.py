@@ -103,4 +103,4 @@ def wrap_tail(element:et.Element, config:dict, span_to:str):
 
 
 def get_step():
-    return PythonStep(funct=revision_spans_funct, name="semantic.revision_spans")
+    return PythonStep(funct=revision_spans_funct, name="revision_spans")

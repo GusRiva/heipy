@@ -1,6 +1,6 @@
 from ..steps import Pipeline, AddAttribute, DeleteStep
 from ..step_library import mark_note_as_editorial, move_note, filter_visual_information,ptr2ref, add_id_2_note, supply_id_divisions, whitespaces,number_line_segment_beginnings,final_cleanup, inject_structure
-from ..step_library.semantic import revision_spans
+from ..step_library import revision_spans
 from ...namespaces import prefix_format
 
 
