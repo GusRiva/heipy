@@ -1,6 +1,8 @@
 from lxml import etree as et
 from collections import defaultdict
 from copy import deepcopy
+import warnings
+from ....heiwarning import HeiWarning
 from ...steps import PythonStep
 from ....namespaces import ns, hei_ns, xml_ns, tei_ns
 
@@ -30,6 +32,9 @@ def combine_facsimile_text(root: et.Element, parameters=None):
     
     for zone_id, lbs in lb_by_belongsto.items():
         zone = text_zones_by_id.get(zone_id[1:])
+        if zone is None:
+             warnings.warn(f"Could not find zone for {zone_id}. Maybe it is missing ana='hc:TextZone'?", HeiWarning)
+             continue
         lbs_sorted = sorted(lbs, key = lambda x: float(x.get('n')))
         for lb in lbs_sorted:
             line = et.Element(tei_ns /'line', attrib= {xml_ns / 'space': 'preserve'})
