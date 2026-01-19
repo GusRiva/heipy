@@ -15,7 +15,7 @@ class TestSemanticPipeline:
         pipeline_compare_flow(SemanticPipe(), 
                               complex_fixtures_dir / "Gregoire_A3_Paris_simple.xml", 
                               complex_fixtures_dir / "output/semantic/Gregoire_A3_Paris_simple.xml", 
-                              generate_auto=True
+                              generate_auto=False
                               )
 
     def test_semantic_complex(self, complex_fixtures_dir):
@@ -23,7 +23,7 @@ class TestSemanticPipeline:
         pipeline_compare_flow(SemanticPipe(), 
                               complex_fixtures_dir / "Gregoire_A3_Paris.xml",
                               complex_fixtures_dir / "output/semantic/Gregoire_A3_Paris.xml",
-                              generate_auto=True
+                              generate_auto=False
                               )
         
     def test_semantic_milestones(self, complex_fixtures_dir):
@@ -31,7 +31,7 @@ class TestSemanticPipeline:
         pipeline_compare_flow(SemanticPipe(), 
                               complex_fixtures_dir / "zone_milestones.xml", 
                               complex_fixtures_dir / "output/semantic/zone_milestones.xml", 
-                              generate_auto=True
+                              generate_auto=False
                               )
     
     def test_semantic_non_tokenized(self, complex_fixtures_dir):
@@ -39,7 +39,7 @@ class TestSemanticPipeline:
         pipeline_compare_flow(SemanticPipe(), 
                               complex_fixtures_dir / "non_tokenized.xml", 
                               complex_fixtures_dir / "output/semantic/non_tokenized.xml", 
-                              generate_auto=True
+                              generate_auto=False
                               )
         
     def test_semantic_facs(self, complex_fixtures_dir):
@@ -47,5 +47,5 @@ class TestSemanticPipeline:
         pipeline_compare_flow(SemanticPipe(), 
                               complex_fixtures_dir / "facs.xml", 
                               complex_fixtures_dir / "output/semantic/facs.xml",                              
-                              generate_auto=True
+                              generate_auto=False
                               )

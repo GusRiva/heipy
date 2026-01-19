@@ -116,6 +116,7 @@
           <path ana="hc:Baseline" points="393,3727 2047,3700"/>
         </zone>
       </zone>
+      <zone ana="hc:GraphicZone" xml:id="_83rb"></zone>
     </surface>
     <surface ana="hc:Page" lrx="3146" lry="4630" xml:id="_83v" n="83v">
       <graphic url="https://digi.ub.uni-heidelberg.de/diglit/cpg358/0180/image" mimeType="image/*"/>
@@ -451,6 +452,9 @@
         <w>von</w><c> </c>
         <w>richer</w><c> </c>
         <w>koſt</w></l>
+      <cb n="b" facs="#_83rb"/>
+      <lb n="1"/><figure ana="hc:Image"><figDesc>Zeichnung eines Mantels</figDesc><note>Die Zeichnung enthält vier Schriftfelder: "<hi rendition="hc:Italic">8 schuch 3 zoll.</hi>" "<hi rendition="hc:Italic">Das thail legt man auff den kopff</hi>" "<hi rendition="hc:Italic">Das ist der Peginen Mantel</hi>" "<hi rendition="hc:Italic">7 schuch.</hi>".</note></figure>
+      
       <pb n="83v" facs="#_83v"/>
       <cb facs="#_83va"/>
       <lb n="1" facs="#_83va_1"/>

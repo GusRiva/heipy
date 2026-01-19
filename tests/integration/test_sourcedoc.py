@@ -2,10 +2,8 @@
 Tests for full pipelines
 
 """
-import codecs
-from heipy.parsers import heiparse
 from heipy.heipipe.pipeline_library.sourcedoc import SourceDocPipe
-from tests.helpers.xml_compare import assert_xml_equal, pipeline_compare_flow
+from tests.helpers.xml_compare import pipeline_compare_flow
 
 
 
@@ -17,7 +15,7 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               complex_fixtures_dir / "Gregoire_A3_Paris.xml",
                               complex_fixtures_dir / "output/sourcedoc/Gregoire_A3_Paris.xml",
-                              generate_auto=True
+                              generate_auto=False
                               )
         
     def test_sourcedoc_milestones(self, complex_fixtures_dir):
@@ -49,12 +47,20 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               step_fixtures_dir / "revision_spans/input_basic.xml", 
                               complex_fixtures_dir / "output/sourcedoc/revision_spans_basic.xml", 
-                              generate_auto=True
+                              generate_auto=False
                               )
     
         pipeline_compare_flow(SourceDocPipe(), 
                               step_fixtures_dir / "revision_spans/input_complex.xml", 
                               complex_fixtures_dir / "output/sourcedoc/revision_spans_complex.xml", 
-                              generate_auto=True
+                              generate_auto=False
+                              )
+        
+    def test_sourcedoc_subst(self, complex_fixtures_dir, step_fixtures_dir):
+        "Test subst"
+        pipeline_compare_flow(SourceDocPipe(), 
+                              step_fixtures_dir / "move_physical_beginnings/input_complex.xml", 
+                              complex_fixtures_dir / "output/sourcedoc/subst-with-del.xml", 
+                              generate_auto=False
                               )
 

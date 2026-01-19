@@ -16,7 +16,7 @@ def combine_facsimile_text(root: et.Element, parameters=None):
         return root
     text_zones_by_id = { x.get(xml_ns / 'id'): x 
                         for x in 
-                        facsimile_el.xpath("//tei:zone[contains(@ana, 'hc:TextZone')]", namespaces=ns)}
+                        facsimile_el.xpath("//tei:zone[contains(@ana, 'hc:TextZone') or contains(@ana,'hc:GraphicZone')]", namespaces=ns)}
     line_zones = {x.get(xml_ns / "id"):x for x in facsimile_el.xpath(".//tei:zone[@ana='hc:LineZone']", namespaces=ns)}
     for main_zone in facsimile_el:
         sourcedoc_el.append(main_zone)
