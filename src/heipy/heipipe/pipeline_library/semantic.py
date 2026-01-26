@@ -9,7 +9,7 @@ class SemanticPipe(Pipeline):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step()
         mark_note_as_editorial_step.set_parameter('note_classes',
-                                                          "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
+                                                          "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote hc:EditorialNote")
         move_note_step = move_note.get_step()
         move_note_step.set_parameter('position', 'after')
         # SourceDoc Pipeline Standard

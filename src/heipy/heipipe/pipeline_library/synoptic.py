@@ -21,7 +21,7 @@ class SynopticPipe(Pipeline):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step()
         mark_note_as_editorial_step.set_parameter('note_classes',
-                                                          "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
+                                                          "hc:TextCriticalNote hc:EditorialNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
         # List of elements to unwrap
         # to_unwrap = [{'element_name': x} for x in ['fw']]
 

@@ -54,7 +54,7 @@ class SourceDocPipe(Pipeline):
         mark_note_as_editorial_step = mark_note_as_editorial.get_step() 
         mark_note_as_editorial_step.add_parameter(
             'note_classes', 
-            "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
+            "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:EditorialNote hc:FontesNote hc:VariantNote hc:WitnessesNote")
         container2milestone_step = container2milestone.get_step()
         container2milestone_step.set_parameter('element_map', milestone_element_map)
         container2milestone_step.set_parameter('randomDocId', False)
