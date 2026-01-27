@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<!DOCTYPE TEI SYSTEM "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt">
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
   <teiHeader>
     <fileDesc>
@@ -19,11 +18,11 @@
   <text ana="hc:Essay" xml:id="text_1">
     <body>
       <p xml:id="p1">
-        <w xml:id="w1">co<choice><am>&bar;</am><ex>m</ex></choice></w>
+        <w xml:id="w1">co<choice><am><g ref="char:bar">̄</g></am><ex>m</ex></choice></w>
         <c> </c>
-        <w xml:id="w2">n<choice><am>&us;</am><ex>us</ex></choice></w>
+        <w xml:id="w2">n<choice><am>᷒</am><ex>us</ex></choice></w>
         <c> </c>
-        <w xml:id="w3">t<choice><seg>a<am>&er;</am></seg><seg><ex>r</ex>a</seg></choice></w>
+        <w xml:id="w3">t<choice><seg>a<am><g ref="char:er">͛</g></am></seg><seg><ex>r</ex>a</seg></choice></w>
       </p>
     </body>
   </text>
