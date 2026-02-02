@@ -82,6 +82,12 @@ def inject_structure_func(root: et.Element, parameters=None):
 
     
     # Manage the pb / cb / lb outside divs
+    pbs_outside_div = source_text.xpath(".//tei:pb[not(ancestor::tei:div)]", namespaces=ns)
+    for pb_outside_div in pbs_outside_div:
+        for following_el in pb_outside_div.xpath('.//following::tei:div', namespaces=ns):
+            if following_el.tag == tei_ns / 'div':
+                following_el.insert(0, pb_outside_div)
+                break
     
     
     return root

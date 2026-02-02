@@ -31,7 +31,7 @@ class TestSemanticPipeline:
         pipeline_compare_flow(SemanticPipe(), 
                               complex_fixtures_dir / "zone_milestones.xml", 
                               complex_fixtures_dir / "output/semantic/zone_milestones.xml", 
-                              generate_auto=False
+                              generate_auto=True
                               )
     
     def test_semantic_non_tokenized(self, complex_fixtures_dir):
@@ -47,5 +47,5 @@ class TestSemanticPipeline:
         pipeline_compare_flow(SemanticPipe(), 
                               complex_fixtures_dir / "facs.xml", 
                               complex_fixtures_dir / "output/semantic/facs.xml",                              
-                              generate_auto=False
+                              generate_auto=True
                               )
