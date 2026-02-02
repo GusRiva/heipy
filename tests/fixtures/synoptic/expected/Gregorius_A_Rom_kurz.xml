@@ -1,0 +1,207 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument"><teiHeader><fileDesc><titleStmt><title ana="hc:MainTitle">Gregorius</title><title ana="hc:Subtitle">Digitale Edition der Handschrift A</title><author>
+                    <persName>Hartmann von Aue</persName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/118546228</idno>
+                </author><editor>
+                    <persName>Marie-Sophie Masse </persName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/141811609</idno>
+                    <idno ana="hc:ORCIDURI">https://orcid.org/0009-0004-3609-5184</idno>
+                    <affiliation>
+                        <orgName>Université de Picardie Jules Verne</orgName>
+                        <idno ana="hc:GNDURI">https://d-nb.info/gnd/2132004-4</idno>
+                    </affiliation>
+                </editor><funder>
+                    <orgName>Réseau national des Maisons des Sciences de l’Homme</orgName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/2018977-1</idno>
+                </funder><funder>
+                    <orgName>Agencia Estatal de Investigación</orgName>
+                    <idno ana="hc:DOI">https://doi.org/10.13039/501100011033</idno>
+                </funder></titleStmt><editionStmt><edition>Transkription, Edition, Anmerkungen</edition></editionStmt><publicationStmt><publisher>
+                    <orgName>Universitätsbibliothek Heidelberg</orgName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/2002498-8</idno>
+                    <listRef><ref ana="hc:URLReference" target="https://www.ub.uni-heidelberg.de/">https://www.ub.uni-heidelberg.de/</ref></listRef>
+                </publisher><pubPlace>
+                    <placeName>Heidelberg</placeName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/4023996-2</idno>
+                </pubPlace><date when="2025">2025</date><availability><licence target="https://creativecommons.org/licenses/by-sa/4.0">
+                        <p>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</p>
+                    </licence></availability><idno ana="hc:DOI hc:EditionWebsiteIdentifier">https://doi.org/10.11588/edition.grd</idno><idno ana="hc:DOI hc:ReadingViewIdentifier">https://doi.org/10.11588/edition.grd.a</idno><idno ana="hc:DOI hc:SynopticViewIdentifier">https://doi.org/10.11588/edition.grd.synopsis</idno><listBibl><bibl ana="hc:RecommendedBibliographicReferenceForEditionWebsite">Hartmann von Aue: <emph>Gregorius</emph>. Textgeschichtliche digitale Edition, hg. von Emilio González Miranda, Marie-Sophie Masse und Victor Millet. Heidelberg: Universitätsbibliothek, 2025. DOI: <ref ana="hc:URLReference">https://doi.org/10.11588/edition.grd</ref>.</bibl><bibl ana="hc:RecommendedBibliographicReferenceForReadingView">Hartmann von Aue: <emph>Gregorius</emph>. Digitale Edition der Handschrift A, hg. von Marie-Sophie Masse. In: Hartmann von Aue: <emph>Gregorius</emph>. Textgeschichtliche digitale Edition, hg. von Emilio González Miranda, Marie-Sophie Masse und Victor Millet. Heidelberg: Universitätsbibliothek, 2025. DOI: <ref ana="hc:URLReference">https://doi.org/10.11588/edition.grd.a</ref>.</bibl><bibl ana="hc:RecommendedBibliographicReferenceForSynopticView">Hartmann von Aue: <emph>Gregorius</emph>. Synoptische digitale Edition aller erhaltenen Textzeugen mit Übersetzung der Fassung A, hg. von Emilio González Miranda, Marie-Sophie Masse und Victor Millet. In: Hartmann von Aue: <emph>Gregorius</emph>. Textgeschichtliche digitale Edition, hg. von Emilio González Miranda, Marie-Sophie Masse und Victor Millet. Heidelberg: Universitätsbibliothek, 2025. DOI: <ref ana="hc:URLReference">https://doi.org/10.11588/edition.grd.synopsis</ref>.</bibl></listBibl></publicationStmt><notesStmt><note xml:id="note_d2e158" xml:lang="fr">Cette édition a bénéficié d’un financement du Réseau national des Maisons des Sciences de l’Homme dans le cadre du projet 'Gregorius Digital+ : édition numérique et traduction des réécritures européennes de la légende du pape Grégoire (XIIe–XVIIe s.)'.</note><note xml:id="note_d2e161" xml:lang="en">As part of the project 'Gregorius Digital+ : édition numérique et traduction des réécritures européennes de la légende du pape Grégoire (XIIe–XVIIe s.)', this edition received funding from the French Réseau national des Maisons des Sciences de l’Homme. Costs not covered by this project were supportet by research grant PID2022-137490NB-I00 from the Spanish Agencia Estatal de Investigación (AEI).</note><note xml:id="note_d2e164" xml:lang="de">Diese Edition erhielt im Rahmen des Projekts 'Gregorius Digital+ : édition numérique et traduction des réécritures européennes de la légende du pape Grégoire (XIIe–XVIIe s.)' eine Förderung durch das französische Réseau national des Maisons des Sciences de l’Homme. Nicht von diesem Projekt gedeckte Kosten wurden finanziert durch das Forschungsprojekt PID2022-137490NB-I00 der spanischen Agencia Estatal de Investigación (AEI).</note></notesStmt><sourceDesc><msDesc><msIdentifier><settlement>
+                            <placeName>Rom (Vatikanstadt)</placeName>
+                            <idno ana="hc:GNDURI">https://d-nb.info/gnd/4062404-3</idno>
+                        </settlement><repository>
+                            <orgName>Biblioteca Apostolica Vaticana</orgName>
+                            <idno ana="hc:GNDURI">https://d-nb.info/gnd/1205813233</idno>
+                        </repository><idno ana="hc:Shelfmark">Cod. Reg. lat. 1354</idno><idno ana="hc:EditorialSiglum">A</idno></msIdentifier><additional><surrogates>
+                            <listBibl><bibl ana="hc:BibliographicReferenceForOnlineFacsimile">Hartmann von Aue: Gregorius – Vatican, Biblioteca Apostolica Vaticana, Cod. Reg. lat. 1354. Online-Ausgabe. (Permalink: <ref ana="hc:URLReference" target="https://digi.vatlib.it/mss/detail/Reg.lat.1354">https://digi.vatlib.it/mss/detail/Reg.lat.1354</ref>; <ref ana="hc:IIIFManifestURL" target="https://digi.vatlib.it/iiif/MSS_Reg.lat.1354/manifest.json">https://digi.vatlib.it/iiif/MSS_Reg.lat.1354/manifest.json</ref>)</bibl></listBibl>
+                        </surrogates></additional></msDesc></sourceDesc></fileDesc><encodingDesc><listPrefixDef><prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/><prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"/><prefixDef matchPattern="(.+)" ident="a" replacementPattern="../A/A.xml" ana="hc:SynopticTextPrefixDefinition"/><prefixDef matchPattern="(.+)" ident="b" replacementPattern="../B/B.xml" ana="hc:SynopticTextPrefixDefinition"/><prefixDef matchPattern="(.+)" ident="j" replacementPattern="../J/J.xml" ana="hc:SynopticTextPrefixDefinition"/></listPrefixDef><hei:elementsWithTokenizedContent include="l head ab trailer docTitle"/></encodingDesc></teiHeader><facsimile><surface ana="hc:Page" xml:id="A_108r" n="108r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0001/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_108r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_108r-b" n="b"/>
+                <zone ana="hc:MarginalZone hc:TextZone" xml:id="A_108r-c" n="c"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_108v" n="108v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0002/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_108v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_108v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_109r" n="109r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0003/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_109r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_109r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_109v" n="109v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0004/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_109v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_109v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_110r" n="110r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0005/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_110r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_110r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_110v" n="110v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0006/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_110v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_110v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_111r" n="111r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0007/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_111r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_111r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_111v" n="111v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0008/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_111v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_111v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_112r" n="112r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0009/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_112r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_112r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_112v" n="112v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0010/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_112v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_112v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_113r" n="113r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0011/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_113r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_113r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_113v" n="113v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0012/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_113v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_113v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_114r" n="114r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0013/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_114r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_114r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_114v" n="114v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0014/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_114v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_114v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_115r" n="115r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0015/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_115r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_115r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_115v" n="115v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0016/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_115v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_115v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_116r" n="116r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0019/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_116r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_116r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_116v" n="116v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0020/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_116v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_116v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_117r" n="117r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0021/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_117r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_117r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_117v" n="117v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0022/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_117v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_117v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_118r" n="118r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0023/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_118r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_118r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_118v" n="118v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0024/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_118v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_118v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_119r" n="119r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0027/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_119r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_119r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_119v" n="119v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0028/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_119v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_119v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_120r" n="120r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0029/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_120r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_120r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_120v" n="120v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0030/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_120v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_120v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_121r" n="121r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0031/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_121r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_121r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_121v" n="121v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0032/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_121v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_121v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_122r" n="122r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0033/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_122r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_122r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_122v" n="122v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0034/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_122v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_122v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_123r" n="123r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0035/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_123r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_123r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_123v" n="123v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0036/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_123v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_123v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_124r" n="124r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0037/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_124r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_124r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_124v" n="124v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0038/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_124v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_124v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_125r" n="125r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0039/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_125r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_125r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_125v" n="125v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0040/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_125v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_125v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_126r" n="126r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0041/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_126r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_126r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_126v" n="126v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0042/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_126v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_126v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_127r" n="127r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0043/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_127r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_127r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_127v" n="127v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0044/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_127v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_127v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_128r" n="128r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0045/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_128r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_128r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_128v" n="128v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0046/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_128v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_128v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_129r" n="129r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0047/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_129r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_129r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_129v" n="129v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0048/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_129v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_129v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_130r" n="130r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0049/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_130r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_130r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_130v" n="130v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0050/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_130v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_130v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_131r" n="131r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0051/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_131r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_131r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_131v" n="131v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0052/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_131v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_131v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_132r" n="132r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0053/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_132r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_132r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_132v" n="132v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0054/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_132v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_132v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_133r" n="133r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0055/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_133r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_133r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_133v" n="133v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0056/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_133v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_133v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_134r" n="134r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0057/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_134r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_134r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_134v" n="134v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0058/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_134v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_134v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_135r" n="135r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0059/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_135r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_135r-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_135v" n="135v"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0060/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_135v-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_135v-b" n="b"/>
+            </zone></surface><surface ana="hc:Page" xml:id="A_136r" n="136r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bav_reg_lat_1354_foll108-136/0061/" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_136r-a" n="a"/>
+                <zone ana="hc:MainColumn hc:TextZone" xml:id="A_136r-b" n="b"/>
+            </zone></surface></facsimile><text ana="hc:CourtlyRomance hc:CompleteExpression"><milestone xml:id="front" ana="hc:ExpressionFront" corresp="#d0e919"/><milestone ana="hc:ZoneBeginning" facs="#A_108r-c"/><milestone xml:id="docTitle_1" ana="hc:ExpressionTitle" corresp="#d0e923"/><titlePart xml:id="title_part1"><pb n="108r" facs="#A_108r"/><lb n="1"/><w><choice><orig>h</orig><reg>H</reg></choice>ie</w> <c> </c> <w>hebet</w> <c> </c> <w>ſich</w> <c> </c> <w>Gregori<choice><am>᷒</am><ex>us</ex></choice></w> <c> </c> <w>an</w> <choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice> <c> </c> <choice><sic><w>mar</w></sic><corr/></choice></titlePart><anchor xml:id="d0e923"/><anchor xml:id="d0e919"/><milestone ana="hc:ExpressionBody" corresp="#d0e975"/><lg ana="hc:Couplet" xml:id="lg_171"><gap ana="hc:PassiveSynopticGap" xml:id="gap-left-l_171"/><linkGrp target="#l_171"><ptr target="j:l_171"/><ptr target="b:gap-left-l_177"/></linkGrp><l n="171" hei:altN="1" xml:id="l_171"><cb rendition="hc:Suppress" n="a" facs="#A_108r-a"/><lb n="1"/><w xml:id="w_171_1"><hei:initial hei:heightLines="4">D</hei:initial>er</w><c> </c><w xml:id="w_171_2">diſe</w><c> </c><w xml:id="w_171_3">rede</w><c> </c><w norm="berihte" xml:id="w_171_4">berihte</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice></l><linkGrp target="#l_172"><ptr target="j:l_172"/><ptr target="b:gap-left-l_177"/></linkGrp><l n="172" hei:altN="2" xml:id="l_172"><lb n="2"/><w xml:id="w_172_1"><choice><orig>I</orig><reg>i</reg></choice>n</w><c> </c><w xml:id="w_172_2">t<choice><orig>v</orig><reg>u</reg></choice><choice><orig>ͦ</orig><reg>̈</reg></choice>ſche</w><c> </c><w xml:id="w_172_3">hat</w><c> </c><w norm="getihte" xml:id="w_172_4">getihte</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice><note xml:id="note_d2e1100" ana="hc:TextConstitutionNote hc:EditorialContent" target="#l_172">Die Reimwörter <quote>berihte</quote> und <quote>getihte</quote> sind als synkopierte Präteritalformen (aus <quote>beriht(et)e</quote> und <quote>getiht(et)e</quote>) zu deuten.</note></l></lg><lg ana="hc:Couplet"><linkGrp target="#l_173"><ptr target="j:l_173"/><ptr target="b:gap-left-l_177"/></linkGrp><l n="173" hei:altN="3" xml:id="l_173"><lb n="3"/><w xml:id="w_173_1"><choice><orig>D</orig><reg>d</reg></choice>az</w><c> </c><w xml:id="w_173_2">waſ</w><c> </c><w xml:id="w_173_3">von</w><c> </c><w xml:id="w_173_4"><choice><orig>o</orig><reg>O</reg></choice>we</w><c> </c><w norm="Hartman" xml:id="w_173_5">Hartm<damage>a<choice><am><g ref="char:bar">̄</g></am><ex>n</ex></choice></damage></w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice></l><linkGrp target="#l_174"><ptr target="j:l_174"/><ptr target="b:gap-left-l_177"/></linkGrp><l n="174" hei:altN="4" xml:id="l_174"><lb n="4"/><w xml:id="w_174_1"><choice><orig>H</orig><reg>h</reg></choice>ie</w><c> </c><w xml:id="w_174_2">hebent</w><c> </c><w xml:id="w_174_3">ſich</w><c> </c><w xml:id="w_174_4">von</w><c> </c><w xml:id="w_174_5">erſte</w><c> </c><w norm="an" xml:id="w_174_6">an</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"/></choice></l></lg><lg ana="hc:Couplet"><linkGrp target="#l_175"><ptr target="j:l_175"/><ptr target="b:gap-left-l_177"/></linkGrp><l n="175" hei:altN="5" xml:id="l_175"><lb n="5"/><damage><w xml:id="w_175_1"><choice><orig>D</orig><reg>d</reg></choice>ie</w></damage><c> </c><w xml:id="w_175_2"><damage>ſ<unclear>ælt</unclear></damage>ſæmen</w><c> </c><w norm="mære" xml:id="w_175_3">mere</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"/></choice></l><linkGrp target="#l_176"><ptr target="j:l_176"/><ptr target="b:gap-left-l_177"/></linkGrp><l n="176" hei:altN="6" xml:id="l_176"><lb n="6"/><w xml:id="w_176_1"><choice><orig>V</orig><reg>v</reg></choice>on</w><c> </c><w xml:id="w_176_2">ainem</w><c> </c><w xml:id="w_176_3">g<choice><orig>v</orig><reg>u</reg></choice><choice><orig>ͦ</orig><reg>o</reg></choice>tem</w><c> </c><w norm="sündære" xml:id="w_176_4">ſ<choice><orig>v</orig><reg>u</reg></choice><choice><orig>ͦ</orig><reg>̈</reg></choice>ndere</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice></l></lg><lg ana="hc:Couplet"><linkGrp target="#l_177"><ptr target="b:l_177"/><ptr target="j:l_177"/></linkGrp><l n="177" hei:altN="7" xml:id="l_177"><lb n="7"/><w xml:id="w_177_1"><hei:initial hei:heightLines="2">E</hei:initial>z</w><c> </c><w xml:id="w_177_2">iſt</w><c> </c><w xml:id="w_177_3">ein</w><c> </c><w xml:id="w_177_4">wælchſ</w><c> </c><w norm="lant" xml:id="w_177_5">lant</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"/></choice></l><linkGrp target="#l_178"><ptr target="b:l_178"/><ptr target="j:l_178"/></linkGrp><l n="178" hei:altN="8" xml:id="l_178"><lb n="8"/><w xml:id="w_178_1">Eq<choice><orig>v</orig><reg>u</reg></choice>itania</w><c> </c><w norm="genant" xml:id="w_178_2">genant</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"/></choice></l></lg><lg ana="hc:Couplet"><linkGrp target="#l_179"><ptr target="b:l_179"/><ptr target="j:l_179"/></linkGrp><l n="179" hei:altN="9" xml:id="l_179"><lb n="9"/><w xml:id="w_179_1"><choice><orig>V</orig><reg>u</reg></choice><damage><unclear>nd</unclear></damage></w><c> </c><w xml:id="w_179_2">leit</w><c> </c><w xml:id="w_179_3">von</w><c> </c><w xml:id="w_179_4">dem</w><c> </c><w xml:id="w_179_5">mere</w><c> </c><w norm="unverre" xml:id="w_179_6"><choice><orig>v</orig><reg>u</reg></choice>nverre</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice></l><linkGrp target="#l_180"><ptr target="b:l_180"/><ptr target="j:l_180"/></linkGrp><l n="180" hei:altN="10" xml:id="l_180"><lb n="10"/><damage><w xml:id="w_180_1"><choice><orig>D</orig><reg>d</reg></choice>eſ</w></damage><c> </c><w xml:id="w_180_2">ſelben</w><c> </c><choice><orig><gap unit="character" extent="unknown"/></orig><supplied><w xml:id="w_180_3">landes</w><c> </c><w norm="herre" xml:id="w_180_4">herre</w></supplied></choice><note xml:id="note_d2e1505" ana="hc:TextConstitutionNote hc:EditorialContent" target="#l_180">Die beiden Wörter <quote>landes herre</quote> sind in der Handschrift nicht lesbar und wurden aus Handschrift B ersetzt.</note></l></lg><lg ana="hc:Couplet"><linkGrp target="#l_181"><ptr target="b:l_181"/><ptr target="j:l_181"/></linkGrp><l n="181" hei:altN="11" xml:id="l_181"><lb n="11"/><w xml:id="w_181_1"><choice><orig>G</orig><reg>g</reg></choice>ewan</w><c> </c><w xml:id="w_181_2">bi</w><c> </c><w xml:id="w_181_3">ſinem</w><c> </c><w norm="wîbe" xml:id="w_181_4">wi<damage>be</damage></w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"/></choice></l><linkGrp target="#l_182"><ptr target="b:l_182"/><ptr target="j:l_182"/></linkGrp><l n="182" hei:altN="12" xml:id="l_182"><lb n="12"/><w xml:id="w_182_1"><choice><orig>Z</orig><reg>z</reg></choice>wei</w><c> </c><w xml:id="w_182_2">chint</w><choice><orig/><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice><c> </c><w xml:id="w_182_3">di<choice><orig>v</orig><reg>u</reg></choice></w><c> </c><w xml:id="w_182_4">an</w><c> </c><w xml:id="w_182_5">ir</w><c> </c><w norm="lîbe" xml:id="w_182_6">libe</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"/></choice></l></lg><lg ana="hc:Couplet"><linkGrp target="#l_183"><ptr target="b:l_183"/><ptr target="j:l_183"/></linkGrp><l n="183" hei:altN="13" xml:id="l_183"><lb n="13"/><w xml:id="w_183_1"><choice><orig>N</orig><reg>n</reg></choice>iht</w><c> </c><w xml:id="w_183_2">ſchoner</w><c> </c><w xml:id="w_183_3">mohten</w><c> </c><w norm="sîn" xml:id="w_183_4">ſin</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice></l><linkGrp target="#l_184"><ptr target="b:l_184"/><ptr target="j:l_184"/></linkGrp><l n="184" hei:altN="14" xml:id="l_184"><lb n="14"/><w xml:id="w_184_1"><choice><orig>E</orig><reg>e</reg></choice>inen</w><c> </c><w xml:id="w_184_2">ſ<choice><orig>v</orig><reg>u</reg></choice>n</w><c> </c><w xml:id="w_184_3"><choice><orig>v</orig><reg>u</reg></choice>n<choice><am><g ref="char:bar">̄</g></am><ex>d</ex></choice></w><c> </c><w xml:id="w_184_4">ein</w><c> </c><w norm="tohterlîn" xml:id="w_184_5">tohterlin</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice></l></lg><lg ana="hc:Couplet"><linkGrp target="#l_185"><ptr target="b:l_185"/><ptr target="j:l_185"/></linkGrp><l n="185" hei:altN="15" xml:id="l_185"><lb n="15"/><w xml:id="w_185_1"><choice><orig>D</orig><reg>d</reg></choice>er</w><c> </c><w xml:id="w_185_2">chinde</w><c> </c><w xml:id="w_185_3">m<choice><orig>v</orig><reg>u</reg></choice>ter</w><c> </c><w norm="starp" xml:id="w_185_4">ſtarp</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice></l><linkGrp target="#l_186"><ptr target="b:l_186"/><ptr target="j:l_186"/></linkGrp><l n="186" hei:altN="16" xml:id="l_186"><lb n="16"/><w xml:id="w_186_1"><choice><orig>D</orig><reg>d</reg></choice>o</w><c> </c><w xml:id="w_186_2">ſi</w><c> </c><w xml:id="w_186_3">in</w><c> </c><w xml:id="w_186_4">daz</w><c> </c><w xml:id="w_186_5">leben</w><c> </c><w xml:id="w_186_6">vol</w><c> </c><w norm="erwarp" xml:id="w_186_7">erwarp</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice></l></lg><lg ana="hc:Couplet"><linkGrp target="#l_187"><ptr target="b:l_187"/><ptr target="j:l_187"/></linkGrp><l n="187" hei:altN="17" xml:id="l_187"><lb n="17"/><w xml:id="w_187_1"><hei:initial hei:heightLines="2">D</hei:initial>o</w><c> </c><w xml:id="w_187_2">die</w><c> </c><w xml:id="w_187_3">chint</w><c> </c><w xml:id="w_187_4">chomen</w><c> </c><w norm="wâren" xml:id="w_187_5">waren</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"/></choice></l><linkGrp target="#l_188"><ptr target="b:l_188"/><ptr target="j:l_188"/></linkGrp><l n="188" hei:altN="18" xml:id="l_188"><lb n="18"/><w xml:id="w_188_1"><choice><orig>V</orig><reg>u</reg></choice><damage>n</damage><choice><orig>c</orig><reg>z</reg></choice>e</w><c> </c><w xml:id="w_188_2">zehen</w><c> </c><w norm="jâren" xml:id="w_188_3"><choice><orig>i</orig><reg>j</reg></choice>aren</w><choice><orig><pc>·</pc></orig><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice></l></lg><anchor xml:id="d0e975"/></text></TEI>
