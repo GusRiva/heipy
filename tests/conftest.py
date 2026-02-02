@@ -34,10 +34,17 @@ def minimal_fixtures_dir(fixtures_dir):
     """Return path to minimal TEI fixtures."""
     return fixtures_dir / "minimal"
 
+
 @pytest.fixture(scope="session")
 def complex_fixtures_dir(fixtures_dir):
     """Return path to minimal TEI fixtures."""
     return fixtures_dir / "complex"
+
+
+@pytest.fixture(scope="session")
+def synoptic_fixtures_dir(fixtures_dir):
+    """Return path to minimal TEI fixtures."""
+    return fixtures_dir / "synoptic"
 
 
 @pytest.fixture(scope="session")
