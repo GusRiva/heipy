@@ -2,7 +2,7 @@ from lxml import etree as et
 import re
 
 from ..steps import PythonStep
-from ...namespaces import ns
+from ...namespaces import ns, tei_ns, xml_ns
 from ...colors import RED, RESET
 
 
@@ -52,18 +52,16 @@ def inject_structure_func(root: et.Element, parameters=None):
     source_text = source_text[0]
     
     # Remove old front, body, back from source text
-    et.strip_tags(source_text, ["{http://www.tei-c.org/ns/1.0}front",
-                         "{http://www.tei-c.org/ns/1.0}body",
-                         "{http://www.tei-c.org/ns/1.0}back",
-                         "{http://www.tei-c.org/ns/1.0}div"])
+    et.strip_tags(source_text, [tei_ns / x for x in 
+                   ["front", "body", "back", "div"]])
     
 
     # Create index of all elements with xml:id for fast lookup
     id_index = {}
     for elem in root.iter():
-        if elem.tag == '{http://www.tei-c.org/ns/1.0}w':
+        if elem.tag == tei_ns / 'w':
             continue
-        xml_id = elem.get("{http://www.w3.org/XML/1998/namespace}id")
+        xml_id = elem.get(xml_ns / "id")
         if xml_id:
             id_index[xml_id] = elem
 
@@ -71,9 +69,9 @@ def inject_structure_func(root: et.Element, parameters=None):
     new_structure_elements = []
     for child in structure_text:
         tag_name = child.tag
-        if tag_name in ["{http://www.tei-c.org/ns/1.0}front",
-                        "{http://www.tei-c.org/ns/1.0}body",
-                        "{http://www.tei-c.org/ns/1.0}back"]:
+        if tag_name in [tei_ns / "front",
+                        tei_ns / "body",
+                        tei_ns / "back"]:
             new_element = build_structural_element(child, root, id_index)
             if new_element is not None:
                 new_structure_elements.append(new_element)
@@ -82,6 +80,10 @@ def inject_structure_func(root: et.Element, parameters=None):
     for elem in new_structure_elements:
         source_text.append(elem)
 
+    
+    # Manage the pb / cb / lb outside divs
+    
+    
     return root
 
 
