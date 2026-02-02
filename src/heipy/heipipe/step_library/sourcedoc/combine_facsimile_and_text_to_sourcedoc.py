@@ -38,10 +38,6 @@ def combine_facsimile_text(root: et.Element, parameters=None):
                 if idx > 0:
                     break
                 gap_zone.append(gap_el)
-            
-            
-        # gaps = root.xpath('//tei:gap', namespaces= ns)
-        # print([gap.attrib for gap in gaps])
     
     
     line_zones = {x.get(xml_ns / "id"):x for x in facsimile_el.xpath(".//tei:zone[@ana='hc:LineZone']", namespaces=ns)}
@@ -129,7 +125,7 @@ def process_following(lb, line):
             continue
         if following_el.tag == tei_ns / 'milestone':
             milestone_ana = following_el.get('ana')
-            if "hc:ZoneBeginnning" in milestone_ana or "hc:ZoneShift" in milestone_ana:
+            if "hc:ZoneBeginning" in milestone_ana or "hc:ZoneShift" in milestone_ana:
                 break
             if "hc:LineSegmentBeginning" in milestone_ana:
                 if following_el.get(hei_ns / "belongsToLine") is None:
