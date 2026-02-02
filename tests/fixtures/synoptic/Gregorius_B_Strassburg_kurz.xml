@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+<!DOCTYPE TEI SYSTEM "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt">
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title ana="hc:MainTitle">Gregorius</title>
+                <title ana="hc:Subtitle">Digitale Edition der Handschrift B</title>
+                <author>
+                    <persName>Hartmann von Aue</persName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/118546228</idno>
+                </author>
+                <editor>
+                    <persName>Victor Millet </persName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/1053149832</idno>
+                    <idno ana="hc:ORCIDURI">https://orcid.org/0000-0002-7683-8892</idno>
+                    <affiliation>
+                        <orgName>Universidade de Santiago de Compostela</orgName>
+                        <idno ana="hc:GNDURI">https://d-nb.info/gnd/1016480-7</idno>
+                    </affiliation>
+                </editor>
+                <funder>
+                    <orgName>Réseau national des Maisons des Sciences de l’Homme</orgName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/2018977-1</idno>
+                </funder>
+                <funder>
+                    <orgName>Agencia Estatal de Investigación</orgName>
+                    <idno ana="hc:DOI">https://doi.org/10.13039/501100011033</idno>
+                </funder>
+            </titleStmt>
+            <editionStmt>
+                <edition>Transkription, Edition, Anmerkungen, Zitate aus dem Oberlin-Wörterbuch</edition>
+            </editionStmt>
+            <publicationStmt>
+                <publisher>
+                    <orgName>Universitätsbibliothek Heidelberg</orgName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/2002498-8</idno>
+                    <listRef>
+                        <ptr ana="hc:URLReference" target="https://www.ub.uni-heidelberg.de/"/>
+                    </listRef>
+                </publisher>
+                <pubPlace>
+                    <placeName>Heidelberg</placeName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/4023996-2</idno>
+                </pubPlace>
+                <date when="2025">2025</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by-sa/4.0">
+                        <p>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</p>
+                    </licence>
+                </availability>
+                <idno ana="hc:DOI hc:EditionWebsiteIdentifier">https://doi.org/10.11588/edition.grd</idno>
+                <idno ana="hc:DOI hc:ReadingViewIdentifier">https://doi.org/10.11588/edition.grd.b</idno>
+                <idno ana="hc:DOI hc:SynopticViewIdentifier">https://doi.org/10.11588/edition.grd.synopsis</idno>
+                <listBibl>
+                    <bibl ana="hc:RecommendedBibliographicReferenceForEditionWebsite">Hartmann von Aue: <emph>Gregorius</emph>. Textgeschichtliche digitale Edition, hg. von Emilio González Miranda, Marie-Sophie Masse und Victor Millet. Heidelberg: Universitätsbibliothek, 2025. DOI: <ref ana="hc:URLReference">https://doi.org/10.11588/edition.grd</ref>.</bibl>
+                    <bibl ana="hc:RecommendedBibliographicReferenceForExpression">Hartmann von Aue: <emph>Gregorius</emph>. Digitale Edition der Handschrift B, hg. von Victor Millet. In: Hartmann von Aue: <emph>Gregorius</emph>. Textgeschichtliche digitale Edition, hg. von Emilio González Miranda, Marie-Sophie Masse und Victor Millet. Heidelberg: Universitätsbibliothek, 2025. DOI: <ref ana="hc:URLReference">https://doi.org/10.11588/edition.grd.b</ref>.</bibl>
+                    <bibl ana="hc:RecommendedBibliographicReferenceForSynopticView">Hartmann von Aue: <emph>Gregorius</emph>. Synoptische digitale Edition aller erhaltenen Textzeugen mit Übersetzung der Fassung A, hg. von Emilio González Miranda, Marie-Sophie Masse und Victor Millet. In: Hartmann von Aue: <emph>Gregorius</emph>. Textgeschichtliche digitale Edition, hg. von Emilio González Miranda, Marie-Sophie Masse und Victor Millet. Heidelberg: Universitätsbibliothek, 2025. DOI: <ref ana="hc:URLReference">https://doi.org/10.11588/edition.grd.synopsis</ref>.</bibl>
+                </listBibl>
+            </publicationStmt>
+            <notesStmt>
+                <note xml:lang="en">The original manuscript is lost. The transcription and edition is based on a copy made around the year 1800.</note>
+                <note xml:lang="de">Die Originalhandschrift ist verloren. Die Transkription und Edition basiert auf einer Abschrift aus der Zeit um 1800.</note>
+                <note xml:lang="fr">Cette édition a bénéficié d’un financement du Réseau national des Maisons des Sciences de l’Homme dans le cadre du projet 'Gregorius Digital+ : édition numérique et traduction des réécritures européennes de la légende du pape Grégoire (XIIe–XVIIe s.)'.</note>
+                <note xml:lang="en">As part of the project 'Gregorius Digital+ : édition numérique et traduction des réécritures européennes de la légende du pape Grégoire (XIIe–XVIIe s.)', this edition received funding from the French Réseau national des Maisons des Sciences de l’Homme. Costs not covered by this project were supportet by research grant PID2022-137490NB-I00 from the Spanish Agencia Estatal de Investigación (AEI).</note>
+                <note xml:lang="de">Diese Edition erhielt im Rahmen des Projekts 'Gregorius Digital+ : édition numérique et traduction des réécritures européennes de la légende du pape Grégoire (XIIe–XVIIe s.)' eine Förderung durch das französische Réseau national des Maisons des Sciences de l’Homme. Nicht von diesem Projekt gedeckte Kosten wurden finanziert durch das Forschungsprojekt PID2022-137490NB-I00 der spanischen Agencia Estatal de Investigación (AEI).</note>
+            </notesStmt>
+            <sourceDesc>
+                <msDesc>
+                    <msIdentifier>
+                        <settlement>
+                            <placeName>Straßburg</placeName>
+                            <idno ana="hc:GNDURI">https://d-nb.info/gnd/4057878-1</idno>
+                        </settlement>
+                        <repository>
+                            <orgName>Ehemals Stadtbibliothek Straßburg</orgName>
+                            <idno ana="hc:GNDURI">https://d-nb.info/gnd/113528-4</idno>
+                        </repository>
+                        <idno ana="hc:Shelfmark">A 100</idno>
+                        <idno ana="hc:EditorialSiglum">B</idno>
+                    </msIdentifier>
+                    <additional>
+                        <surrogates>
+                            <listBibl>
+                                <bibl ana="hc:ExemplarDescription">Abschrift von "Spital von Jerusalem" (fols. 2v–54v) und "Gregorius" (fols. 55r–120v) aus dem verlorenen Cod. A 100 der alten Stadtbibliothek (wohl 1870 bei der Bombardierung Straßburgs verbrannt). Angefertigt wohl noch im 18. Jahrhundert.</bibl>
+                                <bibl ana="hc:BibliographicReferenceForOnlineFacsimile">Hartmann von Aue: Gregorius. Abschrift der Handschrift B von Jeremias Jakob Oberlin – Straßburg, Mediathèque André Malraux, ms. 314. Online-Ausgabe. (Permalink: <ptr ana="hc:URLReference" target="https://digi.ub.uni-heidelberg.de/diglit/mam_ms_314_foll55-120"/>).</bibl>
+                            </listBibl>
+                        </surrogates>
+                    </additional>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <listPrefixDef>
+                <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"> </prefixDef>
+                <prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"> </prefixDef>
+            </listPrefixDef>
+            <hei:elementsWithTokenizedContent include="l head ab trailer docTitle"/>
+        </encodingDesc>
+    </teiHeader>
+    
+    <text ana="hc:CourtlyRomance hc:CompleteExpression">
+        <front>
+            <pb n="55r" facs="#B_55r"/>
+            <cb n="a" facs="#B_55r-a"/>
+            <docTitle xml:id="docTitle_1">
+                <titlePart>
+                    <lb n="1"/>
+                    <w>Gregorius</w>
+                    <c> </c>
+                    <w>in</w>
+                    <c> </c>
+                    <w>dem</w>
+                    <c> </c>
+                    <w>ſteine</w>
+                    <pc>.</pc>
+                </titlePart>
+            </docTitle>
+        </front>
+        
+        <body>
+                <lg ana="hc:Couplet" xml:id="lg_177">
+                    <l n="177" hei:altN="1" xml:id="l_177">
+                        <lb n="2"/>
+                        <w xml:id="w_177_1">Ez</w>
+                        <c> </c>
+                        <w xml:id="w_177_2">ist</w>
+                        <c> </c>
+                        <w xml:id="w_177_3">ein</w>
+                        <c> </c>
+                        <w xml:id="w_177_4">welſcher</w>
+                        <c> </c>
+                        <w xml:id="w_177_5">lant</w>
+                    </l>
+                    <l n="178" hei:altN="2" xml:id="l_178">
+                        <lb n="3"/>
+                        <choice><orig><space rendition="hc:BlankAreaLeftForWord" unit="character" quantity="10"/></orig><supplied><w xml:id="w_178_1">Equitania</w></supplied></choice>
+                        <c> </c>
+                        <w xml:id="w_178_2">gena<subst><del rendition="hc:Adapted hc:Strikethrough">t</del><add rendition="hc:Adapted">n</add></subst>t</w>
+                    </l>
+                    <note ana="hc:TextConstitutionNote" target="#l_178">Der Schreiber scheint den Landesnamen aus seiner Vorlage nicht haben verstehen oder lesen können und hat einen Freiraum gelassen. Wir tragen das Wort hier aus Handschrift A ein.</note>
+                </lg>
+                <lg ana="hc:Couplet">
+                    <l n="179" hei:altN="3" xml:id="l_179">
+                        <lb n="4"/>
+                        <w xml:id="w_179_1"><choice><orig>v</orig><reg>u</reg></choice>n<choice><orig>n</orig><reg>d</reg></choice></w>
+                        <c> </c>
+                        <w xml:id="w_179_2">lit</w>
+                        <c> </c>
+                        <w xml:id="w_179_3">dem</w>
+                        <c> </c>
+                        <w xml:id="w_179_4">mer</w>
+                        <c> </c>
+                        <w xml:id="w_179_5"><choice><orig>v</orig><reg>u</reg></choice>nverre</w>
+                        <choice><orig/><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice>
+                    </l>
+                    <l n="180" hei:altN="4" xml:id="l_180">
+                        <lb n="5"/>
+                        <w xml:id="w_180_1">des</w>
+                        <c> </c>
+                        <w xml:id="w_180_2">ſelben</w>
+                        <c> </c>
+                        <w xml:id="w_180_3">landes</w>
+                        <c> </c>
+                        <w xml:id="w_180_4">herre</w>
+                    </l>
+                </lg>
+                <lg ana="hc:Couplet">
+                    <l n="181" hei:altN="5" xml:id="l_181">
+                        <lb n="6"/>
+                        <w xml:id="w_181_1">gewan</w>
+                        <c> </c>
+                        <w xml:id="w_181_2">bi</w>
+                        <c> </c>
+                        <w xml:id="w_181_3">ſime</w>
+                        <c> </c>
+                        <w xml:id="w_181_4">wibe</w>
+                    </l>
+                    <l n="182" hei:altN="6" xml:id="l_182">
+                        <lb n="7"/>
+                        <w xml:id="w_182_1">zwei</w>
+                        <c> </c>
+                        <w xml:id="w_182_2">kint</w>
+                        <choice><orig/><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice>
+                        <c> </c>
+                        <w xml:id="w_182_3">die</w>
+                        <c> </c>
+                        <w xml:id="w_182_4">an</w>
+                        <c> </c>
+                        <w xml:id="w_182_5">ir</w>
+                        <c> </c>
+                        <w xml:id="w_182_6">libe</w>
+                    </l>
+                </lg>
+                <lg ana="hc:Couplet">
+                    <l n="183" hei:altN="7" xml:id="l_183">
+                        <lb n="8"/>
+                        <w xml:id="w_183_1">niht</w>
+                        <c> </c>
+                        <w xml:id="w_183_2">ſchoner</w>
+                        <c> </c>
+                        <w xml:id="w_183_3">mohtent</w>
+                        <c> </c>
+                        <w xml:id="w_183_4">ſin</w>
+                        <choice><orig/><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice>
+                    </l>
+                    <l n="184" hei:altN="8" xml:id="l_184">
+                        <lb n="9"/>
+                        <w xml:id="w_184_1">ein</w>
+                        <c> </c>
+                        <w xml:id="w_184_2">ſ<choice><orig>v</orig><reg>u</reg></choice>n</w>
+                        <c> </c>
+                        <w xml:id="w_184_3"><choice><orig>v</orig><reg>u</reg></choice>n<choice><orig>n</orig><reg>d</reg></choice></w>
+                        <c> </c>
+                        <w xml:id="w_184_4">ein</w>
+                        <c> </c>
+                        <w xml:id="w_184_5">tohterlin</w>
+                        <choice><orig/><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice>
+                    </l>
+                </lg>
+                <lg ana="hc:Couplet">
+                    <l n="185" hei:altN="9" xml:id="l_185">
+                        <lb n="10"/>
+                        <w xml:id="w_185_1">der</w>
+                        <c> </c>
+                        <w xml:id="w_185_2">kinde</w>
+                        <c> </c>
+                        <w xml:id="w_185_3">m<choice><orig>v</orig><reg>u</reg></choice>oter</w>
+                        <choice><orig/><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice>
+                        <c> </c>
+                        <w xml:id="w_185_4">die</w>
+                        <c> </c>
+                        <w xml:id="w_185_5">erſtarp</w>
+                        <choice><orig/><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice>
+                    </l>
+                    <l n="186" hei:altN="10" xml:id="l_186">
+                        <lb n="11"/>
+                        <w xml:id="w_186_1">da</w>
+                        <c> </c>
+                        <w xml:id="w_186_2">ſi</w>
+                        <c> </c>
+                        <w xml:id="w_186_3">in</w>
+                        <c> </c>
+                        <w xml:id="w_186_4">daz</w>
+                        <c> </c>
+                        <w xml:id="w_186_5">leben</w>
+                        <c> </c>
+                        <w xml:id="w_186_6">volle</w>
+                        <c> </c>
+                        <w xml:id="w_186_7">erwarp</w>
+                        <choice><orig/><reg ana="hc:PunctuationRegularization"><pc>.</pc></reg></choice>
+                    </l>
+                </lg>
+                <lg ana="hc:Couplet">
+                    <l n="187" hei:altN="11" xml:id="l_187">
+                        <lb n="12"/>
+                        <w xml:id="w_187_1">da</w>
+                        <c> </c>
+                        <w xml:id="w_187_2">d<choice><orig>v</orig><reg>i</reg></choice></w>
+                        <c> </c>
+                        <w xml:id="w_187_3">kint</w>
+                        <c> </c>
+                        <w xml:id="w_187_4">waren</w>
+                    </l>
+                    <l n="188" hei:altN="12" xml:id="l_188">
+                        <lb n="13"/>
+                        <w xml:id="w_188_1">komen</w>
+                        <c> </c>
+                        <w xml:id="w_188_2">z<choice><orig>v</orig><reg>u</reg></choice>o</w>
+                        <c> </c>
+                        <w xml:id="w_188_3">irn</w>
+                        <c> </c>
+                        <w xml:id="w_188_4"><choice><orig>i</orig><reg>j</reg></choice>aren</w>
+                        <choice><orig/><reg ana="hc:PunctuationRegularization"><pc>,</pc></reg></choice>
+                    </l>
+                </lg>
+        </body>
+    </text>
+</TEI>
