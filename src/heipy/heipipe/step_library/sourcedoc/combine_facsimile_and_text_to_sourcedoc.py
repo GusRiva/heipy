@@ -14,12 +14,36 @@ def combine_facsimile_text(root: et.Element, parameters=None):
     if facsimile_el is None:
         root.append(sourcedoc_el)
         return root
-    text_zones_by_id = { x.get(xml_ns / 'id'): x 
-                        for x in 
-                        facsimile_el.xpath("""//tei:zone[
-                                        contains(@ana, 'hc:TextZone') or 
-                                        contains(@ana,'hc:GraphicZone') or
-                                        contains(@ana,'hc:TableZone')]""", namespaces=ns)}
+    
+    text_zones_by_id = dict()
+    gap_zones_by_id = dict()
+    for fac_zone in facsimile_el.iter(tei_ns / 'zone'):
+        fac_zone_ana = fac_zone.attrib["ana"]
+        if any(sub in fac_zone_ana for sub in [
+            'hc:TextZone', 'hc:GraphicZone', 'hc:TableZone']):
+            text_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
+        elif 'hc:GapZone' in fac_zone_ana:
+            gap_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
+    
+    # Process the gap zones
+    if len(gap_zones_by_id) > 0:
+        gap_zone_milestones_by_id = {x.get('facs')[1:]:x for x in 
+                               root.xpath('.//tei:milestone[@ana="hc:ZoneBeginning"]', namespaces=ns)
+                               if x.get('facs')[1:] in gap_zones_by_id.keys()}
+        for gitem in gap_zones_by_id.items():
+            gap_zone_id = gitem[0]
+            gap_zone = gitem[1]
+            gap_zone_milestone = gap_zone_milestones_by_id.get(gap_zone_id)
+            for idx, gap_el in enumerate(gap_zone_milestone.itersiblings()):
+                if idx > 0:
+                    break
+                gap_zone.append(gap_el)
+            
+            
+        # gaps = root.xpath('//tei:gap', namespaces= ns)
+        # print([gap.attrib for gap in gaps])
+    
+    
     line_zones = {x.get(xml_ns / "id"):x for x in facsimile_el.xpath(".//tei:zone[@ana='hc:LineZone']", namespaces=ns)}
     for main_zone in facsimile_el:
         sourcedoc_el.append(main_zone)
@@ -31,7 +55,7 @@ def combine_facsimile_text(root: et.Element, parameters=None):
         if hei_belongs_to_zone in lb_atts:
             belongs_to_zone = lb_atts.get(hei_belongs_to_zone)
             lb_by_belongsto[belongs_to_zone].append(lb)
-       
+              
     
     for zone_id, lbs in lb_by_belongsto.items():
         zone = text_zones_by_id.get(zone_id[1:])
@@ -57,9 +81,7 @@ def combine_facsimile_text(root: et.Element, parameters=None):
             
             process_following(lb, line)
                 
-            
-    
-    
+
     # Get all the milestones Segment Beginning
     segment_beginnings = defaultdict(list)
     for segment_beginning in root.xpath("//tei:milestone[@ana='hc:LineSegmentBeginning']", namespaces=ns):
@@ -79,6 +101,7 @@ def combine_facsimile_text(root: et.Element, parameters=None):
                 if segm.tail is not None:
                     append_text(corresp_line, segm.tail)
                 process_following(segm, corresp_line)
+    
     
     for delenda in root[1:]:
         # if delenda.tag not in [tei_ns / x for x in ['facsimile', 'pb', 'cb', 'lb', 'milestone']]:
