@@ -241,12 +241,12 @@
         <w>Gegu&esup;rtet</w><c> </c>
         <w>uff</w><c> </c>
         <w>iren</w><c> </c>
-        <w>beſten</w><c> </c>
+        <w>be<damage>ſt</damage>en</w><c> </c>
         <w>rok</w></l>
       <lb n="21" facs="#_82va_21"/>
       <l n="4" hei:altN="4">
-        <w>Wie</w><c> </c>
-        <w>crus</w><c> </c>
+        <damage><w>Wie</w><c> </c>
+        <w>crus</w><c> </c></damage>
         <w>wie</w><c> </c>
         <w>goltvar</w><c> </c>
         <w>etlich</w><c> </c>
