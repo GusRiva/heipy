@@ -20,7 +20,7 @@ def combine_facsimile_text(root: et.Element, parameters=None):
     for fac_zone in facsimile_el.iter(tei_ns / 'zone'):
         fac_zone_ana = fac_zone.attrib["ana"]
         if any(sub in fac_zone_ana for sub in [
-            'hc:TextZone', 'hc:GraphicZone', 'hc:TableZone']):
+            'hc:TextZone', 'hc:GraphicZone', 'hc:TableZone', 'hc:ImageZone']):
             text_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
         elif 'hc:GapZone' in fac_zone_ana:
             gap_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
