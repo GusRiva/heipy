@@ -49,7 +49,7 @@
         namespace="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
         >
         <xsl:text>#</xsl:text>
-        <xsl:value-of select="//zone[@xml:id=substring-after( $facs, '#')]/ancestor::zone[ tokenize(@ana,'\s+') = 'hc:TextZone']/@xml:id"/>
+        <xsl:value-of select="//zone[@xml:id=substring-after( $facs, '#')]/ancestor::zone[ tokenize(@ana,'\s+') = ('hc:TextZone', 'hc:ImageZone')]/@xml:id"/>
       </xsl:attribute>
     </xsl:copy>
   </xsl:template>
