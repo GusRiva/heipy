@@ -84,7 +84,12 @@
 <!-- DOUBLE LATIN SMALL LETTER L REPRESENTING THE CORRESPONDING SIMPLE CAPITAL LETTER --> <!ENTITY dbll4L "<g ref='char:dbll4L'>L</g>">
 
 <!-- Punctuation marks -->
-<!-- COMMA POSITURA -->	 <!ENTITY posit "<g ref='char:posit'>&#xF1E2;</g>">
+
+<!-- LEFT-POINTING DOUBLE ANGLE QUOTATION MARK --> <!ENTITY laquo "&#x00AB;">
+<!-- RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK --> <!ENTITY raquo "&#x00BB;">
+<!-- SINGLE LEFT-POINTING ANGLE QUOTATION MARK --> <!ENTITY lsaquo "&#x2039;">
+<!-- SINGLE RIGHT-POINTING ANGLE QUOTATION MARK --> <!ENTITY rsaquo "&#x203A;">
+<!-- COMMA POSITURA --> <!ENTITY posit "<g ref='char:posit'>&#xF1E2;</g>">
 <!-- PUNCTUS ELEVATUS --> <!ENTITY punctelev "<g ref='char:punctelev'>&#xF161;</g>">
 <!-- PUNCTUS ELEVATUS DIAGONAL STROKE --> <!ENTITY punctelevdiag "<g ref='char:punctelevdiag'>&#xF1F0;</g>">
 <!-- TWO DOTS OVER COMMA POSITURA --> <!ENTITY bidotscomposit "<g ref='char:bidotscomposit'>&#xF1F2;</g>">
