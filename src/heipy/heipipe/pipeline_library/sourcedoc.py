@@ -49,7 +49,7 @@ milestone_element_map = {
     }
 
 class SourceDocPipe(Pipeline):
-    def __init__(self):
+    def __init__(self, serial=False):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step() 
         mark_note_as_editorial_step.add_parameter(
@@ -87,4 +87,4 @@ class SourceDocPipe(Pipeline):
             ]
         
         description = "Source Doc Pipeline"
-        super().__init__(steps=pipe_steps, name="sourcedoc_pipe", desc=description, serial=False)
+        super().__init__(steps=pipe_steps, name="sourcedoc_pipe", desc=description, serial=serial)

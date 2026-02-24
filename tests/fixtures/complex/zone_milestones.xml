@@ -50,6 +50,17 @@
                 <zone xml:id="A3_121v-b" ana="hc:MainColumn hc:TextZone" n="b"/>
             </zone>
         </surface>
+        <surface ana="hc:Page" xml:id="A3_122r" n="122r">
+            <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bnf_fr1545_fol121-136/0003/image" mimeType="image/*"/>
+            <zone ana="hc:HorizontalLayout">
+                <zone xml:id="A3_122r-a" ana="hc:MainColumn" n="a">
+                    <zone ana="hc:TextZone" xml:id="A2_122r-a-1"></zone>
+                    <zone ana="hc:ImageZone" xml:id="A2_122r-a-2"></zone>
+                    <zone ana="hc:TextZone" xml:id="A2_122r-a-3"></zone>
+                </zone>
+                <zone xml:id="A3_122r-b" ana="hc:MainColumn hc:TextZone" n="b"/>
+            </zone>
+        </surface>
     </facsimile>
     
     <text ana="hc:CourtlyRomance hc:CompleteExpression">
@@ -89,6 +100,16 @@
                     <lb n="1"/>Linea en la otra pagina
                 </l>
             </lg>
+            <pb facs="#A3_122r"/>
+            <cb facs="#A2_122r-a-1"/>
+            <p><lb n="1"/>First line page 122r</p>
+            <milestone ana="hc:ZoneBeginning" facs="#A2_122r-a-2"/>
+            <figure>
+                <figDesc>Figure description</figDesc>
+                <label><lb n="1"/>Figure label</label>
+            </figure>
+            <milestone ana="hc:ZoneBeginning" facs="#A2_122r-a-3"/>
+            <p><lb n="1"/>Line after figure</p>
         </body>
     </text>
 </TEI>

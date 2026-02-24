@@ -715,7 +715,6 @@ def vanilla_compare_flow(step, fixture_loader, variant="basic"):
 def pipeline_compare_flow(
     pipeline, input_file: Path, compare_file: Path = None, generate_auto=False
 ):
-    
     result = pipeline.execute(input_file)
     if generate_auto:
         outfile = (

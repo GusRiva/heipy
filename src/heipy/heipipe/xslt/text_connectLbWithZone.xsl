@@ -12,7 +12,7 @@
           
     logic: 
           - for every <lb> look for the first preceding <cb>|<milestone ana="hc:ZoneBeginning">|<milestone ana="hc:ZoneShift"
-          - copy the @facs of such a <cb>... into @hei:belongsToZone on the current <lb>
+          - copy the @facs of such a <cb>... into @hei: on the current <lb>
           
 -->  
      
@@ -49,7 +49,7 @@
         namespace="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
         >
         <xsl:text>#</xsl:text>
-        <xsl:value-of select="//zone[@xml:id=substring-after( $facs, '#')]/ancestor::zone[ tokenize(@ana,'\s+') = ('hc:TextZone', 'hc:ImageZone')]/@xml:id"/>
+        <xsl:value-of select="//zone[@xml:id=substring-after( $facs, '#')]/ancestor::zone[ tokenize(@ana,'\s+') = ('hc:TextZone', 'hc:ImageZone', 'hc:GraphicZone', 'hc:TableZone')]/@xml:id"/>
       </xsl:attribute>
     </xsl:copy>
   </xsl:template>
