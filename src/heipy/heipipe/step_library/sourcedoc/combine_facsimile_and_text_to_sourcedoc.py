@@ -14,35 +14,55 @@ def combine_facsimile_text(root: et.Element, parameters=None):
     if facsimile_el is None:
         root.append(sourcedoc_el)
         return root
-    
     text_zones_by_id = dict()
+    image_zones_by_id = dict()
     gap_zones_by_id = dict()
-    for fac_zone in facsimile_el.iter(tei_ns / 'zone'):
-        fac_zone_ana = fac_zone.attrib["ana"]
-        if any(sub in fac_zone_ana for sub in [
-            'hc:TextZone', 'hc:GraphicZone', 'hc:TableZone', 'hc:ImageZone']):
-            text_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
-        elif 'hc:GapZone' in fac_zone_ana:
-            gap_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
+    line_zones = dict()
+    for surface in facsimile_el.iterchildren(tag= tei_ns / 'surface'):
+        for fac_zone in surface.iter(tei_ns / 'zone'):
+            fac_zone_ana = fac_zone.attrib["ana"]
+            if 'hc:LineZone' in fac_zone_ana:
+                line_zone_id = fac_zone.get(xml_ns / 'id')
+                if line_zone_id is None:
+                    warnings.warn(f"Missing xml:id for LineZone with attributes {fac_zone.attrib}")
+                else:
+                    line_zones[line_zone_id] = fac_zone
+            elif any(sub in fac_zone_ana for sub in [
+                'hc:TextZone', 'hc:TableZone']):
+                text_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
+            elif any(sub in fac_zone_ana for sub in [
+                'hc:GraphicZone', 'hc:ImageZone']):
+                image_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
+            elif 'hc:GapZone' in fac_zone_ana:
+                gap_zones_by_id[fac_zone.get(xml_ns / "id")] = fac_zone
+        sourcedoc_el.append(surface)
     
-    # Process the gap zones
-    if len(gap_zones_by_id) > 0:
-        gap_zone_milestones_by_id = {x.get('facs')[1:]:x for x in 
-                               root.xpath('.//tei:milestone[@ana="hc:ZoneBeginning"]', namespaces=ns)
-                               if x.get('facs')[1:] in gap_zones_by_id.keys()}
-        for gitem in gap_zones_by_id.items():
-            gap_zone_id = gitem[0]
-            gap_zone = gitem[1]
-            gap_zone_milestone = gap_zone_milestones_by_id.get(gap_zone_id)
-            for idx, gap_el in enumerate(gap_zone_milestone.itersiblings()):
-                if idx > 0:
-                    break
-                gap_zone.append(gap_el)
-    
-    
-    line_zones = {x.get(xml_ns / "id"):x for x in facsimile_el.xpath(".//tei:zone[@ana='hc:LineZone']", namespaces=ns)}
-    for main_zone in facsimile_el:
-        sourcedoc_el.append(main_zone)
+    if len(gap_zones_by_id) > 0 or len(image_zones_by_id) > 0:
+        milestone_elements_by_facs = dict()
+        for milestone in root.xpath('.//tei:cb | tei:milestone[contains(@ana,"hc:ZoneBeginning") or contains(@ana, "hc:ZoneShift")]', namespaces=ns):
+            milestone_facs_trim = milestone.attrib['facs'][1:]
+            milestone_elements_by_facs[milestone_facs_trim] = milestone
+        # Process the gap zones
+        if len(gap_zones_by_id) > 0:
+            for gap_zone_id, gap_zone in gap_zones_by_id.items():
+                gap_zone_milestone = milestone_elements_by_facs.get(gap_zone_id)
+                for idx, gap_el in enumerate(gap_zone_milestone.itersiblings()):
+                    if idx > 0:
+                        break
+                    gap_zone.append(gap_el)
+        # Process figures
+        if len(image_zones_by_id) > 0:
+            for img_zone_id, img_zone in image_zones_by_id.items():
+                img_zone_milestone = milestone_elements_by_facs.get(img_zone_id)
+                if img_zone_milestone is None:
+                    warnings.warn(f"Could not find a milestone for img_zone: {img_zone_id}. Skipping", HeiWarning)
+                    continue
+                for milestone_sibling in img_zone_milestone.itersiblings():
+                    if milestone_sibling.tag == tei_ns / 'lb':
+                        break
+                    if milestone_sibling.tag == tei_ns / 'figure':
+                        img_zone.append(milestone_sibling)  
+                    
     
     # Get all the lb in a dict based on the zones
     lb_by_belongsto = defaultdict(list)
@@ -51,13 +71,17 @@ def combine_facsimile_text(root: et.Element, parameters=None):
         if hei_belongs_to_zone in lb_atts:
             belongs_to_zone = lb_atts.get(hei_belongs_to_zone)
             lb_by_belongsto[belongs_to_zone].append(lb)
+        else:
+            print(f"lb with no hei_belongs_to_zone! {lb_atts}")
               
     
     for zone_id, lbs in lb_by_belongsto.items():
         zone = text_zones_by_id.get(zone_id[1:])
         if zone is None:
-             warnings.warn(f"Could not find zone for {zone_id}. Maybe it is missing ana='hc:TextZone'?", HeiWarning)
-             continue
+            zone = image_zones_by_id.get(zone_id[1:])
+            if zone is None:
+                warnings.warn(f"Could not find zone for {zone_id, [x.attrib for x in lbs]}. Maybe it is missing ana='hc:TextZone'?", HeiWarning)
+                continue
         lbs_sorted = sorted(lbs, key = lambda x: float(x.get('n')))
         for lb in lbs_sorted:
             line = et.Element(tei_ns /'line', attrib= {xml_ns / 'space': 'preserve'})
