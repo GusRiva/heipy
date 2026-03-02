@@ -17,10 +17,10 @@ class SemanticPipe(Pipeline):
             # Index: 0
             # validation.get_step(),
             DeleteStep(elements=['tei:zone[@ana="hc:LineZone"]'], name="delete_facs"),
-            filter_visual_information.get_step(),
             DeleteStep(elements=['tei:metamark',
                                  'tei:fw',
                                  "tei:label[contains(@ana, 'hc:DivisionMark')]"], name="delete_irrelevant_elements_for_semantic"),
+            filter_visual_information.get_step(),
             ptr2ref.get_step(),
             revision_spans.get_step(),
             mark_note_as_editorial_step,
