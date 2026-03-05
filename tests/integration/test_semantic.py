@@ -10,6 +10,20 @@ from tests.helpers.xml_compare import pipeline_compare_flow
 class TestSemanticPipeline:
     """Test Semantic Pipeline."""
 
+    def test_semantic_breaks(self):
+        """Test breaks with no"""
+        pipe = SemanticPipe()
+        input_xml = """<TEI xmlns="http://www.tei-c.org/ns/1.0">
+            <text>
+                <l>Text <lb/>with a no
+                <lb break='no'/>te continues.</l>
+                <w xml:id="w_911_7" norm="bewarn">pewa<lb n="19.1" ana="hc:InterlinearLine hc:RunOverAbove" rendition="hc:FlushRight" break="no"/>re<choice><am>bar</am><ex>n</ex></choice></w>
+            </text>
+        </TEI>"""
+        result = pipe.execute(input_xml, input_format='xml_string')
+        assert result == """<?xml version="1.0" encoding="UTF-8"?><TEI xmlns="http://www.tei-c.org/ns/1.0"><text xml:space="preserve"><l>Text<lb/>with a no<lb break="no"/>te continues.</l><w xml:id="w_911_7" norm="bewarn">pewa<lb n="19.1" ana="hc:InterlinearLine hc:RunOverAbove" break="no"/>re<choice><am>bar</am><ex>n</ex></choice></w></text></TEI>"""
+        
+
     def test_semantic_basic(self, complex_fixtures_dir):
         """Test that basic TEI can be processed without error."""
         pipeline_compare_flow(SemanticPipe(), 

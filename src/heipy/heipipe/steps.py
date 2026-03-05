@@ -319,6 +319,7 @@ class Pipeline(BaseStep):
 
     def execute(self, 
                 input, 
+                input_format: Literal["file", "xml_string"] = "file",
                 xinclude=False, 
                 egxml=False,
                 output_format: Literal["str", "etree", "bytes"] = "str", 
@@ -327,7 +328,8 @@ class Pipeline(BaseStep):
         Executes the pipeline on the given input file with optimized batching.
 
         Args:
-            input (str | Path): Path to the XML file to be processed (accepts both string and pathlib.Path).
+            input (str | Path): Path to the XML file to be processed (accepts both string and pathlib.Path). Alternative the xml fragment as string is input_format is 'xml_string'
+            input_format (str): 'file' or 'xml_string'
             xinclude (bool): Does the starting file contain xinclude elements that need to be resolved at the start of the pipeline? Defaults to False.
             egxml (bool): Does the starting file contain <egXML> elements?
             debug_options (list): Which debug options should be active. Available options: time, serial.
@@ -336,15 +338,20 @@ class Pipeline(BaseStep):
             str: The processed string after all pipeline steps have been executed.
         """
         output_format = OutputFormat(output_format)
-        print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{str(input)[:60]}{RESET}")
-        if not os.path.isfile(input):
-            warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
-            return None
-        
         debug_options = debug_options if debug_options is not None else []
-        input_string = heiparse(
-            input, output_format=OutputFormat.STR, xinclude=xinclude, egxml=egxml, base_url=str(input)
-        )
+        print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{str(input)[:60]}{RESET}")
+        input_string = None
+        if input_format == 'file':
+            if not os.path.isfile(input):
+                warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
+                return None
+            input_string = heiparse(
+                input, output_format=OutputFormat.STR, xinclude=xinclude, egxml=egxml, base_url=str(input)
+            )
+        elif input_format == 'xml_string':
+            input_string = input
+        else:
+            warnings.warn(f"Input format {input_format} is invalid", HeiWarning)
         pipe_serial = True if self.serial or 'serial' in debug_options else False
 
         # Process steps with batching optimization
