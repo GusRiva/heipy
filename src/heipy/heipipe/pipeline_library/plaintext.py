@@ -1,5 +1,5 @@
 from ..steps import Pipeline, XsltStep
-from ..step_library import *
+from ..step_library import whitespaces
 
 
 class PlainTextPipe(Pipeline):
