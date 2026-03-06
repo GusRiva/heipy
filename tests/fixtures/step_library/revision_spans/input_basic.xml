@@ -1,0 +1,35 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Test Document</title>
+			</titleStmt>
+			<publicationStmt>
+				<p>Test publication statement</p>
+			</publicationStmt>
+			<sourceDesc>
+				<p>Test source description</p>
+			</sourceDesc>
+		</fileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface ana="hc:Page" xml:id="A1_1r" n="1r">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0001/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+		</surface>
+	</facsimile>
+	<text ana="hc:Article">
+		<body>
+			<pb facs="#A1_1r"/>
+			<cb facs="#A1_1r-a"/>
+			<head><lb n="1"/>Wanderers Nachtlied <delSpan rendition="hc:Strikethrough" spanTo="#delSpan_1"/>eigenhändig aufgezeichnet</head>
+			<l><lb n="2"/>Über allen Gipfeln ist Ruh</l>
+			<l><lb n="3"/>In allen Wipfeln spürest du</l>
+			<l>Kaum<lb n="4"/>einen<anchor xml:id="delSpan_1"/> Hauch</l>
+			<l><lb n="5"/>Die Vögelein schweigen im Walde.</l>
+			
+			
+			
+		</body>
+	</text>
+</TEI>

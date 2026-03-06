@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Synoptische Karte Gregorius</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Publication Information</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Information about the source</p>
+         </sourceDesc>
+      </fileDesc>
+      <encodingDesc>
+         <listPrefixDef>
+            <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/>
+            <prefixDef matchPattern="(.+)" ident="a" replacementPattern="Gregorius_A_Rom_kurz.xml/$1" ana="hc:SynopticTextPrefixDefinition"/>
+            <prefixDef matchPattern="(.+)" ident="b" replacementPattern="Gregorius_B_Strassburg_kurz.xml/$1" ana="hc:SynopticTextPrefixDefinition"/>
+            <prefixDef matchPattern="(.+)" ident="j" replacementPattern="Gregorius_J_Berlin_kurz.xml/$1" ana="hc:SynopticTextPrefixDefinition"/>
+         </listPrefixDef>
+      </encodingDesc>
+   </teiHeader>
+   <standOff>
+      <link target="j:l_169 a:left(l_171) b:left(l_177) "/>
+      <link target="j:l_170 a:left(l_171) b:left(l_177) "/>
+      <link target="a:l_171 j:l_171 b:left(l_177) "/>
+      <link target="a:l_172 j:l_172 b:left(l_177) "/>
+      <link target="a:l_173 j:l_173 b:left(l_177) "/>
+      <link target="a:l_174 j:l_174 b:left(l_177) "/>
+      <link target="a:l_175 j:l_175 b:left(l_177) "/>
+      <link target="a:l_176 j:l_176 b:left(l_177) "/>
+      <link target="a:l_177 b:l_177 j:l_177 "/>
+      <link target="a:l_178 b:l_178 j:l_178 "/>
+      <link target="a:l_179 b:l_179 j:l_179 "/>
+      <link target="a:l_180 b:l_180 j:l_180 "/>
+      <link target="a:l_181 b:l_181 j:l_181 "/>
+      <link target="a:l_182 b:l_182 j:l_182 "/>
+      <link target="a:l_183 b:l_183 j:l_183 "/>
+      <link target="a:l_184 b:l_184 j:l_184 "/>
+      <link target="a:l_185 b:l_185 j:l_185  "/>
+      <link target="a:l_186 b:l_186 j:l_186  "/>
+      <link target="a:l_187 b:l_187 j:l_187  "/>
+      <link target="a:l_188 b:l_188 j:l_188  "/>
+   </standOff>
+</TEI>

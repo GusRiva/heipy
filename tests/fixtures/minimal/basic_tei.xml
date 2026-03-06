@@ -13,7 +13,7 @@
       </sourceDesc>
     </fileDesc>
   </teiHeader>
-  <text>
+  <text xml:id="text_1" ana="hc:Article">
     <body>
       <p xml:id="p1">Test paragraph with some content.</p>
       <p xml:id="p2">Another paragraph for testing.</p>

@@ -1,0 +1,38 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Test Document</title>
+			</titleStmt>
+			<publicationStmt>
+				<p>Test publication statement</p>
+			</publicationStmt>
+			<sourceDesc>
+				<p>Test source description</p>
+			</sourceDesc>
+		</fileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface ana="hc:Page" xml:id="A1_1r" n="1r">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0001/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+		</surface>
+		<surface ana="hc:Page" xml:id="A1_1v" n="1v">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0002/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a"/>
+		</surface>
+	</facsimile>
+	<text ana="hc:Article">
+		<body>
+			<head>
+				<lb n="1"/>Wanderers Nachtlied <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_1"/><supplied ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">eigenhändig </supplied><hi ana="hc:EditorialAdditionSpan">so</hi><supplied ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"> aufgezeichnet</supplied></head>
+			<lb n="2"/><l ana="hc:EditorialAdditionSpan">Über allen Gipfeln ist Ruh</l>
+			<lb n="3"/><l ana="hc:EditorialAdditionSpan">In allen Wipfeln spürest du</l>
+			<l><supplied ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Kaum</supplied><lb n="4"/><supplied ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">einen</supplied><anchor xml:id="addSpan_1"/> Hauch</l>
+			<lb n="5"/><l>Die Vögelein schweigen im Walde.</l>
+
+
+
+		</body>
+	</text>
+</TEI>

@@ -1,5 +1,6 @@
+from ..step_library.sourcedoc import combine_facsimile_and_text_to_sourcedoc, prepare_figure_4_source_doc, split_everything_at_physical_beginnings, split_word_at_physical_beginnings
 from ..steps import Pipeline
-from ..step_library import initials, revision_spans, transcription_note, connect_lb_and_segment, move_physical_beginnings, whitespaces,  number_line_segment_beginnings, split_everything_at_physical_beginnings, split_word_at_physical_beginnings, remove_gap_page, wrap_resolved_content, prepare_figure_4_source_doc, add_vertical_layout, combine_facsimile_and_text_to_sourcedoc, mark_note_as_editorial, container2milestone
+from ..step_library import revision_spans, initials, transcription_note, connect_lb_and_segment, move_physical_beginnings, whitespaces,  number_line_segment_beginnings, remove_gap_page, wrap_resolved_content, add_vertical_layout, mark_note_as_editorial, container2milestone
 
 
 milestone_element_map = {
@@ -48,12 +49,12 @@ milestone_element_map = {
     }
 
 class SourceDocPipe(Pipeline):
-    def __init__(self):
+    def __init__(self, serial=False):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step() 
         mark_note_as_editorial_step.add_parameter(
             'note_classes', 
-            "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
+            "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:EditorialNote hc:FontesNote hc:VariantNote hc:WitnessesNote")
         container2milestone_step = container2milestone.get_step()
         container2milestone_step.set_parameter('element_map', milestone_element_map)
         container2milestone_step.set_parameter('randomDocId', False)
@@ -62,7 +63,7 @@ class SourceDocPipe(Pipeline):
         pipe_steps = [
             # Index: 0
             initials.get_step(),
-            revision_spans.get_step(),
+            # revision_spans_sem.get_step(),
             transcription_note.get_step(),
             connect_lb_and_segment.get_step(),
             move_physical_beginnings.get_step(),
@@ -75,11 +76,15 @@ class SourceDocPipe(Pipeline):
             split_everything_at_physical_beginnings.get_step(),
             # Index: 10
             remove_gap_page.get_step(),
-            wrap_resolved_content.get_step(),
             prepare_figure_4_source_doc.get_step(),
             add_vertical_layout.get_step(),
+
+            # wrap_resolved_content.get_step(),
             combine_facsimile_and_text_to_sourcedoc.get_step(),
+            
+            revision_spans.get_step()
+
             ]
         
         description = "Source Doc Pipeline"
-        super().__init__(steps=pipe_steps, name="sourcedoc_pipe", desc=description, serial=False)
+        super().__init__(steps=pipe_steps, name="sourcedoc_pipe", desc=description, serial=serial)

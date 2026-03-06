@@ -10,3 +10,6 @@ heipy.egg-info
 *.xpr
 /test.py
 .DS_Store
+
+# Auto-generated test fixtures (pending manual review)
+auto_*.xml

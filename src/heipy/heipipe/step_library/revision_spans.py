@@ -1,92 +1,106 @@
 from lxml import etree as et
 
 from ..steps import PythonStep
-from ...namespaces import prefix_format
+from ...namespaces import tei_ns, xml_ns, hei_ns, ns
+
+
+# This step expands the delSpan and addSpan and milestones in the semantic pipeline
+
+# Map span types to their ana values
+span_config = {
+    tei_ns / "delSpan": {
+        "ana": "hc:EditorialDeletionSpan", 
+        "basic": "del"},
+    tei_ns / "addSpan": {
+        "ana": "hc:EditorialAdditionSpan", 
+        "basic": "add"},
+    "hc:EditorialAdditionSpan": {
+        "ana": "hc:EditorialAdditionSpan",
+        "basic": "supplied",
+    },
+    "hc:EditorialDeletionSpan": {
+        "ana": "hc:EditorialDeletionSpan", 
+        "basic": "surplus"},
+}
 
 
 def revision_spans_funct(root, parameters=None):
-    # Map span types to their ana values
-    span_config = {
-        prefix_format('tei','delSpan'): 'hc:DeletionSpan',
-        prefix_format('tei','addSpan'): 'hc:AdditionSpan'
-    }
-    
-    # Track currently active spans: list of (anchor_id, ana_value)
-    active_spans = []
-    
-    # Collect elements to process (to avoid modifying while iterating)
-    elements_to_process = []
-    
-    for elem in root.iter():
-        elements_to_process.append((elem, list(active_spans)))
-        
-        # Check if this is an anchor that closes any active span
-        if elem.tag == prefix_format('tei', 'anchor'):
-            xml_id = elem.get(prefix_format('xml','id'))
-            if xml_id:
-                # Remove any spans that target this anchor
-                active_spans = [(aid, ana) for aid, ana in active_spans if aid != xml_id]
-        
-        # Check if this is a span element that opens a new span
-        elif elem.tag in span_config:
-            span_to = elem.get('spanTo')
-            if span_to:
-                anchor_id = span_to.lstrip('#')
-                ana_value = span_config[elem.tag]
-                active_spans.append((anchor_id, ana_value))
-    
-    # Now process elements (apply ana attributes and wrap tails)
-    for elem, spans_at_elem in elements_to_process:
-        # Skip span and anchor elements themselves
-        if elem.tag in span_config or elem.tag == prefix_format('tei', 'anchor'):
-            # But handle their tails if in a span
-            if spans_at_elem and elem.tail and elem.tail.strip():
-                wrap_tail(elem, spans_at_elem)
+    start_element = root.find("tei:text", ns)
+    if start_element is None:
+        start_element = root.find("tei:sourceDoc", ns)
+    if start_element is None:
+        raise SyntaxError("Could not find a text or sourcedoc element.")
+    spans_and_anchors = start_element.xpath(
+        ".//tei:delSpan | .//tei:addSpan | .//tei:milestone[@ana='hc:EditorialAdditionSpan'] | .//tei:milestone[@ana='hc:EditorialDeletionSpan'] | .//tei:anchor",
+        namespaces=ns,
+    )
+    for span in spans_and_anchors:
+        if span.tag == tei_ns / "anchor":
             continue
+        span_to = span.get("spanTo")
+        if span_to is None:
+            raise ValueError(f"Element {span} must have attribute spanTo.")
+        # TODO: Improve this error checking also for starting with #
+        try:
+            span_to = span_to[1:]
+        except IndexError:
+            print("spanTo attribute must be ...")
+        try:
+            anchor = list(
+                filter(lambda x: x.get(xml_ns / "id") == span_to, spans_and_anchors)
+            )[0]
+        except IndexError:
+            print("Could not find anchor")  # TODO: Improve all these error messages
         
-        # Apply ana attributes from active spans to this element
-        if spans_at_elem:
-            ana_values = {ana for _, ana in spans_at_elem}
-            current_ana = elem.get('ana', '')
-            
-            if current_ana:
-                existing_values = set(current_ana.split())
-                all_values = existing_values | ana_values
-                elem.set('ana', ' '.join(sorted(all_values)))
+        this_span_config = span_config.get(span.tag) if span.tag in [tei_ns / 'delSpan', tei_ns / 'addSpan'] else span_config.get(span.attrib.get('ana'))
+        this_ana = this_span_config.get('ana')
+        wrap_tail(span, this_span_config, span_to)
+                
+        anchor_ancestors = list(anchor.iterancestors())
+        elements_processed = set()
+        for node in span.xpath("following::*"):
+            processed_ancestor = False
+            for node_ancestor in node.xpath("ancestor::*"):
+                if node_ancestor in elements_processed:
+                    processed_ancestor = True
+                    continue
+            if processed_ancestor:
+                continue
+            if node in anchor_ancestors:
+                if node.text is not None and node.text.strip() != '':
+                    new_wrap = et.Element(this_span_config.get('basic'))
+                    new_wrap.attrib['ana'] = this_ana
+                    new_wrap.attrib[hei_ns / 'belongsToRevision'] = f'#{span_to}'            
+                    new_wrap.text = node.text
+                    node.text = None
+                    node.insert(0, new_wrap)            
+                    elements_processed.add(new_wrap)
+            elif node == anchor:
+                break
+            elif node.tag in [tei_ns / x for x in ['lb']] or (node.attrib.get('ana') is not None and 'hc:EditorialContent' in node.attrib.get('ana')):
+                wrap_tail(node, this_span_config, span_to)
+            elif node.tag == tei_ns / "line":
+                continue
             else:
-                elem.set('ana', ' '.join(sorted(ana_values)))
-            
-            # Wrap tail if it exists and has content
-            if elem.tail and elem.tail.strip():
-                wrap_tail(elem, spans_at_elem)
+                previous_ana = node.attrib.get('ana')
+                new_ana = this_ana
+                node.attrib['ana'] = f"{previous_ana.replace(this_ana, '')} {new_ana}".strip() if previous_ana is not None else new_ana
+                elements_processed.add(node)
+                wrap_tail(node, this_span_config, span_to)
+                    
     return root
 
-def wrap_tail(elem, active_spans):
-    """
-    Wrap element's tail text in a <seg> element with appropriate ana attribute.
-    """
-    parent = elem.getparent()
-    if parent is None:
-        return
-    
-    ana_values = {ana for _, ana in active_spans}
-    
-    # Create seg element for the tail
-    seg = et.Element('seg')
-    seg.set('ana', ' '.join(sorted(ana_values)))
-    seg.text = elem.tail
-    seg.tail = None  # seg will inherit any following tail
-    
-    # Find position of elem in parent
-    elem_index = list(parent).index(elem)
-    
-    # Insert seg after elem
-    parent.insert(elem_index + 1, seg)
-    
-    # Clear the original tail
-    elem.tail = None
+
+def wrap_tail(element:et.Element, config:dict, span_to:str):
+    tail_el = et.Element(config.get('basic')) if element.tail is not None and element.tail.strip() != '' else None
+    if tail_el is not None:
+        tail_el.text = element.tail
+        element.tail = None
+        tail_el.attrib['ana'] = config.get('ana')
+        tail_el.attrib[hei_ns / 'belongsToRevision'] = f'#{span_to}'
+        element.addnext(tail_el)
+    return element
+
 
 def get_step():
-    return PythonStep(
-        funct=revision_spans_funct, 
-        name="revision_spans")
+    return PythonStep(funct=revision_spans_funct, name="revision_spans")

@@ -5,86 +5,11 @@ Tests that XML files can be loaded and written correctly, with special
 attention to entity preservation in heiEDITIONS documents.
 """
 
-import re
 from lxml import etree as et
-from pathlib import Path
 
-from heipy.parsers import HeiEditionsParser
-
-
-def normalize_prologue(xml_text):
-    """
-    Normalize prologue formatting for comparison.
-
-    Separates the XML prologue from the content and normalizes formatting
-    differences that are semantically irrelevant (quote style, newlines).
-
-    Args:
-        xml_text (str): The complete XML document text
-
-    Returns:
-        tuple: (normalized_prologue, content) where content starts from root element
-    """
-    # Split at the root element
-    if '<TEI' in xml_text:
-        prologue, content = xml_text.split('<TEI', 1)
-        content = '<TEI' + content
-
-        # Normalize prologue:
-        # 1. Replace single quotes with double quotes in XML declaration
-        prologue = prologue.replace("'", '"')
-
-        # 2. Normalize whitespace between declarations
-        # Remove extra newlines, keep single newlines between declarations
-        prologue = re.sub(r'\n\s*\n', '\n', prologue)
-
-        # 3. Add newlines after each ?> and DOCTYPE > for consistent formatting
-        prologue = re.sub(r'\?>\s*<\?', '?>\n<?', prologue)
-        prologue = re.sub(r'\?>\s*<!DOCTYPE', '?>\n<!DOCTYPE', prologue)
-
-        return prologue, content
-    return xml_text, ''
-
-
-def compare_elements(elem1, elem2):
-    """
-    Recursively compare two XML elements for equality.
-
-    Checks:
-    - Tag name
-    - Attributes
-    - Text content
-    - Tail content
-    - Children (recursively)
-
-    Returns True if identical, False otherwise.
-    """
-    # Check tag
-    if elem1.tag != elem2.tag:
-        return False
-
-    # Check attributes
-    if elem1.attrib != elem2.attrib:
-        return False
-
-    # Check text (strip to ignore whitespace differences in mixed content)
-    if (elem1.text or '').strip() != (elem2.text or '').strip():
-        return False
-
-    # Check tail
-    if (elem1.tail or '').strip() != (elem2.tail or '').strip():
-        return False
-
-    # Check number of children
-    if len(elem1) != len(elem2):
-        return False
-
-    # Recursively check all children
-    for child1, child2 in zip(elem1, elem2):
-        if not compare_elements(child1, child2):
-            return False
-
-    return True
+from heipy.parsers import HeiEditionsParser, heiparse
+from heipy.namespaces import ns
+from tests.helpers.xml_compare import normalize_prologue, assert_text_equal
 
 
 class TestBasicTEIRoundtrip:
@@ -144,6 +69,30 @@ class TestBasicTEIRoundtrip:
             assert orig_id == reload_id
 
 
+class TestXInclude:
+    """Test xi:include instructions are resolved correctly."""
+    def test_tei_with_xinclude_resolves_succesfully(self, tei_with_xinclude_path):
+        """Tests that if xinclude is True, the xi:include element is resolved"""
+        tei_tree = heiparse(tei_with_xinclude_path, xinclude=True)
+        text_tag = tei_tree.find("tei:text", ns)
+        assert text_tag is not None
+
+    def test_tei_with_xinclude_not_resolve_succesfully(self, tei_with_xinclude_path):
+        """Tests that if xinclude is False, the xi:include element is not resolved"""
+        tei_tree = heiparse(tei_with_xinclude_path, xinclude=False)
+        text_tag = tei_tree.find("tei:text", ns)
+        assert text_tag is None
+        xinclude_tag = tei_tree.find("xi:include", ns)
+        assert xinclude_tag is not None
+
+    def test_tei_with_xinclude_has_children(self, tei_with_xinclude_path):
+        """Tests that if xinclude is True, the xi:include element is resolved and chidren loaded"""
+        tei_tree = heiparse(tei_with_xinclude_path, xinclude=True)
+        text_tag = tei_tree.find("tei:text", ns)
+        p_els = text_tag.findall(".//tei:p", ns)
+        assert len(p_els) == 2
+
+
 class TestEntityPreservation:
     """Test that heiEDITIONS entities are preserved through load/write cycles."""
 
@@ -199,6 +148,9 @@ class TestEntityPreservation:
     def test_roundtrip_with_entities(self, minimal_fixtures_dir, tmp_path):
         """
         Test complete roundtrip: load with HeiEditionsParser, write, reload, compare.
+
+        Uses text-based comparison to ensure byte-for-byte preservation of
+        entities, formatting, and whitespace.
         """
         # Load original with HeiEditionsParser
         parser = HeiEditionsParser()
@@ -210,29 +162,14 @@ class TestEntityPreservation:
         with open(output_path, 'wb') as f:
             original_tree.write(f, encoding='utf-8', xml_declaration=True)
 
-        # Read the original input file as text
-        with open(input_path, 'r', encoding='utf-8') as f:
-            original_text = f.read()
-
-        # Read the serialized output file as text
-        with open(output_path, 'r', encoding='utf-8') as f:
-            output_text = f.read()
-
-        # Split into prologue and content
-        orig_prologue, orig_content = normalize_prologue(original_text)
-        out_prologue, out_content = normalize_prologue(output_text)
-
-        # Normalize trailing whitespace - strip it from both for comparison
-        orig_content = orig_content.rstrip()
-        out_content = out_content.rstrip()
-
-        # Prologue should be semantically equivalent (after normalization)
-        assert orig_prologue == out_prologue, \
-            f"Prologue differs:\nOriginal:\n{orig_prologue}\n\nOutput:\n{out_prologue}"
-
-        # Content must be byte-for-byte identical (after normalizing trailing newlines)
-        assert orig_content == out_content, \
-            "XML content differs (elements, text, or whitespace)"
+        # Compare original and output as text (with prologue normalization)
+        assert_text_equal(
+            input_path,
+            output_path,
+            message="Roundtrip with entities failed",
+            normalize_prologues=True,
+            strip_trailing_whitespace=True
+        )
 
 
 class TestHeiEditionsParser:

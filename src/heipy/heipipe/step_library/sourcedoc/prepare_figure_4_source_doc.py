@@ -1,5 +1,5 @@
-from ...namespaces import ns
-from ..steps import PythonStep
+from ....namespaces import ns
+from ...steps import PythonStep
 
 def prepare_figure_4_source_doc(root, parameters=None):
     # aim:
@@ -11,6 +11,8 @@ def prepare_figure_4_source_doc(root, parameters=None):
     # 1. identify sequences of ZoneBeginning or ZoneShift milestone with following nodes until
     # one of these appears: graphic, ZoneBeginning or ZoneShift milestone, end of the figure element
     # 2. move these sequences outside (after) the figure element
+    
+    # Update GFR: Move also the label with lb elements outside the figure
 
     figures_list = root.xpath(".//tei:figure", namespaces=ns)
 
@@ -51,6 +53,7 @@ def prepare_figure_4_source_doc(root, parameters=None):
                         extract.append(figure[start])
                 else:
                     i += 1
+            
             else:
                 i += 1
         # flattening the list "extract" (because it can contains lists itself):

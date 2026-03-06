@@ -1,0 +1,139 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Test Document</title>
+			</titleStmt>
+			<publicationStmt>
+				<p>Test publication statement</p>
+			</publicationStmt>
+			<sourceDesc>
+				<p>Test source description</p>
+			</sourceDesc>
+		</fileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface ana="hc:Page" xml:id="A1_1r" n="1r">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0001/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+		</surface>
+		<surface ana="hc:Page" xml:id="A1_1v" n="1v">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0002/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a"/>
+		</surface>
+	</facsimile>
+	<text ana="hc:CourtlyRomance hc:CompleteExpression">
+		<front>
+			<pb n="121r" facs="#A3_121r"/>
+			<milestone ana="hc:ZoneBeginning" facs="#A3_121r-mt"/>
+			<docTitle>
+				<titlePart>
+					<lb n="1"/>
+					<w>La</w>
+					<c> </c>
+					<w>Vie</w>
+					<c> </c>
+					<w>de</w>
+					<c> </c>
+					<w>ſaint</w>
+					<c> </c>
+					<w><choice><orig>g</orig><reg>G</reg></choice>regoire</w>
+				</titlePart>
+			</docTitle>
+		</front>
+		<body>
+			<cb n="a" facs="#A3_121r_a"/>
+			<lg ana="hc:Couplet">
+				<l n="1" hei:altN="1" xml:id="l_1">
+					<lb n="1"/>
+					<w xml:id="w_1_1"><hei:initial rendition="hc:Lombard" hei:color="Red" hei:heightLines="3">O</hei:initial>R</w>
+					<c> </c>
+					<w xml:id="w_1_2">entendes</w>
+					<pc>·</pc>
+					<lb n="2"/>
+					<w xml:id="w_1_3">Pour</w>
+					<c> </c>
+					<w xml:id="w_1_4">dieu</w>
+					<c> </c>
+					<w xml:id="w_1_5">amour</w>
+					<metamark ana="hc:DecorativeMark">∞</metamark>
+				</l>
+				<l n="2" hei:altN="2" xml:id="l_2">
+					<lb n="3"/>
+					<w xml:id="w_2_1">La</w>
+					<c> </c>
+					<w xml:id="w_2_2">vie</w>
+					<c> </c>
+					<w xml:id="w_2_3">d</w>
+					<w xml:id="w_2_4">ung</w>
+					<c> </c>
+					<w xml:id="w_2_5">bon</w>
+					<c> </c>
+					<w xml:id="w_2_6">pecheour</w>
+				</l>
+			</lg>
+			<lg ana="hc:Couplet">
+				<l n="3" hei:altN="3" xml:id="l_3">
+					<lb n="4"/>
+					<w xml:id="w_3_1">De</w>
+					<c> </c>
+					<w xml:id="w_3_2">la</w>
+					<c> </c>
+					<w xml:id="w_3_3">terre</w>
+					<c> </c>
+					<w xml:id="w_3_4">fut</w>
+					<c> </c>
+					<w xml:id="w_3_5">de</w>
+					<c> </c>
+					<w xml:id="w_3_6">griffaigne</w>
+				</l>
+				<l n="4" hei:altN="4" xml:id="l_4">
+					<lb n="5"/>
+					<w xml:id="w_4_1">Mais</w>
+					<c> </c>
+					<w xml:id="w_4_2">ses</w>
+					<c> </c>
+					<w xml:id="w_4_3">pechies</w>
+					<c> </c>
+					<w xml:id="w_4_4">sont</w>
+					<c> </c>
+					<w xml:id="w_4_5">molt</w>
+					<c> </c>
+					<w xml:id="w_4_6">eſtrages</w>
+				</l>
+			</lg>
+			<lg ana="hc:Couplet">
+				<l n="5" hei:altN="5" xml:id="l_5">
+					<lb n="6"/>
+					<w xml:id="w_5_1">Que</w>
+					<c> </c>
+					<w xml:id="w_5_2">grant</w>
+					<c> </c>
+					<w xml:id="w_5_3">paour</w>
+					<c> </c>
+					<w xml:id="w_5_4">est</w>
+					<c> </c>
+					<w xml:id="w_5_5">a</w>
+					<c> </c>
+					<w xml:id="w_5_6">Retraire</w>
+				</l>
+				<l n="6" hei:altN="6" xml:id="l_6">
+					<lb n="7"/>
+					<w xml:id="w_6_1">Mais</w>
+					<c> </c>
+					<w xml:id="w_6_2">non</w>
+					<c> </c>
+					<w xml:id="w_6_3">pourtant</w>
+					<c> </c>
+					<w xml:id="w_6_4">ſe</w>
+					<c> </c>
+					<w xml:id="w_6_5">doit</w>
+					<c> </c>
+					<w xml:id="w_6_6">on</w>
+					<c> </c>
+					<w xml:id="w_6_7">faire</w>
+				</l>
+			</lg>
+		</body>
+	</text>
+</TEI>

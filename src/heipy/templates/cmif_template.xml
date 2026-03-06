@@ -9,7 +9,7 @@
             </titleStmt>
             <publicationStmt>
                 <publisher>
-                    <orgName>Heidelberg University Library</orgName>
+                    <ref target="https://www.ub.uni-heidelberg.de">Heidelberg University Library</ref>
                 </publisher>
                 <idno type="url"></idno>
                 <date></date>

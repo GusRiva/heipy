@@ -234,7 +234,10 @@ def initialize_cmif_file(project_name: str,
 
     bibl = cmif.find(".//tei:bibl", namespaces=ns)
     bibl.set(prefix_format('xml', 'id'), edition_uuid)
-    bibl.text = edition_citation
+    edition_citation_element = et.fromstring(f'<temp_wrapper_tag>{edition_citation}</temp_wrapper_tag>')
+    bibl.text = edition_citation_element.text
+    for child in edition_citation_element:
+        bibl.append(child)
 
     title = cmif.find(".//tei:title", namespaces=ns)
     title.text = title.text + "“" + edition_title + "”"
@@ -284,11 +287,20 @@ def create_cmif_export(files: list,
         correspondence_doi_elements = [idno for idno in doc_root.findall(".//tei:idno", namespaces=ns)
                                        if "hc:ReadingViewIdentifier" in idno.attrib["ana"]]
         if not correspondence_doi_elements:
-            issues_in_CMIF_export.setdefault(file, []).append(
-                "No ReadingViewIdentifier found. File is not included in CMIF export.")
-            continue
+            if edition_doi == "https://doi.org/10.11588/edition.wm": # Edition WM wishes to include only those letters that have a Reading View.
+                issues_in_CMIF_export.setdefault(file, []).append(
+                    "No ReadingViewIdentifier found. File is not included in CMIF export.")
+                continue
+            else:
+                correspondence_doi_elements = [idno for idno in doc_root.findall(".//tei:idno", namespaces=ns)
+                                               if "hc:SourceViewIdentifier" in idno.attrib["ana"]]
+                if not correspondence_doi_elements:
+                    issues_in_CMIF_export.setdefault(file, []).append("No Identifier (hc:SourceViewIdentifier/hc:ReadingViewIdentifier) found. File is not included in CMIF export.")
+                    continue
 
         correspondence_doi = correspondence_doi_elements[0].text
+        if correspondence_doi.startswith("10."):
+            correspondence_doi = "https://doi.org/" + correspondence_doi
         cmif_correspDesc = create_cmif_correspDesc(doc_root,
                                                    correspondence_doi,
                                                    edition_uuid,

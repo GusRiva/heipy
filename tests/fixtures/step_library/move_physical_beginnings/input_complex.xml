@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+<!DOCTYPE TEI SYSTEM "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt">
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title ana="hc:MainTitle">Zone Milestone</title>
+      </titleStmt>
+      <publicationStmt>
+        <p></p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <settlement>
+              <placeName>Paris</placeName>
+            </settlement>
+            <repository>
+              <orgName>Bibliothèque nationale de France</orgName>
+            </repository>
+          </msIdentifier>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <listPrefixDef>
+        <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"> </prefixDef>
+        <prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"> </prefixDef>
+      </listPrefixDef>
+    </encodingDesc>
+  </teiHeader>
+  
+  <facsimile>
+    <surface ana="hc:Page" xml:id="A3_121r" n="121r">
+      <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bnf_fr1545_fol121-136/0001/image" mimeType="image/*"/>
+      <zone ana="hc:MarginalZone hc:TextZone" xml:id="A3_121r-mt" n="mt"/>
+      <zone ana="hc:HorizontalLayout">
+        <zone xml:id="A3_121r-a" ana="hc:MainColumn hc:TextZone" n="a"/>
+        <zone xml:id="A3_121r-b" ana="hc:MainColumn hc:TextZone" n="b"/>
+      </zone>
+    </surface>
+  </facsimile>
+  
+  <text ana="hc:CourtlyRomance hc:CompleteExpression">
+    <body>
+      <pb n="121r" facs="#A3_121r"/>
+      <cb n="a" facs="#A3_121r-a"/>
+      <lg ana="hc:Couplet">
+        <l n="613" hei:altN="612" xml:id="l_613">
+          <lb n="23"/>
+          <w xml:id="w_613_1">waſ</w>
+          <c> </c>
+          <w xml:id="w_613_2">tu&osup;tt</w>
+          <c> </c>
+          <w xml:id="w_613_3">der</w>
+          <c> </c>
+          <w xml:id="w_613_4">mu&osup;t</w>
+          <c> </c>
+          <w xml:id="w_613_5">ane</w>
+          <c> </c>
+          <subst>
+            <del rendition="hc:Strikethrough">
+              <w xml:id="w_613_6">mu&osup;t</w>
+            </del>
+            <lb n="24"/>
+            <add hei:placeRef="hc:Inline">
+              <w xml:id="w_613_7">gu&osup;tt</w>
+            </add>
+          </subst>
+          <pc>·</pc>
+          <c> </c>
+        </l>
+      </lg>
+    </body>
+  </text>
+</TEI>

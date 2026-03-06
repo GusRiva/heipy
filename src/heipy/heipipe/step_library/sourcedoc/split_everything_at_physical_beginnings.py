@@ -1,8 +1,10 @@
-from ...namespaces import ns
-from ..steps import PythonStep
+from ....namespaces import ns
+from ...steps import PythonStep
 from copy import deepcopy
-from uuid import uuid4
+import uuid
+import random
 from lxml import etree as et
+
 
 def split_at_physical_beginnings_func(root, parameters=None):
     ''' Aim: split elements containing physical beginnings at these beginnings
@@ -20,29 +22,31 @@ def split_at_physical_beginnings_func(root, parameters=None):
     # only elements expected to appear as children of <line> in the sourceDoc
     # encoding.
 
-    # Author: Jakub Šimek'''
+    # Author: Jakub Šimek
+    # With changes from: Gustavo Riva'''
 
+    random.seed(42)
+    
     def check():
         # function checking whether there are any cases to be dealt with;
         # it is used to run the split() function recursively
         relevant_elements = root.xpath(
-            "//*[not(self::tei:TEI or self::tei:subst)][tei:lb or tei:milestone[contains(@ana, 'hc:LineSegmentBeginning')]]",
+            """//*[not(self::tei:TEI )]
+            [tei:lb or tei:milestone[contains(@ana, 'hc:LineSegmentBeginning')]]
+            [not(descendant::*[tei:lb or tei:milestone[contains(@ana, 'hc:LineSegmentBeginning')]])]""",
             namespaces=ns)
-        if len(relevant_elements) > 0:
-            return True
-        else:
-            return False
+        return relevant_elements
 
     # function doing the actual splitting
-    def split():
+    def split(relevant_elements:list):
         # list of all elements which have <lb> or <milestone ana="hc:LineSegmentBeginning"> as a child
         # (except elements which contain descendant elements fulfilling the above condition - such elements
         # must be splitted first):
-        relevant_elements = root.xpath(
-            """//*[not(self::tei:TEI or self::tei:subst)]
-                [tei:lb or tei:milestone[contains(@ana, 'hc:LineSegmentBeginning')]]
-                [not(descendant::*[tei:lb or tei:milestone[contains(@ana, 'hc:LineSegmentBeginning')]])]
-                """, namespaces=ns)
+        # relevant_elements = root.xpath(
+        #     """//*[not(self::tei:TEI )]
+        #         [tei:lb or tei:milestone[contains(@ana, 'hc:LineSegmentBeginning')]]
+        #         [not(descendant::*[tei:lb or tei:milestone[contains(@ana, 'hc:LineSegmentBeginning')]])]
+        #         """, namespaces=ns)
         # loop over elements identified as to be splitted:
         for relevant_element in relevant_elements:
             # the elements parent:
@@ -223,7 +227,8 @@ def split_at_physical_beginnings_func(root, parameters=None):
             first_part.text = text 
             # new id for the element, if no id is set:
             if "{http://www.w3.org/XML/1998/namespace}id" not in first_part.keys():
-                first_part_id = element_name + "_" + str(uuid4())
+                element_uuid = uuid.UUID(int=random.getrandbits(128))
+                first_part_id = element_name + "_" + str(element_uuid)
                 first_part.set(
                     "{http://www.w3.org/XML/1998/namespace}id", first_part_id)
             # if the first part doesn't consist just of a text node, i.e. the first bloc has type "content":
@@ -240,8 +245,9 @@ def split_at_physical_beginnings_func(root, parameters=None):
                     if bloc[0] == "content" and i != 0:
                         new_part = et.Element(
                             tag, attrib=relevant_element.attrib)
+                        new_part_uuid = uuid.UUID(int=random.getrandbits(128))
                         new_part_id = element_name + \
-                                      "_" + str(uuid4())
+                                      "_" + str(new_part_uuid)
                         new_part.set(
                             "{http://www.w3.org/XML/1998/namespace}id", new_part_id)
                         for child in relevant_element[bloc[1]:bloc[2] + 1]:
@@ -295,7 +301,8 @@ def split_at_physical_beginnings_func(root, parameters=None):
             if type(result_list[-1]) == str:
                 last_new_element = et.Element(
                     tag, attrib=relevant_element.attrib)
-                last_new_element_id = element_name + "_" + str(uuid4())
+                last_new_element_uuid = uuid.UUID(int=random.getrandbits(128))
+                last_new_element_id = element_name + "_" + str(last_new_element_uuid)
                 last_new_element.set(
                     "{http://www.w3.org/XML/1998/namespace}id", last_new_element_id)
                 last_new_element.text = result_list[-1]
@@ -332,11 +339,12 @@ def split_at_physical_beginnings_func(root, parameters=None):
 
     # run the split() function as many times as necessary:
     # round = 1
-    while check() == True:
-        # print("Runde:")
-        # print(round)
-        # round += 1
-        split()
+    should_check = True
+    while should_check:
+        relevant_elements = check()
+        if len(relevant_elements) < 1:
+            should_check = False
+        split(relevant_elements)
 
     return root
 

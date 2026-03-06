@@ -1,0 +1,61 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Test Document</title>
+			</titleStmt>
+			<publicationStmt>
+				<p>Test publication statement</p>
+			</publicationStmt>
+			<sourceDesc>
+				<p>Test source description</p>
+			</sourceDesc>
+		</fileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface ana="hc:Page" xml:id="A1_1r" n="1r">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0001/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+		</surface>
+		<surface ana="hc:Page" xml:id="A1_1v" n="1v">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0002/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a"/>
+		</surface>
+	</facsimile>
+	<text ana="hc:Article">
+		
+			<body><div ana="hc:Section" xml:id="AH_A_1" rendition="hc:DisplayDivision"><head ana="hc:EditorialContent">Heinrichs Krankheit (V. 1–458)</head><l xml:id="v_1">
+				<lb n="1"/>Wanderers Nachtlied eigenhändig aufgezeichnet</l>
+			<l xml:id="v_2">
+				<lb n="2"/>Über allen Gipfeln ist Ruh</l>
+			<l xml:id="v_3">
+				<lb n="3"/>In allen Wipfeln spürest du</l>
+			<l xml:id="v_4">Kaum
+				<lb n="4"/>einen Hauch</l>
+			</div><div ana="hc:Section" xml:id="AH_A_2" rendition="hc:DisplayDivision"><head ana="hc:EditorialContent">Opferbereitschaft des Mädchens (V. 459–854)</head><l xml:id="v_5">
+				<lb n="5"/>Die Vögelein schweigen im Walde.</l>
+			
+			
+			<l xml:id="v_6"><lb n="1"/>Wanderers Nachtlied 
+			
+				<lb n="2"/>Über allen Gipfeln ist Ruh</l>
+			<l xml:id="v_7">
+				<lb n="3"/>In allen Wipfeln spürest du</l>
+			<l xml:id="v_8">Kaum
+				<lb n="4"/>einenHauch</l>
+			<l xml:id="v_9">
+				<lb n="5"/>Die Vögelein schweigen im Walde.</l>
+			
+			
+			</div><div ana="hc:Section" xml:id="AH_A_3" rendition="hc:DisplayDivision"><head ana="hc:EditorialContent">Beschluss und Fahrt nach Salerno (V. 855–1170)</head><l xml:id="v_10"><lb n="1"/>Wanderers Nachtlied 
+				
+				<lb n="2"/>Über allen Gipfeln ist Ruh</l>
+			<l xml:id="v_11">
+				<lb n="3"/>In allen Wipfeln spürest du</l>
+			<l xml:id="v_12">Kaum
+				<lb n="4"/>einenHauch</l>
+			<l xml:id="v_13">
+				<lb n="5"/>Die Vögelein schweigen im Walde.</l>
+		
+	</div></body></text>
+</TEI>

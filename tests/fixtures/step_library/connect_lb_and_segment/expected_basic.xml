@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
+  <teiHeader>
+  </teiHeader>
+  <facsimile>
+    <surface ana="hc:Page" xml:id="A1_1r" n="1r">
+        <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0001/" mimeType="image/*"/>
+        <zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+    </surface>
+    <surface ana="hc:Page" xml:id="A1_1v" n="1v">
+        <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0002/" mimeType="image/*"/>
+        <zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a"/>
+    </surface>
+  </facsimile>
+  <text>
+    <body>
+      <pb n="1r" facs="#A1_1r"/>
+      <cb n="a" facs="#A1_1r-a"/>
+      <lb n="1" hei:belongsToZone="#A1_1r-a"/>
+      <lg>
+        <l>Line1</l>
+        <lb n="2" hei:belongsToZone="#A1_1r-a"/><l>Line2</l>
+      </lg>
+      <pb n="109r" facs="#A1_1v"/>
+      <cb n="a" facs="#A1_1v-a"/>
+      <lb n="3" hei:belongsToZone="#A1_1v-a"/>
+      <lg>
+        <l>Line1</l>
+        <lb n="4" hei:belongsToZone="#A1_1v-a"/><l>Line2</l>
+      </lg>
+    </body>
+  </text>
+</TEI>

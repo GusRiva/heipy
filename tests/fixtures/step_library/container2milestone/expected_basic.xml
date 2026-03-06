@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+  </teiHeader>
+  <facsimile>
+    <surface ana="hc:Page" xml:id="A1_1r" n="1r">
+        <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0001/" mimeType="image/*"/>
+        <zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+    </surface>
+    <surface ana="hc:Page" xml:id="A1_1v" n="1v">
+        <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0002/" mimeType="image/*"/>
+        <zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a"/>
+    </surface>
+  </facsimile>
+  <milestone ana="hc:TextualExpression" corresp="#d0e22"/>
+    <milestone ana="hc:ExpressionBody" corresp="#d0e24"/>
+      <pb n="1r" facs="#A1_1r"/>
+      <cb n="a" facs="#A1_1r-a"/>
+      <lb n="1"/>
+      <milestone ana="hc:VerseGroup" corresp="#d0e32"/>
+        <milestone ana="hc:Verse" corresp="#d0e34"/>Line1<anchor xml:id="d0e34"/>
+        <lb n="2"/><milestone ana="hc:Verse" corresp="#d0e37"/>Line2<anchor xml:id="d0e37"/>
+      <anchor xml:id="d0e32"/>
+      <pb n="109r" facs="#A1_1v"/>
+      <cb n="a" facs="#A1_1v-a"/>
+      <lb n="3"/>
+      <milestone ana="hc:VerseGroup" corresp="#d0e47"/>
+        <milestone ana="hc:Verse" corresp="#d0e49"/>Line1<anchor xml:id="d0e49"/>
+        <lb n="4"/><milestone ana="hc:Verse" corresp="#d0e52"/>Line2<anchor xml:id="d0e52"/>
+      <anchor xml:id="d0e47"/>
+    <anchor xml:id="d0e24"/>
+  <anchor xml:id="d0e22"/>
+</TEI>

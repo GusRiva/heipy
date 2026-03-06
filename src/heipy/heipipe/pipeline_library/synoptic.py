@@ -1,5 +1,5 @@
-from ..steps import Pipeline, AddAttribute, DeleteStep, UnwrapStep
-from ..step_library import *
+from ..steps import Pipeline, DeleteStep
+from ..step_library import revision_spans, mark_note_as_editorial, container2milestone, move_note, move_layout_milestones, ptr2ref, filter_visual_information, add_id_2_note, whitespaces,number_line_segment_beginnings, suppress_first_cb
 from ..step_library.synoptic import change_prefixdef_ref
 
 
@@ -21,7 +21,7 @@ class SynopticPipe(Pipeline):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step()
         mark_note_as_editorial_step.set_parameter('note_classes',
-                                                          "hc:TextCriticalNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
+                                                          "hc:TextCriticalNote hc:EditorialNote hc:TranscriptionNote hc:TextConstitutionNote hc:Comment hc:FontesNote hc:VariantNote hc:WitnessesNote")
         # List of elements to unwrap
         # to_unwrap = [{'element_name': x} for x in ['fw']]
 

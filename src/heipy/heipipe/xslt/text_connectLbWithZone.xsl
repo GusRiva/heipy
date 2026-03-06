@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet 
+<xsl:stylesheet
   version="3.0"
-  xpath-default-namespace="http://www.tei-c.org/ns/1.0" 
+  xpath-default-namespace="http://www.tei-c.org/ns/1.0"
   xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   >
@@ -12,7 +12,7 @@
           
     logic: 
           - for every <lb> look for the first preceding <cb>|<milestone ana="hc:ZoneBeginning">|<milestone ana="hc:ZoneShift"
-          - copy the @facs of such a <cb>... into @hei:belongsToZone on the current <lb>
+          - copy the @facs of such a <cb>... into @hei: on the current <lb>
           
 -->  
      
@@ -20,6 +20,14 @@
 
   <!-- Identity template -->
   <xsl:mode on-no-match="shallow-copy" />
+
+  <!-- Ensure hei namespace is declared on root element -->
+  <xsl:template match="/*">
+    <xsl:copy copy-namespaces="no">
+      <xsl:namespace name="hei">https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS</xsl:namespace>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
 
   <xsl:template match="lb | milestone[tokenize(@ana, '\s+') = 'hc:LineSegmentBeginning']" priority="1">
     <xsl:copy>
@@ -41,7 +49,7 @@
         namespace="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
         >
         <xsl:text>#</xsl:text>
-        <xsl:value-of select="//zone[@xml:id=substring-after( $facs, '#')]/ancestor::zone[ tokenize(@ana,'\s+') = 'hc:TextZone']/@xml:id"/>
+        <xsl:value-of select="//zone[@xml:id=substring-after( $facs, '#')]/ancestor::zone[ tokenize(@ana,'\s+') = ('hc:TextZone', 'hc:ImageZone', 'hc:GraphicZone', 'hc:TableZone')]/@xml:id"/>
       </xsl:attribute>
     </xsl:copy>
   </xsl:template>

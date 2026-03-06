@@ -4,17 +4,30 @@ XML comparison utilities for heipy tests.
 IMPORTANT: These utilities PRESERVE WHITESPACE by default, as whitespace
 is semantically significant in TEI documents for digital scholarly editing.
 
-Functions:
+Element-based comparison (compares parsed XML trees):
 - xml_equal(): Compare two XML trees for equality
 - xml_diff(): Generate a detailed diff between two XML trees
 - assert_xml_equal(): Assert XML equality with detailed error messages
+- assert_xml_structure_equal(): Compare structure only (ignore text content)
+- assert_xml_contains(): Check if XML fragment is contained in another
+
+Text-based comparison (compares serialized XML text):
+- normalize_prologue(): Normalize XML prologue formatting
+- xml_to_comparable_text(): Convert XML to text for comparison
+- text_equal(): Compare two XML documents as text strings
+- assert_text_equal(): Assert text equality with detailed diff
+
+Utilities:
 - normalize_for_comparison(): Optional normalization (use sparingly)
+- get_xpath_to_element(): Generate XPath to locate an element
 """
 
 from lxml import etree as et
 from typing import Union, Optional, Tuple
+from pathlib import Path
 from difflib import unified_diff
 import re
+import codecs
 
 
 # Type alias for XML inputs
@@ -39,15 +52,16 @@ def _to_element(xml_input: XMLInput) -> et._Element:
     elif isinstance(xml_input, et._ElementTree):
         return xml_input.getroot()
     elif isinstance(xml_input, str):
-        return et.fromstring(xml_input.encode('utf-8'))
+        return et.fromstring(xml_input.encode("utf-8"))
     elif isinstance(xml_input, bytes):
         return et.fromstring(xml_input)
     else:
         raise TypeError(f"Unsupported XML input type: {type(xml_input)}")
 
 
-def _elements_equal(e1: et._Element, e2: et._Element,
-                   ignore_attribute_order: bool = True) -> Tuple[bool, Optional[str]]:
+def _elements_equal(
+    e1: et._Element, e2: et._Element, ignore_attribute_order: bool = True
+) -> Tuple[bool, Optional[str]]:
     """
     Recursively compare two XML elements for equality.
 
@@ -71,20 +85,31 @@ def _elements_equal(e1: et._Element, e2: et._Element,
 
     # Compare tail (EXACT comparison, whitespace matters)
     if e1.tail != e2.tail:
-        return False, f"Tail mismatch after <{e1.tag}>: {repr(e1.tail)} != {repr(e2.tail)}"
+        return (
+            False,
+            f"Tail mismatch after <{e1.tag}>: {repr(e1.tail)} != {repr(e2.tail)}",
+        )
 
     # Compare attributes
     if ignore_attribute_order:
         if set(e1.attrib.items()) != set(e2.attrib.items()):
-            diff_attrs = set(e1.attrib.items()).symmetric_difference(set(e2.attrib.items()))
+            diff_attrs = set(e1.attrib.items()).symmetric_difference(
+                set(e2.attrib.items())
+            )
             return False, f"Attribute mismatch in <{e1.tag}>: {diff_attrs}"
     else:
         if e1.attrib != e2.attrib:
-            return False, f"Attribute mismatch in <{e1.tag}>: {e1.attrib} != {e2.attrib}"
+            return (
+                False,
+                f"Attribute mismatch in <{e1.tag}>: {e1.attrib} != {e2.attrib}",
+            )
 
     # Compare number of children
     if len(e1) != len(e2):
-        return False, f"Different number of children in <{e1.tag}>: {len(e1)} != {len(e2)}"
+        return (
+            False,
+            f"Different number of children in <{e1.tag}>: {len(e1)} != {len(e2)}",
+        )
 
     # Recursively compare children
     for c1, c2 in zip(e1, e2):
@@ -95,8 +120,9 @@ def _elements_equal(e1: et._Element, e2: et._Element,
     return True, None
 
 
-def xml_equal(left: XMLInput, right: XMLInput,
-              ignore_attribute_order: bool = True) -> bool:
+def xml_equal(
+    left: XMLInput, right: XMLInput, ignore_attribute_order: bool = True
+) -> bool:
     """
     Compare two XML documents for equality.
 
@@ -125,8 +151,7 @@ def xml_equal(left: XMLInput, right: XMLInput,
         return False
 
 
-def xml_diff(left: XMLInput, right: XMLInput,
-             context_lines: int = 3) -> str:
+def xml_diff(left: XMLInput, right: XMLInput, context_lines: int = 3) -> str:
     """
     Generate a unified diff between two XML documents.
 
@@ -149,27 +174,32 @@ def xml_diff(left: XMLInput, right: XMLInput,
         e2 = _to_element(right)
 
         # Serialize with pretty printing for readable diff
-        s1 = et.tostring(e1, encoding='unicode', pretty_print=True)
-        s2 = et.tostring(e2, encoding='unicode', pretty_print=True)
+        s1 = et.tostring(e1, encoding="unicode", pretty_print=True)
+        s2 = et.tostring(e2, encoding="unicode", pretty_print=True)
 
         # Generate unified diff
-        diff_lines = list(unified_diff(
-            s1.splitlines(keepends=True),
-            s2.splitlines(keepends=True),
-            fromfile='expected',
-            tofile='actual',
-            n=context_lines
-        ))
+        diff_lines = list(
+            unified_diff(
+                s1.splitlines(keepends=True),
+                s2.splitlines(keepends=True),
+                fromfile="expected",
+                tofile="actual",
+                n=context_lines,
+            )
+        )
 
-        return ''.join(diff_lines) if diff_lines else ''
+        return "".join(diff_lines) if diff_lines else ""
 
     except Exception as e:
         return f"Error generating diff: {e}"
 
 
-def assert_xml_equal(left: XMLInput, right: XMLInput,
-                    message: str = "",
-                    ignore_attribute_order: bool = True) -> None:
+def assert_xml_equal(
+    left: XMLInput,
+    right: XMLInput,
+    message: str = "",
+    ignore_attribute_order: bool = True,
+) -> None:
     """
     Assert that two XML documents are equal, with detailed diff on failure.
 
@@ -205,13 +235,15 @@ def assert_xml_equal(left: XMLInput, right: XMLInput,
             error_parts.append("\n\nDetailed diff:")
             error_parts.append(diff)
 
-        raise AssertionError('\n'.join(error_parts))
+        raise AssertionError("\n".join(error_parts))
 
 
-def normalize_for_comparison(xml_input: XMLInput,
-                             strip_whitespace: bool = False,
-                             normalize_space: bool = False,
-                             sort_attributes: bool = True) -> et._Element:
+def normalize_for_comparison(
+    xml_input: XMLInput,
+    strip_whitespace: bool = False,
+    normalize_space: bool = False,
+    sort_attributes: bool = True,
+) -> et._Element:
     """
     Normalize XML for comparison (USE SPARINGLY).
 
@@ -246,9 +278,9 @@ def normalize_for_comparison(xml_input: XMLInput,
     return elem
 
 
-def _normalize_whitespace_recursive(elem: et._Element,
-                                    strip_whitespace: bool,
-                                    normalize_space: bool) -> None:
+def _normalize_whitespace_recursive(
+    elem: et._Element, strip_whitespace: bool, normalize_space: bool
+) -> None:
     """
     Recursively normalize whitespace in an element tree.
 
@@ -256,17 +288,17 @@ def _normalize_whitespace_recursive(elem: et._Element,
     """
     # Normalize text
     if elem.text:
-        if strip_whitespace and elem.text.strip() == '':
+        if strip_whitespace and elem.text.strip() == "":
             elem.text = None
         elif normalize_space:
-            elem.text = ' '.join(elem.text.split())
+            elem.text = " ".join(elem.text.split())
 
     # Normalize tail
     if elem.tail:
-        if strip_whitespace and elem.tail.strip() == '':
+        if strip_whitespace and elem.tail.strip() == "":
             elem.tail = None
         elif normalize_space:
-            elem.tail = ' '.join(elem.tail.split())
+            elem.tail = " ".join(elem.tail.split())
 
     # Recursively process children
     for child in elem:
@@ -344,8 +376,10 @@ def get_xpath_to_element(elem: et._Element, root: et._Element = None) -> str:
 # Convenience functions for common comparison patterns
 # ============================================================================
 
-def assert_xml_structure_equal(left: XMLInput, right: XMLInput,
-                               message: str = "") -> None:
+
+def assert_xml_structure_equal(
+    left: XMLInput, right: XMLInput, message: str = ""
+) -> None:
     """
     Assert XML structure is equal (tags, attributes) but ignore text content.
 
@@ -357,6 +391,7 @@ def assert_xml_structure_equal(left: XMLInput, right: XMLInput,
         right: Actual XML
         message: Custom error message
     """
+
     def structure_only(elem: et._Element) -> et._Element:
         """Create a copy with structure but no text."""
         new_elem = et.Element(elem.tag, attrib=elem.attrib)
@@ -370,8 +405,9 @@ def assert_xml_structure_equal(left: XMLInput, right: XMLInput,
     assert_xml_equal(e1, e2, message)
 
 
-def assert_xml_contains(container: XMLInput, contained: XMLInput,
-                       message: str = "") -> None:
+def assert_xml_contains(
+    container: XMLInput, contained: XMLInput, message: str = ""
+) -> None:
     """
     Assert that one XML fragment is contained within another.
 
@@ -384,11 +420,314 @@ def assert_xml_contains(container: XMLInput, contained: XMLInput,
     contained_elem = _to_element(contained)
 
     # Serialize contained element for searching
-    contained_str = et.tostring(contained_elem, encoding='unicode')
-    container_str = et.tostring(container_elem, encoding='unicode')
+    contained_str = et.tostring(contained_elem, encoding="unicode")
+    container_str = et.tostring(container_elem, encoding="unicode")
 
     if contained_str not in container_str:
         error_msg = f"XML fragment not found in container"
         if message:
             error_msg = f"{message}\n{error_msg}"
         raise AssertionError(error_msg)
+
+
+# ============================================================================
+# Text-based comparison utilities
+# ============================================================================
+
+
+def normalize_prologue(xml_text: str) -> Tuple[str, str]:
+    """
+    Normalize XML prologue formatting for comparison.
+
+    Separates the XML prologue (declarations, DOCTYPE) from the root element
+    and normalizes formatting differences that are semantically irrelevant
+    (quote style, newlines between declarations).
+
+    Args:
+        xml_text: The complete XML document as text
+
+    Returns:
+        Tuple of (normalized_prologue, content) where content starts from root element
+
+    Example:
+        >>> prologue, content = normalize_prologue(xml_text)
+        >>> # Compare prologues and content separately
+    """
+    # Split at the root element (assumes TEI documents)
+    if "<TEI" in xml_text:
+        prologue, content = xml_text.split("<TEI", 1)
+        content = "<TEI" + content
+
+        # Normalize prologue:
+        # 1. Replace single quotes with double quotes in XML declaration
+        prologue = prologue.replace("'", '"')
+
+        # 2. Normalize whitespace between declarations
+        # Remove extra newlines, keep single newlines between declarations
+        prologue = re.sub(r"\n\s*\n", "\n", prologue)
+
+        # 3. Add newlines after each ?> and DOCTYPE > for consistent formatting
+        prologue = re.sub(r"\?>\s*<\?", "?>\n<?", prologue)
+        prologue = re.sub(r"\?>\s*<!DOCTYPE", "?>\n<!DOCTYPE", prologue)
+
+        return prologue, content
+
+    # If no TEI element found, look for any root element
+    # Find first < that's not part of a declaration/comment
+    for i, char in enumerate(xml_text):
+        if char == "<" and i + 1 < len(xml_text):
+            next_char = xml_text[i + 1]
+            if next_char not in ["?", "!"]:  # Not a declaration or comment
+                prologue = xml_text[:i]
+                content = xml_text[i:]
+                # Apply same normalization
+                prologue = prologue.replace("'", '"')
+                prologue = re.sub(r"\n\s*\n", "\n", prologue)
+                prologue = re.sub(r"\?>\s*<\?", "?>\n<?", prologue)
+                prologue = re.sub(r"\?>\s*<!DOCTYPE", "?>\n<!DOCTYPE", prologue)
+                return prologue, content
+
+    return xml_text, ""
+
+
+def xml_to_comparable_text(
+    xml_input: Union[XMLInput, str, Path], strip_trailing_whitespace: bool = True
+) -> str:
+    """
+    Convert XML to normalized text string for text-based comparison.
+
+    Args:
+        xml_input: XML as Element, ElementTree, string, bytes, or Path to a file
+        strip_trailing_whitespace: Whether to strip trailing whitespace from content
+
+    Returns:
+        XML as text string, suitable for text comparison
+
+    Example:
+        >>> text1 = xml_to_comparable_text(tree1)
+        >>> text2 = xml_to_comparable_text(tree2)
+        >>> text3 = xml_to_comparable_text(Path("file.xml"))
+        >>> assert text1 == text2
+    """
+    # Handle Path objects
+    if isinstance(xml_input, Path):
+        with open(xml_input, "r", encoding="utf-8") as f:
+            xml_text = f.read()
+    # If it's a string, determine if it's XML text or a file path
+    elif isinstance(xml_input, str):
+        # Check if it's a file path (doesn't start with '<' or whitespace)
+        if not xml_input.lstrip().startswith("<"):
+            # Try to read as file
+            try:
+                with open(xml_input, "r", encoding="utf-8") as f:
+                    xml_text = f.read()
+            except (FileNotFoundError, OSError):
+                # Not a file, treat as XML string
+                xml_text = xml_input
+        else:
+            xml_text = xml_input
+    else:
+        # Convert element to string
+        elem = _to_element(xml_input)
+        xml_text = et.tostring(elem, encoding="unicode", xml_declaration=False)
+
+    if strip_trailing_whitespace:
+        xml_text = xml_text.rstrip()
+
+    return xml_text
+
+
+def text_equal(
+    left: Union[str, XMLInput, Path],
+    right: Union[str, XMLInput, Path],
+    normalize_prologues: bool = True,
+    strip_trailing_whitespace: bool = True,
+) -> bool:
+    """
+    Compare two XML documents as text strings.
+
+    Unlike xml_equal() which compares parsed XML trees, this function compares
+    the serialized text representation. This is useful for ensuring byte-for-byte
+    reproducibility of XML files.
+
+    Args:
+        left: First document (text, file path, Path object, or XML element)
+        right: Second document (text, file path, Path object, or XML element)
+        normalize_prologues: Whether to normalize prologue formatting before comparison
+        strip_trailing_whitespace: Whether to strip trailing whitespace
+
+    Returns:
+        True if documents are equal as text, False otherwise
+
+    Example:
+        >>> # Compare two XML files byte-for-byte
+        >>> assert text_equal("input.xml", "output.xml")
+        >>> assert text_equal(Path("input.xml"), Path("output.xml"))
+        >>>
+        >>> # Compare XML trees as text
+        >>> assert text_equal(original_tree, reloaded_tree)
+    """
+    # Convert inputs to text
+    left_text = xml_to_comparable_text(left, strip_trailing_whitespace)
+    right_text = xml_to_comparable_text(right, strip_trailing_whitespace)
+
+    if normalize_prologues:
+        # Split and normalize prologues
+        left_prologue, left_content = normalize_prologue(left_text)
+        right_prologue, right_content = normalize_prologue(right_text)
+
+        # Compare both parts
+        return left_prologue == right_prologue and left_content == right_content
+    else:
+        # Direct text comparison
+        return left_text == right_text
+
+
+def assert_text_equal(
+    left: Union[str, XMLInput, Path],
+    right: Union[str, XMLInput, Path],
+    message: str = "",
+    normalize_prologues: bool = True,
+    strip_trailing_whitespace: bool = True,
+) -> None:
+    """
+    Assert that two XML documents are equal as text, with detailed diff on failure.
+
+    This is useful for testing that XML files can be written and reloaded with
+    exact preservation of formatting, whitespace, and entity references.
+
+    Args:
+        left: Expected document (text, file path, Path object, or XML element)
+        right: Actual document (text, file path, Path object, or XML element)
+        message: Custom message to prepend to assertion error
+        normalize_prologues: Whether to normalize prologue formatting before comparison
+        strip_trailing_whitespace: Whether to strip trailing whitespace
+
+    Raises:
+        AssertionError: If documents are not equal as text, with detailed diff
+
+    Example:
+        >>> # Test that roundtrip preserves exact formatting
+        >>> assert_text_equal("input.xml", "output.xml", "Roundtrip failed")
+        >>> assert_text_equal(Path("input.xml"), Path("output.xml"))
+        >>>
+        >>> # Can also compare XML elements or text strings
+        >>> assert_text_equal(original_tree, reloaded_tree)
+    """
+    # Convert inputs to text
+    left_text = xml_to_comparable_text(left, strip_trailing_whitespace)
+    right_text = xml_to_comparable_text(right, strip_trailing_whitespace)
+
+    if normalize_prologues:
+        # Split and normalize prologues
+        left_prologue, left_content = normalize_prologue(left_text)
+        right_prologue, right_content = normalize_prologue(right_text)
+
+        # Check prologue equality
+        if left_prologue != right_prologue:
+            error_parts = []
+            if message:
+                error_parts.append(message)
+
+            error_parts.append("\nXML prologues differ:")
+            error_parts.append(f"\nExpected prologue:\n{left_prologue}")
+            error_parts.append(f"\nActual prologue:\n{right_prologue}")
+
+            # Generate diff
+            diff_lines = list(
+                unified_diff(
+                    left_prologue.splitlines(keepends=True),
+                    right_prologue.splitlines(keepends=True),
+                    fromfile="expected prologue",
+                    tofile="actual prologue",
+                    n=3,
+                )
+            )
+            if diff_lines:
+                error_parts.append("\nPrologue diff:")
+                error_parts.append("".join(diff_lines))
+
+            raise AssertionError("\n".join(error_parts))
+
+        # Check content equality
+        if left_content != right_content:
+            error_parts = []
+            if message:
+                error_parts.append(message)
+
+            error_parts.append("\nXML content differs (elements, text, or whitespace)")
+
+            # Generate diff
+            diff_lines = list(
+                unified_diff(
+                    left_content.splitlines(keepends=True),
+                    right_content.splitlines(keepends=True),
+                    fromfile="expected content",
+                    tofile="actual content",
+                    n=3,
+                )
+            )
+            if diff_lines:
+                error_parts.append("\nContent diff:")
+                error_parts.append("".join(diff_lines))
+
+            raise AssertionError("\n".join(error_parts))
+    else:
+        # Direct comparison
+        if left_text != right_text:
+            error_parts = []
+            if message:
+                error_parts.append(message)
+
+            error_parts.append("\nXML documents differ as text")
+
+            # Generate diff
+            diff_lines = list(
+                unified_diff(
+                    left_text.splitlines(keepends=True),
+                    right_text.splitlines(keepends=True),
+                    fromfile="expected",
+                    tofile="actual",
+                    n=3,
+                )
+            )
+            if diff_lines:
+                error_parts.append("\nDiff:")
+                error_parts.append("".join(diff_lines))
+
+            raise AssertionError("\n".join(error_parts))
+
+
+def vanilla_compare_flow(step, fixture_loader, variant="basic"):
+    # Initialize step
+    step = step.get_step()
+    # Load as pair using structured API (returns tuple of trees)
+    input_tree, expected_tree = fixture_loader.load_step_pair(
+        step.get_name(), variant=variant
+    )
+
+    input_string = fixture_loader.tree_to_string(input_tree)
+    result_string = step.execute(input_string)
+
+    assert_xml_equal(result_string, expected_tree)
+
+
+def pipeline_compare_flow(
+    pipeline, input_file: Path, compare_file: Path = None, generate_auto=False
+):
+    result = pipeline.execute(input_file)
+    if generate_auto:
+        outfile = (
+            compare_file.with_name(f"auto_{compare_file.stem}{compare_file.suffix}")
+            if compare_file
+            else input_file.with_name(f"auto_{input_file.stem}{input_file.suffix}")
+        )
+        with codecs.open(outfile, "w", "utf-8") as out:
+            out.write(result)
+    expected_tree = (
+        et.parse(compare_file)
+        if compare_file
+        else et.parse(input_file.with_name(f"{input_file.stem}{input_file.suffix}"))
+    )
+
+    assert_xml_equal(result, expected_tree)

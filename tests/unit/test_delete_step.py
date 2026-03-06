@@ -133,10 +133,11 @@ class TestDeleteStepWithNamespaces:
 
     def test_delete_with_tei_namespace(self):
         """Test deleting TEI elements with namespace."""
-        step = DeleteStep(elements=["tei:note"])
+        step = DeleteStep(elements=["tei:note", "tei:fw"])
         input_xml = """<TEI xmlns="http://www.tei-c.org/ns/1.0">
             <text>
                 <p>Text with <note>a note</note> continues.</p>
+                <fw>Some fw</fw>
             </text>
         </TEI>"""
         result = step.execute(input_xml)
@@ -144,7 +145,9 @@ class TestDeleteStepWithNamespaces:
         parser = HeiEditionsParser()
         result_tree = et.fromstring(result.encode('utf-8'), parser=parser)
         notes = result_tree.xpath("//tei:note", namespaces={"tei": "http://www.tei-c.org/ns/1.0"})
+        fws = result_tree.xpath("//tei:fw", namespaces={"tei": "http://www.tei-c.org/ns/1.0"})
         assert len(notes) == 0
+        assert len(fws) == 0
 
     def test_delete_without_namespace_prefix(self):
         """Test that element name without namespace prefix matches local name."""

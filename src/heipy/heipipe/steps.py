@@ -7,6 +7,7 @@ import sys
 import time
 import warnings
 from abc import abstractmethod
+from pathlib import Path
 from typing import Literal
 from lxml import etree as et
 from saxonche import PySaxonProcessor
@@ -318,6 +319,7 @@ class Pipeline(BaseStep):
 
     def execute(self, 
                 input, 
+                input_format: Literal["file", "xml_string"] = "file",
                 xinclude=False, 
                 egxml=False,
                 output_format: Literal["str", "etree", "bytes"] = "str", 
@@ -326,7 +328,8 @@ class Pipeline(BaseStep):
         Executes the pipeline on the given input file with optimized batching.
 
         Args:
-            input (str): The XML document in its string representation.
+            input (str | Path): Path to the XML file to be processed (accepts both string and pathlib.Path). Alternative the xml fragment as string is input_format is 'xml_string'
+            input_format (str): 'file' or 'xml_string'
             xinclude (bool): Does the starting file contain xinclude elements that need to be resolved at the start of the pipeline? Defaults to False.
             egxml (bool): Does the starting file contain <egXML> elements?
             debug_options (list): Which debug options should be active. Available options: time, serial.
@@ -335,15 +338,20 @@ class Pipeline(BaseStep):
             str: The processed string after all pipeline steps have been executed.
         """
         output_format = OutputFormat(output_format)
-        print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{input[:60]}{RESET}")
-        if not os.path.isfile(input):
-            warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
-            return None
-        
         debug_options = debug_options if debug_options is not None else []
-        input_string = heiparse(
-            input, output_format=OutputFormat.STR, xinclude=xinclude, egxml=egxml, base_url=input
-        )
+        print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{str(input)[:60]}{RESET}")
+        input_string = None
+        if input_format == 'file':
+            if not os.path.isfile(input):
+                warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
+                return None
+            input_string = heiparse(
+                input, output_format=OutputFormat.STR, xinclude=xinclude, egxml=egxml, base_url=str(input)
+            )
+        elif input_format == 'xml_string':
+            input_string = input
+        else:
+            warnings.warn(f"Input format {input_format} is invalid", HeiWarning)
         pipe_serial = True if self.serial or 'serial' in debug_options else False
 
         # Process steps with batching optimization
@@ -463,7 +471,7 @@ class Pipeline(BaseStep):
             step_obj = self.get_steps()[step]
         else:
             raise TypeError(f"{step} should be string of integer")
-        step_obj.set_parameter_by_name(parameter_name, parameter_value)
+        step_obj.set_parameter(parameter_name, parameter_value)
         return
 
 
@@ -534,54 +542,70 @@ class XsltStep(BaseStep):
         Returns:
             str or PyXdmNode depending on output_xdm
         """
+        from saxonche import PySaxonProcessor
+
         current_data = input_xdm if input_xdm is not None else input_string
         is_xdm = input_xdm is not None
 
-        for file in self.files:
-            # start_time = time.time()
-            true_xslt_file = None
-            file_name = file
+        # If no processor is provided, create one for all transformations
+        # This ensures all XDM nodes belong to the same Configuration
+        def _execute_transformations(processor):
+            nonlocal current_data, is_xdm
 
-            # Resolve file path
-            if self.pipe_files:
-                base_xsl_location = "heipy.heipipe.xslt"
-                if "/" in file:
-                    file_path_parts = file.split('/')
-                    file_name = file_path_parts[-1]
-                    relpath2file = '.'.join(file_path_parts[:-1])
-                    base_xsl_location += f'.{relpath2file}'
-                xslt_files = importlib.resources.files(base_xsl_location)
-                true_xslt_file = str(xslt_files.joinpath(file_name))
-            else:
-                true_xslt_file = str(file)
+            for file in self.files:
+                # start_time = time.time()
+                true_xslt_file = None
+                file_name = file
 
-            if true_xslt_file is None:
-                warnings.warn(f"{RED}Could not find the xslt file: {file}")
-                return current_data
+                # Resolve file path
+                if self.pipe_files:
+                    base_xsl_location = "heipy.heipipe.xslt"
+                    if "/" in file:
+                        file_path_parts = file.split('/')
+                        file_name = file_path_parts[-1]
+                        relpath2file = '.'.join(file_path_parts[:-1])
+                        base_xsl_location += f'.{relpath2file}'
+                    xslt_files = importlib.resources.files(base_xsl_location)
+                    true_xslt_file = str(xslt_files.joinpath(file_name))
+                else:
+                    true_xslt_file = str(file)
 
-            # Determine if this is the last file in this step
-            is_last_file = (file == self.files[-1])
-            # Keep as XDM during processing, only convert to string on last file if output_xdm=False
-            should_output_xdm = (not is_last_file) or output_xdm
+                if true_xslt_file is None:
+                    warnings.warn(f"{RED}Could not find the xslt file: {file}")
+                    return current_data
 
-            # Apply transformation
-            current_data = apply_xslt(
-                input_string=current_data if not is_xdm else None,
-                xslt_file=true_xslt_file,
-                parameters=self.get_parameters(),
-                input_xdm=current_data if is_xdm else None,
-                output_xdm=should_output_xdm,
-                proc=proc
-            )
-            is_xdm = should_output_xdm
+                # Determine if this is the last file in this step
+                is_last_file = (file == self.files[-1])
+                # Keep as XDM during processing, only convert to string on last file if output_xdm=False
+                should_output_xdm = (not is_last_file) or output_xdm
 
-            # end_time = time.time()
-            # elapsed_time = end_time - start_time
-            # print(f"Time for {file}: {elapsed_time:.4f} seconds")
+                # Apply transformation with provided processor
+                current_data = apply_xslt(
+                    input_string=current_data if not is_xdm else None,
+                    xslt_file=true_xslt_file,
+                    parameters=self.get_parameters(),
+                    input_xdm=current_data if is_xdm else None,
+                    output_xdm=should_output_xdm,
+                    proc=processor  # Use the processor parameter, not proc
+                )
+                is_xdm = should_output_xdm
 
-        # Result is already in the requested format
-        result = current_data
+                # end_time = time.time()
+                # elapsed_time = end_time - start_time
+                # print(f"Time for {file}: {elapsed_time:.4f} seconds")
 
+            return current_data
+
+        # Call _execute_transformations with appropriate processor
+        if proc is None:
+            # Create a new processor and ensure it's reused for all transformations
+            with PySaxonProcessor(license=False) as new_proc:
+                result = _execute_transformations(new_proc)
+        else:
+            # Use the provided processor (for batched execution)
+            result = _execute_transformations(proc)
+
+        # Serialize if requested
         if self.serial or serial:
             if not output_xdm:
                 super()._serialize(result)
