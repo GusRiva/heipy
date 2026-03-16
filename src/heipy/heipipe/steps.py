@@ -408,7 +408,7 @@ class Pipeline(BaseStep):
         if output_format == OutputFormat.STR:
             return current_data
         if output_format == OutputFormat.ETREE:
-            return current_data
+            return et.fromstring(current_data.encode())
 
     def get_steps(self):
         return self.steps

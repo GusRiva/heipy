@@ -5,7 +5,7 @@ from ...namespaces import prefix_format
 
 
 class SemanticPipe(Pipeline):
-    def __init__(self, parameters = None):
+    def __init__(self, parameters = None, serial=False, preserve_space=True):
         # Add any steps that need specific parameters
         mark_note_as_editorial_step = mark_note_as_editorial.get_step()
         mark_note_as_editorial_step.set_parameter('note_classes',
@@ -29,10 +29,15 @@ class SemanticPipe(Pipeline):
             supply_id_divisions.get_step(),
             whitespaces.get_step(),
             number_line_segment_beginnings.get_step(),
-            AddAttribute(match='tei:text', att_name=prefix_format('xml','space'), att_val='preserve'),
             final_cleanup.get_step(),
             # validation.get_step(),
             ]
+        
+        if preserve_space:
+            pipe_steps.insert(-2,
+                        AddAttribute(match='tei:text', 
+                                     att_name=prefix_format('xml','space'), 
+                                     att_val='preserve'))
         
         if isinstance(parameters, dict):
             if parameters.get('inject_structure'):
@@ -42,6 +47,6 @@ class SemanticPipe(Pipeline):
             
         
         description = "Semantic Pipeline - Standard"
-        super().__init__(steps=pipe_steps, name="semantic_pipe", desc=description, serial=False)
+        super().__init__(steps=pipe_steps, name="semantic_pipe", desc=description, serial=serial)
         
 
