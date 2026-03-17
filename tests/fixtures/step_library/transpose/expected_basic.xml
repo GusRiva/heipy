@@ -74,8 +74,8 @@
         <head>Umstellung mit Range</head>
         <listTranspose>
           <transpose>
-            <ptr target="#range(w_p4_3, w_p4_5)"/>
-            <ptr target="#range(w_p4_1, w_p4_2)"/>
+            <ptr target="#range__w_p4_3__w_p4_5"/>
+            <ptr target="#range__w_p4_1__w_p4_2"/>
           </transpose>
         </listTranspose>
         <p xml:id="p4">
@@ -120,32 +120,32 @@
           </transpose>
         </listTranspose>
         <lg>
-          <l xml:id="l1_1">First verse moves to 2</l>
-          <l xml:id="l1_2">Second verse moves to 1</l>
-          <l xml:id="l1_3">Third verse stays 3</l>
+          <l xml:id="l1_1" n="1">First verse moves to 2</l>
+          <l xml:id="l1_2" n="2">Second verse moves to 1</l>
+          <l xml:id="l1_3" n="3">Third verse stays 3</l>
         </lg>
       </div>
       <div>
         <head>Range für l</head>
         <listTranspose>
           <transpose>
-            <ptr target="#range(l2_3, l2_4)"/>
-            <ptr target="#range(l2_1, l2_2)"/>
+            <ptr target="#range__l2_3__l2_4"/>
+            <ptr target="#range__l2_1__l2_2"/>
           </transpose>
         </listTranspose>
         <lg>
-          <ab xml:id="range__l2_1__l2_2"><l xml:id="l2_1">First verse moves to 3</l>
-          <l xml:id="l2_2">Second verse moves to 4</l>
-          </ab><ab xml:id="range__l2_3__l2_4"><l xml:id="l2_3">Third verse moves to 1</l>
-          <l xml:id="l2_4">Fourth verse moves to 2</l>
+          <ab xml:id="range__l2_1__l2_2"><l xml:id="l2_1" n="1">First verse moves to 3</l>
+          <l xml:id="l2_2" n="2">Second verse moves to 4</l>
+          </ab><ab xml:id="range__l2_3__l2_4"><l xml:id="l2_3" n="3">Third verse moves to 1</l>
+          <l xml:id="l2_4" n="4">Fourth verse moves to 2</l>
         </ab></lg>
       </div>
       <div>
         <head>Worte am Versende</head>
         <listTranspose>
           <transpose>
-            <ptr target="#range(vers_2_1, vers_2_2)"/>
-            <ptr target="#range(vers_1_1, vers_1_2)"/>
+            <ptr target="#range__vers_2_1__vers_2_2"/>
+            <ptr target="#range__vers_1_1__vers_1_2"/>
           </transpose>
         </listTranspose>
         <lg>
@@ -236,19 +236,19 @@
         <head>Einfaches l</head>
         <link ana="hc:EditorialTransposition" target="#l1_2_ #l1_1_"/>
         <lg>
-          <l xml:id="l1_1_">First verse moves to 2</l>
-          <l xml:id="l1_2_">Second verse moves to 1</l>
-          <l xml:id="l1_3_">Third verse stays 3</l>
+          <l xml:id="l1_1_" n="1">First verse moves to 2</l>
+          <l xml:id="l1_2_" n="2">Second verse moves to 1</l>
+          <l xml:id="l1_3_" n="3">Third verse stays 3</l>
         </lg>
       </div>
       <div>
         <head>Range für l</head>
         <link ana="hc:EditorialTransposition" target="#range__l2_3___l2_4_ #range__l2_1___l2_2_"/>
         <lg>
-          <ab xml:id="range__l2_1___l2_2_"><l xml:id="l2_1_">First verse moves to 3</l>
-          <l xml:id="l2_2_">Second verse moves to 4</l>
-          </ab><ab xml:id="range__l2_3___l2_4_"><l xml:id="l2_3_">Third verse moves to 1</l>
-          <l xml:id="l2_4_">Fourth verse moves to 2</l>
+          <ab xml:id="range__l2_1___l2_2_"><l xml:id="l2_1_" n="1">First verse moves to 3</l>
+          <l xml:id="l2_2_" n="2">Second verse moves to 4</l>
+          </ab><ab xml:id="range__l2_3___l2_4_"><l xml:id="l2_3_" n="3">Third verse moves to 1</l>
+          <l xml:id="l2_4_" n="4">Fourth verse moves to 2</l>
         </ab></lg>
       </div>
       <div>
