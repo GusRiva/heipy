@@ -10,12 +10,11 @@ def transpose_funct(root, parameters=None):
     id_dict = {}
     range_regex =  r"range\(#(\w+),\s*#(\w+)\)"
     for transpose in root.findall( ".//tei:transpose", namespaces=ns):
+        
         if not found_transpose:
             found_transpose = True
-            for elem in root.iter():
-                elem_id = elem.get(xml_ns / "id")
-                if elem_id is not None:
-                    id_dict[elem_id] = elem
+            id_dict = create_id_dict(root)
+            
         for ptr in transpose:
             ptr_target = ptr.get("target")
             if ptr_target.startswith("#"):
@@ -26,10 +25,36 @@ def transpose_funct(root, parameters=None):
                 ma = re.match(range_regex, ptr_target)
                 rt_1, rt_2 = ma.group(1), ma.group(2)
                 wrapper_id = wrap_range(id_dict, rt_1, rt_2)
-                ptr.attrib["target"] = wrapper_id
             else:
                warnings.warn(f"Invalid target in ptr: {ptr_target}", HeiWarning) 
+    
+    for editorial_transposition in root.xpath(".//tei:link[contains(@ana, 'hc:EditorialTransposition')]", namespaces=ns):
+        if not found_transpose:
+            found_transpose = True
+            id_dict = create_id_dict(root)
+        full_target = editorial_transposition.get('target')
+        new_target = []
+        for target in re.split(r'(?<=[^,(])\s+', full_target):
+            if target.startswith("range"):
+                ma = re.match(range_regex, target)
+                rt_1, rt_2 = ma.group(1), ma.group(2)
+                wrapper_id = wrap_range(id_dict, rt_1, rt_2)
+                target = '#' + wrapper_id
+            new_target.append(target)
+        editorial_transposition.attrib['target'] = " ".join(new_target)
+            
+        
+        
+    
     return root
+
+def create_id_dict(root):
+    id_dict = {}
+    for elem in root.iter():
+        elem_id = elem.get(xml_ns / "id")
+        if elem_id is not None:
+            id_dict[elem_id] = elem
+    return id_dict
 
 def wrap_range(id_dict, first_id, second_id):
     elem1 = id_dict[first_id]

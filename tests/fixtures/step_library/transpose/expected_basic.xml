@@ -12,8 +12,10 @@
       </sourceDesc>
     </fileDesc>
   </teiHeader>
-  <text xml:id="text_1" ana="hc:Article">
+  <text xml:id="text_1" ana="hc:Article" xml:space="preserve">
     <body>
+      <div>
+        <head>1. Umstellungen in der Quelle</head>
       <div>
         <head>Einfache Umstellung</head>
         <listTranspose>
@@ -23,14 +25,10 @@
           </transpose>
         </listTranspose>
         <p xml:id="p1">
-          <w xml:id="w_p1_1">Test</w>
-          <c> </c>
-          <w xml:id="w_p1_2">paragraph</w>
-          <c> </c>
-          <w xml:id="w_p1_3">with</w>
-          <c> </c>
-          <w xml:id="w_p1_4">some</w>
-          <c> </c>
+          <w xml:id="w_p1_1">Test</w><c> </c>
+          <w xml:id="w_p1_2">paragraph</w><c> </c>
+          <w xml:id="w_p1_3">with</w><c> </c>
+          <w xml:id="w_p1_4">some</w><c> </c>
           <w xml:id="w_p1_5">content</w>
           <pc>.</pc>
         </p>
@@ -45,14 +43,10 @@
           </transpose>
         </listTranspose>
         <p xml:id="p2">
-          <w xml:id="w_p2_1">Test</w>
-          <c> </c>
-          <w xml:id="w_p2_2">paragraph</w>
-          <c> </c>
-          <w xml:id="w_p2_3">with</w>
-          <c> </c>
-          <w xml:id="w_p2_4">some</w>
-          <c> </c>
+          <w xml:id="w_p2_1">Test</w><c> </c>
+          <w xml:id="w_p2_2">paragraph</w><c> </c>
+          <w xml:id="w_p2_3">with</w><c> </c>
+          <w xml:id="w_p2_4">some</w><c> </c>
           <w xml:id="w_p2_5">content</w>
           <pc>.</pc>
         </p>
@@ -68,14 +62,10 @@
           </transpose>
         </listTranspose>
         <p xml:id="p3">
-          <w xml:id="w_p3_1">Test</w>
-          <c> </c>
-          <w xml:id="w_p3_2">paragraph</w>
-          <c> </c>
-          <w xml:id="w_p3_3">with</w>
-          <c> </c>
-          <w xml:id="w_p3_4">some</w>
-          <c> </c>
+          <w xml:id="w_p3_1">Test</w><c> </c>
+          <w xml:id="w_p3_2">paragraph</w><c> </c>
+          <w xml:id="w_p3_3">with</w><c> </c>
+          <w xml:id="w_p3_4">some</w><c> </c>
           <w xml:id="w_p3_5">content</w>
           <pc>.</pc>
         </p>
@@ -84,25 +74,21 @@
         <head>Umstellung mit Range</head>
         <listTranspose>
           <transpose>
-            <ptr target="range__w_p4_3__w_p4_5"/>
-            <ptr target="range__w_p4_1__w_p4_2"/>
+            <ptr target="range(#w_p4_3, #w_p4_5)"/>
+            <ptr target="range(#w_p4_1, #w_p4_2)"/>
           </transpose>
         </listTranspose>
         <p xml:id="p4">
-          <seg xml:id="range__w_p4_1__w_p4_2"><w xml:id="w_p4_1">Test</w>
-          <c> </c>
-          <w xml:id="w_p4_2">paragraph</w>
-          </seg><c> </c>
-          <seg xml:id="range__w_p4_3__w_p4_5"><w xml:id="w_p4_3">with</w>
-          <c> </c>
-          <w xml:id="w_p4_4">some</w>
-          <c> </c>
+          <seg xml:id="range__w_p4_1__w_p4_2"><w xml:id="w_p4_1">Test</w><c> </c>
+          <w xml:id="w_p4_2">paragraph</w></seg><c> </c>
+          <seg xml:id="range__w_p4_3__w_p4_5"><w xml:id="w_p4_3">with</w><c> </c>
+          <w xml:id="w_p4_4">some</w><c> </c>
           <w xml:id="w_p4_5">content</w>
           </seg><pc>.</pc>
         </p>
       </div>
       <div>
-        <head>Umstellung: seg</head>
+        <head>Umstellung: seg nicht tokenisiert</head>
         <listTranspose>
           <transpose>
             <ptr target="#s_p5_2"/>
@@ -110,37 +96,184 @@
           </transpose>
         </listTranspose>
         <p xml:id="p5">
-          <seg xml:id="s_p5_1">
-            <w>Test</w>
-            <c> </c>
-            <w>paragraph</w>
-          </seg>
-          <c> </c>
-          <seg xml:id="s_p5_2">
-            <w>with</w>
-            <c> </c>
-            <w>some</w>
-            <c> </c>
-            <w>content</w>
-          </seg>
-          <pc>.</pc>
+          <seg xml:id="s_p5_1">Test paragraph</seg> <seg xml:id="s_p5_2">with some content</seg><pc>.</pc>
         </p>
+      </div>
+      <div>
+        <head>Umstellung: seg tokenisier</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="#s_p6_2"/>
+            <ptr target="#s_p6_1"/>
+          </transpose>
+        </listTranspose>
+        <p xml:id="p6">
+          <seg xml:id="s_p6_1"><w>Test</w><c> </c><w>paragraph</w></seg><c> </c><seg xml:id="s_p6_2"><w>with</w><c> </c><w>some</w><c> </c><w>content</w></seg><pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Einfaches l</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="#l1_2"/>
+            <ptr target="#l1_1"/>
+          </transpose>
+        </listTranspose>
+        <lg>
+          <l xml:id="l1_1">First verse moves to 2</l>
+          <l xml:id="l1_2">Second verse moves to 1</l>
+          <l xml:id="l1_3">Third verse stays 3</l>
+        </lg>
       </div>
       <div>
         <head>Range für l</head>
         <listTranspose>
           <transpose>
-            <ptr target="range__l1_3__l1_4"/>
-            <ptr target="range__l1_1__l1_2"/>
+            <ptr target="range(#l2_3, #l2_4)"/>
+            <ptr target="range(#l2_1, #l2_2)"/>
           </transpose>
         </listTranspose>
         <lg>
-          <ab xml:id="range__l1_1__l1_2"><l xml:id="l1_1">First verse moves to 3</l>
-          <l xml:id="l1_2">Second verse moves to 4</l>
-          </ab><ab xml:id="range__l1_3__l1_4"><l xml:id="l1_3">Third verse moves to 1</l>
-          <l xml:id="l1_4">Fourth verse moves to 2</l>
+          <ab xml:id="range__l2_1__l2_2"><l xml:id="l2_1">First verse moves to 3</l>
+          <l xml:id="l2_2">Second verse moves to 4</l>
+          </ab><ab xml:id="range__l2_3__l2_4"><l xml:id="l2_3">Third verse moves to 1</l>
+          <l xml:id="l2_4">Fourth verse moves to 2</l>
         </ab></lg>
       </div>
+      <div>
+        <head>Worte am Versende</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="range(#vers_2_1, #vers_2_2)"/>
+            <ptr target="range(#vers_1_1, #vers_1_2)"/>
+          </transpose>
+        </listTranspose>
+        <lg>
+          <l>
+               <w>Content</w><c> </c>
+               <w>verse</w><c> </c>
+               <w>1</w><c> </c>
+               <seg xml:id="range__vers_1_1__vers_1_2"><w xml:id="vers_1_1">2rhyme</w><c> </c>
+               <num xml:id="vers_1_2">rhyme2</num>
+           </seg></l>
+          <l>
+               <w>Second</w><c> </c>
+               <w>verse</w><c> </c>
+               <seg xml:id="range__vers_2_1__vers_2_2"><w xml:id="vers_2_1">1rhyme</w><c> </c>
+               <w xml:id="vers_2_2">rhyme1</w></seg><c> </c>
+               <num>2</num>
+           </l>
+        </lg>
+      </div>
+      </div>
+      
+      
+      <div>
+        <head>2. Editorische Umstellungen</head>
+      <div>
+        <head>Einfache Umstellung</head>
+        <link ana="hc:EditorialTransposition" target="#w_p1_5_ #w_p1_4_"/>
+        <p xml:id="p1_">
+          <w xml:id="w_p1_1_">Test</w><c> </c>
+          <w xml:id="w_p1_2_">paragraph</w><c> </c>
+          <w xml:id="w_p1_3_">with</w><c> </c>
+          <w xml:id="w_p1_4_">some</w><c> </c>
+          <w xml:id="w_p1_5_">content</w>
+          <pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung: drei Elemente</head>
+        <link ana="hc:EditorialTransposition" target="#w_p1_5_ #w_p1_3_ #w_p1_4_"/>
+        <p xml:id="p2_">
+          <w xml:id="w_p2_1_">Test</w><c> </c>
+          <w xml:id="w_p2_2_">paragraph</w><c> </c>
+          <w xml:id="w_p2_3_">with</w><c> </c>
+          <w xml:id="w_p2_4_">some</w><c> </c>
+          <w xml:id="w_p2_5_">content</w>
+          <pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung: vier Elemente</head>
+        <link ana="hc:EditorialTransposition" target="#w_p1_5_ #w_p1_3_ #w_p1_2_ #w_p1_4_"/>
+        <p xml:id="p3_">
+          <w xml:id="w_p3_1_">Test</w><c> </c>
+          <w xml:id="w_p3_2_">paragraph</w><c> </c>
+          <w xml:id="w_p3_3_">with</w><c> </c>
+          <w xml:id="w_p3_4_">some</w><c> </c>
+          <w xml:id="w_p3_5_">content</w>
+          <pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung mit Range</head>
+        <link ana="hc:EditorialTransposition" target="#range__w_p4_3___w_p4_5_ #range__w_p4_1___w_p4_2_"/>
+        <p xml:id="p4_">
+          <seg xml:id="range__w_p4_1___w_p4_2_"><w xml:id="w_p4_1_">Test</w><c> </c>
+          <w xml:id="w_p4_2_">paragraph</w></seg><c> </c>
+          <seg xml:id="range__w_p4_3___w_p4_5_"><w xml:id="w_p4_3_">with</w><c> </c>
+          <w xml:id="w_p4_4_">some</w><c> </c>
+          <w xml:id="w_p4_5_">content</w>
+          </seg><pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung: seg nicht tokenisiert</head>
+        <link ana="hc:EditorialTransposition" target="#s_p5_2_ #s_p5_1_"/>
+        <p xml:id="p5_">
+          <seg xml:id="s_p5_1_">Test paragraph</seg> <seg xml:id="s_p5_2_">with some content</seg><pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung: seg tokenisier</head>
+        <link ana="hc:EditorialTransposition" target="#s_p6_2_ #s_p6_1_"/>
+        <p xml:id="p6_">
+          <seg xml:id="s_p6_1_"><w>Test</w><c> </c><w>paragraph</w></seg><c> </c><seg xml:id="s_p6_2_"><w>with</w><c> </c><w>some</w><c> </c><w>content</w></seg><pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Einfaches l</head>
+        <link ana="hc:EditorialTransposition" target="#l1_2_ #l1_1_"/>
+        <lg>
+          <l xml:id="l1_1_">First verse moves to 2</l>
+          <l xml:id="l1_2_">Second verse moves to 1</l>
+          <l xml:id="l1_3_">Third verse stays 3</l>
+        </lg>
+      </div>
+      <div>
+        <head>Range für l</head>
+        <link ana="hc:EditorialTransposition" target="#range__l2_3___l2_4_ #range__l2_1___l2_2_"/>
+        <lg>
+          <ab xml:id="range__l2_1___l2_2_"><l xml:id="l2_1_">First verse moves to 3</l>
+          <l xml:id="l2_2_">Second verse moves to 4</l>
+          </ab><ab xml:id="range__l2_3___l2_4_"><l xml:id="l2_3_">Third verse moves to 1</l>
+          <l xml:id="l2_4_">Fourth verse moves to 2</l>
+        </ab></lg>
+      </div>
+      <div>
+        <head>Worte am Versende</head>
+        <link ana="hc:EditorialTransposition" target="#range__vers_2_1___vers_2_2_ #range__vers_1_1___vers_1_2_"/>
+        <lg>
+          <l>
+               <w>Content</w><c> </c>
+               <w>verse</w><c> </c>
+               <w>1</w><c> </c>
+               <seg xml:id="range__vers_1_1___vers_1_2_"><w xml:id="vers_1_1_">2rhyme</w><c> </c>
+               <num xml:id="vers_1_2_">rhyme2</num>
+           </seg></l>
+          <l>
+               <w>Second</w><c> </c>
+               <w>verse</w><c> </c>
+               <seg xml:id="range__vers_2_1___vers_2_2_"><w xml:id="vers_2_1_">1rhyme</w><c> </c>
+               <w xml:id="vers_2_2_">rhyme1</w></seg><c> </c>
+               <num>2</num>
+           </l>
+        </lg>
+      </div>
+      </div>
+      
+            
     </body>
   </text>
 </TEI>
