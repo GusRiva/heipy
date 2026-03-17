@@ -26,11 +26,12 @@
           </transpose>
         </listTranspose>
         <p xml:id="p1">
-          <w xml:id="w_p1_1">Test</w><c> </c>
-          <w xml:id="w_p1_2">paragraph</w><c> </c>
-          <w xml:id="w_p1_3">with</w><c> </c>
-          <w xml:id="w_p1_4">some</w><c> </c>
-          <w xml:id="w_p1_5">content</w>
+          <w xml:id="w_p1_1">Sollte</w><c> </c>
+          <w xml:id="w_p1_2">richtig</w><c> </c>
+          <w xml:id="w_p1_3">sein</w>
+          <pc>:</pc><c> </c>
+          <w xml:id="w_p1_4">zwei</w><c> </c>
+          <w xml:id="w_p1_5">eins</w>
           <pc>.</pc>
         </p>
       </div>
@@ -44,11 +45,11 @@
           </transpose>
         </listTranspose>
         <p xml:id="p2">
-          <w xml:id="w_p2_1">Test</w><c> </c>
-          <w xml:id="w_p2_2">paragraph</w><c> </c>
-          <w xml:id="w_p2_3">with</w><c> </c>
-          <w xml:id="w_p2_4">some</w><c> </c>
-          <w xml:id="w_p2_5">content</w>
+          <w xml:id="w_p2_1">Richtig</w><c> </c>
+          <w xml:id="w_p2_2">ist</w><c> </c>
+          <w xml:id="w_p2_3">zwei</w><c> </c>
+          <w xml:id="w_p2_4">drei</w><c> </c>
+          <w xml:id="w_p2_5">eins</w>
           <pc>.</pc>
         </p>
       </div>
@@ -63,11 +64,11 @@
           </transpose>
         </listTranspose>
         <p xml:id="p3">
-          <w xml:id="w_p3_1">Test</w><c> </c>
-          <w xml:id="w_p3_2">paragraph</w><c> </c>
-          <w xml:id="w_p3_3">with</w><c> </c>
-          <w xml:id="w_p3_4">some</w><c> </c>
-          <w xml:id="w_p3_5">content</w>
+          <w xml:id="w_p3_1">Ens</w><c> </c>
+          <w xml:id="w_p3_2">vier</w><c> </c>
+          <w xml:id="w_p3_3">drei</w><c> </c>
+          <w xml:id="w_p3_4">fünf</w><c> </c>
+          <w xml:id="w_p3_5">zwei</w>
           <pc>.</pc>
         </p>
       </div>
@@ -80,11 +81,11 @@
           </transpose>
         </listTranspose>
         <p xml:id="p4">
-          <w xml:id="w_p4_1">Test</w><c> </c>
-          <w xml:id="w_p4_2">paragraph</w><c> </c>
-          <w xml:id="w_p4_3">with</w><c> </c>
-          <w xml:id="w_p4_4">some</w><c> </c>
-          <w xml:id="w_p4_5">content</w>
+          <w xml:id="w_p4_1">2.Am</w><c> </c>
+          <w xml:id="w_p4_2">Ende</w><c> </c>
+          <w xml:id="w_p4_3">–</w><c> </c>
+          <w xml:id="w_p4_4">1.Am</w><c> </c>
+          <w xml:id="w_p4_5">Anfang</w>
           <pc>.</pc>
         </p>
       </div>
@@ -175,11 +176,12 @@
         <head>Einfache Umstellung</head>
         <link ana="hc:EditorialTransposition" target="#w_p1_5_ #w_p1_4_"/>
         <p xml:id="p1_">
-          <w xml:id="w_p1_1_">Test</w><c> </c>
-          <w xml:id="w_p1_2_">paragraph</w><c> </c>
-          <w xml:id="w_p1_3_">with</w><c> </c>
-          <w xml:id="w_p1_4_">some</w><c> </c>
-          <w xml:id="w_p1_5_">content</w>
+          <w xml:id="w_p1_1_">Sollte</w><c> </c>
+          <w xml:id="w_p1_2_">richtig</w><c> </c>
+          <w xml:id="w_p1_3_">sein</w>
+          <pc>:</pc><c> </c>
+          <w xml:id="w_p1_4_">zwei</w><c> </c>
+          <w xml:id="w_p1_5_">eins</w>
           <pc>.</pc>
         </p>
       </div>
@@ -187,11 +189,11 @@
         <head>Umstellung: drei Elemente</head>
         <link ana="hc:EditorialTransposition" target="#w_p1_5_ #w_p1_3_ #w_p1_4_"/>
         <p xml:id="p2_">
-          <w xml:id="w_p2_1_">Test</w><c> </c>
-          <w xml:id="w_p2_2_">paragraph</w><c> </c>
-          <w xml:id="w_p2_3_">with</w><c> </c>
-          <w xml:id="w_p2_4_">some</w><c> </c>
-          <w xml:id="w_p2_5_">content</w>
+          <w xml:id="w_p2_1_">Richtig</w><c> </c>
+          <w xml:id="w_p2_2_">ist</w><c> </c>
+          <w xml:id="w_p2_3_">zwei</w><c> </c>
+          <w xml:id="w_p2_4_">drei</w><c> </c>
+          <w xml:id="w_p2_5_">eins</w>
           <pc>.</pc>
         </p>
       </div>
@@ -199,11 +201,11 @@
         <head>Umstellung: vier Elemente</head>
         <link ana="hc:EditorialTransposition" target="#w_p1_5_ #w_p1_3_ #w_p1_2_ #w_p1_4_"/>
         <p xml:id="p3_">
-          <w xml:id="w_p3_1_">Test</w><c> </c>
-          <w xml:id="w_p3_2_">paragraph</w><c> </c>
-          <w xml:id="w_p3_3_">with</w><c> </c>
-          <w xml:id="w_p3_4_">some</w><c> </c>
-          <w xml:id="w_p3_5_">content</w>
+          <w xml:id="w_p3_1_">Eins</w><c> </c>
+          <w xml:id="w_p3_2_">vier</w><c> </c>
+          <w xml:id="w_p3_3_">drei</w><c> </c>
+          <w xml:id="w_p3_4_">fünf</w><c> </c>
+          <w xml:id="w_p3_5_">zwei</w>
           <pc>.</pc>
         </p>
       </div>
@@ -211,11 +213,11 @@
         <head>Umstellung mit Range</head>
         <link ana="hc:EditorialTransposition" target="#range(w_p4_3_, w_p4_5_) #range(w_p4_1_, w_p4_2_)"/>
         <p xml:id="p4_">
-          <w xml:id="w_p4_1_">Test</w><c> </c>
-          <w xml:id="w_p4_2_">paragraph</w><c> </c>
-          <w xml:id="w_p4_3_">with</w><c> </c>
-          <w xml:id="w_p4_4_">some</w><c> </c>
-          <w xml:id="w_p4_5_">content</w>
+          <w xml:id="w_p4_1_">2.Am</w><c> </c>
+          <w xml:id="w_p4_2_">Ende</w><c> </c>
+          <w xml:id="w_p4_3_">–</w><c> </c>
+          <w xml:id="w_p4_4_">1.Am</w><c> </c>
+          <w xml:id="w_p4_5_">Anfag</w>
           <pc>.</pc>
         </p>
       </div>
