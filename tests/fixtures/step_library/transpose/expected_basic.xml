@@ -74,8 +74,8 @@
         <head>Umstellung mit Range</head>
         <listTranspose>
           <transpose>
-            <ptr target="range(#w_p4_3, #w_p4_5)"/>
-            <ptr target="range(#w_p4_1, #w_p4_2)"/>
+            <ptr target="#range(w_p4_3, w_p4_5)"/>
+            <ptr target="#range(w_p4_1, w_p4_2)"/>
           </transpose>
         </listTranspose>
         <p xml:id="p4">
@@ -129,8 +129,8 @@
         <head>Range für l</head>
         <listTranspose>
           <transpose>
-            <ptr target="range(#l2_3, #l2_4)"/>
-            <ptr target="range(#l2_1, #l2_2)"/>
+            <ptr target="#range(l2_3, l2_4)"/>
+            <ptr target="#range(l2_1, l2_2)"/>
           </transpose>
         </listTranspose>
         <lg>
@@ -144,8 +144,8 @@
         <head>Worte am Versende</head>
         <listTranspose>
           <transpose>
-            <ptr target="range(#vers_2_1, #vers_2_2)"/>
-            <ptr target="range(#vers_1_1, #vers_1_2)"/>
+            <ptr target="#range(vers_2_1, vers_2_2)"/>
+            <ptr target="#range(vers_1_1, vers_1_2)"/>
           </transpose>
         </listTranspose>
         <lg>

@@ -8,7 +8,7 @@ from ...heiwarning import HeiWarning
 def transpose_funct(root, parameters=None):
     found_transpose = False
     id_dict = {}
-    range_regex =  r"range\(#(\w+),\s*#(\w+)\)"
+    range_regex =  r"#range\((\w+),\s*(\w+)\)"
     for transpose in root.findall( ".//tei:transpose", namespaces=ns):
         
         if not found_transpose:
@@ -18,13 +18,12 @@ def transpose_funct(root, parameters=None):
         for ptr in transpose:
             ptr_target = ptr.get("target")
             if ptr_target.startswith("#"):
-                # print(f"#: {ptr_target}")
-                continue
-            elif ptr_target.startswith("range"):
-                # print(f"Range: {ptr_target}")
-                ma = re.match(range_regex, ptr_target)
-                rt_1, rt_2 = ma.group(1), ma.group(2)
-                wrapper_id = wrap_range(id_dict, rt_1, rt_2)
+                if ptr_target.startswith("#range"):
+                    # print(f"Range: {ptr_target}")
+                    ma = re.match(range_regex, ptr_target)
+                    rt_1, rt_2 = ma.group(1), ma.group(2)
+                    wrapper_id = wrap_range(id_dict, rt_1, rt_2)
+                    ptr.attrib['target'] = '#' + wrapper_id
             else:
                warnings.warn(f"Invalid target in ptr: {ptr_target}", HeiWarning) 
     
@@ -35,7 +34,7 @@ def transpose_funct(root, parameters=None):
         full_target = editorial_transposition.get('target')
         new_target = []
         for target in re.split(r'(?<=[^,(])\s+', full_target):
-            if target.startswith("range"):
+            if target.startswith("#range"):
                 ma = re.match(range_regex, target)
                 rt_1, rt_2 = ma.group(1), ma.group(2)
                 wrapper_id = wrap_range(id_dict, rt_1, rt_2)
@@ -43,9 +42,6 @@ def transpose_funct(root, parameters=None):
             new_target.append(target)
         editorial_transposition.attrib['target'] = " ".join(new_target)
             
-        
-        
-    
     return root
 
 def create_id_dict(root):
