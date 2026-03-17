@@ -1,0 +1,146 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Umstellungen Test</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Test publication statement</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Test source description</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text xml:id="text_1" ana="hc:Article">
+    <body>
+      <div>
+        <head>Einfache Umstellung</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="#w_p1_5"/>
+            <ptr target="#w_p1_4"/>
+          </transpose>
+        </listTranspose>
+        <p xml:id="p1">
+          <w xml:id="w_p1_1">Test</w>
+          <c> </c>
+          <w xml:id="w_p1_2">paragraph</w>
+          <c> </c>
+          <w xml:id="w_p1_3">with</w>
+          <c> </c>
+          <w xml:id="w_p1_4">some</w>
+          <c> </c>
+          <w xml:id="w_p1_5">content</w>
+          <pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung: drei Elemente</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="#w_p2_5"/>
+            <ptr target="#w_p2_3"/>
+            <ptr target="#w_p2_4"/>
+          </transpose>
+        </listTranspose>
+        <p xml:id="p2">
+          <w xml:id="w_p2_1">Test</w>
+          <c> </c>
+          <w xml:id="w_p2_2">paragraph</w>
+          <c> </c>
+          <w xml:id="w_p2_3">with</w>
+          <c> </c>
+          <w xml:id="w_p2_4">some</w>
+          <c> </c>
+          <w xml:id="w_p2_5">content</w>
+          <pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung: vier Elemente</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="#w_p3_5"/>
+            <ptr target="#w_p3_3"/>
+            <ptr target="#w_p3_2"/>
+            <ptr target="#w_p3_4"/>
+          </transpose>
+        </listTranspose>
+        <p xml:id="p3">
+          <w xml:id="w_p3_1">Test</w>
+          <c> </c>
+          <w xml:id="w_p3_2">paragraph</w>
+          <c> </c>
+          <w xml:id="w_p3_3">with</w>
+          <c> </c>
+          <w xml:id="w_p3_4">some</w>
+          <c> </c>
+          <w xml:id="w_p3_5">content</w>
+          <pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung mit Range</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="range__w_p4_3__w_p4_5"/>
+            <ptr target="range__w_p4_1__w_p4_2"/>
+          </transpose>
+        </listTranspose>
+        <p xml:id="p4">
+          <seg xml:id="range__w_p4_1__w_p4_2"><w xml:id="w_p4_1">Test</w>
+          <c> </c>
+          <w xml:id="w_p4_2">paragraph</w>
+          </seg><c> </c>
+          <seg xml:id="range__w_p4_3__w_p4_5"><w xml:id="w_p4_3">with</w>
+          <c> </c>
+          <w xml:id="w_p4_4">some</w>
+          <c> </c>
+          <w xml:id="w_p4_5">content</w>
+          </seg><pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Umstellung: seg</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="#s_p5_2"/>
+            <ptr target="#s_p5_1"/>
+          </transpose>
+        </listTranspose>
+        <p xml:id="p5">
+          <seg xml:id="s_p5_1">
+            <w>Test</w>
+            <c> </c>
+            <w>paragraph</w>
+          </seg>
+          <c> </c>
+          <seg xml:id="s_p5_2">
+            <w>with</w>
+            <c> </c>
+            <w>some</w>
+            <c> </c>
+            <w>content</w>
+          </seg>
+          <pc>.</pc>
+        </p>
+      </div>
+      <div>
+        <head>Range für l</head>
+        <listTranspose>
+          <transpose>
+            <ptr target="range__l1_3__l1_4"/>
+            <ptr target="range__l1_1__l1_2"/>
+          </transpose>
+        </listTranspose>
+        <lg>
+          <ab xml:id="range__l1_1__l1_2"><l xml:id="l1_1">First verse moves to 3</l>
+          <l xml:id="l1_2">Second verse moves to 4</l>
+          </ab><ab xml:id="range__l1_3__l1_4"><l xml:id="l1_3">Third verse moves to 1</l>
+          <l xml:id="l1_4">Fourth verse moves to 2</l>
+        </ab></lg>
+      </div>
+    </body>
+  </text>
+</TEI>
