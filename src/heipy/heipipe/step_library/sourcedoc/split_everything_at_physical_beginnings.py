@@ -352,5 +352,5 @@ def split_at_physical_beginnings_func(root, parameters=None):
 def get_step():
     return PythonStep(
     funct=split_at_physical_beginnings_func,
-    name="split_everything_at_physical_beginnings"
+    name="sourcedoc.split_everything_at_physical_beginnings"
 )

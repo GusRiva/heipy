@@ -1,5 +1,5 @@
 from ..steps import Pipeline, AddAttribute, DeleteStep
-from ..step_library import mark_note_as_editorial, move_note, filter_visual_information,ptr2ref, add_id_2_note, supply_id_divisions, whitespaces,number_line_segment_beginnings,final_cleanup, inject_structure
+from ..step_library import mark_note_as_editorial, move_note, filter_visual_information,ptr2ref, add_id_2_note, supply_id_divisions, whitespaces,number_line_segment_beginnings,final_cleanup, inject_structure, transpose
 from ..step_library import revision_spans
 from ...namespaces import prefix_format
 
@@ -20,6 +20,7 @@ class SemanticPipe(Pipeline):
             DeleteStep(elements=['tei:metamark',
                                  'tei:fw',
                                  "tei:label[contains(@ana, 'hc:DivisionMark')]"], name="delete_irrelevant_elements_for_semantic"),
+            # transpose.get_step(),
             filter_visual_information.get_step(),
             ptr2ref.get_step(),
             revision_spans.get_step(),
