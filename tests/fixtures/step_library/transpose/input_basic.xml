@@ -152,17 +152,16 @@
         </listTranspose>
         <lg>
           <l>
-               <w>Content</w><c> </c>
+               <w>First</w><c> </c>
                <w>verse</w><c> </c>
-               <w>1</w><c> </c>
-               <w xml:id="vers_1_1">2rhyme</w><c> </c>
-               <num xml:id="vers_1_2">rhyme2</num>
+               <w xml:id="vers_1_1">rhyme2.1</w><c> </c>
+               <num xml:id="vers_1_2">rhyme2.2</num>
            </l>
           <l>
                <w>Second</w><c> </c>
                <w>verse</w><c> </c>
-               <w xml:id="vers_2_1">1rhyme</w><c> </c>
-               <w xml:id="vers_2_2">rhyme1</w><c> </c>
+               <w xml:id="vers_2_1">rhyme1.1</w><c> </c>
+               <w xml:id="vers_2_2">rhyme1.2</w><c> </c>
                <num>2</num>
            </l>
         </lg>
@@ -187,7 +186,7 @@
       </div>
       <div>
         <head>Umstellung: drei Elemente</head>
-        <link ana="hc:EditorialTransposition" target="#w_p1_5_ #w_p1_3_ #w_p1_4_"/>
+        <link ana="hc:EditorialTransposition" target="#w_p2_5_ #w_p2_3_ #w_p2_4_"/>
         <p xml:id="p2_">
           <w xml:id="w_p2_1_">Richtig</w><c> </c>
           <w xml:id="w_p2_2_">ist</w><c> </c>
@@ -199,7 +198,7 @@
       </div>
       <div>
         <head>Umstellung: vier Elemente</head>
-        <link ana="hc:EditorialTransposition" target="#w_p1_5_ #w_p1_3_ #w_p1_2_ #w_p1_4_"/>
+        <link ana="hc:EditorialTransposition" target="#w_p3_5_ #w_p3_3_ #w_p3_2_ #w_p3_4_"/>
         <p xml:id="p3_">
           <w xml:id="w_p3_1_">Eins</w><c> </c>
           <w xml:id="w_p3_2_">vier</w><c> </c>
@@ -259,17 +258,16 @@
         <link ana="hc:EditorialTransposition" target="#range(vers_2_1_, vers_2_2_) #range(vers_1_1_, vers_1_2_)"/>
         <lg>
           <l>
-               <w>Content</w><c> </c>
+               <w>First</w><c> </c>
                <w>verse</w><c> </c>
-               <w>1</w><c> </c>
-               <w xml:id="vers_1_1_">2rhyme</w><c> </c>
-               <num xml:id="vers_1_2_">rhyme2</num>
+               <w xml:id="vers_1_1_">rhyme2.1</w><c> </c>
+               <num xml:id="vers_1_2_">rhyme2.2</num>
            </l>
           <l>
                <w>Second</w><c> </c>
                <w>verse</w><c> </c>
-               <w xml:id="vers_2_1_">1rhyme</w><c> </c>
-               <w xml:id="vers_2_2_">rhyme1</w><c> </c>
+               <w xml:id="vers_2_1_">rhyme1.1</w><c> </c>
+               <w xml:id="vers_2_2_">rhyme1.2</w><c> </c>
                <num>2</num>
            </l>
         </lg>
