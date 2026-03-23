@@ -79,7 +79,8 @@ def revision_spans_funct(root, parameters=None):
                 break
             elif node.tag in [tei_ns / x for x in ['lb']] or (node.attrib.get('ana') is not None and 'hc:EditorialContent' in node.attrib.get('ana')):
                 wrap_tail(node, this_span_config, span_to)
-            elif node.tag == tei_ns / "line":
+            elif node.tag in [tei_ns / x for x in ["line",
+                                                   "milestone"]]:
                 continue
             else:
                 previous_ana = node.attrib.get('ana')
