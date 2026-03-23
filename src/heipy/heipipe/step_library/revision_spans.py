@@ -9,10 +9,10 @@ from ...namespaces import tei_ns, xml_ns, hei_ns, ns
 # Map span types to their ana values
 span_config = {
     tei_ns / "delSpan": {
-        "ana": "hc:EditorialDeletionSpan", 
+        "ana": "hc:DeletionSpan", 
         "basic": "del"},
     tei_ns / "addSpan": {
-        "ana": "hc:EditorialAdditionSpan", 
+        "ana": "hc:AdditionSpan", 
         "basic": "add"},
     "hc:EditorialAdditionSpan": {
         "ana": "hc:EditorialAdditionSpan",
