@@ -132,6 +132,7 @@ def heiparse(source,
 
     if xinclude:
         tree.xinclude()
+        et.cleanup_namespaces(tree)
 
     if output_format == OutputFormat.ETREE:
         return tree
