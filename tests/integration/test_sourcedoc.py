@@ -25,6 +25,14 @@ class TestSourcedocPipeline:
                               complex_fixtures_dir / "output/sourcedoc/zone_milestones.xml", 
                               generate_auto=True, 
                               )
+        
+    def test_sourcedoc_tables(self, complex_fixtures_dir):
+        """Test tables."""
+        pipeline_compare_flow(SourceDocPipe(serial=True),
+                              complex_fixtures_dir / "tabelle.xml", 
+                              complex_fixtures_dir / "output/sourcedoc/tabelle.xml", 
+                              generate_auto=True, 
+                              )
     
     def test_sourcedoc_non_tokenized(self, complex_fixtures_dir):
         """Test that complex TEI can be processed without error."""

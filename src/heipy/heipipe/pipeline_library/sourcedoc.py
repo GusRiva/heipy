@@ -1,4 +1,4 @@
-from ..step_library.sourcedoc import combine_facsimile_and_text_to_sourcedoc, prepare_figure_4_source_doc, split_everything_at_physical_beginnings, split_word_at_physical_beginnings
+from ..step_library.sourcedoc import combine_facsimile_and_text_to_sourcedoc, prepare_figure_4_source_doc, split_everything_at_physical_beginnings, split_word_at_physical_beginnings, split_table_at_physical_beginnings
 from ..steps import Pipeline
 from ..step_library import revision_spans, initials, transcription_note, connect_lb_and_segment, move_physical_beginnings, whitespaces,  number_line_segment_beginnings, remove_gap_page, wrap_resolved_content, add_vertical_layout, mark_note_as_editorial, container2milestone
 
@@ -71,6 +71,7 @@ class SourceDocPipe(Pipeline):
             # Index: 5
             mark_note_as_editorial_step,
             number_line_segment_beginnings.get_step(),
+            split_table_at_physical_beginnings.get_step(),
             container2milestone_step,
             split_word_at_physical_beginnings.get_step(),
             split_everything_at_physical_beginnings.get_step(),
