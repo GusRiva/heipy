@@ -15,7 +15,7 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               complex_fixtures_dir / "Gregoire_A3_Paris_simple.xml",
                               complex_fixtures_dir / "output/sourcedoc/Gregoire_A3_Paris_simple.xml",
-                              generate_auto=True
+                              generate_auto=False
                               )
         
     def test_sourcedoc_milestones(self, complex_fixtures_dir):
@@ -23,15 +23,15 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(),
                               complex_fixtures_dir / "zone_milestones.xml", 
                               complex_fixtures_dir / "output/sourcedoc/zone_milestones.xml", 
-                              generate_auto=True, 
+                              generate_auto=False, 
                               )
         
     def test_sourcedoc_tables(self, complex_fixtures_dir):
         """Test tables."""
-        pipeline_compare_flow(SourceDocPipe(serial=True),
+        pipeline_compare_flow(SourceDocPipe(),
                               complex_fixtures_dir / "tabelle.xml", 
                               complex_fixtures_dir / "output/sourcedoc/tabelle.xml", 
-                              generate_auto=True, 
+                              generate_auto=False, 
                               )
     
     def test_sourcedoc_non_tokenized(self, complex_fixtures_dir):

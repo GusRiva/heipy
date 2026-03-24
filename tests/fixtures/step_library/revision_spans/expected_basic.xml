@@ -22,10 +22,10 @@
 		<body>
 			<pb facs="#A1_1r"/>
 			<cb facs="#A1_1r-a"/>
-			<head><lb n="1"/>Wanderers Nachtlied <delSpan rendition="hc:Strikethrough" spanTo="#delSpan_1"/><del ana="hc:EditorialDeletionSpan" hei:belongsToRevision="#delSpan_1">eigenhändig aufgezeichnet</del></head>
-			<l ana="hc:EditorialDeletionSpan"><lb n="2"/>Über allen Gipfeln ist Ruh</l>
-			<l ana="hc:EditorialDeletionSpan"><lb n="3"/>In allen Wipfeln spürest du</l>
-			<l><del ana="hc:EditorialDeletionSpan" hei:belongsToRevision="#delSpan_1">Kaum</del><lb n="4"/><del ana="hc:EditorialDeletionSpan" hei:belongsToRevision="#delSpan_1">einen</del><anchor xml:id="delSpan_1"/> Hauch</l>
+			<head><lb n="1"/>Wanderers Nachtlied <delSpan rendition="hc:Strikethrough" spanTo="#delSpan_1"/><del ana="hc:DeletionSpan" hei:belongsToRevision="#delSpan_1">eigenhändig aufgezeichnet</del></head>
+			<l ana="hc:DeletionSpan"><lb n="2"/>Über allen Gipfeln ist Ruh</l>
+			<l ana="hc:DeletionSpan"><lb n="3"/>In allen Wipfeln spürest du</l>
+			<l><del ana="hc:DeletionSpan" hei:belongsToRevision="#delSpan_1">Kaum</del><lb n="4"/><del ana="hc:DeletionSpan" hei:belongsToRevision="#delSpan_1">einen</del><anchor xml:id="delSpan_1"/> Hauch</l>
 			<l><lb n="5"/>Die Vögelein schweigen im Walde.</l>
 			
 			

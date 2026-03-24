@@ -27,10 +27,10 @@
 		<!-- No text no tail -->
 		<lg>
 			<l>Der du von dem Himmel bist, </l>
-			<l>Alles <delSpan spanTo="#delSpan_1"/><hi rendition="hc:Bold" ana="hc:EditorialDeletionSpan">Leid und Schmerzen stillest,</hi></l>
+			<l>Alles <delSpan spanTo="#delSpan_1"/><hi rendition="hc:Bold" ana="hc:DeletionSpan">Leid und Schmerzen stillest,</hi></l>
 		</lg>
 		<lg>
-			<l ana="hc:EditorialDeletionSpan">Den, der doppelt elend ist,</l>
+			<l ana="hc:DeletionSpan">Den, der doppelt elend ist,</l>
 			<anchor xml:id="delSpan_1"/>
 			<l>Doppelt mit Erquickung füllest,</l>
 		</lg>
@@ -38,10 +38,10 @@
 		<!-- text no tail -->
 		<lg>
 			<l>Der du von dem Himmel bist, </l>
-			<l>Alles <addSpan spanTo="#addSpan_2"/><add ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_2">Leid </add><hi rendition="hc:Bold" ana="hc:EditorialAdditionSpan">und Schmerzen stillest,</hi></l>
+			<l>Alles <addSpan spanTo="#addSpan_2"/><add ana="hc:AdditionSpan" hei:belongsToRevision="#addSpan_2">Leid </add><hi rendition="hc:Bold" ana="hc:AdditionSpan">und Schmerzen stillest,</hi></l>
 		</lg>
 		<lg>
-			<l ana="hc:EditorialAdditionSpan">Den, der doppelt elend ist,</l>
+			<l ana="hc:AdditionSpan">Den, der doppelt elend ist,</l>
 			<anchor xml:id="addSpan_2"/>
 			<l>Doppelt mit Erquickung füllest,</l>
 		</lg>
