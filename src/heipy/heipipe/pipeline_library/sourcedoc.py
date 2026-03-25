@@ -1,6 +1,6 @@
 from ..step_library.sourcedoc import combine_facsimile_and_text_to_sourcedoc, prepare_figure_4_source_doc, split_everything_at_physical_beginnings, split_word_at_physical_beginnings, split_table_at_physical_beginnings, move_table_to_zone
 from ..steps import Pipeline
-from ..step_library import revision_spans, initials, transcription_note, connect_lb_and_segment, move_physical_beginnings, whitespaces,  number_line_segment_beginnings, remove_gap_page, wrap_resolved_content, add_vertical_layout, mark_note_as_editorial, container2milestone
+from ..step_library import revision_spans, initials, transcription_note, connect_lb_and_segment, move_physical_beginnings, whitespaces,  number_line_segment_beginnings, remove_gap_page, wrap_resolved_content, add_vertical_layout, mark_note_as_editorial, container2milestone, resolve_facs_atts
 
 
 milestone_element_map = {
@@ -65,6 +65,7 @@ class SourceDocPipe(Pipeline):
             initials.get_step(),
             # revision_spans_sem.get_step(),
             transcription_note.get_step(),
+            resolve_facs_atts.get_step(),
             connect_lb_and_segment.get_step(),
             split_table_at_physical_beginnings.get_step(),
             move_table_to_zone.get_step(),

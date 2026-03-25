@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+  </teiHeader>
+  <facsimile>
+    <surface ana="hc:Page" xml:id="A1_1r" n="1r">
+      <zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+      <zone ana="hc:ImageZone" xml:id="A1_1r-img"/>
+    </surface>
+    <surface ana="hc:Page" xml:id="A1_1v" n="1v">
+      <zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a"/>
+      <zone ana="hc:MarginalZone hc:TextZone" xml:id="A1_1v-m1"/>
+    </surface>
+  </facsimile>
+  <text>
+    <body>
+      <pb n="1r" facs="#A1_1r"/>
+      <cb n="a" facs="#A1_1r-a"/>
+      <p><lb n="1"/>Text before the illustraion</p>
+      <figure facs="#A1_1r-img">
+        <figDesc>An illustration</figDesc>
+        <lb n="1"/><label>And the label of the figure in the text</label>
+      </figure>
+      <lb n="2"/><l>A line of text</l>
+      <pb n="1v" facs="#A1_1v"/>
+      <cb n="a" facs="#A1_1v-a"/>
+      <lb n="1"/><l>One verse</l>
+      <lb n="2"/><l>Text with <add facs="#A1_1v-m1">an addition</add> and then more text.</l>
+    </body>
+  </text>
+</TEI>
