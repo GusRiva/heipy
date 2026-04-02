@@ -21,9 +21,7 @@
 					<line xml:space="preserve" n="1"><milestone ana="hc:Verse" corresp="#d13e31"/>One verse<anchor xml:id="d13e31"/></line>
 					<line xml:space="preserve" n="2"><milestone ana="hc:Verse" corresp="#d13e35"/>Text with and then more text.<anchor xml:id="d13e35"/><anchor xml:id="d13e14"/><anchor xml:id="d13e13"/></line>
 				</zone>
-				<zone ana="hc:MarginalZone hc:TextZone" xml:id="A1_1v-m1">
-					<line xml:space="preserve" n="1"><add>an addition</add></line>
-				</zone>
+				<zone ana="hc:MarginalZone hc:TextZone" xml:id="A1_1v-m1"/>
 			</zone>
 		</surface>
 	</sourceDoc>

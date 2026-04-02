@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
   <teiHeader>
   </teiHeader>
   <facsimile>
@@ -25,7 +25,7 @@
       <pb n="1v" facs="#A1_1v"/>
       <cb n="a" facs="#A1_1v-a"/>
       <lb n="1"/><l>One verse</l>
-      <lb n="2"/><l>Text with <add facs="#A1_1v-m1">an addition</add> and then more text.</l>
+      <lb n="2"/><l>Text with <add facs="#A1_1v-m1"><lb n="1"/>an addition</add><milestone ana="hc:LineSegmentBeginning" n="2" hei:belongsToLine="2"/> and then more text.</l>
     </body>
   </text>
 </TEI>
