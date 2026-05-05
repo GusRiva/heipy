@@ -11,7 +11,7 @@ import re
 import html
 import warnings
 from enum import Enum
-from typing import Literal
+from typing import Any, Literal, TypedDict, Unpack
 
 from .colors import *
 from .namespaces import ns
@@ -32,8 +32,28 @@ class HeiEditionsResolver(et.Resolver):
             return self.resolve_string(response.text, context)
 
 
+class _HeiEditionsParserKwargs(TypedDict, total=False):
+    encoding: str
+    attribute_defaults: bool
+    dtd_validation: bool
+    load_dtd: bool
+    no_network: bool
+    ns_clean: bool
+    recover: bool
+    schema: Any
+    huge_tree: bool
+    remove_blank_text: bool
+    resolve_entities: bool
+    remove_comments: bool
+    remove_pis: bool
+    strip_cdata: bool
+    collect_ids: bool
+    compact: bool
+    target: Any
+
+
 class HeiEditionsParser(et.XMLParser):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs: Unpack[_HeiEditionsParserKwargs]):
         kwargs.setdefault('load_dtd', True)
         kwargs.setdefault('strip_cdata', False)
         kwargs.setdefault('no_network', False)
