@@ -39,13 +39,16 @@ def combine_facsimile_text(root: et.Element, parameters=None):
     
     if len(gap_zones_by_id) > 0 or len(image_zones_by_id) > 0:
         milestone_elements_by_facs = dict()
-        for milestone in root.xpath('.//tei:cb | tei:milestone[contains(@ana,"hc:ZoneBeginning") or contains(@ana, "hc:ZoneShift")]', namespaces=ns):
+        for milestone in root.xpath('.//tei:cb | //tei:milestone[contains(@ana,"hc:ZoneBeginning") or contains(@ana, "hc:ZoneShift")]', namespaces=ns):
             milestone_facs_trim = milestone.attrib['facs'][1:]
             milestone_elements_by_facs[milestone_facs_trim] = milestone
         # Process the gap zones
         if len(gap_zones_by_id) > 0:
             for gap_zone_id, gap_zone in gap_zones_by_id.items():
                 gap_zone_milestone = milestone_elements_by_facs.get(gap_zone_id)
+                if gap_zone_milestone is None:
+                    warnings.warn(f"Could not find gapZone for {gap_zone_id}", HeiWarning)
+                    continue
                 for idx, gap_el in enumerate(gap_zone_milestone.itersiblings()):
                     if idx > 0:
                         break
