@@ -35,11 +35,13 @@ class SynopticPipe(Pipeline):
         pipe_steps = [
             # Index: 0
             DeleteStep(elements=['tei:zone[@ana="hc:LineZone"]'], name="delete_facs"),
+            DeleteStep(elements=['tei:metamark',
+                                 'tei:fw',
+                                 "tei:label[contains(@ana, 'hc:DivisionMark')]",
+                                 "hei:cue"], name="delete_irrelevant_elements_for_semantic"),
             # UnwrapStep(elements=to_unwrap, name="Unwrap high level semantic elements", serial=True),
             ptr2ref.get_step(),
-            DeleteStep(elements=['tei:metamark',
-                                 'tei:fw'
-                                 ]),
+            
             filter_visual_information.get_step(),
             move_layout_milestones.get_step(),
             mark_note_as_editorial_step,
