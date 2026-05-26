@@ -341,10 +341,12 @@ class Pipeline(BaseStep):
         debug_options = debug_options if debug_options is not None else []
         print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{str(input)[:60]}{RESET}")
         input_string = None
+        source_base_uri = None
         if input_format == 'file':
             if not os.path.isfile(input):
                 warnings.warn(f"Could not find file {input}, skipping...", HeiWarning)
                 return None
+            source_base_uri = Path(os.path.abspath(input)).as_uri()
             input_string = heiparse(
                 input, output_format=OutputFormat.STR, xinclude=xinclude, egxml=egxml, base_url=str(input)
             )
@@ -383,7 +385,8 @@ class Pipeline(BaseStep):
                             serial=pipe_serial,
                             input_xdm=current_data if is_xdm else None,
                             output_xdm=output_xdm,
-                            proc=proc
+                            proc=proc,
+                            base_uri=source_base_uri
                         )
                         is_xdm = output_xdm
 
@@ -528,7 +531,7 @@ class XsltStep(BaseStep):
     def get_files(self) -> list:
         return self.files
 
-    def execute(self, input_string=None, serial=False, input_xdm=None, output_xdm=False, proc=None):
+    def execute(self, input_string=None, serial=False, input_xdm=None, output_xdm=False, proc=None, base_uri=None):
         """
         Execute XSLT transformation(s).
 
@@ -538,6 +541,7 @@ class XsltStep(BaseStep):
             input_xdm: PyXdmNode input (optional, for batched execution)
             output_xdm: If True, return XDM instead of string
             proc: PySaxonProcessor instance (optional, for batched execution)
+            base_uri: Base URI of the source document for resolving relative document() calls
 
         Returns:
             str or PyXdmNode depending on output_xdm
@@ -586,7 +590,8 @@ class XsltStep(BaseStep):
                     parameters=self.get_parameters(),
                     input_xdm=current_data if is_xdm else None,
                     output_xdm=should_output_xdm,
-                    proc=processor  # Use the processor parameter, not proc
+                    proc=processor,
+                    base_uri=base_uri
                 )
                 is_xdm = should_output_xdm
 
@@ -806,7 +811,7 @@ class UnwrapStep(BaseStep):
     def __str__(self):
         return f"UnwrapStep »{self.name}«. Unwraps: {self.elements}"
 
-    def execute(self, input_string=None, serial=False, input_xdm=None, output_xdm=False, proc=None):
+    def execute(self, input_string=None, serial=False, input_xdm=None, output_xdm=False, proc=None, base_uri=None):
         """
         Execute unwrap transformation(s).
 
@@ -816,6 +821,7 @@ class UnwrapStep(BaseStep):
             input_xdm: PyXdmNode input (optional, for batched execution)
             output_xdm: If True, return XDM instead of string
             proc: PySaxonProcessor instance (optional, for batched execution)
+            base_uri: Base URI of the source document for resolving relative document() calls
 
         Returns:
             str or PyXdmNode depending on output_xdm
@@ -855,7 +861,8 @@ class UnwrapStep(BaseStep):
                     parameters=params,
                     input_xdm=current_data if is_xdm else None,
                     output_xdm=should_output_xdm,
-                    proc=shared_proc
+                    proc=shared_proc,
+                    base_uri=base_uri
                 )
                 is_xdm = should_output_xdm
 

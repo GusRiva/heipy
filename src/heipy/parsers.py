@@ -186,7 +186,7 @@ def set_params_for_saxon(parameters:dict, proc: PySaxonProcessor, executable):
             executable.set_parameter(param, value_f)
 
 
-def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=None, input_xdm=None, output_xdm=False, proc=None):
+def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=None, input_xdm=None, output_xdm=False, proc=None, base_uri=None):
     """
     Apply XSLT transformation with flexible input/output formats.
 
@@ -198,6 +198,7 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
         input_xdm: PyXdmNode object (optional, for batched XSLT steps)
         output_xdm: If True, return XDM node instead of string
         proc: PySaxonProcessor instance (optional, for batched XSLT steps)
+        base_uri: Base URI for the source document (used when parsing from string, so that relative document() calls resolve correctly)
 
     Returns:
         str or PyXdmNode depending on output_xdm
@@ -215,14 +216,20 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
 
         # Compile and execute XSLT
         xslt3 = proc.new_xslt30_processor()
-        base_output_path = os.path.dirname(os.path.abspath(xslt_file)) if output_dir is None else output_dir
         executable = xslt3.compile_stylesheet(stylesheet_file=xslt_file)
 
-        # Set base output URI for resolving relative URIs in xsl:result-document
+        base_output_path = os.path.dirname(os.path.abspath(xslt_file)) if output_dir is None else output_dir
         executable.set_base_output_uri(pathlib.Path(base_output_path).as_uri() + '/')
 
         if len(parameters) > 0:
             set_params_for_saxon(parameters, proc, executable)
+
+        # Inject the source file URI as an XSLT parameter so stylesheets can resolve
+        # relative URIs in document() calls without relying on the document's base URI
+        # (which is lost when the XML is serialised to a string between pipeline steps).
+        # Stylesheets that don't declare sourceBaseUri silently ignore it.
+        if base_uri:
+            executable.set_parameter('sourceBaseUri', proc.make_string_value(base_uri))
 
         # Set the global context item for the transformation
         # input_xdm could be a PyXdmValue (sequence) or PyXdmItem (single item)
