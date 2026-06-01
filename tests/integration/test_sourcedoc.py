@@ -23,6 +23,7 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(),
                               complex_fixtures_dir / "zone_milestones.xml", 
                               complex_fixtures_dir / "output/sourcedoc/zone_milestones.xml", 
+                            #   debug= ['serial'],
                               generate_auto=False, 
                               )
         

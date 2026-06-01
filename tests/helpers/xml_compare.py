@@ -23,7 +23,8 @@ Utilities:
 """
 
 from lxml import etree as et
-from typing import Union, Optional, Tuple
+from heipy.heipipe.steps import Pipeline
+from typing import Union, Optional, Tuple, Literal
 from pathlib import Path
 from difflib import unified_diff
 import re
@@ -713,9 +714,13 @@ def vanilla_compare_flow(step, fixture_loader, variant="basic"):
 
 
 def pipeline_compare_flow(
-    pipeline, input_file: Path, compare_file: Path = None, generate_auto=False
-):
-    result = pipeline.execute(input_file)
+    pipeline: Pipeline, 
+    input_file: Path, 
+    compare_file:Path, 
+    generate_auto: bool = False, 
+    debug: Optional[list[Literal["time", "serial"]]] = None
+) -> None:
+    result = pipeline.execute(input_file, debug_options= debug)
     if generate_auto:
         outfile = (
             compare_file.with_name(f"auto_{compare_file.stem}{compare_file.suffix}")

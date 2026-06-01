@@ -369,9 +369,11 @@ class Pipeline(BaseStep):
             # Check if we can batch XSLT steps
             if isinstance(step, (XsltStep, UnwrapStep)):
                 # Look ahead for consecutive XSLT-based steps
+                # Batching is disabled in serial mode so every step can be serialized
                 j = i + 1
-                while j < len(self.steps) and isinstance(self.steps[j], (XsltStep, UnwrapStep)):
-                    j += 1
+                if not pipe_serial:
+                    while j < len(self.steps) and isinstance(self.steps[j], (XsltStep, UnwrapStep)):
+                        j += 1
 
                 # Create processor for batch using context manager
                 with PySaxonProcessor(license=False) as proc:

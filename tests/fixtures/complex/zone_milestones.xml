@@ -54,11 +54,12 @@
             <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bnf_fr1545_fol121-136/0003/image" mimeType="image/*"/>
             <zone ana="hc:HorizontalLayout">
                 <zone xml:id="A3_122r-a" ana="hc:MainColumn" n="a">
-                    <zone ana="hc:TextZone" xml:id="A2_122r-a-1"></zone>
-                    <zone ana="hc:ImageZone" xml:id="A2_122r-a-2"></zone>
-                    <zone ana="hc:TextZone" xml:id="A2_122r-a-3"></zone>
+                    <zone ana="hc:TextZone" xml:id="A3_122r-a-1"></zone>
+                    <zone ana="hc:ImageZone" xml:id="A3_122r-a-2"></zone>
+                    <zone ana="hc:TextZone" xml:id="A3_122r-a-3"></zone>
                 </zone>
                 <zone xml:id="A3_122r-b" ana="hc:MainColumn hc:TextZone" n="b"/>
+                <zone xml:id="A3_122r_m1" ana="hc:MarginalZone hc:TextZone"/>
             </zone>
         </surface>
     </facsimile>
@@ -99,17 +100,26 @@
                 <l n="82" hei:altN="84" xml:id="l_82">
                     <lb n="1"/>Linea en la otra pagina
                 </l>
+                <cb n="b" facs="#A3_121v-b"/>
+                    <l><lb n="1"/>Linea en la otra pagina columna b</l>
             </lg>
             <pb facs="#A3_122r"/>
-            <cb facs="#A2_122r-a-1"/>
+            <cb facs="#A3_122r-a"/>
+            <milestone ana="hc:ZoneBeginning" facs="#A3_122r-a-1"/>
             <p><lb n="1"/>First line page 122r</p>
-            <milestone ana="hc:ZoneBeginning" facs="#A2_122r-a-2"/>
+            <milestone ana="hc:ZoneBeginning" facs="#A3_122r-a-2"/>
             <figure>
                 <figDesc>Figure description</figDesc>
                 <label><lb n="1"/>Figure label</label>
             </figure>
-            <milestone ana="hc:ZoneBeginning" facs="#A2_122r-a-3"/>
-            <p><lb n="1"/>Line after figure</p>
+            <milestone ana="hc:ZoneBeginning" facs="#A3_122r-a-3"/>
+            <p>
+                <lb n="1"/>Line 1 after figure
+            <cb facs="#A3_122r-b"/>
+            <lb n="1"/>Column b line 1 
+            <lb n="2"/>Column b line 2 <add facs="#A3_122r_m1">(with addition in the margin)</add> continues 
+            <lb n="3"/>Column b Line 3
+            </p>
         </body>
     </text>
 </TEI>
