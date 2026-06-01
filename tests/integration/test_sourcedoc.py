@@ -64,7 +64,15 @@ class TestSourcedocPipeline:
                               complex_fixtures_dir / "output/sourcedoc/revision_spans_complex.xml", 
                               generate_auto=False
                               )
-        
+    
+    def test_sourcedoc_line_segment(self, complex_fixtures_dir):
+        """Test transformation line segment."""
+        pipeline_compare_flow(SourceDocPipe(), 
+                              complex_fixtures_dir / "line_segment.xml", 
+                              complex_fixtures_dir / "output/sourcedoc/line_segment.xml", 
+                              generate_auto=False
+                              )
+    
     def test_sourcedoc_subst(self, complex_fixtures_dir, step_fixtures_dir):
         "Test subst"
         pipeline_compare_flow(SourceDocPipe(), 

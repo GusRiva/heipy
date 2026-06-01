@@ -117,8 +117,12 @@ def combine_facsimile_text(root: et.Element, parameters=None):
         segments_by_line = defaultdict(list)
         for segment in segment_list_zone:
             segments_by_line[segment.get(hei_ns / 'belongsToLine')].append(segment)
-        for line_number, segment_list in segments_by_line.items():
-            corresp_line = corresp_zone.xpath(f'./tei:line[@n="{line_number}"]', namespaces=ns)[0]
+        for line_number, segment_list in segments_by_line.items():       
+            corresp_line = corresp_zone.xpath(f'./tei:zone[@ana="hc:LineZone"][@n="{line_number}"] | ./tei:line[@n="{line_number}"]', namespaces=ns)
+            if len(corresp_line) < 1:
+                warnings.warn(f"Could not find zone for line number {line_number} in zone {zone_id}. Segment line: {[(x.tag, x.attrib) for x in segment_list]}. Skipping")
+                continue
+            corresp_line = corresp_line[0]
             sorted_segments = sorted(segment_list, key= lambda x: int(x.get('n')))
             for segm in sorted_segments:
                 if segm.tail is not None:

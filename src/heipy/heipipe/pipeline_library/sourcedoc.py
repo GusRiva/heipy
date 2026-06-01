@@ -63,7 +63,7 @@ class SourceDocPipe(Pipeline):
         pipe_steps = [
             # Index: 0
             initials.get_step(),
-            # revision_spans_sem.get_step(),
+            revision_spans.get_step(),
             transcription_note.get_step(),
             resolve_facs_atts.get_step(),
             connect_lb_and_segment.get_step(),
@@ -84,8 +84,6 @@ class SourceDocPipe(Pipeline):
 
             # wrap_resolved_content.get_step(),
             combine_facsimile_and_text_to_sourcedoc.get_step(),
-            
-            revision_spans.get_step()
 
             ]
         

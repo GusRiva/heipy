@@ -63,3 +63,11 @@ class TestSemanticPipeline:
                               complex_fixtures_dir / "output/semantic/facs.xml",                              
                               generate_auto=False
                               )
+    
+    def test_semantic_line_segment(self, complex_fixtures_dir):
+        """Test transformation line segment."""
+        pipeline_compare_flow(SemanticPipe(), 
+                              complex_fixtures_dir / "line_segment.xml", 
+                              complex_fixtures_dir / "output/semantic/line_segment.xml", 
+                              generate_auto=True
+                              )
