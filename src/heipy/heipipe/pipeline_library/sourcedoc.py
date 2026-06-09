@@ -68,16 +68,14 @@ class SourceDocPipe(Pipeline):
             resolve_facs_atts.get_step(),
             connect_lb_and_segment.get_step(),
             split_table_at_physical_beginnings.get_step(),
-            move_table_to_zone.get_step(),
             move_physical_beginnings.get_step(),
             whitespaces.get_step(),
-            # Index: 5
             mark_note_as_editorial_step,
             number_line_segment_beginnings.get_step(),
             container2milestone_step,
             split_word_at_physical_beginnings.get_step(),
             split_everything_at_physical_beginnings.get_step(),
-            # Index: 10
+            move_table_to_zone.get_step(),
             remove_gap_page.get_step(),
             prepare_figure_4_source_doc.get_step(),
             add_vertical_layout.get_step(),
