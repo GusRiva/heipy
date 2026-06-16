@@ -25,7 +25,7 @@ def split_at_physical_beginnings_func(root, parameters=None):
     # Author: Jakub Šimek
     # With changes from: Gustavo Riva'''
 
-    random.seed(42)
+    # random.seed(42)
     
     def check():
         # function checking whether there are any cases to be dealt with;
@@ -227,7 +227,8 @@ def split_at_physical_beginnings_func(root, parameters=None):
             first_part.text = text 
             # new id for the element, if no id is set:
             if "{http://www.w3.org/XML/1998/namespace}id" not in first_part.keys():
-                element_uuid = uuid.UUID(int=random.getrandbits(128))
+                # element_uuid = uuid.UUID(int=random.getrandbits(128))
+                element_uuid = uuid.uuid4()
                 first_part_id = element_name + "_" + str(element_uuid)
                 first_part.set(
                     "{http://www.w3.org/XML/1998/namespace}id", first_part_id)
@@ -245,7 +246,8 @@ def split_at_physical_beginnings_func(root, parameters=None):
                     if bloc[0] == "content" and i != 0:
                         new_part = et.Element(
                             tag, attrib=relevant_element.attrib)
-                        new_part_uuid = uuid.UUID(int=random.getrandbits(128))
+                        # new_part_uuid = uuid.UUID(int=random.getrandbits(128))
+                        new_part_uuid = uuid.uuid4()
                         new_part_id = element_name + \
                                       "_" + str(new_part_uuid)
                         new_part.set(
