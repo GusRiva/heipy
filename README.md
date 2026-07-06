@@ -11,6 +11,26 @@ Dann heipy installieren. Im Verzeichnis `pip install .` oder auf dem Eltern-Verz
 
 Oder aus dem pypy Package (Zukunftsmusik)
 
+### Entwicklungsmodus (editable install)
+
+Wer aktiv an heipy arbeitet, kann heipy _editable_ installieren:
+
+```
+pip install -e ./heipy
+```
+
+Danach zeigt der venv direkt auf `heipy/src`, d.h. **jede Änderung im Quellcode
+wirkt sofort** – auch in den Pipelines (`pipelines/all.py`), ohne erneutes
+`pip install`. Bei einem normalen `pip install ./heipy` wird dagegen eine Kopie
+in `site-packages` abgelegt; Quelltext-Änderungen greifen dann erst nach einer
+Neuinstallation.
+
+Hinweise:
+- Der Modus ist rein lokal (steht im venv, nicht im Repo) und betrifft weder
+  Kollegen noch den getrackten Projektzustand.
+- Ein `pip install` erzeugt keinen Git-Zustand: Änderungen an heipy müssen wie
+  gewohnt im Submodul committet/gepusht werden, damit andere sie erhalten.
+
 ## heipipe: Das heiEDITIONS-Pipeline Modul
 
 from heipy.heipipe.steps import *
