@@ -217,7 +217,7 @@ def create_xml_suitable_uuid_from_string(value: str) -> str:
     id = str(uuid.UUID(hex=hex_string))
     if id[0].isnumeric():  # would lead to an invalid XML id
         x = "0123456789"
-        y = "abcdefghij"
+        y = "abcdefabcd"
         translation_table = str.maketrans(x, y)
         id = id[0].translate(translation_table) + id[1:]
     return str(id)
