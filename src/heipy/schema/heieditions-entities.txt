@@ -75,6 +75,10 @@
 <!-- Ligatures -->
 <!-- LATIN SMALL LIGATURE CT --> <!ENTITY ctlig "<g ref='char:ctlig'>&#xEEC5;</g>">
 <!-- LATIN SMALL LIGATURE FT --> <!ENTITY ftlig "<g ref='char:ftlig'>&#xEECB;</g>">
+<!-- LATIN SMALL LETTER AE --> <!ENTITY aelig "&#x00E6;">
+<!-- LATIN CAPITAL LETTER AE --> <!ENTITY AElig "&#x00C6;">
+<!-- LATIN SMALL LIGATURE OE --> <!ENTITY oelig "&#x0153;">
+<!-- LATIN CAPITAL LIGATURE OE --> <!ENTITY OElig "&#x0152;">
 <!-- LATIN SMALL LETTER Q LIGATED WITH FINAL ET --> <!ENTITY qet "<g ref='char:qet'>&#xE8BF;</g>">
 <!-- LATIN EARLY MODERN ET CETERA LIGATURE --> <!ENTITY etcem "<g ref='char:etcem'>&#x204A;c</g>">
 <!-- LATIN EARLY MODERN ET CETERA LIGATURE WITH FLATTENED OPEN A --> <!ENTITY etcemra "<g ref='char:etcemra'>&#x204A;c&#x1DD3;</g>">
