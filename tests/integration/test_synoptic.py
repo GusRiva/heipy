@@ -44,5 +44,5 @@ class TestSynopticPipeline:
             result = pipe_synoptic.execute(file)
             # output_file_path = synoptic_fixtures_dir / f"expected/{file_name}"
             # output_file_path.write_text(result, encoding="utf-8")
-            assert_xml_equal(result, heiparse(synoptic_fixtures_dir / f"expected/{file_name}"))
+            assert_xml_equal(heiparse(synoptic_fixtures_dir / f"expected/{file_name}"), result)
         return

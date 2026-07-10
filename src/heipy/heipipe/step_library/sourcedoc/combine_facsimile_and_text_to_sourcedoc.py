@@ -8,12 +8,13 @@ from ....namespaces import ns, hei_ns, xml_ns, tei_ns
 
 hei_belongs_to_zone = hei_ns / "belongsToZone"
 stopper_tags = [tei_ns / x for x in ["lb", 'pb', 'cb']]
-def combine_facsimile_text(root: et.Element, parameters=None):
+def combine_facsimile_text(tree: et.ElementTree, parameters=None):
+    root = tree.getroot()
     sourcedoc_el = et.Element( tei_ns / 'sourceDoc')
     facsimile_el = root.find('tei:facsimile', ns)
     if facsimile_el is None:
         root.append(sourcedoc_el)
-        return root
+        return tree
     text_zones_by_id = dict()
     image_zones_by_id = dict()
     gap_zones_by_id = dict()
@@ -136,7 +137,7 @@ def combine_facsimile_text(root: et.Element, parameters=None):
         root.remove(delenda)
     root.append(sourcedoc_el)
 
-    return root
+    return tree
 
 
 def append_text(element, text):

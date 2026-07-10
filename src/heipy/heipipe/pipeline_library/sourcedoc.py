@@ -1,7 +1,8 @@
 from ..step_library.sourcedoc import combine_facsimile_and_text_to_sourcedoc, prepare_figure_4_source_doc, split_everything_at_physical_beginnings, split_word_at_physical_beginnings, split_table_at_physical_beginnings, move_table_to_zone
 from ..steps import Pipeline
-from ..step_library import revision_spans, initials, transcription_note, connect_lb_and_segment, move_physical_beginnings, whitespaces,  number_line_segment_beginnings, remove_gap_page, wrap_resolved_content, add_vertical_layout, mark_note_as_editorial, container2milestone, resolve_facs_atts
-
+from ..step_library import revision_spans, initials, transcription_note, connect_lb_and_segment, \
+    move_physical_beginnings, whitespaces, number_line_segment_beginnings, remove_gap_page, wrap_resolved_content, \
+    add_vertical_layout, mark_note_as_editorial, container2milestone, resolve_facs_atts, delete_comments
 
 milestone_element_map = {
         'ab' : 'hc:Chunk',
@@ -62,6 +63,7 @@ class SourceDocPipe(Pipeline):
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0
+            delete_comments.get_step(),
             initials.get_step(),
             revision_spans.get_step(),
             transcription_note.get_step(),

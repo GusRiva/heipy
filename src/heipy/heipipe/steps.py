@@ -732,8 +732,10 @@ class PythonStep(BaseStep):
     A class representing a processing step that executes a Python function on an XML input.
 
     Attributes:
-        funct (callable): The Python function to be executed. It should accept an XML root element
-            as its first argument and optionally a parameters dictionary as its second argument.
+        funct (callable): The Python function to be executed. It should accept an lxml
+            ElementTree as its first argument (call tree.getroot() internally to get the
+            root element) and optionally a parameters dictionary as its second argument.
+            It must return an ElementTree.
         parameters (dict, optional): A dictionary of parameters to be passed to the function.
             Defaults to None.
         name (str, optional): The name of the step. Defaults to None.
@@ -767,11 +769,12 @@ class PythonStep(BaseStep):
 
     def execute(self, input_string, serial=False):
         input_string_enc = input_string.encode("utf-8")
-        root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
+        input_stream = io.BytesIO(input_string_enc)
+        tree = et.parse(input_stream, parser=HeiEditionsParser())
         if self.parameters is None or len(self.parameters) == 0:
-            result = self.funct(root)
+            result = self.funct(tree)
         else:
-            result = self.funct(root, self.parameters)
+            result = self.funct(tree, self.parameters)
         result = et.tostring(result, encoding="unicode")
         if self.serial or serial:
             super()._serialize(result)

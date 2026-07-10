@@ -2,11 +2,20 @@ from ....namespaces import ns
 from ...steps import PythonStep
 from copy import deepcopy
 import uuid
-import random
 from lxml import etree as et
 
 
-def split_at_physical_beginnings_func(root, parameters=None):
+def _new_uuid() -> uuid.UUID:
+    """Generate a UUID for new split-element ids.
+
+    Uses uuid.uuid4() (os.urandom-backed) rather than a seedable RNG so that
+    ids stay globally unique across pipeline runs. Tests monkeypatch this
+    function to get reproducible ids to compare against fixed fixtures.
+    """
+    return uuid.uuid4()
+
+
+def split_at_physical_beginnings_func(tree, parameters=None):
     ''' Aim: split elements containing physical beginnings at these beginnings
 
     # The script works recursively - it goes on splitting elements upwards
@@ -25,8 +34,8 @@ def split_at_physical_beginnings_func(root, parameters=None):
     # Author: Jakub Šimek
     # With changes from: Gustavo Riva'''
 
-    # random.seed(42)
-    
+    root = tree.getroot()
+
     def check():
         # function checking whether there are any cases to be dealt with;
         # it is used to run the split() function recursively
@@ -227,8 +236,7 @@ def split_at_physical_beginnings_func(root, parameters=None):
             first_part.text = text 
             # new id for the element, if no id is set:
             if "{http://www.w3.org/XML/1998/namespace}id" not in first_part.keys():
-                # element_uuid = uuid.UUID(int=random.getrandbits(128))
-                element_uuid = uuid.uuid4()
+                element_uuid = _new_uuid()
                 first_part_id = element_name + "_" + str(element_uuid)
                 first_part.set(
                     "{http://www.w3.org/XML/1998/namespace}id", first_part_id)
@@ -246,8 +254,7 @@ def split_at_physical_beginnings_func(root, parameters=None):
                     if bloc[0] == "content" and i != 0:
                         new_part = et.Element(
                             tag, attrib=relevant_element.attrib)
-                        # new_part_uuid = uuid.UUID(int=random.getrandbits(128))
-                        new_part_uuid = uuid.uuid4()
+                        new_part_uuid = _new_uuid()
                         new_part_id = element_name + \
                                       "_" + str(new_part_uuid)
                         new_part.set(
@@ -303,7 +310,7 @@ def split_at_physical_beginnings_func(root, parameters=None):
             if type(result_list[-1]) == str:
                 last_new_element = et.Element(
                     tag, attrib=relevant_element.attrib)
-                last_new_element_uuid = uuid.UUID(int=random.getrandbits(128))
+                last_new_element_uuid = _new_uuid()
                 last_new_element_id = element_name + "_" + str(last_new_element_uuid)
                 last_new_element.set(
                     "{http://www.w3.org/XML/1998/namespace}id", last_new_element_id)
@@ -348,7 +355,7 @@ def split_at_physical_beginnings_func(root, parameters=None):
             should_check = False
         split(relevant_elements)
 
-    return root
+    return tree
 
 
 def get_step():

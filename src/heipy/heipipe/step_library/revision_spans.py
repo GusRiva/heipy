@@ -24,7 +24,8 @@ span_config = {
 }
 
 
-def revision_spans_funct(root, parameters=None):
+def revision_spans_funct(tree, parameters=None):
+    root = tree.getroot()
     start_element = root.find("tei:text", ns)
     if start_element is None:
         start_element = root.find("tei:sourceDoc", ns)
@@ -88,8 +89,8 @@ def revision_spans_funct(root, parameters=None):
                 node.attrib['ana'] = f"{previous_ana.replace(this_ana, '')} {new_ana}".strip() if previous_ana is not None else new_ana
                 elements_processed.add(node)
                 wrap_tail(node, this_span_config, span_to)
-                    
-    return root
+
+    return tree
 
 
 def wrap_tail(element:et.Element, config:dict, span_to:str):

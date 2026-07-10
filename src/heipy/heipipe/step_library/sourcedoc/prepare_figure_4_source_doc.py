@@ -1,7 +1,8 @@
 from ....namespaces import ns
 from ...steps import PythonStep
 
-def prepare_figure_4_source_doc(root, parameters=None):
+def prepare_figure_4_source_doc(tree, parameters=None):
+    root = tree.getroot()
     # aim:
     # prepare figure and table elements for transformation from "text" to "sourceDoc"
     # mainly by extracting content not belonging to a corresponding figure or table zone
@@ -70,7 +71,7 @@ def prepare_figure_4_source_doc(root, parameters=None):
         for extracted in flattenedExtract:
             figure.addnext(extracted)
 
-    return root
+    return tree
 
 def get_step():
     return PythonStep(funct=prepare_figure_4_source_doc, name="Prepare Figure for SourceDoc")

@@ -4,7 +4,8 @@ from ..steps import PythonStep
 from ...colors import RED, RESET
 
 
-def move_note_func(root, parameters):
+def move_note_func(tree, parameters):
+    root = tree.getroot()
     # aim:
     #   Process "note" alements carrying the target attribute in this way:
     #   - move the "note" (wherever it is) directly after the element stated as target
@@ -91,7 +92,7 @@ def move_note_func(root, parameters):
                     note.tail = None
                     target.insert(len(target), note)
 
-    return root
+    return tree
 
 def get_step():
     return PythonStep(

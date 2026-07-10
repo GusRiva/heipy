@@ -10,10 +10,11 @@ _POSITIONAL_REGEX = re.compile(r'^([a-z][a-z0-9\+\.\-]*):\b(left|right)\b\((.+)\
 _DIRECT_REGEX = re.compile(r'^([a-z][a-z0-9\+\.\-]*):(.+)$')
 
 
-def append_synoptic_links_funct(root, parameters=None):
+def append_synoptic_links_funct(tree, parameters=None):
+    root = tree.getroot()
     if parameters is None:
         Warning.warn("parameters for append_synoptic_links is empty, this does nothing.")
-        return root
+        return tree
     sigla_mapping = parameters.get('sigla_mapping')
     synoptic_map_path = os.path.abspath(parameters['synoptic_map'])
     synoptic_map_root = et.parse(synoptic_map_path, parser=HeiEditionsParser())
@@ -22,15 +23,15 @@ def append_synoptic_links_funct(root, parameters=None):
     base_file_config = sigla_mapping.get(base_file_name)
     if base_file_config is None:
         print(f"ERROR: Could not find configuration for {base_file_name} in the configuration file.")
-        return root
+        return tree
     base_file_prefix = base_file_config.get('synoptic_pre')
     if base_file_prefix is None:
         print(f"ERROR: Could not find prefix for {base_file} in the configuration file.")
-        return root
+        return tree
     listPrefixDef_out = root.find('.//tei:listPrefixDef', namespaces=ns)
     if listPrefixDef_out is None:
         print(f"ERROR: Could not find listPrefixDef in {base_file}. Please include it!")
-        return root
+        return tree
     old_prefixDef = [x for x in listPrefixDef_out.iterchildren(et.Element)] # We need to delete repeated prefixDef in the synoptic_map.xml and in the concrete witness. We keep the ones from the synoptic map.
     old_idents = {x.get('ident'):x for x in old_prefixDef}
     for prefixdef in synoptic_map_root.findall('.//tei:prefixDef', namespaces=ns):
@@ -129,7 +130,7 @@ def append_synoptic_links_funct(root, parameters=None):
             ptr.set('target', target_relative_to_gap([target_prefix, target_pos, target_id]))
         hook_el.addprevious(linkgrp)
 
-    return root
+    return tree
 
 
 def gap_xmlid(pos:str,id:str):

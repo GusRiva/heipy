@@ -1,5 +1,7 @@
 from ..steps import Pipeline, DeleteStep
-from ..step_library import revision_spans, mark_note_as_editorial, container2milestone, move_note, move_layout_milestones, ptr2ref, filter_visual_information, add_id_2_note, whitespaces,number_line_segment_beginnings, suppress_first_cb
+from ..step_library import revision_spans, mark_note_as_editorial, container2milestone, move_note, \
+    move_layout_milestones, ptr2ref, filter_visual_information, add_id_2_note, whitespaces, \
+    number_line_segment_beginnings, suppress_first_cb, delete_comments
 from ..step_library.synoptic import change_prefixdef_ref
 
 
@@ -34,6 +36,7 @@ class SynopticPipe(Pipeline):
         # SourceDoc Pipeline Standard
         pipe_steps = [
             # Index: 0
+            delete_comments.get_step(),
             DeleteStep(elements=['tei:zone[@ana="hc:LineZone"]'], name="delete_facs"),
             DeleteStep(elements=['tei:metamark',
                                  'tei:fw',
