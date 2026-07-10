@@ -18,4 +18,4 @@ def test_basic(fixture_loader):
     step.add_parameter('structure_file_path', f'{FIXTURES_DIR}/structure_file_basic.xml')
     result_string = step.execute(input_string)
 
-    assert_xml_equal(result_string, expected_tree)
+    assert_xml_equal(expected_tree, result_string)

@@ -9,6 +9,9 @@ This module provides common fixtures used across all test modules including:
 - Comparison helper fixtures
 """
 
+import random
+import uuid
+
 import pytest
 from pathlib import Path
 from lxml import etree as et
@@ -17,6 +20,27 @@ from saxonche import PySaxonProcessor
 # Import heipy modules
 from heipy.parsers import HeiEditionsParser, heiparse
 from heipy.namespaces import ns
+from heipy.heipipe.step_library.sourcedoc import split_everything_at_physical_beginnings
+
+
+# ============================================================================
+# Determinism Fixtures
+# ============================================================================
+
+@pytest.fixture(autouse=True)
+def _deterministic_split_uuids(monkeypatch):
+    """
+    split_everything_at_physical_beginnings assigns new xml:id values via
+    uuid.uuid4(), which reads from os.urandom and can't be made reproducible
+    with random.seed(). Fixture comparisons need stable ids, so replace the
+    id source with a seeded generator for the duration of each test.
+    """
+    rng = random.Random(20260710)
+    monkeypatch.setattr(
+        split_everything_at_physical_beginnings,
+        "_new_uuid",
+        lambda: uuid.UUID(int=rng.getrandbits(128)),
+    )
 
 
 # ============================================================================

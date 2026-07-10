@@ -20,24 +20,24 @@ class TestPythonStepInitialization:
 
     def test_init_with_function(self):
         """Test initialization with a function."""
-        def dummy_func(root, parameters=None):
-            return root
+        def dummy_func(tree, parameters=None):
+            return tree
 
         step = PythonStep(funct=dummy_func, name="test_step")
         assert step.get_name() == "test_step"
 
     def test_init_without_name(self):
         """Test initialization without name."""
-        def dummy_func(root, parameters=None):
-            return root
+        def dummy_func(tree, parameters=None):
+            return tree
 
         step = PythonStep(funct=dummy_func)
         assert step.get_name() == "__PythonStep__"
 
     def test_init_with_parameters(self):
         """Test initialization with parameters."""
-        def dummy_func(root, parameters=None):
-            return root
+        def dummy_func(tree, parameters=None):
+            return tree
 
         params = {"key": "value"}
         step = PythonStep(funct=dummy_func, parameters=params)
@@ -51,10 +51,11 @@ class TestPythonStepExecution:
 
     def test_execute_simple_function(self):
         """Test executing a simple function."""
-        def simple_func(root, parameters=None):
+        def simple_func(tree, parameters=None):
             # Add a test attribute
+            root = tree.getroot()
             root.set("modified", "true")
-            return root
+            return tree
 
         step = PythonStep(funct=simple_func)
         input_xml = "<root/>"
@@ -65,10 +66,11 @@ class TestPythonStepExecution:
 
     def test_execute_with_text_content(self):
         """Test executing function on XML with text content."""
-        def uppercase_text(root, parameters=None):
+        def uppercase_text(tree, parameters=None):
+            root = tree.getroot()
             if root.text:
                 root.text = root.text.upper()
-            return root
+            return tree
 
         step = PythonStep(funct=uppercase_text)
         input_xml = "<root>hello world</root>"
@@ -79,9 +81,10 @@ class TestPythonStepExecution:
 
     def test_execute_preserves_children(self):
         """Test that execution preserves child elements."""
-        def add_attribute(root, parameters=None):
+        def add_attribute(tree, parameters=None):
+            root = tree.getroot()
             root.set("processed", "yes")
-            return root
+            return tree
 
         step = PythonStep(funct=add_attribute)
         input_xml = "<root><child>content</child><child>more</child></root>"
@@ -100,10 +103,11 @@ class TestPythonStepWithParameters:
 
     def test_execute_with_single_parameter(self):
         """Test executing with a single parameter."""
-        def use_parameter(root, parameters):
+        def use_parameter(tree, parameters):
+            root = tree.getroot()
             value = parameters.get("test_param")
             root.set("result", value)
-            return root
+            return tree
 
         step = PythonStep(funct=use_parameter, parameters={"test_param": "expected_value"})
         input_xml = "<root/>"
@@ -114,12 +118,13 @@ class TestPythonStepWithParameters:
 
     def test_execute_with_multiple_parameters(self):
         """Test executing with multiple parameters."""
-        def use_multiple_params(root, parameters):
+        def use_multiple_params(tree, parameters):
+            root = tree.getroot()
             param1 = parameters.get("key1")
             param2 = parameters.get("key2")
             root.set("value1", param1)
             root.set("value2", param2)
-            return root
+            return tree
 
         step = PythonStep(
             funct=use_multiple_params,
@@ -134,12 +139,13 @@ class TestPythonStepWithParameters:
 
     def test_execute_without_parameters_optional(self):
         """Test executing function where parameters are optional."""
-        def optional_param_func(root, parameters=None):
+        def optional_param_func(tree, parameters=None):
+            root = tree.getroot()
             if parameters:
                 root.set("with_params", "true")
             else:
                 root.set("with_params", "false")
-            return root
+            return tree
 
         step = PythonStep(funct=optional_param_func)
         input_xml = "<root/>"
@@ -156,12 +162,13 @@ class TestPythonStepComplexTransformations:
 
     def test_add_child_elements(self):
         """Test function that adds child elements."""
-        def add_children(root, parameters=None):
+        def add_children(tree, parameters=None):
+            root = tree.getroot()
             for i in range(3):
                 child = et.SubElement(root, "child")
                 child.set("id", str(i))
                 child.text = f"Child {i}"
-            return root
+            return tree
 
         step = PythonStep(funct=add_children)
         input_xml = "<root/>"
@@ -175,12 +182,13 @@ class TestPythonStepComplexTransformations:
 
     def test_modify_nested_elements(self):
         """Test function that modifies nested elements."""
-        def modify_nested(root, parameters=None):
+        def modify_nested(tree, parameters=None):
             # Find all nested elements and add a class
+            root = tree.getroot()
             for elem in root.iter():
                 if elem.tag != root.tag:
                     elem.set("modified", "true")
-            return root
+            return tree
 
         step = PythonStep(funct=modify_nested)
         input_xml = """<root>
@@ -203,14 +211,15 @@ class TestPythonStepComplexTransformations:
 
     def test_remove_elements(self):
         """Test function that removes elements."""
-        def remove_empty(root, parameters=None):
+        def remove_empty(tree, parameters=None):
             # Remove elements with no text and no children
+            root = tree.getroot()
             for elem in list(root.iter()):
                 if elem != root and not elem.text and len(elem) == 0:
                     parent = elem.getparent()
                     if parent is not None:
                         parent.remove(elem)
-            return root
+            return tree
 
         step = PythonStep(funct=remove_empty)
         input_xml = """<root>
@@ -236,12 +245,13 @@ class TestPythonStepWithNamespaces:
 
     def test_execute_with_tei_namespace(self):
         """Test executing on TEI XML with namespace."""
-        def add_id_to_paragraphs(root, parameters=None):
+        def add_id_to_paragraphs(tree, parameters=None):
             # Find all TEI paragraphs and add IDs
+            root = tree.getroot()
             tei_ns = "http://www.tei-c.org/ns/1.0"
             for idx, p in enumerate(root.iter(f"{{{tei_ns}}}p")):
                 p.set(f"{{{tei_ns}}}n", str(idx + 1))
-            return root
+            return tree
 
         step = PythonStep(funct=add_id_to_paragraphs)
         input_xml = """<TEI xmlns="http://www.tei-c.org/ns/1.0">
@@ -270,9 +280,10 @@ class TestPythonStepReturnValues:
 
     def test_function_returns_modified_root(self):
         """Test that function's returned root is used."""
-        def return_modified(root, parameters=None):
+        def return_modified(tree, parameters=None):
+            root = tree.getroot()
             root.set("marker", "modified")
-            return root
+            return tree
 
         step = PythonStep(funct=return_modified)
         input_xml = "<root/>"
@@ -283,11 +294,11 @@ class TestPythonStepReturnValues:
 
     def test_function_returns_new_tree(self):
         """Test function that returns a completely new tree."""
-        def return_new_tree(root, parameters=None):
+        def return_new_tree(tree, parameters=None):
             # Create a new tree
             new_root = et.Element("new_root")
             new_root.set("type", "replacement")
-            return new_root
+            return et.ElementTree(new_root)
 
         step = PythonStep(funct=return_new_tree)
         input_xml = "<old_root/>"
@@ -309,9 +320,10 @@ class TestPythonStepSerialization:
         tmp_dir = tmp_path / "tmp"
         tmp_dir.mkdir()
 
-        def simple_transform(root, parameters=None):
+        def simple_transform(tree, parameters=None):
+            root = tree.getroot()
             root.set("processed", "yes")
-            return root
+            return tree
 
         step = PythonStep(funct=simple_transform, name="test_step", serial=True)
         step.set_index(0)
@@ -331,9 +343,10 @@ class TestPythonStepEdgeCases:
 
     def test_function_with_no_parameters_argument(self):
         """Test function that doesn't accept parameters argument."""
-        def no_param_arg(root):
+        def no_param_arg(tree):
+            root = tree.getroot()
             root.set("simple", "true")
-            return root
+            return tree
 
         step = PythonStep(funct=no_param_arg)
         input_xml = "<root/>"
@@ -344,8 +357,8 @@ class TestPythonStepEdgeCases:
 
     def test_whitespace_preservation(self):
         """Test that whitespace is preserved through transformation."""
-        def identity(root, parameters=None):
-            return root
+        def identity(tree, parameters=None):
+            return tree
 
         step = PythonStep(funct=identity)
         input_xml = "<root>  text with  spaces  </root>"
@@ -356,11 +369,12 @@ class TestPythonStepEdgeCases:
 
     def test_function_modifies_attributes(self):
         """Test function that modifies existing attributes."""
-        def modify_attributes(root, parameters=None):
+        def modify_attributes(tree, parameters=None):
+            root = tree.getroot()
             for elem in root.iter():
                 if 'id' in elem.attrib:
                     elem.set('id', f"modified_{elem.get('id')}")
-            return root
+            return tree
 
         step = PythonStep(funct=modify_attributes)
         input_xml = '<root id="r1"><child id="c1"/></root>'

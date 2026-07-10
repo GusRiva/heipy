@@ -1,5 +1,7 @@
 from ..steps import Pipeline, AddAttribute, DeleteStep
-from ..step_library import mark_note_as_editorial, move_note, filter_visual_information,ptr2ref, add_id_2_note, supply_id_divisions, whitespaces,number_line_segment_beginnings,final_cleanup, inject_structure, transpose
+from ..step_library import mark_note_as_editorial, move_note, filter_visual_information, ptr2ref, add_id_2_note, \
+    supply_id_divisions, whitespaces, number_line_segment_beginnings, final_cleanup, inject_structure, transpose, \
+    delete_comments
 from ..step_library import revision_spans, resolve_index_references
 from ...namespaces import prefix_format
 
@@ -16,6 +18,7 @@ class SemanticPipe(Pipeline):
         pipe_steps = [
             # Index: 0
             # validation.get_step(),
+            delete_comments.get_step(),
             DeleteStep(elements=['tei:zone[@ana="hc:LineZone"]'], name="delete_facs"),
             DeleteStep(elements=['tei:metamark',
                                  'tei:fw',

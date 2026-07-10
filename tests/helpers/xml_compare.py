@@ -710,7 +710,7 @@ def vanilla_compare_flow(step, fixture_loader, variant="basic"):
     input_string = fixture_loader.tree_to_string(input_tree)
     result_string = step.execute(input_string)
 
-    assert_xml_equal(result_string, expected_tree)
+    assert_xml_equal(expected_tree, result_string)
 
 
 def pipeline_compare_flow(
@@ -735,4 +735,4 @@ def pipeline_compare_flow(
         else et.parse(input_file.with_name(f"{input_file.stem}{input_file.suffix}"))
     )
 
-    assert_xml_equal(result, expected_tree)
+    assert_xml_equal(expected_tree, result)

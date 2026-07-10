@@ -1,10 +1,11 @@
 from ..steps import Pipeline, XsltStep
-from ..step_library import whitespaces
+from ..step_library import whitespaces, delete_comments
 
 
 class PlainTextPipe(Pipeline):
     def __init__(self, parameters = None):
         pipe_steps = [
+            delete_comments.get_step(),
             whitespaces.get_step(),
             XsltStep(files=["tei2plaintext.xsl"], name = "plaintext_main" , pipe_files=True)
         ]

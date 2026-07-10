@@ -42,10 +42,10 @@
     <pb n="121r" facs="#A3_121r"/>
     <cb n="a" facs="#A3_121r-a"/>
     <lb n="23"/>
-    <text ana="hc:CourtlyRomance hc:CompleteExpression" xml:id="text_6b65a6a4-8b81-48f6-b38a-088ca65ed389" next="#text_47378190-96da-1dac-72ff-5d2a386ecbe0">
-        <body xml:id="body_9a1de644-815e-f6d1-3b8f-aa1837f8a88b" next="#body_b74d0fb1-32e7-0629-8fad-c1a606cb0fb3">
-            <lg ana="hc:Couplet" xml:id="lg_972a8469-1641-9f82-8b9d-2434e465e150" next="#lg_17fc695a-07a0-ca6e-0822-e8f36c031199">
-                <l n="613" hei:altN="612" xml:id="l_613" next="#l_bd9c66b3-ad3c-2d6d-1a3d-1fa7bc8960a9">
+    <text ana="hc:CourtlyRomance hc:CompleteExpression" xml:id="text_8853f72b-5d73-8d99-6da3-f54973a0e909" next="#text_bc23bb3d-72c5-094c-37db-2d689ece9c90">
+        <body xml:id="body_8909f472-a6f4-0aab-c0a3-8bceab8a0551" next="#body_c642bc4a-1f42-3002-af76-d57f95abd8ee">
+            <lg ana="hc:Couplet" xml:id="lg_6339ca58-5890-a854-a270-5e65f8282186" next="#lg_5192dde0-f814-d440-18f0-b1f582427ea3">
+                <l n="613" hei:altN="612" xml:id="l_613" next="#l_1378425a-23ec-eb77-d3e8-0eba36b0b498">
                     <w xml:id="w_613_1">waſ</w>
                     <c> </c>
                     <w xml:id="w_613_2">tuott</w>
@@ -56,12 +56,12 @@
                     <c> </c>
                     <w xml:id="w_613_5">ane</w>
                     <c> </c>
-                    <subst xml:id="subst_bdd640fb-0667-1ad1-1c80-317fa3b1799d" next="#subst_23b8c1e9-3924-56de-3eb1-3b9046685257">
+                    <subst xml:id="subst_c3ef6d6e-ad48-f40b-a4c5-f49fd87a7a3a" next="#subst_62d4b35f-4eef-5031-8b42-508c26b81461">
                         <del rendition="hc:Strikethrough">
                             <w xml:id="w_613_6">muot</w>
                         </del>
                         </subst></l></lg></body></text><lb n="24"/>
-                        <text ana="hc:CourtlyRomance hc:CompleteExpression" xml:id="text_47378190-96da-1dac-72ff-5d2a386ecbe0"><body xml:id="body_b74d0fb1-32e7-0629-8fad-c1a606cb0fb3"><lg ana="hc:Couplet" xml:id="lg_17fc695a-07a0-ca6e-0822-e8f36c031199"><l n="613" hei:altN="612" xml:id="l_bd9c66b3-ad3c-2d6d-1a3d-1fa7bc8960a9"><subst xml:id="subst_23b8c1e9-3924-56de-3eb1-3b9046685257"><add hei:placeRef="hc:Inline">
+                        <text ana="hc:CourtlyRomance hc:CompleteExpression" xml:id="text_bc23bb3d-72c5-094c-37db-2d689ece9c90"><body xml:id="body_c642bc4a-1f42-3002-af76-d57f95abd8ee"><lg ana="hc:Couplet" xml:id="lg_5192dde0-f814-d440-18f0-b1f582427ea3"><l n="613" hei:altN="612" xml:id="l_1378425a-23ec-eb77-d3e8-0eba36b0b498"><subst xml:id="subst_62d4b35f-4eef-5031-8b42-508c26b81461"><add hei:placeRef="hc:Inline">
                             <w xml:id="w_613_7">guott</w>
                         </add>
                     </subst>

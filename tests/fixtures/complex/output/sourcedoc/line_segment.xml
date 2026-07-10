@@ -1,13 +1,13 @@
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument"><teiHeader><fileDesc><titleStmt><title ana="hc:MainTitle">Zone Milestone</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc><msDesc><msIdentifier><settlement>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument"><teiHeader><fileDesc><titleStmt><title ana="hc:MainTitle">Zone Milestone</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc><msDesc><msIdentifier><settlement>
                             <placeName>Paris</placeName>
                         </settlement><repository>
                             <orgName>Bibliothèque nationale de France</orgName>
                         </repository></msIdentifier></msDesc></sourceDesc></fileDesc><encodingDesc><listPrefixDef><prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/><prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"/></listPrefixDef></encodingDesc></teiHeader><sourceDoc><surface ana="hc:Page" xml:id="_121r" n="121r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bnf_fr1545_fol121-136/0001/image" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
                 <zone xml:id="_121ra" ana="hc:MainColumn hc:TextZone" n="a">
-                    <zone ana="hc:LineZone" n="1" xml:id="_121ra_1"><line xml:space="preserve" n="1"><milestone ana="hc:TextualExpression hc:CourtlyRomance hc:CompleteExpression" corresp="#d13e47"/><milestone ana="hc:ExpressionBody" corresp="#d13e48"/><milestone ana="hc:Paragraph" corresp="#d13e49"/>Linea 1</line></zone>
+                    <zone ana="hc:LineZone" n="1" xml:id="_121ra_1"><line xml:space="preserve" n="1"><milestone ana="hc:TextualExpression hc:CourtlyRomance hc:CompleteExpression" corresp="#d13e49"/><milestone ana="hc:ExpressionBody" corresp="#d13e50"/><milestone ana="hc:Paragraph" corresp="#d13e51"/>Linea 1</line></zone>
                     <zone ana="hc:LineZone" n="2" xml:id="_121ra_2"><line xml:space="preserve" n="2">Linea 2</line></zone>
                     <zone ana="hc:LineZone" n="3" xml:id="_121ra_3"><line xml:space="preserve" n="3">Linea 3</line>überlauf 2</zone>
                     <zone ana="hc:LineZone" n="4" xml:id="_121ra_4"><line xml:space="preserve" n="4">Linea 4 </line></zone>
-                    <zone ana="hc:LineZone" n="5" xml:id="_121ra_5"><line xml:space="preserve" n="5">Linea 5<anchor xml:id="d13e49"/><anchor xml:id="d13e48"/><anchor xml:id="d13e47"/></line></zone>
+                    <zone ana="hc:LineZone" n="5" xml:id="_121ra_5"><line xml:space="preserve" n="5">Linea 5<anchor xml:id="d13e51"/><anchor xml:id="d13e50"/><anchor xml:id="d13e49"/></line></zone>
                 </zone>
             </zone></surface></sourceDoc></TEI>

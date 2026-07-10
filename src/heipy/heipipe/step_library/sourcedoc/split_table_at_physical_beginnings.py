@@ -10,7 +10,7 @@ TEI_NS = "http://www.tei-c.org/ns/1.0"
 XML_NS = "http://www.w3.org/XML/1998/namespace"
 
 
-def split_at_physical_beginnings_func(root, parameters=None):
+def split_at_physical_beginnings_func(tree, parameters=None):
     ''' Aim: split tables at pb/cb elements.
 
     Tables can span across page/column breaks. This step splits such tables
@@ -22,6 +22,7 @@ def split_at_physical_beginnings_func(root, parameters=None):
     # Author: Gustavo Riva
     '''
 
+    root = tree.getroot()
     random.seed(42)
 
     def find_tables_with_breaks():
@@ -109,7 +110,7 @@ def split_at_physical_beginnings_func(root, parameters=None):
 
         insert_after.addnext(second_table)
 
-    return root
+    return tree
 
 
 def get_step():

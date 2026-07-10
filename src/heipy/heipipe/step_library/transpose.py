@@ -5,7 +5,8 @@ from ..steps import PythonStep
 from ...namespaces import ns, xml_ns
 from ...heiwarning import HeiWarning
 
-def transpose_funct(root, parameters=None):
+def transpose_funct(tree, parameters=None):
+    root = tree.getroot()
     found_transpose = False
     id_dict = {}
     range_regex =  r"#range\((\w+),\s*(\w+)\)"
@@ -25,8 +26,8 @@ def transpose_funct(root, parameters=None):
                     wrapper_id = wrap_range(id_dict, rt_1, rt_2)
                     ptr.attrib['target'] = '#' + wrapper_id
             else:
-               warnings.warn(f"Invalid target in ptr: {ptr_target}", HeiWarning) 
-    
+               warnings.warn(f"Invalid target in ptr: {ptr_target}", HeiWarning)
+
     for editorial_transposition in root.xpath(".//tei:link[contains(@ana, 'hc:EditorialTransposition')]", namespaces=ns):
         if not found_transpose:
             found_transpose = True
@@ -41,8 +42,8 @@ def transpose_funct(root, parameters=None):
                 target = '#' + wrapper_id
             new_target.append(target)
         editorial_transposition.attrib['target'] = " ".join(new_target)
-            
-    return root
+
+    return tree
 
 def create_id_dict(root):
     id_dict = {}

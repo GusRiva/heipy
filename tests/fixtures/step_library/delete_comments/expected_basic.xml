@@ -1,0 +1,31 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Delete Comments Test</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Test publication statement</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Test source description</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  
+  <text xml:id="text_1" ana="hc:Article">
+    <body>
+      
+      <p xml:id="p1">
+        <w xml:id="w_p1_1">Hello</w><c> </c>world
+        <w xml:id="w_p1_2">again</w>
+      </p>
+      <p xml:id="p2"/>
+      <p xml:id="p3">
+        
+        
+        <w xml:id="w_p3_1">Still here</w>
+      </p>
+    </body>
+  </text>
+</TEI>

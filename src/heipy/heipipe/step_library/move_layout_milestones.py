@@ -7,7 +7,7 @@ from ...namespaces import ns, prefix_format
 # Moves pb and cb to the beginning of next vers, for the synopsis
 
 
-def move_milestones(root, parameters=None):
+def move_milestones(tree, parameters=None):
     """
     Moves page break (pb) and column break (cb) elements to the beginning of the next
     verse (l), titlePart, or paragraph (p) element.
@@ -15,6 +15,7 @@ def move_milestones(root, parameters=None):
     This is necessary for proper synopsis formatting where layout milestones should
     appear at the start of textual content rather than between structural elements.
     """
+    root = tree.getroot()
     # Parent contexts where we should move milestones (pre-compute as set for O(1) lookup)
     valid_parent_contexts = set([prefix_format('tei', x) for x in ['body', 'front', 'back', 'text', 'lg', 'div', 'ab']])
 
@@ -46,7 +47,7 @@ def move_milestones(root, parameters=None):
     for milestone_el, target in elements_to_move:
         target.insert(0, milestone_el)
 
-    return root
+    return tree
 
 
 def find_next_target(element, target_tags):

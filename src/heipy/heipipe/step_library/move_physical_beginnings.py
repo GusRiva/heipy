@@ -1,8 +1,9 @@
 from ..steps import PythonStep
 from ...namespaces import ns
 
-def move_physical_beginnings(root, parameters=None):
+def move_physical_beginnings(tree, parameters=None):
     ''''''
+    root = tree.getroot()
     pb_list = root.xpath("""//tei:pb
     [not(preceding-sibling::* or preceding-sibling::text()[normalize-space() != ''])]""", namespaces=ns)
 
@@ -42,7 +43,7 @@ def move_physical_beginnings(root, parameters=None):
     for milestone in line_segment_list:
         _move_before(milestone, milestone.getparent(), root)
 
-    return root
+    return tree
 
 def _move_before(movendum, target, root):
     # $movendum: the element to be moved

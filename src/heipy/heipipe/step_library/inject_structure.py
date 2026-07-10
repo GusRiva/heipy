@@ -6,7 +6,7 @@ from ...namespaces import ns, tei_ns, xml_ns
 from ...colors import RED, RESET
 
 
-def inject_structure_func(root: et.Element, parameters=None):
+def inject_structure_func(tree: et.ElementTree, parameters=None):
     """
     Inject div structure into TEI document based on a structure configuration file.
 
@@ -15,12 +15,13 @@ def inject_structure_func(root: et.Element, parameters=None):
     and placed into the new structure according to ptr ranges.
 
     Parameters:
-        root: The root element of the TEI document
+        tree: The ElementTree of the TEI document
         parameters: Dictionary containing 'structure_file_path' key with path to structure XML
 
     Returns:
-        Modified root element with div structure injected
+        Modified ElementTree with div structure injected
     """
+    root = tree.getroot()
     if isinstance(parameters, list) and len(parameters) > 0:
         if len(parameters) > 0:
             parameters = {k: v for d in parameters for k, v in d.items()}
@@ -88,9 +89,9 @@ def inject_structure_func(root: et.Element, parameters=None):
             if following_el.tag == tei_ns / 'div':
                 following_el.insert(0, pb_outside_div)
                 break
-    
-    
-    return root
+
+
+    return tree
 
 
 def build_structural_element(structure_elem, source_root, id_index):
