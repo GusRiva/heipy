@@ -49,7 +49,10 @@
         namespace="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS"
         >
         <xsl:text>#</xsl:text>
-        <xsl:value-of select="//zone[@xml:id=substring-after( $facs, '#')]/ancestor::zone[ tokenize(@ana,'\s+') = ('hc:TextZone', 'hc:ImageZone', 'hc:GraphicZone', 'hc:TableZone')]/@xml:id"/>
+        <!-- [1]: nur die naechste (innerste) passende Zone waehlen; bei verschachtelten
+             Zonen (z.B. ImageZone > TextZone) wuerde value-of sonst beide xml:id mit
+             Leerzeichen verketten und der belongsToZone-Wert liesse sich nicht aufloesen -->
+        <xsl:value-of select="//zone[@xml:id=substring-after( $facs, '#')]/ancestor::zone[ tokenize(@ana,'\s+') = ('hc:TextZone', 'hc:ImageZone', 'hc:GraphicZone', 'hc:TableZone')][1]/@xml:id"/>
       </xsl:attribute>
     </xsl:copy>
   </xsl:template>
