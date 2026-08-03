@@ -20,6 +20,6 @@ curl -sSX PUT -H "Content-type: application/xml" --upload-file $file "http://ser
 
 if [ -n "${reindex}" ]; then
   echo "trigger reindex"
-  curl -sS "https://digi.ub.uni-heidelberg.de/diglit/_reindex/${reindex}" | grep -v -E "<pre>|<h1>"
+  curl -sSf -o /dev/null "https://digi.ub.uni-heidelberg.de/diglit/_reindex/${reindex}" 2>> tmp/errors.log
 fi
 echo "eXist upload for ›${path}‹ finished."
