@@ -23,7 +23,11 @@ class SemanticPipe(Pipeline):
             DeleteStep(elements=['tei:metamark',
                                  'tei:fw',
                                  "tei:label[contains(@ana, 'hc:DivisionMark')]",
-                                 "hei:cue"], name="delete_irrelevant_elements_for_semantic"),
+                                 "hei:cue",
+                                 "tei:ab[contains(@ana, 'hc:Shelfmark')]",
+                                 "tei:ab[contains(@ana, 'hc:OwnershipInscription')]"
+                                 ], 
+                       name="delete_irrelevant_elements_for_semantic"),
             filter_visual_information.get_step(),
             transpose.get_step(),
             ptr2ref.get_step(),
