@@ -345,7 +345,8 @@ def create_synopse_graphs(
     for input_file in input:
         wit_graph = nx.DiGraph()
         root = et.parse(input_file, parser=HeiEditionsParser())
-        file_mapping = sigla_mapping.get(input_file.split("/")[-1])
+        file_mapping = sigla_mapping.get(input_file.split("/")[1] + ".xml")
+        
         prefix = None
         if file_mapping:
             prefix = file_mapping.get("synoptic_pre")
@@ -369,8 +370,12 @@ def create_synopse_graphs(
     for pre1, pre2 in permutations(prefixes, 2):
         graph1 = witness_graphs[pre1]
         graph2 = witness_graphs[pre2]
-        start_node = [node for node in graph1.nodes() if graph1.in_degree(node) == 0][0]
-        print(f"Starting processing nodes from {pre1} to {pre2}")
+        print(f"Processing nodes in text {output} from {pre1} to {pre2}")
+        start_node = [node for node in graph1.nodes() if graph1.in_degree(node) == 0]
+        if len(start_node) < 1:
+            warnings.warn(f"Could not find start node for {pre1}!: Skipping.")
+            continue
+        start_node = start_node[0]
         process_nodes(start_node, syn_graph, graph1, pre1, graph2, pre2, None, None)
 
     non_gap_graph = syn_graph.subgraph([x for x in syn_graph.nodes() if syn_graph.nodes[x].get('type') != 'gap'])
