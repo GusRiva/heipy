@@ -170,6 +170,22 @@ def restore_entities(source_file: str, target_file: str) -> None:
 
 
 def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
+    """
+    Builds (or rebuilds) the tei:langUsage element in a TEI document's profileDesc,
+    based on all xml:lang attributes actually used in the document.
+
+    Args:
+        source: A file path (str or Path) or an already parsed lxml ElementTree.
+
+    Returns:
+        The parsed ElementTree with tei:langUsage/tei:language children set to
+        the standardized language tags found in the document.
+
+    Example:
+        >>> from heipy.editions_utils import create_langusage
+        >>> tree = create_langusage('texts/my_edition.xml')
+        >>> tree.write('texts/my_edition.xml', encoding='utf-8')
+    """
     if isinstance(source, str):
         source = Path(source)
     if isinstance(source, Path):
