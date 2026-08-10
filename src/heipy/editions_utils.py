@@ -1,5 +1,5 @@
 from .parsers import heiparse
-from .namespaces import ns, tei_ns
+from .namespaces import ns, tei_ns, xml_ns
 from pathlib import Path
 import importlib.resources
 import re
@@ -204,7 +204,10 @@ def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
         profile_desc.append(lang_usage)
     lang_usage.clear()
     
-    all_langs = set(source.xpath('.//*/@xml:lang'))
+    text_el = source.find('.//tei:text', namespaces=ns)
+    
+    all_langs = set(text_el.xpath('.//*/@xml:lang'))
+    all_langs.add(text_el.get(xml_ns / 'lang'))
     
     for lang in all_langs:
         lang_obj = Language.get(lang)
