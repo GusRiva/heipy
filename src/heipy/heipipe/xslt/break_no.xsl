@@ -20,11 +20,12 @@
   
   <xsl:template match="lb">
     <xsl:copy>
+        <xsl:copy-of select="@*"/>
         <xsl:if test="ancestor::w and not(@break)">
             <xsl:attribute name="break">no</xsl:attribute>
         </xsl:if>
+        <xsl:apply-templates/>
     </xsl:copy>
-    
   </xsl:template>
   
 </xsl:stylesheet>
