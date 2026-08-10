@@ -1,9 +1,13 @@
 from .parsers import heiparse
-from .namespaces import ns
+from .namespaces import ns, tei_ns
 from pathlib import Path
 import importlib.resources
 import re
 from typing import Dict
+import warnings
+from lxml import etree as et
+from langcodes import standardize_tag, Language
+
 
 def create_configuration_json(input_files:list)->dict:
     output_dict = {}
@@ -24,7 +28,7 @@ def create_configuration_json(input_files:list)->dict:
         
         output_dict[file_name] = file_dict
 
-    return
+    return output_dict
 
 
 def _get_entity_declarations() -> Dict[str, str]:
@@ -163,3 +167,37 @@ def restore_entities(source_file: str, target_file: str) -> None:
 
                 new_line = ''.join(result_parts)
                 target.write(new_line + '\n')
+
+
+def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
+    if isinstance(source, str):
+        source = Path(source)
+    if isinstance(source, Path):
+        source = heiparse(source)
+    
+    lang_usage = source.find('.//tei:langUsage', namespaces= ns)
+    if lang_usage is None:
+        lang_usage = et.Element(tei_ns / 'langUsage')
+        profile_desc = source.find('.//tei:profileDesc', namespaces= ns)
+        if profile_desc is None:
+            sibling = source.find('.//tei:encodingDesc', namespaces= ns)
+            if sibling is None:
+                sibling = source.find('.//tei:fileDesc', namespaces= ns)
+            profile_desc = et.Element(tei_ns / 'profileDesc')
+            sibling.addnext(profile_desc)
+        profile_desc.append(lang_usage)
+    lang_usage.clear()
+    
+    all_langs = set(source.xpath('.//*/@xml:lang'))
+    
+    for lang in all_langs:
+        lang_obj = Language.get(lang)
+        if not lang_obj.is_valid():
+            warnings.warn(f"Found an invalid language tag: {lang}!!")
+            return source
+        lang_standard = str(lang_obj)
+        lang_usage.append(et.Element(tei_ns / 'language', {'ident': lang_standard}))
+        
+    return source
+
+

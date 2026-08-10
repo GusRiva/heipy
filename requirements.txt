@@ -12,3 +12,4 @@ requests~=2.32.3
 saxonche~=12.6.0
 six~=1.16.0
 urllib3~=2.2.2
+langcodes~=3.5.1
