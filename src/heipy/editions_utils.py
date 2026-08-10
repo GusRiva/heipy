@@ -212,7 +212,9 @@ def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
             warnings.warn(f"Found an invalid language tag: {lang}!!")
             return source
         lang_standard = str(lang_obj)
-        lang_usage.append(et.Element(tei_ns / 'language', {'ident': lang_standard}))
+        language_el = et.Element(tei_ns / 'language', {'ident': lang_standard})
+        language_el.text = lang_obj.display_name('de')
+        lang_usage.append(language_el)
         
     return source
 
