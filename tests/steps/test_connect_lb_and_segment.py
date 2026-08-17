@@ -1,7 +1,7 @@
 """Tests for connect_lb_and_segment step."""
 
 
-from heipy.heipipe.step_library import connect_lb_and_segment
+from heipy.heipipe.step_library.sourcedoc import connect_lb_and_segment
 from tests.helpers.xml_compare import vanilla_compare_flow
 
 

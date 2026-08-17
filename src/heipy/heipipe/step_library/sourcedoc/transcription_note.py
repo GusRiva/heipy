@@ -1,4 +1,4 @@
-from ..steps import XsltStep
+from ...steps import XsltStep
 
 
 def get_step():

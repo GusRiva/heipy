@@ -1,28 +1,27 @@
 from ..step_library import (
-    add_vertical_layout,
     break_no,
-    connect_lb_and_segment,
     container2milestone,
     delete_comments,
-    initials,
     mark_note_as_editorial,
-    move_physical_beginnings,
     number_line_segment_beginnings,
     reg_levels,
-    remove_gap_page,
-    resolve_facs_atts,
     revision_spans,
-    transcription_note,
     whitespaces,
-    wrap_resolved_content,
 )
 from ..step_library.sourcedoc import (
+    add_vertical_layout,
     combine_facsimile_and_text_to_sourcedoc,
+    connect_lb_and_segment,
+    initials,
+    move_physical_beginnings,
     move_table_to_zone,
     prepare_figure_4_source_doc,
+    remove_gap_page,
+    resolve_facs_atts,
     split_everything_at_physical_beginnings,
     split_table_at_physical_beginnings,
     split_word_at_physical_beginnings,
+    transcription_note,
 )
 from ..steps import Pipeline
 

@@ -1,5 +1,5 @@
-from ..steps import PythonStep
-from ...namespaces import ns
+from ...steps import PythonStep
+from heipy.namespaces import ns
 
 def move_physical_beginnings(tree, parameters=None):
     ''''''

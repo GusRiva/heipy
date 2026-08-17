@@ -1,4 +1,4 @@
-from ..steps import DeleteStep
+from ...steps import DeleteStep
 
 def get_step():
     return DeleteStep(elements=[
