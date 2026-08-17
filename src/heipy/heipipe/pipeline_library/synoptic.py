@@ -1,8 +1,8 @@
 from ..steps import Pipeline, DeleteStep
 from ..step_library import revision_spans, mark_note_as_editorial, container2milestone, move_note, \
-    move_layout_milestones, ptr2ref, filter_visual_information, add_id_2_note, whitespaces, \
-    number_line_segment_beginnings, suppress_first_cb, delete_comments, break_no, reg_levels
-from ..step_library.synoptic import change_prefixdef_ref
+    ptr2ref, filter_visual_information, add_id_2_note, whitespaces, \
+    number_line_segment_beginnings, delete_comments, break_no, reg_levels
+from ..step_library.synoptic import move_layout_milestones, suppress_first_cb, change_prefixdef_ref
 
 
 

@@ -1,7 +1,7 @@
 from lxml import etree as et
 
-from ..steps import PythonStep
-from ...namespaces import ns, prefix_format
+from ...steps import PythonStep
+from heipy.namespaces import ns, prefix_format
 
 
 # Moves pb and cb to the beginning of next vers, for the synopsis
