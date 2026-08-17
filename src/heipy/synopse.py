@@ -108,7 +108,8 @@ def create_synopse_graphs(
     output:str, 
     sigla_mapping: dict = {}, 
     map_criterion="xml:id", 
-    base_text:str | None = None
+    base_text:str | None = None,
+    tags_to_consider: list = None
 ):
     valid_map_criterion = ["n", "xml:id", "hei:altN"]
     if map_criterion not in valid_map_criterion:
@@ -118,7 +119,7 @@ def create_synopse_graphs(
 
     sigla_mapping = {} if sigla_mapping is None else sigla_mapping
     output_file = output if output is not None else 'synopses/default/synoptic.xml'
-    tags_to_consider = ["l", "p"]
+    tags_to_consider = ["l", "p", "ab"] if tags_to_consider is None else tags_to_consider
     witness_graphs = {}
     syn_graph = nx.Graph()
     # xmlids = {}
