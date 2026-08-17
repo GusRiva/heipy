@@ -1,9 +1,9 @@
 import re
 import warnings
 from lxml import etree as et
-from ..steps import PythonStep
-from ...namespaces import ns, xml_ns
-from ...heiwarning import HeiWarning
+from ...steps import PythonStep
+from ....namespaces import ns, xml_ns
+from ....heiwarning import HeiWarning
 
 def transpose_funct(tree, parameters=None):
     root = tree.getroot()

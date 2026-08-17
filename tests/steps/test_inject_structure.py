@@ -1,6 +1,6 @@
 """Tests for inject structure step."""
 
-from heipy.heipipe.step_library import inject_structure
+from heipy.heipipe.step_library.semantic import inject_structure
 from tests.helpers.xml_compare import assert_xml_equal
 
 FIXTURES_DIR = "tests/fixtures/step_library/inject_structure/"

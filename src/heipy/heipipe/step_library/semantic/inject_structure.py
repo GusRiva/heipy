@@ -1,9 +1,9 @@
 from lxml import etree as et
 import re
 
-from ..steps import PythonStep
-from ...namespaces import ns, tei_ns, xml_ns
-from ...colors import RED, RESET
+from ...steps import PythonStep
+from ....namespaces import ns, tei_ns, xml_ns
+from ....colors import RED, RESET
 
 
 def inject_structure_func(tree: et.ElementTree, parameters=None):

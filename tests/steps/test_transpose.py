@@ -1,6 +1,6 @@
 """Tests for transpose / Umstellungen."""
 
-from heipy.heipipe.step_library import transpose
+from heipy.heipipe.step_library.semantic import transpose
 from tests.helpers.xml_compare import vanilla_compare_flow
 
 
