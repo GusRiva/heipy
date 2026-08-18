@@ -117,6 +117,40 @@ def test_roundtrip_with_entities(minimal_fixtures_dir, tmp_path):
 - `normalize_for_comparison(xml_input, ...)` - Optional normalization (use sparingly)
 - `get_xpath_to_element(elem, root)` - Generate XPath for debugging
 
+## Compare-Flow Helpers
+
+`xml_compare.py` also provides two end-to-end helpers that load fixtures, run
+a step, and assert equality in one call — used by `tests/steps/test_*.py`.
+
+### `vanilla_compare_flow(step, fixture_loader, variant="basic", generate_auto=False)`
+For single-step tests following the standard `input_<variant>.xml` /
+`expected_<variant>.xml` naming convention:
+
+```python
+from heipy.heipipe.step_library import my_step
+from tests.helpers.xml_compare import vanilla_compare_flow
+
+def test_basic(fixture_loader):
+    vanilla_compare_flow(my_step, fixture_loader)
+```
+
+When `generate_auto=True`, the actual transformation output is written to
+`auto_expected_<variant>.xml` next to the fixtures **before** the assertion
+runs, so it's available for inspection whether the test passes or fails.
+`auto_expected_*.xml` is git-ignored (see `.gitignore`). Defaults to `False`
+to keep normal test runs side-effect-free; pass it explicitly while
+iterating on a step's transformation, e.g.
+`vanilla_compare_flow(my_step, fixture_loader, generate_auto=True)`.
+
+For a standalone way to generate `auto_expected_*.xml` without running
+pytest at all, see `tests/helpers/generate_expected.py` (documented in
+`knowledge/FIXTURE_STRATEGY.md`).
+
+### `pipeline_compare_flow(pipeline, input_file, compare_file, generate_auto=False, debug=None)`
+Same idea for a full `Pipeline` run against file paths instead of a single
+step against fixture trees; writes `auto_<compare_file.name>` when
+`generate_auto=True`.
+
 ## Location
-- Module: `/home/gusriva/Dokumente/Editionen/EditionVieGregoire/heipy/tests/helpers/xml_compare.py`
+- Module: `/home/gustavo/Dokumente/Editionen/EditionBoner/heipy/tests/helpers/xml_compare.py`
 - Tests: Used throughout `tests/parsers/` and `tests/steps/`

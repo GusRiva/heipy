@@ -1,7 +1,7 @@
 from ..steps import Pipeline, DeleteStep
 from ..step_library import revision_spans, mark_note_as_editorial, container2milestone, move_note, \
     move_layout_milestones, ptr2ref, filter_visual_information, add_id_2_note, whitespaces, \
-    number_line_segment_beginnings, suppress_first_cb, delete_comments, break_no
+    number_line_segment_beginnings, suppress_first_cb, delete_comments, break_no, reg_levels
 from ..step_library.synoptic import change_prefixdef_ref
 
 
@@ -49,6 +49,7 @@ class SynopticPipe(Pipeline):
             
             ptr2ref.get_step(),
             break_no.get_step(),
+            reg_levels.get_step(),
             filter_visual_information.get_step(),
             move_layout_milestones.get_step(),
             mark_note_as_editorial_step,

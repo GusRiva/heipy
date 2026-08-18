@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Delete Comments Test</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Test publication statement</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Test source description</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text xml:id="text_1" ana="hc:Article">
+    <body>
+      <p xml:id="p1">
+        <w xml:id="w_71_5_1"><choice><orig>V</orig><reg hei:additiveRegularizationLevel="1">u</reg><reg hei:additiveRegularizationLevel="2">u</reg></choice>nd</w>
+        <w xml:id="w_71_6_3">n<choice><orig>u̓</orig><reg hei:additiveRegularizationLevel="1">ü</reg><reg hei:additiveRegularizationLevel="2" ana="hc:StandardMHGRegularization">ih</reg></choice>t</w>
+        <w xml:id="w_71_1_5">da<choice><orig hei:additiveRegularizationLevel="1">s</orig><reg hei:additiveRegularizationLevel="2" ana="hc:StandardMHGRegularization">z</reg></choice></w>
+      </p>
+    </body>
+  </text>
+</TEI>

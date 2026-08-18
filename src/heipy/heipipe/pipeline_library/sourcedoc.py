@@ -1,8 +1,30 @@
+from ..step_library import (
+    add_vertical_layout,
+    break_no,
+    connect_lb_and_segment,
+    container2milestone,
+    delete_comments,
+    initials,
+    mark_note_as_editorial,
+    move_physical_beginnings,
+    number_line_segment_beginnings,
+    reg_levels,
+    remove_gap_page,
+    resolve_facs_atts,
+    revision_spans,
+    transcription_note,
+    whitespaces,
+    wrap_resolved_content,
+)
+from ..step_library.sourcedoc import (
+    combine_facsimile_and_text_to_sourcedoc,
+    move_table_to_zone,
+    prepare_figure_4_source_doc,
+    split_everything_at_physical_beginnings,
+    split_table_at_physical_beginnings,
+    split_word_at_physical_beginnings,
+)
 from ..steps import Pipeline
-from ..step_library import revision_spans, initials, transcription_note, connect_lb_and_segment, \
-    move_physical_beginnings, whitespaces, number_line_segment_beginnings, remove_gap_page, wrap_resolved_content, \
-    add_vertical_layout, mark_note_as_editorial, container2milestone, resolve_facs_atts, delete_comments, break_no
-from ..step_library.sourcedoc import combine_facsimile_and_text_to_sourcedoc, prepare_figure_4_source_doc, split_everything_at_physical_beginnings, split_word_at_physical_beginnings, split_table_at_physical_beginnings, move_table_to_zone
 
 milestone_element_map = {
         'ab' : 'hc:Chunk',
@@ -71,6 +93,7 @@ class SourceDocPipe(Pipeline):
             resolve_facs_atts.get_step(),
             connect_lb_and_segment.get_step(),
             split_table_at_physical_beginnings.get_step(),
+            reg_levels.get_step(),
             move_physical_beginnings.get_step(),
             whitespaces.get_step(),
             mark_note_as_editorial_step,

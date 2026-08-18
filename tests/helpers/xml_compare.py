@@ -699,16 +699,26 @@ def assert_text_equal(
             raise AssertionError("\n".join(error_parts))
 
 
-def vanilla_compare_flow(step, fixture_loader, variant="basic"):
+def vanilla_compare_flow(step, fixture_loader, variant="basic", generate_auto=False):
     # Initialize step
     step = step.get_step()
+    step_name = step.get_name()
+
     # Load as pair using structured API (returns tuple of trees)
     input_tree, expected_tree = fixture_loader.load_step_pair(
-        step.get_name(), variant=variant
+        step_name, variant=variant
     )
 
     input_string = fixture_loader.tree_to_string(input_tree)
     result_string = step.execute(input_string)
+
+    if generate_auto:
+        actual_path = fixture_loader.get_step_fixture_path(
+            step_name, f"auto_expected_{variant}"
+        )
+        with codecs.open(actual_path, "w", "utf-8") as out:
+            out.write(result_string)
+        print(f"Wrote actual output to: {actual_path}")
 
     assert_xml_equal(expected_tree, result_string)
 
