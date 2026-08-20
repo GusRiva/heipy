@@ -1,0 +1,19 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Test Document</title>
+			</titleStmt>
+			<publicationStmt>
+				<p>Test publication statement</p>
+			</publicationStmt>
+			<sourceDesc>
+				<p>Test source description</p>
+			</sourceDesc>
+		</fileDesc>
+	</teiHeader>
+	<text>
+		<body>
+		</body>
+	</text>
+</TEI>
