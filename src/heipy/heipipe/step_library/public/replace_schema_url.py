@@ -7,7 +7,7 @@ from ....heiwarning import HeiWarning
 
 def replace_schema_url_func(tree, parameters=None):
     if parameters is None:
-        warnings.warn("No new Schema URL was given for the Public Pipeline.", HeiWarning)
+        warnings.warn("No new Schema URL was given for the Public Pipeline. Use the parameter 'schema_url' in the step 'replace_schema_url'.", HeiWarning)
         return tree
     if 'schema_url' in parameters:
         schema_url = parameters['schema_url']

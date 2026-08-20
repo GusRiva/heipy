@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+<!DOCTYPE TEI SYSTEM "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt">
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title ana="hc:MainTitle">Tokenized</title>
+            </titleStmt>
+            <publicationStmt>
+                <p></p>
+            </publicationStmt>
+            <sourceDesc>
+                <p></p>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <listPrefixDef>
+            </listPrefixDef>
+        </encodingDesc>
+    </teiHeader>
+
+    <facsimile>
+        <surface ana="hc:Page" xml:id="A3_121r" n="121r">
+            <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bnf_fr1545_fol121-136/0001/image" mimeType="image/*"/>
+            <zone ana="hc:MarginalZone hc:TextZone" xml:id="A3_121r-mt" n="mt"/>
+            <zone ana="hc:HorizontalLayout">
+                <zone xml:id="A3_121r-a" ana="hc:MainColumn hc:TextZone" n="a"/>
+                <zone xml:id="A3_121r-b" ana="hc:MainColumn hc:TextZone" n="b"/>
+            </zone>
+        </surface>
+        <surface ana="hc:Page" xml:id="A3_121v" n="121v">
+            <graphic url="https://digi.ub.uni-heidelberg.de/diglit/bnf_fr1545_fol121-136/0002/image" mimeType="image/*"/>
+            <zone ana="hc:HorizontalLayout">
+                <zone xml:id="A3_121v-a" ana="hc:MainColumn hc:TextZone" n="a"/>
+                <zone xml:id="A3_121v-b" ana="hc:MainColumn hc:TextZone" n="b"/>
+            </zone>
+        </surface>
+    </facsimile>
+
+    <text ana="hc:CourtlyRomance hc:CompleteExpression" xml:lang="de">
+        <body>
+            <pb n="121r" facs="#A3_121r"/>
+            <cb n="a" facs="#A3_121r-a"/>
+            <lg ana="hc:Couplet">
+                <l n="1" hei:altN="1" xml:id="l_1">
+                    <lb n="1"/>
+                    <w>Contenido</w><c> </c>
+                    <w>de</w><c> </c>
+                    <w>la</w><c> </c>
+                    <w>primera</w><c> </c>
+                    <w>linea</w>
+                </l>
+                <l n="2" hei:altN="2" xml:id="l_2">
+                    <lb n="2"/>
+                    <w>Contenido</w><c> </c>
+                    <w>de</w><c> </c>
+                    <w>la</w><c> </c>
+                    <w>treg<lb n="3"/>unda</w><c> </c>
+                    <w>linea</w>
+                </l>
+            </lg>
+        </body>
+    </text>
+</TEI>

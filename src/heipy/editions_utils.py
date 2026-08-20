@@ -189,7 +189,7 @@ def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
     if isinstance(source, str):
         source = Path(source)
     if isinstance(source, Path):
-        source = heiparse(source)
+        source:et.etree = heiparse(source)
     
     lang_usage = source.find('.//tei:langUsage', namespaces= ns)
     if lang_usage is None:
@@ -204,12 +204,14 @@ def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
         profile_desc.append(lang_usage)
     lang_usage.clear()
     
-    text_el = source.find('.//tei:text', namespaces=ns)
+    text_el = source.find('.//tei:text', ns)
     
     all_langs = set(text_el.xpath('.//*/@xml:lang'))
     all_langs.add(text_el.get(xml_ns / 'lang'))
     
     for lang in all_langs:
+        if lang is None:
+            raise Exception("There should be at least one xml:lang in the file!")
         lang_obj = Language.get(lang)
         if not lang_obj.is_valid():
             warnings.warn(f"Found an invalid language tag: {lang}!!")

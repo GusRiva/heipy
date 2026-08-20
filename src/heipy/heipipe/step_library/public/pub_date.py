@@ -4,7 +4,7 @@ from ....namespaces import ns
 
 def pub_date_funct(tree, parameters=None):
     root = tree.getroot()
-    publ_stmt = root.xpath("//tei:publStmt", ns)
+    publ_stmt = root.xpath(".//tei:publStmt", namespaces=ns)
     return tree
 
 
