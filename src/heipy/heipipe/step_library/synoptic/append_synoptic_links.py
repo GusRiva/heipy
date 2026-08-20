@@ -1,9 +1,10 @@
 import os
 import re
 from lxml import etree as et
-from ..steps import PythonStep
-from ...parsers import HeiEditionsParser
-from ...namespaces import ns, prefix_format
+from ...steps import PythonStep
+from ....parsers import HeiEditionsParser
+from ....namespaces import ns, prefix_format
+
 
 # Compile regexes once at module level for performance
 _POSITIONAL_REGEX = re.compile(r'^([a-z][a-z0-9\+\.\-]*):\b(left|right)\b\((.+)\)$')

@@ -4,7 +4,7 @@ Tests for full pipelines
 """
 from heipy.parsers import heiparse
 from heipy.heipipe.pipeline_library.synoptic import SynopticPipe
-from heipy.heipipe.step_library import append_synoptic_links
+from heipy.heipipe.step_library.synoptic import append_synoptic_links
 from tests.helpers.xml_compare import assert_xml_equal
 
 
