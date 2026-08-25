@@ -1,19 +1,17 @@
-import os
-from pathlib import Path
 import codecs
-import itertools
-import warnings
-from collections import defaultdict, OrderedDict
-from lxml import etree as et
-import importlib.resources
+import os
 import re
-import networkx as nx
-from itertools import permutations
 import shutil
+import warnings
+from itertools import permutations
+from pathlib import Path
 
-from .parsers import HeiEditionsParser
-from .namespaces import ns, prefix_format, ns_tags
+import networkx as nx
+from lxml import etree as et
+
 from .heiwarning import HeiWarning
+from .namespaces import ns, ns_tags, prefix_format
+from .parsers import HeiEditionsParser
 
 
 def _first_element(clique, base_text: str | None = None):
@@ -104,19 +102,25 @@ def parse_target(target: str):
 
 
 def create_synopse_graphs(
-    input: list, 
+    input: list[str], 
     output:str, 
-    sigla_mapping: dict = {}, 
+    sigla_mapping: dict | None = None, 
     map_criterion="xml:id", 
     base_text:str | None = None,
-    tags_to_consider: list = None
+    tags_to_consider: list | None = None
 ):
     valid_map_criterion = ["n", "xml:id", "hei:altN"]
     if map_criterion not in valid_map_criterion:
         raise NameError(
             f"The parameter map_criterion must be one of {valid_map_criterion}"
         )
-
+    map_criterion_std = None
+    if map_criterion == 'xml:id':
+        map_criterion_std = prefix_format("xml", "id")
+    elif map_criterion == 'n':
+        map_criterion_std = "n"
+    elif map_criterion == 'hei:altN':
+        map_criterion_std = prefix_format("hei", "altN")
     sigla_mapping = {} if sigla_mapping is None else sigla_mapping
     output_file = output if output is not None else 'synopses/default/synoptic.xml'
     tags_to_consider = ["l", "p", "ab"] if tags_to_consider is None else tags_to_consider
@@ -127,7 +131,7 @@ def create_synopse_graphs(
     for input_file in input:
         wit_graph = nx.DiGraph()
         root = et.parse(input_file, parser=HeiEditionsParser())
-        file_mapping = sigla_mapping.get(input_file.split("/")[1])
+        file_mapping = sigla_mapping.get(input_file.split("/", maxsplit=1)[1])
         
         prefix = None
         if file_mapping:
@@ -138,7 +142,7 @@ def create_synopse_graphs(
         prefixes.append(prefix)
         previous = None
         for line in root.iter(*ns_tags(ns.get("tei"), *tags_to_consider)):
-            line_id = line.get(prefix_format("xml", "id"))
+            line_id = line.get(map_criterion_std)
             if line_id is None:
                 continue
             wit_graph.add_node(line_id)
@@ -153,6 +157,7 @@ def create_synopse_graphs(
         graph1 = witness_graphs[pre1]
         graph2 = witness_graphs[pre2]
         print(f"Processing nodes in text {output} from {pre1} to {pre2}")
+        
         start_node = [node for node in graph1.nodes() if graph1.in_degree(node) == 0]
         if len(start_node) < 1:
             warnings.warn(f"Could not find start node for {pre1}!: Skipping.")
@@ -161,9 +166,9 @@ def create_synopse_graphs(
         process_nodes(start_node, syn_graph, graph1, pre1, graph2, pre2, None, None)
 
     non_gap_graph = syn_graph.subgraph([x for x in syn_graph.nodes() if syn_graph.nodes[x].get('type') != 'gap'])
-    cliques = list()
+    cliques = []
     for clique in nx.find_cliques(non_gap_graph):
-        gap_nodes_for_clique = list()
+        gap_nodes_for_clique = []
         used_prefs = set()
         for cl_node in clique:
             edges = syn_graph.edges(cl_node)
@@ -187,8 +192,8 @@ def create_synopse_graphs(
     
     os.makedirs(os.path.dirname(output_file), exist_ok= True)
     
-    with codecs.open(output_file, mode='w', encoding='utf-8') as output:
-        output.write('''<?xml version='1.0' encoding='UTF-8'?>
+    with open(output_file, mode='w', encoding='utf-8') as output_obj:
+        output_obj.write('''<?xml version='1.0' encoding='UTF-8'?>
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
 	schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -209,21 +214,18 @@ def create_synopse_graphs(
          <listPrefixDef>
             <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/>
         ''')
-        for sig, sig_data in sigla_mapping.items():
-            output.write(f'    <prefixDef matchPattern="(.+)" ident="{sig_data['synoptic_pre']}" replacementPattern="../texts/{sig}/$1" ana="hc:SynopticTextPrefixDefinition"/>\n        ')
-        output.write('''</listPrefixDef>
+        output_obj.writelines(f'    <prefixDef matchPattern="(.+)" ident="{sig_data['synoptic_pre']}" replacementPattern="../texts/{sig}/$1" ana="hc:SynopticTextPrefixDefinition"/>\n        ' for sig, sig_data in sigla_mapping.items())
+        output_obj.write('''</listPrefixDef>
       </encodingDesc>
    </teiHeader>''')
-        output.write('<standOff>')
-        for cliq in cliques:
-            output.write(f'<link n="{extract_number_str(cliq)}" target="{' '.join(cliq)}"/>')
-        output.write('</standOff></TEI>')
+        output_obj.write('<standOff>')
+        output_obj.writelines(f'<link n="{extract_number_str(cliq)}" target="{' '.join(cliq)}"/>' for cliq in cliques)
+        output_obj.write('</standOff></TEI>')
     
     # Create the backup copy
     output_file_path = Path(output_file)
     shutil.copy2(output_file, output_file_path.with_name(f"{output_file_path.stem}.bak{output_file_path.suffix}"))
     
-    return
 
 
 def process_nodes(
@@ -290,46 +292,4 @@ def process_nodes(
         
         # Add next node to stack for processing
         stack.append((next_node, previous))
-    
-
-def write_synoptic_map_xml(G:nx.DiGraph, sigla_mapping:dict, output:str):
-    output_file = output if output is not None else 'synopses/synoptic.xml'
-    with codecs.open(output_file, mode='w', encoding='utf-8') as output:
-        output.write('''<?xml version='1.0' encoding='UTF-8'?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
-   <teiHeader>
-      <fileDesc>
-         <titleStmt>
-            <title>Synoptische Karte</title>
-         </titleStmt>
-         <publicationStmt>
-            <p>Publication Information</p>
-         </publicationStmt>
-         <sourceDesc>
-            <p>Information about the source</p>
-         </sourceDesc>
-      </fileDesc>
-      <encodingDesc>
-         <listPrefixDef>
-            <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/>
-        ''')
-        for sig, sig_data in sigla_mapping.items():
-            output.write(f'    <prefixDef matchPattern="(.+)" ident="{sig_data['synoptic_pre']}" replacementPattern="../texts/{sig}/$1" ana="hc:SynopticTextPrefixDefinition"/>\n        ')
-        output.write('''</listPrefixDef>
-      </encodingDesc>
-   </teiHeader>''')
-        output.write('<standOff>')
-        for node in sorted(list(G.nodes()), key= lambda x: x.split(':')[1]):
-            edges = G.out_edges(node)
-            if len(edges) < 1:
-                continue
-            output.write(f'<linkGrp target="{node}">')
-            for edge in edges:
-                output.write(f'<ptr target="{edge[1]}"/>')
-            output.write('</linkGrp>')
-        output.write('</standOff></TEI>')
-    return
     
