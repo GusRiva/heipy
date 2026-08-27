@@ -30,6 +30,8 @@
             <pb n="bs" facs="#helbing1895_06_10x_bs"/>
             <cb n="a" facs="#helbing1895_06_10x_bs-a"/>
             <table>
+                <head>Tabelle Überschirft mit <lb n="1"/>zwei Zeilen</head>
+                <head>Subheading</head>
                 <row role="label">
                     <cell hei:width="5%"><supplied>Lot</supplied></cell>
                     <cell hei:width="15%"><supplied>Kürzel</supplied></cell>
