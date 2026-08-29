@@ -131,7 +131,7 @@ def create_synopse_graphs(
     for input_file in input:
         wit_graph = nx.DiGraph()
         root = et.parse(input_file, parser=HeiEditionsParser())
-        file_mapping = sigla_mapping.get(input_file.split("/", maxsplit=1)[1])
+        file_mapping = sigla_mapping.get(f"{input_file.split('/')[1]}.xml")
         
         prefix = None
         if file_mapping:
@@ -214,7 +214,7 @@ def create_synopse_graphs(
          <listPrefixDef>
             <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/>
         ''')
-        output_obj.writelines(f'    <prefixDef matchPattern="(.+)" ident="{sig_data['synoptic_pre']}" replacementPattern="../texts/{sig}/$1" ana="hc:SynopticTextPrefixDefinition"/>\n        ' for sig, sig_data in sigla_mapping.items())
+        output_obj.writelines(f'    <prefixDef matchPattern="(.+)" ident="{sig_data['synoptic_pre']}" replacementPattern="../texts/{sig}/$1" ana="hc:SynopticTextPrefixDefinition"/>\n        ' for sig, sig_data in sigla_mapping.items() if sig_data.get('synoptic_pre') in witness_graphs)
         output_obj.write('''</listPrefixDef>
       </encodingDesc>
    </teiHeader>''')
