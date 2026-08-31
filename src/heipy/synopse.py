@@ -119,14 +119,26 @@ def parse_target(target: str):
 
 def create_synopse_graphs(
     input: list[str],
-    output: str | None = None,
+    output_file: str | None = None,
     sigla_mapping: dict | None = None,
     map_criterion="xml:id",
     base_text:str | None = None,
     tags_to_consider: list | None = None,
     number_pattern=DEFAULT_NUMBER_PATTERN,
-    output_format: str = 'file'
+    output_format: str = 'file',
+    *,
+    output: str | None = None,  # deprecated alias for output_file - remove once callers have migrated
 ):
+    if output is not None:
+        if output_file is not None:
+            raise ValueError("Pass only one of 'output' (deprecated) or 'output_file', not both.")
+        warnings.warn(
+            "The 'output' parameter is deprecated, use 'output_file' instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        output_file = output
+
     valid_map_criterion = ["n", "xml:id", "hei:altN"]
     if map_criterion not in valid_map_criterion:
         raise NameError(
@@ -137,6 +149,8 @@ def create_synopse_graphs(
         raise NameError(
             f"The parameter output_format must be one of {valid_output_formats}"
         )
+    if output_file is not None and output_format != 'file':
+        raise ValueError("'output_file' is only meaningful when output_format='file'.")
     map_criterion_std = None
     if map_criterion == 'xml:id':
         map_criterion_std = prefix_format("xml", "id")
@@ -178,7 +192,7 @@ def create_synopse_graphs(
     for pre1, pre2 in permutations(prefixes, 2):
         graph1 = witness_graphs[pre1]
         graph2 = witness_graphs[pre2]
-        print(f"Processing nodes in text {output} from {pre1} to {pre2}")
+        print(f"Processing nodes in text {output_file} from {pre1} to {pre2}")
         
         start_node = [node for node in graph1.nodes() if graph1.in_degree(node) == 0]
         if len(start_node) < 1:
@@ -255,7 +269,7 @@ def create_synopse_graphs(
 
     # output_format == 'file' (default): same on-disk behavior as before,
     # including the .bak copy.
-    output_file = output if output is not None else 'synopses/default/synoptic.xml'
+    output_file = output_file if output_file is not None else 'synopses/default/synoptic.xml'
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, mode='w', encoding='utf-8') as f:
         f.write(content)
