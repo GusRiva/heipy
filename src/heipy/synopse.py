@@ -1,15 +1,15 @@
-import codecs
+import io
 import os
 import re
 import shutil
 import warnings
 from itertools import permutations
 from pathlib import Path
+import xmlformatter
 
 import networkx as nx
 from lxml import etree as et
 
-from .heiwarning import HeiWarning
 from .namespaces import ns, ns_tags, prefix_format
 from .parsers import HeiEditionsParser
 
@@ -31,27 +31,43 @@ def _first_element(clique, base_text: str | None = None):
     return first_element
 
 
-def extract_number(clique, base_text: str | None = None):
-    """Returns a (major, minor) tuple for ordinal sorting, e.g. l_12.10 sorts after l_12.9."""
+# Default id-number extraction: the first digit run in the id (after the
+# "prefix:" part is stripped). Correct for ids with a single meaningful
+# numeric component (e.g. "l_12", "l_4629.1"), but not for schemes with
+# multiple independent numeric components (e.g. "l_<fable>_<verse>") where
+# it would grab the wrong one - callers with such ids should pass their own
+# number_pattern to create_synopse_graphs.
+DEFAULT_NUMBER_PATTERN = re.compile(r'\d+(?:\.\d+)?')
+
+
+def _number_segment(clique, base_text: str | None = None, number_pattern=DEFAULT_NUMBER_PATTERN) -> str | None:
+    """Resolves clique to its representative id and extracts the number_pattern match from it."""
     first_element = _first_element(clique, base_text)
     if first_element is None:
+        return None
+
+    pattern = number_pattern if isinstance(number_pattern, re.Pattern) else re.compile(number_pattern)
+    match = pattern.search(str(first_element).split(':', 1)[1])
+    return match.group() if match else None
+
+
+def extract_number(clique, base_text: str | None = None, number_pattern=DEFAULT_NUMBER_PATTERN):
+    """Returns a (major, minor) tuple for ordinal sorting, e.g. l_12.10 sorts after l_12.9."""
+    segment = _number_segment(clique, base_text, number_pattern)
+    if segment is None:
         return (0, 0)
 
-    match = re.search(r'(\d+)(?:\.(\d+))?', str(first_element).split(':', 1)[1])
+    match = re.match(r'(\d+)(?:\.(\d+))?', segment)
     if not match:
         return (0, 0)
     major, minor = match.groups()
     return (int(major), int(minor) if minor is not None else 0)
 
 
-def extract_number_str(clique, base_text: str | None = None) -> str:
-    """Like extract_number, but keeps the original digit string (e.g. trailing zeros)."""
-    first_element = _first_element(clique, base_text)
-    if first_element is None:
-        return "0"
-
-    match = re.search(r'\d+(?:\.\d+)?', str(first_element).split(':', 1)[1])
-    return match.group() if match else "0"
+def extract_number_str(clique, base_text: str | None = None, number_pattern=DEFAULT_NUMBER_PATTERN) -> str:
+    """Like extract_number, but keeps the original matched string (e.g. trailing zeros, letter suffixes)."""
+    segment = _number_segment(clique, base_text, number_pattern)
+    return segment if segment is not None else "0"
 
 
 def sort_clique(clq, base_text=None):
@@ -102,17 +118,24 @@ def parse_target(target: str):
 
 
 def create_synopse_graphs(
-    input: list[str], 
-    output:str, 
-    sigla_mapping: dict | None = None, 
-    map_criterion="xml:id", 
+    input: list[str],
+    output: str | None = None,
+    sigla_mapping: dict | None = None,
+    map_criterion="xml:id",
     base_text:str | None = None,
-    tags_to_consider: list | None = None
+    tags_to_consider: list | None = None,
+    number_pattern=DEFAULT_NUMBER_PATTERN,
+    output_format: str = 'file'
 ):
     valid_map_criterion = ["n", "xml:id", "hei:altN"]
     if map_criterion not in valid_map_criterion:
         raise NameError(
             f"The parameter map_criterion must be one of {valid_map_criterion}"
+        )
+    valid_output_formats = ["file", "string", "xml"]
+    if output_format not in valid_output_formats:
+        raise NameError(
+            f"The parameter output_format must be one of {valid_output_formats}"
         )
     map_criterion_std = None
     if map_criterion == 'xml:id':
@@ -122,7 +145,6 @@ def create_synopse_graphs(
     elif map_criterion == 'hei:altN':
         map_criterion_std = prefix_format("hei", "altN")
     sigla_mapping = {} if sigla_mapping is None else sigla_mapping
-    output_file = output if output is not None else 'synopses/default/synoptic.xml'
     tags_to_consider = ["l", "p", "ab"] if tags_to_consider is None else tags_to_consider
     witness_graphs = {}
     syn_graph = nx.Graph()
@@ -180,20 +202,20 @@ def create_synopse_graphs(
                         old_repeated = [x for x in gap_nodes_for_clique if x.startswith(f"{node_pref}:")]
                         if len(old_repeated) > 0:
                             old_repeated = old_repeated[0]
-                            repeated_sorted = sorted([old_repeated] + [con_node], key= extract_number)
+                            repeated_sorted = sorted([old_repeated] + [con_node], key=lambda x: extract_number(x, base_text, number_pattern))
                             gap_nodes_for_clique.remove(old_repeated)
                             con_node = repeated_sorted[-1] # If there is a conflict with many gaps in the same click for the same manuscript, use the biggest number, probably right
                     used_prefs.add(node_pref)   
                     gap_nodes_for_clique.append(con_node)
         cliques.append(sort_clique(list(clique), base_text) + gap_nodes_for_clique)
             
-    cliques = sorted(cliques, key=lambda clique: extract_number(clique, base_text))
+    cliques = sorted(cliques, key=lambda clique: extract_number(clique, base_text, number_pattern))
 
-    
-    os.makedirs(os.path.dirname(output_file), exist_ok= True)
-    
-    with open(output_file, mode='w', encoding='utf-8') as output_obj:
-        output_obj.write('''<?xml version='1.0' encoding='UTF-8'?>
+    # Build the document once in memory - output_format decides what happens
+    # to it (written to disk as before, or handed back to the caller to
+    # inspect/rewrite itself instead of round-tripping through the filesystem).
+    output_obj = io.StringIO()
+    output_obj.write('''<?xml version='1.0' encoding='UTF-8'?>
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
 	schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -214,18 +236,33 @@ def create_synopse_graphs(
          <listPrefixDef>
             <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/>
         ''')
-        output_obj.writelines(f'    <prefixDef matchPattern="(.+)" ident="{sig_data['synoptic_pre']}" replacementPattern="../texts/{sig}/$1" ana="hc:SynopticTextPrefixDefinition"/>\n        ' for sig, sig_data in sigla_mapping.items() if sig_data.get('synoptic_pre') in witness_graphs)
-        output_obj.write('''</listPrefixDef>
+    output_obj.writelines(f'    <prefixDef matchPattern="(.+)" ident="{sig_data['synoptic_pre']}" replacementPattern="../texts/{sig}/$1" ana="hc:SynopticTextPrefixDefinition"/>\n        ' for sig, sig_data in sigla_mapping.items() if sig_data.get('synoptic_pre') in witness_graphs)
+    output_obj.write('''</listPrefixDef>
       </encodingDesc>
    </teiHeader>''')
-        output_obj.write('<standOff>')
-        output_obj.writelines(f'<link n="{extract_number_str(cliq)}" target="{' '.join(cliq)}"/>' for cliq in cliques)
-        output_obj.write('</standOff></TEI>')
-    
-    # Create the backup copy
+    output_obj.write('<standOff>')
+    output_obj.writelines(f'<link n="{extract_number_str(cliq, base_text, number_pattern)}" target="{' '.join(cliq)}"/>' for cliq in cliques)
+    output_obj.write('</standOff></TEI>')
+    content = output_obj.getvalue()
+
+    formatter = xmlformatter.Formatter(selfclose=True)
+    content = formatter.format_string(content).decode('utf-8')
+
+    if output_format == 'string':
+        return content
+    if output_format == 'xml':
+        return et.fromstring(content.encode('utf-8'))
+
+    # output_format == 'file' (default): same on-disk behavior as before,
+    # including the .bak copy.
+    output_file = output if output is not None else 'synopses/default/synoptic.xml'
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    with open(output_file, mode='w', encoding='utf-8') as f:
+        f.write(content)
+
     output_file_path = Path(output_file)
     shutil.copy2(output_file, output_file_path.with_name(f"{output_file_path.stem}.bak{output_file_path.suffix}"))
-    
+    return None
 
 
 def process_nodes(
