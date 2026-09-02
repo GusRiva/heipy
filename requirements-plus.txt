@@ -1,0 +1,2 @@
+# Create synoptic map
+networkx~=3.5
