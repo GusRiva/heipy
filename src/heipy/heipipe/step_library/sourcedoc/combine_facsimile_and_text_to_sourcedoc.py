@@ -93,6 +93,10 @@ def combine_facsimile_text(tree: et.ElementTree, parameters=None):
                 line_zone = line_zones.get(lb.get('facs')[1:])
                 if line_zone is None:
                     print(f"Could not find linezone for: {lb.get('facs')}")
+                line_zone_id = line_zone.get(xml_ns / 'id')
+                if line_zone_id is not None:
+                    line_zone.attrib.pop(xml_ns / 'id')
+                    line.attrib[xml_ns / 'id'] = line_zone_id
                 line_zone.append(line)
             else:
                 zone.append(line)
