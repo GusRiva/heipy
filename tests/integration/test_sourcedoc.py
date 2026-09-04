@@ -15,7 +15,7 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               complex_fixtures_dir / "Gregoire_A3_Paris_simple.xml",
                               complex_fixtures_dir / "output/sourcedoc/Gregoire_A3_Paris_simple.xml",
-                              generate_auto=False
+                              generate_auto=True
                               )
         
     def test_sourcedoc_milestones(self, complex_fixtures_dir):
@@ -24,7 +24,7 @@ class TestSourcedocPipeline:
                               complex_fixtures_dir / "zone_milestones.xml", 
                               complex_fixtures_dir / "output/sourcedoc/zone_milestones.xml", 
                             #   debug= ['serial'],
-                              generate_auto=False, 
+                              generate_auto=True, 
                               )
         
     def test_sourcedoc_tables(self, complex_fixtures_dir):
@@ -32,7 +32,7 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(),
                               complex_fixtures_dir / "tabelle.xml", 
                               complex_fixtures_dir / "output/sourcedoc/tabelle.xml", 
-                              generate_auto=False, 
+                              generate_auto=True, 
                               )
     
     def test_sourcedoc_non_tokenized(self, complex_fixtures_dir):
@@ -40,7 +40,7 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               complex_fixtures_dir / "non_tokenized.xml", 
                               complex_fixtures_dir / "output/sourcedoc/non_tokenized.xml", 
-                              generate_auto=False
+                              generate_auto=True
                               )
         
     def test_sourcedoc_facs(self, complex_fixtures_dir):
@@ -48,7 +48,7 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               complex_fixtures_dir / "facs.xml", 
                               complex_fixtures_dir / "output/sourcedoc/facs.xml", 
-                              generate_auto=False
+                              generate_auto=True
                               )
 
     def test_sourcedoc_revision_spans(self, step_fixtures_dir, complex_fixtures_dir):
@@ -56,13 +56,13 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               step_fixtures_dir / "revision_spans/input_basic.xml", 
                               complex_fixtures_dir / "output/sourcedoc/revision_spans_basic.xml", 
-                              generate_auto=False
+                              generate_auto=True
                               )
     
         pipeline_compare_flow(SourceDocPipe(), 
                               step_fixtures_dir / "revision_spans/input_complex.xml", 
                               complex_fixtures_dir / "output/sourcedoc/revision_spans_complex.xml", 
-                              generate_auto=False
+                              generate_auto=True
                               )
     
     def test_sourcedoc_line_segment(self, complex_fixtures_dir):
@@ -70,7 +70,7 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               complex_fixtures_dir / "line_segment.xml", 
                               complex_fixtures_dir / "output/sourcedoc/line_segment.xml", 
-                              generate_auto=False
+                              generate_auto=True
                               )
     
     def test_sourcedoc_subst(self, complex_fixtures_dir, step_fixtures_dir):
@@ -78,6 +78,13 @@ class TestSourcedocPipeline:
         pipeline_compare_flow(SourceDocPipe(), 
                               step_fixtures_dir / "move_physical_beginnings/input_complex.xml", 
                               complex_fixtures_dir / "output/sourcedoc/subst-with-del.xml", 
-                              generate_auto=False
+                              generate_auto=True
                               )
 
+    def test_sourcedoc_marginalia(self, complex_fixtures_dir, step_fixtures_dir):
+        "Test add/ del in margin"
+        pipeline_compare_flow(SourceDocPipe(), 
+                              complex_fixtures_dir / "marginalia.xml", 
+                              complex_fixtures_dir / "output/sourcedoc/marginalia.xml", 
+                              generate_auto=True
+                              )

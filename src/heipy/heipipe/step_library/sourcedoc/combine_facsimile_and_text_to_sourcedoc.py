@@ -68,27 +68,51 @@ def combine_facsimile_text(tree: et.ElementTree, parameters=None):
                         img_zone.append(milestone_sibling)  
                     
     
-    # Get all the lb in a dict based on the zones
-    lb_by_belongsto = defaultdict(list)
-    for lb in root.xpath("//tei:lb", namespaces=ns):
-        lb_atts = lb.attrib
-        if hei_belongs_to_zone in lb_atts:
+    # Build a <line> for every <lb> and gather the content following it (words, milestones,
+    # marginal <add>/<del> excursions, ...) up to the next stopper.
+    #
+    # This is a single walk over the flattened body in document order - rather than grouping
+    # <lb> by zone and processing each zone's lines independently - so that content following a
+    # <milestone ana="hc:ZoneShift"> (i.e. text that resumes the SAME physical line after a
+    # marginal excursion, with no <lb> of its own) can be appended back onto the line that was
+    # already open for the target zone, instead of being silently dropped.
+    body_children = [
+        child for child in root
+        if child.tag not in (tei_ns / 'teiHeader', tei_ns / 'facsimile')
+    ]
+
+    current_line_by_zone = dict()
+    # lines for a <lb> without its own @facs go straight into the shared zone element and must
+    # be ordered by @n rather than document order (zone_milestones.xml deliberately encodes
+    # lines out of physical order), so they are collected here and appended afterwards
+    pending_lines_by_zone = defaultdict(list)
+    active_line = None
+    # set once we stop at a pb/cb/LineSegmentBeginning, so a later ZoneBeginning/ZoneShift
+    # marker (still meant for the dedicated LineSegmentBeginning pass below) can't resume a line
+    suspended = False
+
+    for node in body_children:
+        tag = node.tag
+        if isinstance(tag, type(et.Comment)):
+            continue
+        if tag == tei_ns / 'lb':
+            lb = node
+            lb_atts = lb.attrib
             belongs_to_zone = lb_atts.get(hei_belongs_to_zone)
-            lb_by_belongsto[belongs_to_zone].append(lb)
-        else:
-            print(f"lb with no hei_belongs_to_zone! {lb_atts}")
-              
-    
-    for zone_id, lbs in lb_by_belongsto.items():
-        zone = text_zones_by_id.get(zone_id[1:])
-        if zone is None:
-            zone = image_zones_by_id.get(zone_id[1:])
-            if zone is None:
-                warnings.warn(f"Could not find zone for {zone_id, [x.attrib for x in lbs]}. Maybe it is missing ana='hc:TextZone'?", HeiWarning)
+            if belongs_to_zone is None:
+                print(f"lb with no hei_belongs_to_zone! {lb_atts}")
+                active_line = None
+                suspended = False
                 continue
-        lbs_sorted = sorted(lbs, key = lambda x: float(x.get('n')))
-        for lb in lbs_sorted:
-            line = et.Element(tei_ns /'line', attrib= {xml_ns / 'space': 'preserve'})
+            zone = text_zones_by_id.get(belongs_to_zone[1:])
+            if zone is None:
+                zone = image_zones_by_id.get(belongs_to_zone[1:])
+                if zone is None:
+                    warnings.warn(f"Could not find zone for {belongs_to_zone, lb_atts}. Maybe it is missing ana='hc:TextZone'?", HeiWarning)
+                    active_line = None
+                    suspended = False
+                    continue
+            line = et.Element(tei_ns / 'line', attrib={xml_ns / 'space': 'preserve'})
             if lb.get('facs') is not None:
                 line_zone = line_zones.get(lb.get('facs')[1:])
                 if line_zone is None:
@@ -99,16 +123,39 @@ def combine_facsimile_text(tree: et.ElementTree, parameters=None):
                     line.attrib[xml_ns / 'id'] = line_zone_id
                 line_zone.append(line)
             else:
-                zone.append(line)
+                pending_lines_by_zone[zone].append(line)
 
             for lb_att_name, lb_att_value in lb.attrib.items():
-                if lb_att_name not in ['break', hei_ns /'belongsToZone', 'facs']:
+                if lb_att_name not in ['break', hei_belongs_to_zone, 'facs']:
                     line.set(lb_att_name, lb_att_value)
             if lb.tail is not None and lb.tail.strip() != '':
                 line.text = lb.tail
-            
-            process_following(lb, line)
-                
+
+            current_line_by_zone[belongs_to_zone] = line
+            active_line = line
+            suspended = False
+        elif tag in (tei_ns / 'pb', tei_ns / 'cb'):
+            active_line = None
+            suspended = True
+        elif tag == tei_ns / 'milestone':
+            milestone_ana = node.get('ana') or ''
+            if "hc:ZoneBeginning" in milestone_ana or "hc:ZoneShift" in milestone_ana:
+                if not suspended:
+                    active_line = current_line_by_zone.get(node.get('facs'))
+            elif "hc:LineSegmentBeginning" in milestone_ana:
+                if node.get(hei_ns / "belongsToLine") is None:
+                    print(f"Could not find line for {node}, with attributes {node.attrib}")
+                active_line = None
+                suspended = True
+            elif active_line is not None:
+                active_line.append(node)
+        elif active_line is not None:
+            active_line.append(node)
+
+    for zone, lines in pending_lines_by_zone.items():
+        for line in sorted(lines, key=lambda l: float(l.get('n'))):
+            zone.append(line)
+
 
     # Get all the milestones Segment Beginning
     segment_beginnings = defaultdict(list)
