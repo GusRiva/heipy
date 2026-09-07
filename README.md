@@ -33,7 +33,12 @@ Hinweise:
 
 ## heipipe: Das heiEDITIONS-Pipeline Modul
 
-from heipy.heipipe.steps import *
+from heipy.heipipe.steps import
+
+### Create Python / XSLT Step
+
+Mit VSCode: Extension "File Templates" von Bruno Paz.
+Ctrl+Shift+P: "Files: New file from template"
 
 ## Synopse
 

@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+    ],
+    "settings": {
+        "fileTemplates.templates_dir": "./code-templates"
+    },
+}
