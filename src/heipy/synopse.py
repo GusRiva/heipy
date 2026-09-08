@@ -167,7 +167,7 @@ def create_synopse_graphs(
     for input_file in input:
         wit_graph = nx.DiGraph()
         root = et.parse(input_file, parser=HeiEditionsParser())
-        file_mapping = sigla_mapping.get(f"{input_file.split('/')[1]}.xml")
+        file_mapping = sigla_mapping.get(os.path.basename(input_file))
         
         prefix = None
         if file_mapping:
