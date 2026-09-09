@@ -1,5 +1,4 @@
 # steps.py
-import codecs
 import importlib
 import io
 import os
@@ -9,19 +8,20 @@ import warnings
 from abc import abstractmethod
 from pathlib import Path
 from typing import Literal
+
 from lxml import etree as et
 from saxonche import PySaxonProcessor
 
-from ..namespaces import ns
 from ..colors import BLUE, RED, RESET
-from ..heiwarning import HeiWarning, HeiDeprecationWarning
+from ..heiwarning import HeiDeprecationWarning, HeiWarning
+from ..namespaces import ns
 from ..parsers import (
+    HeiEditionsParser,
+    OutputFormat,
     apply_xslt,
     heiparse,
-    HeiEditionsParser,
-    validate_xml_with_heieditions_schema,
     normalize_parameters,
-    OutputFormat
+    validate_xml_with_heieditions_schema,
 )
 
 
@@ -67,7 +67,7 @@ class BaseStep:
                 f"add_parameter() takes 1 (dict) or 2 (name, value) positional arguments "
                 f"but {len(args)} were given"
             )
-        return
+        
 
     def add_parameters(self, parameters: dict):
         """
@@ -88,7 +88,6 @@ class BaseStep:
         if not isinstance(parameters, dict):
             raise TypeError(f"parameters must be a dict, got {type(parameters)}")
         self.parameters.update(parameters)
-        return
 
     def get_desc(self):
         return self.desc
@@ -147,7 +146,6 @@ class BaseStep:
             content: Parameter value
         """
         self.parameters[key] = content
-        return
 
     def set_parameter_by_name(self, name: str, content):
         """
@@ -164,7 +162,6 @@ class BaseStep:
             stacklevel=2
         )
         self.parameters[name] = content
-        return
 
     def set_serial(self, value: bool):
         self.serial = value
@@ -176,12 +173,11 @@ class BaseStep:
             file_name = f"tmp/{self.index}_{self.name}.xml"
         if not file_name.endswith(".xml"):
             file_name += ".xml"
-        output_file_serial = codecs.open(f"{file_name}", "w", "utf-8")
-        output_file_serial.write(xml_string)
-        output_file_serial.close()
+        with open(f"{file_name}", "w", encoding="utf-8") as output_file_serial:
+            output_file_serial.write(xml_string)
 
     @abstractmethod
-    def execute(self, input_string, serial=False):
+    def execute(self, input, serial: bool = False) -> object:
         pass
 
 
@@ -228,7 +224,6 @@ class Pipeline(BaseStep):
         if len(self.steps) > 0:
             for idx, step in enumerate(self.steps):
                 step.set_index(idx)
-        return
 
     def __str__(self):
         return f"Pipeline »{self.name}« containing {len(self.steps)} steps."
@@ -236,9 +231,9 @@ class Pipeline(BaseStep):
     def add_step(
         self,
         step,
-        at_index: int = None,
-        after_step: str = None,
-        before_step: str = None,
+        at_index: int | None = None,
+        after_step: str | None = None,
+        before_step: str | None = None,
         serial=False,
         parameters=None,
     ):
@@ -318,12 +313,13 @@ class Pipeline(BaseStep):
             add_step_intern(step_index)
 
     def execute(self, 
-                input, 
+                input,
+                serial=False,
                 input_format: Literal["file", "xml_string"] = "file",
                 xinclude=False, 
                 egxml=False,
                 output_format: Literal["str", "etree", "bytes"] = "str", 
-                debug_options=None):
+                debug_options: list | None =None) -> str | et._ElementTree | bytes | None:
         """
         Executes the pipeline on the given input file with optimized batching.
 
@@ -337,10 +333,10 @@ class Pipeline(BaseStep):
         Returns:
             str: The processed string after all pipeline steps have been executed.
         """
-        output_format = OutputFormat(output_format)
+        output_format_enum = OutputFormat(output_format)
         debug_options = debug_options if debug_options is not None else []
         print(f"Starting Pipeline {BLUE}{self.name}{RESET} for {BLUE}{str(input)[:60]}{RESET}")
-        input_string = None
+        input_string: str | None = None
         source_base_uri = None
         if input_format == 'file':
             if not os.path.isfile(input):
@@ -348,13 +344,13 @@ class Pipeline(BaseStep):
                 return None
             source_base_uri = Path(os.path.abspath(input)).as_uri()
             input_string = heiparse(
-                input, output_format=OutputFormat.STR, xinclude=xinclude, egxml=egxml, base_url=str(input)
+                input, output_format="str", xinclude=xinclude, egxml=egxml, base_url=str(input)
             )
         elif input_format == 'xml_string':
             input_string = input
         else:
             warnings.warn(f"Input format {input_format} is invalid", HeiWarning)
-        pipe_serial = True if self.serial or 'serial' in debug_options else False
+        pipe_serial = bool(self.serial or 'serial' in debug_options)
 
         # Process steps with batching optimization
         i = 0
@@ -410,23 +406,22 @@ class Pipeline(BaseStep):
                 print(f"Elapsed time for '{step.get_name()}': {elapsed_time}")
         # if egxml:
         #     current_data = unscape_egxml(current_data)
-        if output_format == OutputFormat.STR:
+        if output_format_enum == OutputFormat.STR:
             return current_data
-        if output_format == OutputFormat.ETREE:
+        if output_format_enum == OutputFormat.ETREE:
             return et.fromstring(current_data.encode())
 
     def get_steps(self):
         return self.steps
 
-    def get_step_by_name(self, name: str) -> BaseStep:
+    def get_step_by_name(self, name: str) -> BaseStep | None:
         for step in self.get_steps():
             step_name = step.get_name()
             if step_name != name:
                 continue
             return step
-        return
 
-    def remove_step(self, step_name: str = None, step_index: int = None):
+    def remove_step(self, step_name: str | None= None, step_index: int | None = None):
         if (step_name, step_index).count(None) != 1:
             raise SyntaxError(
                 f"The function remove_step() must contain only one of the parameters step_name or step_index. Currently step_name={step_name} , step_index={step_index} ."
@@ -477,7 +472,6 @@ class Pipeline(BaseStep):
         else:
             raise TypeError(f"{step} should be string of integer")
         step_obj.set_parameter(parameter_name, parameter_value)
-        return
 
 
 class XsltStep(BaseStep):
@@ -613,9 +607,8 @@ class XsltStep(BaseStep):
             result = _execute_transformations(proc)
 
         # Serialize if requested
-        if self.serial or serial:
-            if not output_xdm:
-                super()._serialize(result)
+        if (self.serial or serial) and not output_xdm:
+            super()._serialize(result)
 
         return result
 
@@ -638,14 +631,11 @@ class AddAttribute(BaseStep):
 
 
     def __init__(
-
-        self, match:  str, att_name:  str, att_val:  str, name=None, desc=None, serial=None
-
+        self, match:  str, att_name:  str, att_val:  str, name=None, desc=None, serial=False
     ):
-        # Set default name to __AddAttribute__ instead of __None__
         if name is None:
             name = "__AddAttribute__"
-        super().__init__(name, desc, serial)
+        super().__init__(name, desc, serial=serial)
         self.match = match
         self.att_name = att_name
         self.att_val = att_val
@@ -653,8 +643,8 @@ class AddAttribute(BaseStep):
     def __str__(self):
         return f"Add Attribute Step »{self.name}«. match: {self.match}, att_name: {self.att_name}, att_val: {self.att_val}"
 
-    def execute(self, input_string, serial=False):
-        input_string_enc = input_string.encode("utf-8")
+    def execute(self, input, serial=False):
+        input_string_enc = input.encode("utf-8")
         root = et.fromstring(input_string_enc, parser=HeiEditionsParser())
         matches = root.xpath(f"{self.match}", namespaces=ns)
         for match in matches:
@@ -880,9 +870,8 @@ class UnwrapStep(BaseStep):
             with PySaxonProcessor(license=False) as shared_proc:
                 result = _process_elements(shared_proc)
 
-        if self.serial or serial:
-            if not output_xdm:
-                super()._serialize(result)
+        if (self.serial or serial) and not output_xdm:
+            super()._serialize(result)
 
         return result
 
@@ -898,11 +887,11 @@ class ValidationStep(BaseStep):
     def __str__(self):
         return f"Validation step »{self.name}«"
 
-    def execute(self, input_string, serial=False):
+    def execute(self, input, serial=False):
         try:
-            validate_xml_with_heieditions_schema(input_str=input_string)
+            validate_xml_with_heieditions_schema(input_str=input)
             print("Validation successful")
         except Exception as e:
             warnings.warn(f"{RED}Validation failed. {e}{RESET}")
             sys.exit(1)
-        return input_string
+        return input

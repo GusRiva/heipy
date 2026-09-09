@@ -11,7 +11,7 @@ import re
 import html
 import warnings
 from enum import Enum
-from typing import Any, Literal, TypedDict, Unpack
+from typing import Any, Literal, TypedDict, Unpack, overload
 
 from .colors import *
 from .namespaces import ns
@@ -109,12 +109,29 @@ def normalize_parameters(parameters):
     raise TypeError(f"parameters must be a dict or list, got {type(parameters)}")
 
 
-def heiparse(source, 
-             parser=None, 
-             input_format='file', 
-             output_format: Literal["str", "etree", "bytes"] = "etree", 
-             egxml=False, 
-             xinclude=False, 
+@overload
+def heiparse(source,
+             parser=None,
+             input_format='file',
+             output_format: Literal["etree"] = ...,
+             egxml=False,
+             xinclude=False,
+             base_url='') -> et._ElementTree: ...
+@overload
+def heiparse(source,
+             parser=None,
+             input_format='file',
+             *,
+             output_format: Literal["str"],
+             egxml=False,
+             xinclude=False,
+             base_url='') -> str: ...
+def heiparse(source,
+             parser=None,
+             input_format='file',
+             output_format: Literal["str", "etree", "bytes"] = "etree",
+             egxml=False,
+             xinclude=False,
              base_url=''):
     """
     Parse an XML source using a specified parser (dafaults to HeiEditionsParser) and optionally process XInclude directives.
@@ -132,7 +149,7 @@ def heiparse(source,
     Raises:
         xml.etree.ElementTree.ParseError: If there is an error during parsing.
     """      
-    output_format = OutputFormat(output_format)
+    output_format_enum = OutputFormat(output_format)
     parser = parser or HeiEditionsParser()
 
     if input_format == 'file':
@@ -154,9 +171,9 @@ def heiparse(source,
         tree.xinclude()
         et.cleanup_namespaces(tree)
 
-    if output_format == OutputFormat.ETREE:
+    if output_format_enum == OutputFormat.ETREE:
         return tree
-    elif output_format == OutputFormat.STR:
+    elif output_format_enum == OutputFormat.STR:
         return et.tostring(tree, method="xml", encoding="unicode")
     else:
         raise TypeError("The output_format parameter must be either 'tree' or 'str'")
@@ -327,7 +344,7 @@ def preprocess_egxml(raw_xml: str) -> str:
 
 
 def unscape_egxml(input_string):
-    root = heiparse(input_string.encode('utf-8'), input_format='string', output_format="tree")
+    root = heiparse(input_string.encode('utf-8'), input_format='string', output_format="etree")
     for elem in root.findall(".//ex:egXML", ns):
         if elem.text is not None:
             # elem.text = elem.text[9:-3] # indeces to remove <![CDATA[ ... ]]

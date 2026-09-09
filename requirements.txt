@@ -5,6 +5,7 @@ colorama~=0.4.6
 executing~=2.1.0
 idna~=3.8
 lxml~=5.3.0
+lxml-stubs~=0.5.1
 Pygments~=2.18.0
 requests~=2.32.3
 saxonche~=12.6.0
