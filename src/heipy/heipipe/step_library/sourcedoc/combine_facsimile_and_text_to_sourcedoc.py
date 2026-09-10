@@ -172,7 +172,7 @@ def combine_facsimile_text(tree: et.ElementTree, parameters=None):
         for segment in segment_list_zone:
             segments_by_line[segment.get(hei_ns / 'belongsToLine')].append(segment)
         for line_number, segment_list in segments_by_line.items():       
-            corresp_line = corresp_zone.xpath(f'./tei:zone[@ana="hc:LineZone"][@n="{line_number}"] | ./tei:line[@n="{line_number}"]', namespaces=ns)
+            corresp_line = corresp_zone.xpath(f'./tei:zone[@ana="hc:LineZone"][@n="{line_number}"]/tei:line | ./tei:line[@n="{line_number}"]', namespaces=ns)
             if len(corresp_line) < 1:
                 warnings.warn(f"Could not find zone for line number {line_number} in zone {zone_id}. Segment line: {[(x.tag, x.attrib) for x in segment_list]}. Skipping")
                 continue
