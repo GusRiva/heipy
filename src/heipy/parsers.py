@@ -116,7 +116,7 @@ def heiparse(source,
              output_format: Literal["etree"] = ...,
              egxml=False,
              xinclude=False,
-             base_url='') -> et._ElementTree: ...
+             base_url =None) -> et._ElementTree: ...
 @overload
 def heiparse(source,
              parser=None,
@@ -125,14 +125,14 @@ def heiparse(source,
              output_format: Literal["str"],
              egxml=False,
              xinclude=False,
-             base_url='') -> str: ...
+             base_url =None) -> str: ...
 def heiparse(source,
              parser=None,
              input_format='file',
              output_format: Literal["str", "etree", "bytes"] = "etree",
              egxml=False,
              xinclude=False,
-             base_url=''):
+             base_url = None):
     """
     Parse an XML source using a specified parser (dafaults to HeiEditionsParser) and optionally process XInclude directives.
     Args:
@@ -160,7 +160,7 @@ def heiparse(source,
             root_el = et.fromstring(input_string, parser, base_url=base_url)
             tree = et.ElementTree(root_el)
         else:
-            tree = et.parse(source, parser)
+            tree = et.parse(source, parser, base_url=base_url)
     elif input_format == 'string':
         root_el = et.fromstring(source, parser, base_url=base_url)
         tree = et.ElementTree(root_el)
