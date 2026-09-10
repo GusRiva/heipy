@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/tei_hes.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+<!DOCTYPE TEI SYSTEM "https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/heieditions-entities.txt">
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS" ana="hc:IWDDocument">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title ana="hc:MainTitle">Zone Milestone</title>
+            </titleStmt>
+            <publicationStmt>
+                <p></p>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc>
+                    <msIdentifier>
+                        <settlement>
+                            <placeName>Paris</placeName>
+                        </settlement>
+                        <repository>
+                            <orgName>Bibliothèque nationale de France</orgName>
+                        </repository>
+                    </msIdentifier>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <listPrefixDef>
+                <prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"> </prefixDef>
+                <prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"> </prefixDef>
+            </listPrefixDef>
+        </encodingDesc>
+    </teiHeader>
+    
+    <facsimile>
+      <surface ana="hc:Page" lrx="2354" lry="2872" xml:id="_84r" n="84r">
+        <graphic url="https://digi.ub.uni-heidelberg.de/diglit/blb_cod_ettenheimmuenster_37_foll84-237/0001/image" mimeType="image/*"/>
+        <zone points="193,413 193,2393 1771,2393 1771,413" ana="hc:MainColumn hc:TextZone" xml:id="_84ra">
+            <zone ana="hc:LineZone" xml:id="_84ra_15" n="15" hei:eSID="1166221" points="1230,1388 1209,1392 1149,1412 1063,1388 1036,1392 984,1409 811,1388 732,1390 701,1404 680,1390 651,1390 629,1404 268,1397 268,1455 265,1476 371,1479 414,1464 462,1479 584,1467 672,1481 751,1469 905,1483 996,1474 1077,1491 1290,1493 1309,1479 1376,1479 1554,1493 1558,1469 1549,1392 1494,1409 1472,1392 1391,1390 1333,1414 1230,1388">
+                <path ana="hc:Baseline" points="269,1456 1246,1473 1561,1471"/>
+            </zone>
+            <zone ana="hc:LineZone" xml:id="_84ra_16" n="16" hei:eSID="1166222" points="1496,1471 1393,1471 1374,1476 1353,1471 1283,1471 1276,1479 1036,1479 1020,1469 826,1467 802,1464 687,1462 672,1467 651,1462 562,1462 538,1459 498,1459 495,1462 483,1459 395,1457 375,1457 363,1462 356,1457 275,1457 272,1452 251,1455 249,1543 390,1538 514,1553 514,1550 529,1538 603,1538 634,1553 644,1553 658,1541 677,1555 759,1543 811,1555 847,1541 859,1555 866,1558 938,1558 938,1555 986,1541 1060,1558 1101,1543 1326,1543 1405,1562 1705,1562 1731,1546 1733,1452 1606,1452 1544,1479 1496,1471">
+                <path ana="hc:Baseline" points="252,1528 1735,1537"/>
+            </zone>
+        </zone>
+      </surface>
+    </facsimile>
+    
+    <text ana="hc:CourtlyRomance hc:CompleteExpression">
+    <body>
+        <pb n="84r" facs="#_84ra"/>
+        <cb facs="#_84ra"/>
+        <lb n="15" facs="#_84ra_15"/>
+        <l n="15" xml:id="l_prolog_15">
+          <w xml:id="w_prolog_15_1"><hi rendition="hc:RedStroke">K</hi>aines</w>
+          <c> </c>
+          <w xml:id="w_prolog_15_2">menſche<ex>n</ex></w>
+          <c> </c>
+          <w xml:id="w_prolog_15_3">ſinn</w>
+          <c> </c>
+          <w xml:id="w_prolog_15_4">noch</w>
+          <c> </c>
+          <w xml:id="w_prolog_15_5">hercz</w>
+          <c> </c>
+          <subst>
+            <del rendition="hc:Strikethrough">
+              <w>dur</w>
+              <c> </c>
+              <w>brach</w>
+              <c> </c>
+            </del><!-- ToDo Visualisierungsproblem: Es wird lediglich der Pfeil für das milestone vor Z. 15 visualisiert, aber NICHT das noch noch muot!  -->
+            <milestone ana="hc:LineSegmentBeginning hc:RunOverBelow" hei:belongsToLine="16" rendition="hc:SelfAlignmentRight"/>
+            <add hei:placeRef="hc:Inline">
+              <del rendition="hc:Strikethrough">
+                <w>noch</w>
+              </del>
+              <c> </c>
+              <w>noch</w>
+              <c> </c>
+              <w>mu&osup;t</w>
+            </add>
+          </subst>
+        </l>
+        <lb n="16" facs="#_84ra_16"/>
+        <l n="16" xml:id="l_prolog_16">
+          <w xml:id="w_prolog_16_1"><hi rendition="hc:RedStroke">D</hi>u</w>
+          <c> </c>
+          <w xml:id="w_prolog_16_2">biſt</w>
+          <c> </c>
+          <w xml:id="w_prolog_16_3">u&iuml;ber</w>
+          <c> </c>
+          <w xml:id="w_prolog_16_4">fliſſig</w>
+          <c> </c>
+          <w xml:id="w_prolog_16_5">gu&osup;t</w>
+        </l>
+            
+        </body>
+    </text>
+</TEI>

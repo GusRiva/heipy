@@ -159,7 +159,9 @@ def combine_facsimile_text(tree: et.ElementTree, parameters=None):
 
     # Get all the milestones Segment Beginning
     segment_beginnings = defaultdict(list)
-    for segment_beginning in root.xpath("//tei:milestone[@ana='hc:LineSegmentBeginning']", namespaces=ns):
+    for segment_beginning in root.iter(tei_ns / 'milestone'):
+        if "hc:LineSegmentBeginning" not in (segment_beginning.get('ana') or ''):
+            continue
         belongs_to = segment_beginning.get(hei_ns / "belongsToZone")
         segment_beginnings[belongs_to].append(segment_beginning)
     for zone_id, segment_list_zone in segment_beginnings.items():
