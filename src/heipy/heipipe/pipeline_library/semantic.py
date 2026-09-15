@@ -1,7 +1,7 @@
 from ..steps import Pipeline, AddAttribute, DeleteStep
 from ..step_library import mark_note_as_editorial, move_note, filter_visual_information, ptr2ref, add_id_2_note, \
     whitespaces, number_line_segment_beginnings, delete_comments, break_no, reg_levels, revision_spans, resolve_index_references
-from ..step_library.semantic import supply_id_divisions, final_cleanup, inject_structure, transpose
+from ..step_library.semantic import supply_id_divisions, final_cleanup, inject_structure, transpose, generate_pb_ids
 from ...namespaces import prefix_format
 
 
@@ -40,6 +40,7 @@ class SemanticPipe(Pipeline):
             whitespaces.get_step(),
             number_line_segment_beginnings.get_step(),
             resolve_index_references.get_step(),
+            generate_pb_ids.get_step(),
             final_cleanup.get_step(),
             # validation.get_step(),
             ]
