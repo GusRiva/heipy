@@ -2,6 +2,7 @@ import os
 import codecs
 import pathlib
 import importlib.resources
+import hashlib
 
 import requests
 from lxml import etree as et
@@ -247,6 +248,15 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
         # Stylesheets that don't declare sourceBaseUri silently ignore it.
         if base_uri:
             executable.set_parameter('sourceBaseUri', proc.make_string_value(base_uri))
+            # Short, deterministic per-document token derived from the source URI.
+            # Used by stylesheets (e.g. container2milestone.xsl) that need generated
+            # ids to stay unique when output from several source documents is later
+            # combined (e.g. the synoptic pipeline) without relying on Saxon's
+            # internal, processor-version-dependent generate-id() counter, and
+            # without sacrificing reproducibility the way a random suffix would.
+            # Stylesheets that don't declare sourceDocHash silently ignore it.
+            source_doc_hash = hashlib.sha1(base_uri.encode('utf-8')).hexdigest()[:8]
+            executable.set_parameter('sourceDocHash', proc.make_string_value(source_doc_hash))
 
         # Set the global context item for the transformation
         # input_xdm could be a PyXdmValue (sequence) or PyXdmItem (single item)

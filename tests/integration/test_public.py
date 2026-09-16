@@ -11,8 +11,9 @@ class TestPublicPipeline:
     def test_public_basic(self, complex_fixtures_dir):
         pipe = PublicPipe()
         pipe.set_pipestep_parameter('replace_schema_url', 'schema_url', 'https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/releases/2026-07-21/tei_hes_index.rng')
+        pipe.set_pipestep_parameter('update_changeList', 'changeDate', '2026-09-01') 
         pipeline_compare_flow(pipe, 
                             complex_fixtures_dir / "tokenized.xml", 
                             complex_fixtures_dir / "output/public/tokenized.xml", 
-                            generate_auto=True
+                            generate_auto=False
                             )

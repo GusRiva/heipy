@@ -57,7 +57,14 @@
     'trailer' : 'hc:Trailer'}"/>
 	<xsl:output method="xml"/>
 	<xsl:param name="randomDocId" as="xs:boolean" select="false()"/>
-	
+
+	<!-- Short, deterministic token identifying the source document (a hash of its
+	     base URI, injected by the pipeline - see apply_xslt() in parsers.py).
+	     Used, together with a content-derived sequence number, to build ids that
+	     stay reproducible across Saxon versions/runs but remain unique even when
+	     output from several source documents is combined later (e.g. synoptic). -->
+	<xsl:param name="sourceDocHash" as="xs:string?" select="()"/>
+
     <!-- Identity template -->
 	<xsl:mode on-no-match="shallow-copy"/>
 
@@ -100,7 +107,16 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<xsl:variable name="id" select="generate-id() || $rndNumber"/>
+				<!-- Content-derived, deterministic rank among all elements this template resolves
+				     in this document (same predicate as the match pattern above), instead of
+				     generate-id()'s implementation-defined, processor-history-dependent string.
+				     xsl:number level="any" (unlike a hand-rolled count(preceding::...)) correctly
+				     accounts for matched elements nested inside other matched elements, since
+				     preceding:: alone excludes ancestors and would collide for such cases. -->
+				<xsl:variable name="nodeNum" as="xs:integer">
+					<xsl:number level="any" count="*[map:contains($element_map, local-name())][ancestor-or-self::text][not(ancestor-or-self::*[tokenize(@ana, '\s+') = ('hc:EditorialContent', 'hc:FigureDescription')])]"/>
+				</xsl:variable>
+				<xsl:variable name="id" select="'d' || (if ($sourceDocHash) then $sourceDocHash else 'x') || 'e' || $nodeNum || $rndNumber"/>
 				<xsl:choose>
 					<xsl:when test="local-name() = ('persName', 'placeName', 'orgName', 'term', 'title', 'rs', 'name')">
 						<xsl:element name="milestone" namespace="http://www.tei-c.org/ns/1.0">

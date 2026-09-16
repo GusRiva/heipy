@@ -315,7 +315,7 @@ Provides specialized XML parsing and transformation utilities:
 
 ```
 lxml~=5.3.0              # XML processing
-saxonche~=12.6.0         # XSLT 3.0 processor
+saxonche~=13.0.0         # XSLT 3.0 processor
 networkx~=3.5            # Graph algorithms for synoptic analysis
 requests~=2.32.3         # HTTP for schema fetching
 icecream~=2.1.3          # Debugging
