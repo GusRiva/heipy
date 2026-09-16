@@ -12,7 +12,7 @@
     <xsl:template match="pb[@facs][not(@xml:id)]">
         <xsl:copy>
             <xsl:copy-of select="@*"/>
-            <xsl:attribute name="xml:id" select="'pb__' || @facs"/>            
+            <xsl:attribute name="xml:id" select="'pb__' || replace(@facs, '#','')"/>            
         </xsl:copy>
     </xsl:template>
 
