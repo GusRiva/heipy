@@ -4,10 +4,10 @@
                             <orgName>Bibliothèque nationale de France</orgName>
                         </repository></msIdentifier></msDesc></sourceDesc></fileDesc><encodingDesc><listPrefixDef><prefixDef ident="hc" matchPattern="(.+)" replacementPattern="https://lod.ub.uni-heidelberg.de/ontologies/heieditions/hc/current/$1"/><prefixDef ident="char" matchPattern="(.+)" replacementPattern="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS/declarations/chars.xml#$1"/></listPrefixDef></encodingDesc></teiHeader><sourceDoc><surface ana="hc:Page" xml:id="_121r" n="121r"><graphic url="https://digi.ub.uni-heidelberg.de/diglit/bnf_fr1545_fol121-136/0001/image" mimeType="image/*"/><zone ana="hc:HorizontalLayout">
                 <zone xml:id="_121ra" ana="hc:MainColumn hc:TextZone" n="a">
-                    <zone ana="hc:LineZone" n="1"><line xml:space="preserve" xml:id="_121ra_1" n="1"><milestone ana="hc:TextualExpression hc:CourtlyRomance hc:CompleteExpression" corresp="#dd11c340be1"/><milestone ana="hc:ExpressionBody" corresp="#dd11c340be2"/><milestone ana="hc:Paragraph" corresp="#dd11c340be3"/>Linea 1</line></zone>
+                    <zone ana="hc:LineZone" n="1"><line xml:space="preserve" xml:id="_121ra_1" n="1"><milestone ana="hc:TextualExpression hc:CourtlyRomance hc:CompleteExpression" corresp="#d37510c84e1"/><milestone ana="hc:ExpressionBody" corresp="#d37510c84e2"/><milestone ana="hc:Paragraph" corresp="#d37510c84e3"/>Linea 1</line></zone>
                     <zone ana="hc:LineZone" n="2"><line xml:space="preserve" xml:id="_121ra_2" n="2">Linea 2</line></zone>
                     <zone ana="hc:LineZone" n="3"><line xml:space="preserve" xml:id="_121ra_3" n="3">Linea 3überlauf 2</line></zone>
                     <zone ana="hc:LineZone" n="4"><line xml:space="preserve" xml:id="_121ra_4" n="4">Linea 4 </line></zone>
-                    <zone ana="hc:LineZone" n="5"><line xml:space="preserve" xml:id="_121ra_5" n="5">Linea 5<anchor xml:id="dd11c340be3"/><anchor xml:id="dd11c340be2"/><anchor xml:id="dd11c340be1"/></line></zone>
+                    <zone ana="hc:LineZone" n="5"><line xml:space="preserve" xml:id="_121ra_5" n="5">Linea 5<anchor xml:id="d37510c84e3"/><anchor xml:id="d37510c84e2"/><anchor xml:id="d37510c84e1"/></line></zone>
                 </zone>
             </zone></surface></sourceDoc></TEI>
