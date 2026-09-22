@@ -19,18 +19,55 @@
 		</surface>
 		<surface ana="hc:Page" xml:id="A1_1v" n="1v">
 			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0002/" mimeType="image/*"/>
-			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1v-a" n="a">
+				<zone ana="hc:LineZone" xml:id="A1_1v-a_1" n="1" hei:eSID="1022896" points="1512,1594 1472,1594 1433,1594 1394,1594 1354,1590 1319,1590 1299,1610 1299,1614 1122,1614 1110,1610 1047,1590 1039,1590 1000,1590 988,1590 945,1606 941,1606 645,1606 645,1684 641,1700 1153,1724 1157,1724 1374,1708 1425,1704 1445,1708 1528,1728 1532,1728 1536,1728 1894,1708 1898,1696 1894,1617 1567,1594 1551,1594">
+				<path ana="hc:Baseline" points="647,1686 1899,1699"/>
+				</zone>
+				<zone ana="hc:LineZone" xml:id="A1_1v-a_2" n="2" hei:eSID="1022897" points="1784,1696 1756,1696 1721,1720 1583,1720 1559,1696 1508,1696 1492,1692 1075,1692 1035,1688 984,1708 984,1712 886,1712 886,1708 862,1688 834,1688 795,1708 641,1708 641,1783 638,1806 701,1846 708,1846 712,1850 890,1850 890,1846 897,1846 897,1842 941,1806 1020,1814 1055,1846 1055,1850 1063,1850 1067,1854 1236,1854 1236,1850 1303,1814 1331,1838 1346,1838 1437,1810 1721,1818 1748,1842 1760,1842 1886,1810 1890,1795 1886,1720 1784,1696">
+				<path ana="hc:Baseline" points="645,1785 1892,1798"/>
+				</zone>
+			</zone>
 		</surface>
 	</facsimile>
 	<text ana="hc:Article">
+		<pb n="1r" facs="#A1_1r"/>
+		<cb n="1ra" facs="#A1_1r-a"/>
 		<body>
 			<head>
-				<lb n="1"/>Wanderers Nachtlied <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_1"/><supplied ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">eigenhändig </supplied><hi ana="hc:EditorialAdditionSpan">so</hi><supplied ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"> aufgezeichnet</supplied></head>
-			<lb n="2"/><l ana="hc:EditorialAdditionSpan">Über allen Gipfeln ist Ruh</l>
-			<lb n="3"/><l ana="hc:EditorialAdditionSpan">In allen Wipfeln spürest du</l>
-			<l><supplied ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Kaum</supplied><lb n="4"/><supplied ana="hc:EditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">einen</supplied><anchor xml:id="addSpan_1"/> Hauch</l>
+				<lb n="1"/>Wanderers Nachtlied <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_1"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">eigenhändig </supplied><hi ana="hc:InEditorialAdditionSpan">so</hi><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"> aufgezeichnet</supplied></head>
+			<lb n="2"/><l ana="hc:InEditorialAdditionSpan">Über allen Gipfeln ist Ruh</l>
+			<lb n="3"/><l ana="hc:InEditorialAdditionSpan">In allen Wipfeln spürest du</l>
+			<l><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Kaum</supplied><lb n="4"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">einen</supplied><anchor xml:id="addSpan_1"/> Hauch</l>
 			<lb n="5"/><l>Die Vögelein schweigen im Walde.</l>
-
+		<cb n="1va" facs="#A1_1v-a"/>
+		<lb n="1" facs="#A1_1v-a_1"/>
+        <l n="8" xml:id="l_1_8">
+          <w xml:id="w_1_8_1"><choice><orig><hi rendition="hc:RedStroke">E</hi></orig><reg>e</reg></choice>inen</w>
+          <c> </c>
+          <w xml:id="w_1_8_2">ſtein</w>
+          <c> </c>
+          <w xml:id="w_1_8_3">edel</w>
+          <c> </c>
+          <w xml:id="w_1_8_4"><choice><orig>v</orig><reg>u</reg></choice>nd</w>
+          <c> </c>
+          <w xml:id="w_1_8_5">gr<choice><orig>o</orig><reg ana="hc:StandardMHGRegularization">ô</reg></choice><choice><orig>s</orig><reg ana="hc:StandardMHGRegularization">z</reg></choice></w>
+          <choice>
+            <orig/>
+            <reg>
+              <pc>.</pc>
+            </reg>
+            <reg ana="hc:StandardMHGRegularization"/>
+          </choice>
+        </l>
+        <!-- Ver 9 fehlt in H3 muss aus der Überlieferung wiederhergestellt werden.    -->
+        <milestone ana="hc:EditorialAdditionSpan" source="#app" spanTo="#app_ref_1"/>
+         <l n="9" xml:id="l_1_9" ana="hc:InEditorialAdditionSpan">
+           <w ana="hc:InEditorialAdditionSpan">ligen</w>
+           <c ana="hc:InEditorialAdditionSpan"> </c>
+           <w ana="hc:InEditorialAdditionSpan">unwirdeclîche</w>
+           <pc ana="hc:InEditorialAdditionSpan">.</pc>
+         </l>
+        <anchor xml:id="app_ref_1"/>
 
 
 		</body>
