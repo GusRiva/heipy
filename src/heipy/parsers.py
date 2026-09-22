@@ -3,6 +3,7 @@ import codecs
 import pathlib
 import importlib.resources
 import hashlib
+import urllib.parse
 
 import requests
 from lxml import etree as et
@@ -17,6 +18,25 @@ from typing import Any, Literal, TypedDict, Unpack, overload
 from .colors import *
 from .namespaces import ns
 from .heiwarning import HeiWarning, HeiDeprecationWarning
+
+
+def configure_entity_expansion_limit(proc, expansion_limit='20000', total_size_limit='10000000'):
+    """Raise JAXP's default entity-expansion caps for PySaxonProcessor.
+
+    heiEDITIONS documents legitimately reference thousands of custom entities
+    (manuscript abbreviation/diacritic marks) - up to ~12251 in the largest witness
+    file today. JAXP's defaults (entityExpansionLimit=2500, totalEntitySizeLimit=100000)
+    are DoS guards against untrusted input, which don't apply to this project-controlled
+    data, but we still keep generous, finite caps rather than disabling the guards
+    entirely.
+    """
+    for prop_uri, value in (
+        ('http://www.oracle.com/xml/jaxp/properties/entityExpansionLimit', expansion_limit),
+        ('http://www.oracle.com/xml/jaxp/properties/totalEntitySizeLimit', total_size_limit),
+    ):
+        config_key = 'http://saxon.sf.net/feature/parserProperty?uri=' + urllib.parse.quote(prop_uri, safe='')
+        proc.set_configuration_property(config_key, value)
+
 
 class HeiEditionsResolver(et.Resolver):
     def __init__(self):
@@ -281,6 +301,7 @@ def apply_xslt(input_string=None, xslt_file=None, parameters=None, output_dir=No
     # If processor is provided (batched mode), use it; otherwise create new one
     if proc is None:
         with PySaxonProcessor(license=False) as proc:
+            configure_entity_expansion_limit(proc)
             return _execute_transformation(proc)
     else:
         return _execute_transformation(proc)

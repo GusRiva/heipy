@@ -19,6 +19,7 @@ from ..parsers import (
     HeiEditionsParser,
     OutputFormat,
     apply_xslt,
+    configure_entity_expansion_limit,
     heiparse,
     normalize_parameters,
     validate_xml_with_heieditions_schema,
@@ -373,6 +374,7 @@ class Pipeline(BaseStep):
 
                 # Create processor for batch using context manager
                 with PySaxonProcessor(license=False) as proc:
+                    configure_entity_expansion_limit(proc)
                     # Execute batch
                     for k in range(i, j):
                         batch_step = self.steps[k]
@@ -601,6 +603,7 @@ class XsltStep(BaseStep):
         if proc is None:
             # Create a new processor and ensure it's reused for all transformations
             with PySaxonProcessor(license=False) as new_proc:
+                configure_entity_expansion_limit(new_proc)
                 result = _execute_transformations(new_proc)
         else:
             # Use the provided processor (for batched execution)
