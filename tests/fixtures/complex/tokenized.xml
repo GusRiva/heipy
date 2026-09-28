@@ -11,7 +11,23 @@
                 <title ana="hc:MainTitle">Tokenized</title>
             </titleStmt>
             <publicationStmt>
-                <p></p>
+                <publisher xml:id="ub_heidelberg">
+                    <orgName>Universitätsbibliothek Heidelberg</orgName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/2002498-8</idno>
+                    <listRef>
+                        <ptr ana="hc:URLReference" target="https://www.ub.uni-heidelberg.de/"/>
+                    </listRef>
+                </publisher>
+                <pubPlace>
+                    <placeName>Heidelberg</placeName>
+                    <idno ana="hc:GNDURI">https://d-nb.info/gnd/4023996-2</idno>
+                </pubPlace>
+                <date when="2026">2026</date>
+                <availability>
+                    <licence target="https://creativecommons.org/licenses/by-sa/4.0">
+                        <p>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</p>
+                    </licence>
+                </availability>
             </publicationStmt>
             <sourceDesc>
                 <p></p>
