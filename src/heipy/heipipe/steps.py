@@ -7,7 +7,7 @@ import time
 import warnings
 from abc import abstractmethod
 from pathlib import Path
-from typing import Literal
+from typing import Literal, overload
 
 from lxml import etree as et
 from saxonche import PySaxonProcessor
@@ -313,13 +313,43 @@ class Pipeline(BaseStep):
             step_index = len(self.steps)
             add_step_intern(step_index)
 
-    def execute(self, 
+    @overload
+    def execute(self,
                 input,
                 serial=False,
                 input_format: Literal["file", "xml_string"] = "file",
-                xinclude=False, 
+                xinclude=False,
                 egxml=False,
-                output_format: Literal["str", "etree", "bytes"] = "str", 
+                output_format: Literal["str"] = "str",
+                debug_options: list | None = None) -> str | None: ...
+
+    @overload
+    def execute(self,
+                input,
+                serial=False,
+                input_format: Literal["file", "xml_string"] = "file",
+                xinclude=False,
+                egxml=False,
+                output_format: Literal["etree"] = ...,
+                debug_options: list | None = None) -> et._ElementTree | None: ...
+
+    @overload
+    def execute(self,
+                input,
+                serial=False,
+                input_format: Literal["file", "xml_string"] = "file",
+                xinclude=False,
+                egxml=False,
+                output_format: Literal["bytes"] = ...,
+                debug_options: list | None = None) -> bytes | None: ...
+
+    def execute(self,
+                input,
+                serial=False,
+                input_format: Literal["file", "xml_string"] = "file",
+                xinclude=False,
+                egxml=False,
+                output_format: Literal["str", "etree", "bytes"] = "str",
                 debug_options: list | None =None) -> str | et._ElementTree | bytes | None:
         """
         Executes the pipeline on the given input file with optimized batching.
