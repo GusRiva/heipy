@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2026-09-16T10:38:10Z. .
+Schema generated from ODD source 2026-10-05T15:02:20Z. .
 TEI Edition: Version 4.5.0. Last updated on
         25th October 2022, revision 3e98e619e
 TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.5.0/
@@ -6020,6 +6020,8 @@ Sample values include: 1] rubbing (rubbing) ; 2] mildew (mildew) ; 3] smoke (smo
                         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                         <value>hc:Adapted</value>
                         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+                        <value>hc:Blurred</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(blurred) Visual item that corresponds to a material location in a content carrier that has been blurred or made unrecognizable by smudging.</a:documentation>
                         <value>hc:CutOff</value>
                         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(cut off) Visual item that corresponds to a material location in a content carrier that has been cut off.</a:documentation>
                         <value>hc:Erased</value>
