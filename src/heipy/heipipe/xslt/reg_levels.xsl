@@ -24,7 +24,7 @@
 		<xsl:copy>
 			<xsl:choose>
 				<xsl:when test="count(orig | reg) = 3">
-					<xsl:apply-templates mode="triplet"/>
+					<xsl:apply-templates select="orig | reg" mode="triplet"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:apply-templates mode="reg-levels"/>
@@ -84,11 +84,11 @@
 			<xsl:choose>
 				<xsl:when test="position() = 2">
 					<xsl:attribute name="hei:additiveRegularizationLevel">1</xsl:attribute>
-					<xsl:apply-templates select="@* except @hei:additiveRegularizationLevel | node()" mode="triplet"/>
+					<xsl:apply-templates select="@* except @hei:additiveRegularizationLevel | node()"/>
 				</xsl:when>
 				<xsl:when test="position() = 3">
 					<xsl:attribute name="hei:additiveRegularizationLevel">2</xsl:attribute>
-					<xsl:apply-templates select="@* except @hei:additiveRegularizationLevel | node()" mode="triplet"/>
+					<xsl:apply-templates select="@* except @hei:additiveRegularizationLevel | node()"/>
 				</xsl:when>
 			</xsl:choose>
 
