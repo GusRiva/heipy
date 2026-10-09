@@ -29,24 +29,24 @@
 			<cb facs="#A1_1r-a"/>
 			<head>
             <lb n="1"/>Wanderers Nachtlied <delSpan rendition="hc:Strikethrough" spanTo="#delSpan_1"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">eigenhändig aufgezeichnet</del></head>
-			<l ana="hc:InDeletionSpan"><lb n="2"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Über allen Gipfeln ist Ruh</del></l>
-			<l ana="hc:InDeletionSpan"><lb n="3"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">In allen Wipfeln spürest du</del></l>
-			<l><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Kaum</del><lb n="4"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">einen </del><persName><w ana="hc:InDeletionSpan">Wolfgang</w> <w><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Goe</del><anchor xml:id="delSpan_1"/>the</w></persName> Hauch</l>
+			<l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"><lb n="2"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Über allen Gipfeln ist Ruh</del></l>
+			<l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"><lb n="3"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">In allen Wipfeln spürest du</del></l>
+			<l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Kaum</del><lb n="4"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">einen </del><persName ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"><w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Wolfgang</w> <w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Goe</del><anchor xml:id="delSpan_1"/>the</w></persName><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> Hauch</del></l>
 			<l><lb n="5"/>Die Vögelein schweigen im Walde.</l>
 			
 			<!-- 2 -->
 			<lg>
 				<lb n="6"/>
 				<addSpan spanTo="#addSpan_1"/>
-				<l ana="hc:InAdditionSpan">Der du von dem Himmel bist, </l>
-				<lb n="7"/><l ana="hc:InAdditionSpan">Alles Leid und Schmerzen stillest,</l>
+				<l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1">Der du von dem Himmel bist, </add></l>
+				<lb n="7"/><l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1">Alles Leid und Schmerzen stillest,</add></l>
 			</lg>
-			<lg ana="hc:InAdditionSpan">
-				<lb n="8"/><l ana="hc:InAdditionSpan">Den, der doppelt elend ist,</l>
-				<lb n="9"/><l ana="hc:InAdditionSpan">Doppelt mit Erquickung füllest,</l>
+			<lg ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1">
+				<lb n="8"/><l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1">Den, der doppelt elend ist,</add></l>
+				<lb n="9"/><l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1">Doppelt mit Erquickung füllest,</add></l>
 			</lg>
-			<lg>
-				<lb n="10"/><l><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1">Ach, ich bin des</add><anchor xml:id="addSpan_1"/> Treibens müde!</l>
+			<lg ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1">
+				<lb n="10"/><l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_1">Ach, ich bin des</add><anchor xml:id="addSpan_1"/> Treibens müde!</l>
 				<lb n="11"/><l>Was soll all der Schmerz und Lust?</l>
 				<lb n="12"/><l>Süßer Friede,</l>
 				<lb n="13"/><l>Komm, ach komm in meine Brust!</l>
@@ -58,14 +58,14 @@
 			<lg>
 				<lb n="1"/><l>Der du von dem Himmel bist, </l>
 				<addSpan spanTo="#addSpan_3"/>
-				<lb n="2"/><l ana="hc:InAdditionSpan">Alles <hi rendition="hc:Bold" ana="hc:InAdditionSpan">Leid und Schmerzen stillest,</hi></l>
+				<lb n="2"/><l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">Alles </add><hi rendition="hc:Bold" ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">Leid und Schmerzen stillest,</hi></l>
 			</lg>
-			<lg ana="hc:InAdditionSpan">
-				<l ana="hc:InAdditionSpan">Den, der <lb n="3"/><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">doppelt elend ist,</add></l>
-				<l ana="hc:InAdditionSpan">Doppelt mit <lb n="4"/><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">Erquickung füllest,</add></l>
+			<lg ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">
+				<l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">Den, der </add><lb n="3"/><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">doppelt elend ist,</add></l>
+				<l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">Doppelt mit </add><lb n="4"/><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">Erquickung füllest,</add></l>
 			</lg>
-			<lg>
-				<lb n="5"/><l><hi ana="hc:InAdditionSpan">A</hi><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">ch, ich </add><hi rendition="hc:Bold"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">bin des</add><anchor xml:id="addSpan_3"/> Treibens</hi> müde!</l>
+			<lg ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">
+				<lb n="5"/><l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3"><hi ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">A</hi><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">ch, ich </add><hi rendition="hc:Bold" ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3">bin des</add><anchor xml:id="addSpan_3"/> Treibens</hi><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_3"> müde!</add></l>
 				<lb n="6"/><l>Was soll all der Schmerz und Lust?</l>
 				<lb n="7"/><l>Süßer Friede,</l>
 				<lb n="8"/><l>Komm, ach komm in meine Brust!</l>
@@ -74,14 +74,14 @@
 			<!-- 4 -->
 			<lg>
 				<lb n="9"/><l>Der du von dem Himmel bist, </l>
-				<lb n="10"/><l>Alles <delSpan spanTo="#delSpan_4"/><hi rendition="hc:Bold" ana="hc:InDeletionSpan">Leid und Schmerzen stillest,</hi></l>
+				<lb n="10"/><l>Alles <delSpan spanTo="#delSpan_4"/><hi rendition="hc:Bold" ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">Leid und Schmerzen stillest,</hi></l>
 			</lg>
-			<lg ana="hc:InDeletionSpan">
-				<lb n="11"/><l ana="hc:InDeletionSpan">Den, der doppelt elend ist,</l>
-				<lb n="12"/><l ana="hc:InDeletionSpan">Doppelt mit Erquickung füllest,</l>
+			<lg ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">
+				<lb n="11"/><l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">Den, der doppelt elend ist,</del></l>
+				<lb n="12"/><l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">Doppelt mit Erquickung füllest,</del></l>
 			</lg>
-			<lg>
-				<lb n="13"/><l><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">Ach, ich </del><hi rendition="hc:Bold"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">bin des</del><anchor xml:id="delSpan_4"/> Treibens</hi> müde!</l>
+			<lg ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">
+				<lb n="13"/><l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">Ach, ich </del><hi rendition="hc:Bold" ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4">bin des</del><anchor xml:id="delSpan_4"/> Treibens</hi><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_4"> müde!</del></l>
 				<lb n="14"/><l>Was soll all der Schmerz und Lust?</l>
 				<lb n="15"/><l>Süßer Friede,</l>
 				<lb n="16"/><l>Komm, ach komm in meine Brust!</l>
@@ -90,10 +90,10 @@
 			<!-- 5 -->
 			<lg>
 				<lb n="17"/><l>Der du von dem Himmel bist, </l>
-				<lb n="18"/><l>Alles <delSpan spanTo="#delSpan_5"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_5">Leid </del><hi rendition="hc:Bold" ana="hc:InDeletionSpan">und Schmerzen stillest,</hi></l>
+				<lb n="18"/><l>Alles <delSpan spanTo="#delSpan_5"/><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_5">Leid </del><hi rendition="hc:Bold" ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_5">und Schmerzen stillest,</hi></l>
 			</lg>
-			<lg>
-				<lb n="19"/><l><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_5">Den, der doppelt</del><anchor xml:id="delSpan_5"/> elend ist,</l>
+			<lg ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_5">
+				<lb n="19"/><l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_5"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_5">Den, der doppelt</del><anchor xml:id="delSpan_5"/> elend ist,</l>
 				<lb n="20"/><l>Doppelt mit Erquickung füllest,</l>
 			</lg>
 

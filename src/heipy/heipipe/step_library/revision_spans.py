@@ -64,13 +64,11 @@ def revision_spans_funct(tree, parameters=None):
         anchor_ancestors = list(anchor.iterancestors())
         for node in span.xpath("following::*"):
             if node in anchor_ancestors:
-                if node.text is not None and node.text.strip() != '':
-                    new_wrap = et.Element(this_span_config.get('basic'))
-                    new_wrap.attrib['ana'] = this_span_config.get('ana_child')
-                    new_wrap.attrib[hei_ns / 'belongsToRevision'] = f'#{span_to}'            
-                    new_wrap.text = node.text
-                    node.text = None
-                    node.insert(0, new_wrap)            
+                create_inner_wrapper(node, this_span_config, span_to)
+            if node.tag in [tei_ns / x for x in ['p', 'l', 'div', 'ab']]:
+                set_ana(node, this_span_config, span_to)
+                create_inner_wrapper(node, this_span_config, span_to)
+                wrap_tail(node, this_span_config, span_to)
             elif node == anchor:
                 break
             elif node.tag in [tei_ns / x for x in ['lb']] or (node.attrib.get('ana') is not None and 'hc:EditorialContent' in node.attrib.get('ana')):
@@ -79,11 +77,26 @@ def revision_spans_funct(tree, parameters=None):
                                                    "milestone"]]:
                 continue
             else:
-                old_ana = node.attrib.get('ana')
-                new_ana = this_span_config.get('ana_child')
-                node.attrib['ana'] = f"{old_ana.replace(new_ana, '')} {new_ana}".strip() if old_ana is not None else new_ana
+                set_ana(node, this_span_config, span_to)
                 wrap_tail(node, this_span_config, span_to)
     return tree
+
+
+def create_inner_wrapper(node, this_span_config, span_to):
+    if node.text is not None and node.text.strip() != '':
+        new_wrap = et.Element(this_span_config.get('basic'))
+        new_wrap.attrib['ana'] = this_span_config.get('ana_child')
+        new_wrap.attrib[hei_ns / 'belongsToRevision'] = f'#{span_to}'
+        new_wrap.text = node.text
+        node.text = None
+        node.insert(0, new_wrap)
+
+
+def set_ana(node, this_span_config, span_to):
+    old_ana = node.attrib.get('ana')
+    new_ana = this_span_config.get('ana_child')
+    node.attrib['ana'] = f"{old_ana.replace(new_ana, '')} {new_ana}".strip() if old_ana is not None else new_ana
+    node.attrib[hei_ns / 'belongsToRevision'] = f'#{span_to}'
 
 
 def wrap_tail(element:et.Element, config:dict, span_to:str):

@@ -34,10 +34,10 @@
 		<cb n="1ra" facs="#A1_1r-a"/>
 		<body>
 			<head>
-				<lb n="1"/>Wanderers Nachtlied <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_1"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">eigenhändig </supplied><hi ana="hc:InEditorialAdditionSpan">so</hi><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"> aufgezeichnet</supplied></head>
-			<lb n="2"/><l ana="hc:InEditorialAdditionSpan">Über allen Gipfeln ist Ruh</l>
-			<lb n="3"/><l ana="hc:InEditorialAdditionSpan">In allen Wipfeln spürest du</l>
-			<l><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Kaum</supplied><lb n="4"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">einen</supplied><anchor xml:id="addSpan_1"/> Hauch</l>
+				<lb n="1"/>Wanderers Nachtlied <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_1"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">eigenhändig </supplied><hi ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">so</hi><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"> aufgezeichnet</supplied></head>
+			<lb n="2"/><l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Über allen Gipfeln ist Ruh</supplied></l>
+			<lb n="3"/><l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">In allen Wipfeln spürest du</supplied></l>
+			<l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Kaum</supplied><lb n="4"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">einen</supplied><anchor xml:id="addSpan_1"/> Hauch</l>
 			<lb n="5"/><l>Die Vögelein schweigen im Walde.</l>
 		<cb n="1va" facs="#A1_1v-a"/>
 		<lb n="1" facs="#A1_1v-a_1"/>
@@ -61,11 +61,11 @@
         </l>
         <!-- Ver 9 fehlt in H3 muss aus der Überlieferung wiederhergestellt werden.    -->
         <milestone ana="hc:EditorialAdditionSpan" source="#app" spanTo="#app_ref_1"/>
-         <l n="9" xml:id="l_1_9" ana="hc:InEditorialAdditionSpan">
-           <w ana="hc:InEditorialAdditionSpan">ligen</w>
-           <c ana="hc:InEditorialAdditionSpan"> </c>
-           <w ana="hc:InEditorialAdditionSpan">unwirdeclîche</w>
-           <pc ana="hc:InEditorialAdditionSpan">.</pc>
+         <l n="9" xml:id="l_1_9" ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#app_ref_1">
+           <w ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#app_ref_1">ligen</w>
+           <c ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#app_ref_1"> </c>
+           <w ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#app_ref_1">unwirdeclîche</w>
+           <pc ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#app_ref_1">.</pc>
          </l>
         <anchor xml:id="app_ref_1"/>
 

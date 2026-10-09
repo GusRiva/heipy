@@ -1,0 +1,85 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:hei="https://digi.ub.uni-heidelberg.de/schema/tei/heiEDITIONS">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Test Document</title>
+			</titleStmt>
+			<publicationStmt>
+				<p>Test publication statement</p>
+			</publicationStmt>
+			<sourceDesc>
+				<p>Test source description</p>
+			</sourceDesc>
+		</fileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface ana="hc:Page" xml:id="A1_1r" n="1r">
+			<graphic url="https://digi.ub.uni-heidelberg.de/diglit/bmt_ms927_foll109-184/0001/" mimeType="image/*"/>
+			<zone ana="hc:MainColumn hc:TextZone" xml:id="A1_1r-a" n="a"/>
+		</surface>
+	</facsimile>
+	<text ana="hc:Article">
+		<body>
+			<pb facs="#A1_1r"/>
+			<cb facs="#A1_1r-a"/>
+			<head>
+				<lb n="1"/>
+				<w>Wanderers</w>
+				<c> </c>
+				<w>Nachtlied</w>
+				<c> </c>
+				<delSpan rendition="hc:Strikethrough" spanTo="#delSpan_1"/>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">eigenhändig</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">aufgezeichnet</w>
+			</head>
+			<l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">
+				<lb n="2"/>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Über</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">allen</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Gipfeln</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">ist</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Ruh</w>
+			</l>
+			<l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">
+				<lb n="3"/>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">In</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">allen</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Wipfeln</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">spürest</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">du</w>
+			</l>
+			<l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Kaum</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<lb n="4"/>
+				<w ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">einen</w>
+				<c ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"> </c>
+				<anchor xml:id="delSpan_1"/>
+				<c> </c>
+				<w>Hauch</w>
+			</l>
+			<l>
+				<lb n="5"/>
+				<w>Die</w>
+				<c> </c>
+				<w>Vögelein</w>
+				<c> </c>
+				<w>schweigen</w>
+				<c> </c>
+				<w>im</w>
+				<c> </c>
+				<w>Walde</w>
+				<pc>.</pc>
+			</l>
+		</body>
+	</text>
+</TEI>
