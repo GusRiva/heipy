@@ -23,7 +23,7 @@ class Namespace:
 
     Usage:
         from heipy.namespaces import tei_ns
-        element_tag = tei / "lg"  # Returns "{http://www.tei-c.org/ns/1.0}lg"
+        element_tag = tei_ns / "lg"  # Returns "{http://www.tei-c.org/ns/1.0}lg"
     """
 
     def __init__(self, uri):
