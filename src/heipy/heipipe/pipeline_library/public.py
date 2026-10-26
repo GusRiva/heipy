@@ -1,5 +1,5 @@
 from ..steps import Pipeline
-from ..step_library import delete_comments, normalize_unicode, langusage, break_no
+from ..step_library import delete_comments, normalize_unicode, langusage, break_no, format_header, combining_to_entities
 from ..step_library.public import check_prefixes, replace_schema_url, update_changeList, check_for_ub_publisher
 
 
@@ -13,7 +13,11 @@ class PublicPipe(Pipeline):
             replace_schema_url.get_step(),
             langusage.get_step(),
             break_no.get_step(),
-            update_changeList.get_step()
+            update_changeList.get_step(),
+            # string-based steps: any later step would parse the document again
+            # and undo the formatting and the character references
+            format_header.get_step(),
+            combining_to_entities.get_step()
         ]
         
         description = "Public Pipeline - Standard"
