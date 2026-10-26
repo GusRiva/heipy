@@ -1,5 +1,5 @@
 from ..steps import Pipeline
-from ..step_library import delete_comments, langusage, break_no
+from ..step_library import delete_comments, normalize_unicode, langusage, break_no
 from ..step_library.public import check_prefixes, replace_schema_url, update_changeList, check_for_ub_publisher
 
 
@@ -8,6 +8,7 @@ class PublicPipe(Pipeline):
         pipe_steps = [
             check_for_ub_publisher.get_step(),
             delete_comments.get_step(),
+            normalize_unicode.get_step(),
             check_prefixes.get_step(),
             replace_schema_url.get_step(),
             langusage.get_step(),
