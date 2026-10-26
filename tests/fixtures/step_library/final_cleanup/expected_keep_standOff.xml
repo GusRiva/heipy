@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Test</title></titleStmt>
+      <publicationStmt><p>Test</p></publicationStmt>
+      <sourceDesc><p>Test</p></sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <standOff>
+    <listPerson>
+      <person xml:id="p1"><persName>Heliand</persName></person>
+    </listPerson>
+  </standOff>
+  <text>
+    <body>
+      <p>Uuarð thar <persName ref="#p1">Heliand</persName> giboran.</p>
+    </body>
+  </text>
+</TEI>

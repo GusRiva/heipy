@@ -1,8 +1,26 @@
-from ..steps import Pipeline, AddAttribute, DeleteStep
-from ..step_library import mark_note_as_editorial, move_note, filter_visual_information, ptr2ref, add_id_2_note, \
-    whitespaces, number_line_segment_beginnings, delete_comments, break_no, reg_levels, revision_spans, resolve_index_references
-from ..step_library.semantic import supply_id_divisions, final_cleanup, inject_structure, transpose, generate_pb_ids
 from ...namespaces import prefix_format
+from ..step_library import (
+    add_id_2_note,
+    break_no,
+    delete_comments,
+    filter_visual_information,
+    mark_note_as_editorial,
+    move_note,
+    number_line_segment_beginnings,
+    ptr2ref,
+    reg_levels,
+    resolve_index_references,
+    revision_spans,
+    whitespaces,
+)
+from ..step_library.semantic import (
+    final_cleanup,
+    generate_pb_ids,
+    inject_structure,
+    supply_id_divisions,
+    transpose,
+)
+from ..steps import AddAttribute, DeleteStep, Pipeline
 
 
 class SemanticPipe(Pipeline):
@@ -43,6 +61,7 @@ class SemanticPipe(Pipeline):
             generate_pb_ids.get_step(),
             final_cleanup.get_step(),
             # validation.get_step(),
+            
             ]
         
         if preserve_space:
@@ -51,12 +70,9 @@ class SemanticPipe(Pipeline):
                                      att_name=prefix_format('xml','space'), 
                                      att_val='preserve'))
         
-        if isinstance(parameters, dict):
-            if parameters.get('inject_structure'):
-                inject_structure_step = inject_structure.get_step()
-                pipe_steps.insert(3, inject_structure_step)
-            
-            
+        if isinstance(parameters, dict) and parameters.get('inject_structure'):
+            inject_structure_step = inject_structure.get_step()
+            pipe_steps.insert(3, inject_structure_step)
         
         description = "Semantic Pipeline - Standard"
         super().__init__(steps=pipe_steps, name="semantic_pipe", desc=description, serial=serial)
