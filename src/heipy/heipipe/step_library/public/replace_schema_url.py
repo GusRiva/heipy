@@ -19,5 +19,14 @@ def replace_schema_url_func(tree, parameters=None):
             )
     return tree
 
-def get_step():
-    return PythonStep(replace_schema_url_func, name="replace_schema_url")
+def get_step(schema_url: str | None = None):
+    """Replaces the href of all xml-model processing instructions.
+
+    Args:
+        schema_url: New schema URL (parameter ``schema_url``). Without it the
+            processing instructions stay unchanged and a warning is issued.
+    """
+    step = PythonStep(replace_schema_url_func, name="replace_schema_url")
+    if schema_url is not None:
+        step.set_parameter("schema_url", schema_url)
+    return step

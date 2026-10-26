@@ -66,3 +66,18 @@ class TestPublicPipeline:
         xml_test = re.sub(r'<licence.*?</licence>', '', self.sample_xml, flags=re.DOTALL)
         with pytest.raises(PySaxonApiError, match="check_for_ub_publisher.xsl"):
             pipe.execute(xml_test, input_format='xml_string')
+
+    def test_public_keyword_parameters(self):
+        pipe = PublicPipe(schema_url="https://example.org/schema.rng",
+                          change_date="2026-09-01",
+                          change_message="Test message")
+        assert pipe.get_step_by_name("replace_schema_url").get_parameter_by_name("schema_url") == "https://example.org/schema.rng"
+        change_step = pipe.get_step_by_name("update_changeList")
+        assert change_step.get_parameter_by_name("changeDate") == "2026-09-01"
+        assert change_step.get_parameter_by_name("message") == "Test message"
+
+
+    def test_public_without_keyword_parameters(self):
+        pipe = PublicPipe()
+        assert pipe.get_step_by_name("replace_schema_url").get_parameters() == {}
+        assert pipe.get_step_by_name("update_changeList").get_parameters() == {}
