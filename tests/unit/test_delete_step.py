@@ -150,7 +150,10 @@ class TestDeleteStepWithNamespaces:
         assert len(fws) == 0
 
     def test_delete_without_namespace_prefix(self):
-        """Test that element name without namespace prefix matches local name."""
+        """Test that an element name without prefix does not match namespaced elements.
+
+        Element names are used as XPath expressions, so TEI elements need the tei: prefix.
+        """
         step = DeleteStep(elements=["note"])
         input_xml = """<TEI xmlns="http://www.tei-c.org/ns/1.0">
             <text>
@@ -161,10 +164,8 @@ class TestDeleteStepWithNamespaces:
 
         parser = HeiEditionsParser()
         result_tree = et.fromstring(result.encode('utf-8'), parser=parser)
-        # Should still find and delete notes based on local name
         notes = result_tree.xpath("//tei:note", namespaces={"tei": "http://www.tei-c.org/ns/1.0"})
-        # May or may not delete depending on implementation
-        # The actual behavior depends on how DeleteStep handles namespaces
+        assert len(notes) == 1
 
 
 @pytest.mark.unit

@@ -330,7 +330,8 @@ class Pipeline(BaseStep):
                 input_format: Literal["file", "xml_string"] = "file",
                 xinclude=False,
                 egxml=False,
-                output_format: Literal["etree"] = ...,
+                *,
+                output_format: Literal["etree"],
                 debug_options: list | None = None) -> et._ElementTree | None: ...
 
     @overload
@@ -340,7 +341,8 @@ class Pipeline(BaseStep):
                 input_format: Literal["file", "xml_string"] = "file",
                 xinclude=False,
                 egxml=False,
-                output_format: Literal["bytes"] = ...,
+                *,
+                output_format: Literal["bytes"],
                 debug_options: list | None = None) -> bytes | None: ...
 
     def execute(self,
@@ -441,7 +443,9 @@ class Pipeline(BaseStep):
         if output_format_enum == OutputFormat.STR:
             return current_data
         if output_format_enum == OutputFormat.ETREE:
-            return et.fromstring(current_data.encode())
+            return et.ElementTree(et.fromstring(current_data.encode("utf-8")))
+        if output_format_enum == OutputFormat.BYTES:
+            return current_data.encode("utf-8")
 
     def get_steps(self):
         return self.steps
@@ -452,6 +456,7 @@ class Pipeline(BaseStep):
             if step_name != name:
                 continue
             return step
+        return None
 
     def remove_step(self, step_name: str | None= None, step_index: int | None = None):
         if (step_name, step_index).count(None) != 1:
@@ -694,6 +699,7 @@ class DeleteStep(BaseStep):
 
     Attributes:
         elements (list): A list of XPath expressions corresponding to the elements to be deleted.
+            Namespaced elements need a prefix, e.g. "tei:note" ("note" only matches elements in no namespace).
         name (str, optional): The name of the step. Defaults to None.
         desc (str, optional): A description of the step. Defaults to None.
         serial (bool, optional): A flag indicating whether to serialize the result. Defaults to None.
