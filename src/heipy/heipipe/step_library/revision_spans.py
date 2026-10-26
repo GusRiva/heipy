@@ -99,12 +99,12 @@ def set_ana(node, this_span_config, span_to):
     node.attrib[hei_ns / 'belongsToRevision'] = f'#{span_to}'
 
 
-def wrap_tail(element:et.Element, config:dict, span_to:str):
-    tail_el = et.Element(config.get('basic')) if element.tail is not None and element.tail.strip() != '' else None
+def wrap_tail(element:et._Element, config:dict, span_to:str):
+    tail_el = et.Element(config['basic']) if element.tail is not None and element.tail.strip() != '' else None
     if tail_el is not None:
         tail_el.text = element.tail
         element.tail = None
-        tail_el.attrib['ana'] = config.get('ana_child')
+        tail_el.attrib['ana'] = config['ana_child']
         tail_el.attrib[hei_ns / 'belongsToRevision'] = f'#{span_to}'
         element.addnext(tail_el)
     return element

@@ -6,7 +6,7 @@ from ....namespaces import ns, tei_ns, xml_ns
 from ....colors import RED, RESET
 
 
-def inject_structure_func(tree: et.ElementTree, parameters=None):
+def inject_structure_func(tree: et._ElementTree, parameters=None):
     """
     Inject div structure into TEI document based on a structure configuration file.
 
@@ -41,16 +41,14 @@ def inject_structure_func(tree: et.ElementTree, parameters=None):
         raise ValueError(f"{RED}Error parsing structure file {structure_file_path}: {e}{RESET}")
 
     # Get the text element from structure file
-    structure_text = structure_root.xpath("//tei:text", namespaces=ns)
-    if not structure_text:
+    structure_text = structure_root.find(".//tei:text", namespaces=ns)
+    if structure_text is None:
         raise ValueError(f"{RED}No text element found in structure file{RESET}")
-    structure_text = structure_text[0]
 
     # Find the text element in the source document
-    source_text = root.xpath("//tei:text", namespaces=ns)
-    if not source_text:
+    source_text = root.find(".//tei:text", namespaces=ns)
+    if source_text is None:
         raise ValueError(f"{RED}No text element found in source document{RESET}")
-    source_text = source_text[0]
     
     # Remove old front, body, back from source text
     et.strip_tags(source_text, [tei_ns / x for x in 

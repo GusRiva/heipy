@@ -6,7 +6,7 @@ import re
 from typing import Dict
 import warnings
 from lxml import etree as et
-from langcodes import standardize_tag, Language
+from langcodes import standardize_tag, Language, LanguageTagError
 
 
 def create_configuration_json(input_files:list)->dict:
@@ -23,7 +23,7 @@ def create_configuration_json(input_files:list)->dict:
         if siglum_el is None:
             print(f"No siglum defined for {file_path}. Use idno with @ana='hc:EditorialSiglum' in the witness description.")
         else:
-            siglum = siglum_el.text
+            siglum = siglum_el.text or ''
         file_dict['siglum'] = siglum
         
         output_dict[file_name] = file_dict
@@ -169,7 +169,7 @@ def restore_entities(source_file: str, target_file: str) -> None:
                 target.write(new_line + '\n')
 
 
-def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
+def create_langusage(source:Path | str | et._ElementTree) -> et._ElementTree:
     """
     Builds (or rebuilds) the tei:langUsage element in a TEI document's profileDesc,
     based on all xml:lang attributes actually used in the document.
@@ -179,7 +179,8 @@ def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
 
     Returns:
         The parsed ElementTree with tei:langUsage/tei:language children set to
-        the standardized language tags found in the document.
+        the standardized language tags found in the document. If any of the tags
+        is invalid, a warning is issued and the tree is returned unchanged.
 
     Example:
         >>> from heipy.editions_utils import create_langusage
@@ -189,8 +190,29 @@ def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
     if isinstance(source, str):
         source = Path(source)
     if isinstance(source, Path):
-        source:et.etree = heiparse(source)
-    
+        source = heiparse(source)
+
+    text_el = source.find('.//tei:text', ns)
+    if text_el is None:
+        raise ValueError("No tei:text element found in the document!")
+
+    text_lang = text_el.get(xml_ns / 'lang')
+    if text_lang is None:
+        raise Exception("There should be at least one xml:lang in the file!")
+    all_langs = {str(lang) for lang in text_el.xpath('.//*/@xml:lang')} | {text_lang}
+
+    # Validate all tags before changing the document, so that it is never left half updated
+    lang_objs = []
+    for lang in sorted(all_langs):
+        try:
+            lang_obj = Language.get(lang)
+        except LanguageTagError:
+            lang_obj = None
+        if lang_obj is None or not lang_obj.is_valid():
+            warnings.warn(f"Found an invalid language tag: {lang}!!")
+            return source
+        lang_objs.append(lang_obj)
+
     lang_usage = source.find('.//tei:langUsage', namespaces= ns)
     if lang_usage is None:
         lang_usage = et.Element(tei_ns / 'langUsage')
@@ -199,23 +221,14 @@ def create_langusage(source:Path | str | et._ElementTree) -> et._Element:
             sibling = source.find('.//tei:encodingDesc', namespaces= ns)
             if sibling is None:
                 sibling = source.find('.//tei:fileDesc', namespaces= ns)
+            if sibling is None:
+                raise ValueError("No tei:fileDesc element found in the document!")
             profile_desc = et.Element(tei_ns / 'profileDesc')
             sibling.addnext(profile_desc)
         profile_desc.append(lang_usage)
     lang_usage.clear()
-    
-    text_el = source.find('.//tei:text', ns)
-    
-    all_langs = set(text_el.xpath('.//*/@xml:lang'))
-    all_langs.add(text_el.get(xml_ns / 'lang'))
-    
-    for lang in all_langs:
-        if lang is None:
-            raise Exception("There should be at least one xml:lang in the file!")
-        lang_obj = Language.get(lang)
-        if not lang_obj.is_valid():
-            warnings.warn(f"Found an invalid language tag: {lang}!!")
-            return source
+
+    for lang_obj in lang_objs:
         lang_standard = str(lang_obj)
         language_el = et.Element(tei_ns / 'language', {'ident': lang_standard})
         language_el.text = lang_obj.display_name('de')

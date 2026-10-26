@@ -21,7 +21,7 @@ def merge_zones(zone_already, new_zone):
     return
 
 
-def _add_prefix_to_ids(root:et.Element, prefix:str):
+def _add_prefix_to_ids(root:et._Element | et._ElementTree, prefix:str):
     xml_id = '{http://www.w3.org/XML/1998/namespace}id'
     prefix = f'_{prefix}'
     all_ids = set()
@@ -78,18 +78,18 @@ def combine_sourcedoc(files:list, output_path:str | Path):
         sourcedoc_el = file.find('.//tei:sourceDoc', ns)
         if sourcedoc_el is None:
             warnings.warn(f"Could not find sourceDoc in {file_path}")
-            return
+            continue
         for surface in sourcedoc_el.findall('.//tei:surface', ns):
             main_sourcedoc.append(surface)
     all_surfaces = main_sourcedoc.findall('.//tei:surface', ns)
     # all_surfaces = sorted(all_surfaces, key=lambda elem: elem.attrib.get(prefix_format('xml', 'id')))
 
     new_sourcedoc = et.Element(prefix_format('tei', 'sourceDoc'))
-    counter_id = ""
+    counter_id: str | None = ""
     last_surface = None
     for surface in all_surfaces:
         surface_id = surface.attrib.get(prefix_format('xml', 'id'))
-        if surface_id != counter_id:
+        if last_surface is None or surface_id != counter_id:
             counter_id = surface_id
             last_surface = surface
             new_sourcedoc.append(surface)
@@ -109,7 +109,8 @@ def combine_sourcedoc(files:list, output_path:str | Path):
 
     main_sourcedoc.addnext(new_sourcedoc)
     sourcedoc_parent = main_sourcedoc.getparent()
-    sourcedoc_parent.remove(main_sourcedoc)
+    if sourcedoc_parent is not None:
+        sourcedoc_parent.remove(main_sourcedoc)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     tree.write(str(output_path), encoding='utf-8', xml_declaration=True)

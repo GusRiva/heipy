@@ -8,7 +8,15 @@ from ....namespaces import ns, hei_ns, xml_ns, tei_ns
 
 hei_belongs_to_zone = hei_ns / "belongsToZone"
 stopper_tags = [tei_ns / x for x in ["lb", 'pb', 'cb']]
-def combine_facsimile_text(tree: et.ElementTree, parameters=None):
+def _line_number(line: et._Element) -> float:
+    """Sort key for lines by @n; lines without a numeric @n go to the end (in document order)."""
+    try:
+        return float(line.get('n', ''))
+    except ValueError:
+        return float('inf')
+
+
+def combine_facsimile_text(tree: et._ElementTree, parameters=None):
     root = tree.getroot()
     sourcedoc_el = et.Element( tei_ns / 'sourceDoc')
     facsimile_el = root.find('tei:facsimile', ns)
@@ -113,10 +121,13 @@ def combine_facsimile_text(tree: et.ElementTree, parameters=None):
                     suspended = False
                     continue
             line = et.Element(tei_ns / 'line', attrib={xml_ns / 'space': 'preserve'})
-            if lb.get('facs') is not None:
-                line_zone = line_zones.get(lb.get('facs')[1:])
+            line_zone = None
+            lb_facs = lb.get('facs')
+            if lb_facs is not None:
+                line_zone = line_zones.get(lb_facs[1:])
                 if line_zone is None:
-                    print(f"Could not find linezone for: {lb.get('facs')}")
+                    warnings.warn(f"Could not find linezone for: {lb_facs}. The line is added to its zone instead.", HeiWarning)
+            if line_zone is not None:
                 line_zone_id = line_zone.get(xml_ns / 'id')
                 if line_zone_id is not None:
                     line_zone.attrib.pop(xml_ns / 'id')
@@ -153,7 +164,7 @@ def combine_facsimile_text(tree: et.ElementTree, parameters=None):
             active_line.append(node)
 
     for zone, lines in pending_lines_by_zone.items():
-        for line in sorted(lines, key=lambda l: float(l.get('n'))):
+        for line in sorted(lines, key=_line_number):
             zone.append(line)
 
 
@@ -163,6 +174,9 @@ def combine_facsimile_text(tree: et.ElementTree, parameters=None):
         if "hc:LineSegmentBeginning" not in (segment_beginning.get('ana') or ''):
             continue
         belongs_to = segment_beginning.get(hei_ns / "belongsToZone")
+        if belongs_to is None:
+            warnings.warn(f"LineSegmentBeginning without hei:belongsToZone: {segment_beginning.attrib}. Skipping", HeiWarning)
+            continue
         segment_beginnings[belongs_to].append(segment_beginning)
     for zone_id, segment_list_zone in segment_beginnings.items():
         corresp_zone = text_zones_by_id.get(zone_id[1:])
