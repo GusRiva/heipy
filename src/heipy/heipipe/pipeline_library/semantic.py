@@ -61,7 +61,6 @@ class SemanticPipe(Pipeline):
             generate_pb_ids.get_step(),
             final_cleanup.get_step(),
             # validation.get_step(),
-            
             ]
         
         if preserve_space:

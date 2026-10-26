@@ -1,10 +1,23 @@
-from ..steps import Pipeline, DeleteStep
-from ..step_library import revision_spans, mark_note_as_editorial, container2milestone, move_note, \
-    ptr2ref, filter_visual_information, add_id_2_note, whitespaces, \
-    number_line_segment_beginnings, delete_comments, break_no, reg_levels
-from ..step_library.synoptic import move_layout_milestones, suppress_first_cb, change_prefixdef_ref
-
-
+from ..step_library import (
+    add_id_2_note,
+    break_no,
+    container2milestone,
+    delete_comments,
+    filter_visual_information,
+    mark_note_as_editorial,
+    move_note,
+    number_line_segment_beginnings,
+    ptr2ref,
+    reg_levels,
+    revision_spans,
+    whitespaces,
+)
+from ..step_library.synoptic import (
+    change_prefixdef_ref,
+    move_layout_milestones,
+    suppress_first_cb,
+)
+from ..steps import DeleteStep, Pipeline
 
 milestone_element_map = {
         'ab' : 'hc:Chunk',

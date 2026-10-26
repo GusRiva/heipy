@@ -1,5 +1,5 @@
+from ..step_library import delete_comments, index_essential_steps, whitespaces
 from ..steps import Pipeline
-from ..step_library import whitespaces, index_essential_steps, delete_comments
 
 
 class IndexPipe(Pipeline):

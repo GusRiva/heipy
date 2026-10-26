@@ -1,5 +1,5 @@
+from ..step_library import delete_comments, whitespaces
 from ..steps import Pipeline, XsltStep
-from ..step_library import whitespaces, delete_comments
 
 
 class PlainTextPipe(Pipeline):
