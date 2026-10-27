@@ -34,10 +34,10 @@
 		<cb n="1ra" facs="#A1_1r-a"/>
 		<body>
 			<head>
-				<lb n="1"/>Wanderers Nachtlied <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_1"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">eigenhändig </supplied><hi ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">so</hi><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"> aufgezeichnet</supplied></head>
-			<lb n="2"/><l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Über allen Gipfeln ist Ruh</supplied></l>
-			<lb n="3"/><l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">In allen Wipfeln spürest du</supplied></l>
-			<l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Kaum</supplied><lb n="4"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">einen</supplied><anchor xml:id="addSpan_1"/> Hauch</l>
+				<lb n="1"/>Wanderers Nachtlied <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_1"/><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">eigenhändig </seg><hi ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">so</hi><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"> aufgezeichnet</seg></head>
+			<lb n="2"/><l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Über allen Gipfeln ist Ruh</seg></l>
+			<lb n="3"/><l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">In allen Wipfeln spürest du</seg></l>
+			<l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1"><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">Kaum</seg><lb n="4"/><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_1">einen</seg><anchor xml:id="addSpan_1"/> Hauch</l>
 			<lb n="5"/><l>Die Vögelein schweigen im Walde.</l>
 		<cb n="1va" facs="#A1_1v-a"/>
 		<lb n="1" facs="#A1_1v-a_1"/>

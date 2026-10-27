@@ -30,7 +30,7 @@
 			<l>Alles <delSpan spanTo="#delSpan_1"/><hi rendition="hc:Bold" ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Leid und Schmerzen stillest,</hi></l>
 		</lg>
 		<lg ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">
-			<l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"><del ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Den, der doppelt elend ist,</del></l>
+			<l ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1"><seg ana="hc:InDeletionSpan" hei:belongsToRevision="#delSpan_1">Den, der doppelt elend ist,</seg></l>
 			<anchor xml:id="delSpan_1"/>
 			<l>Doppelt mit Erquickung füllest,</l>
 		</lg>
@@ -38,10 +38,10 @@
 		<!-- text no tail -->
 		<lg>
 			<l>Der du von dem Himmel bist, </l>
-			<l>Alles <addSpan spanTo="#addSpan_2"/><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2">Leid </add><hi rendition="hc:Bold" ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2">und Schmerzen stillest,</hi></l>
+			<l>Alles <addSpan spanTo="#addSpan_2"/><seg ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2">Leid </seg><hi rendition="hc:Bold" ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2">und Schmerzen stillest,</hi></l>
 		</lg>
 		<lg ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2">
-			<l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2"><add ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2">Den, der doppelt elend ist,</add></l>
+			<l ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2"><seg ana="hc:InAdditionSpan" hei:belongsToRevision="#addSpan_2">Den, der doppelt elend ist,</seg></l>
 			<anchor xml:id="addSpan_2"/>
 			<l>Doppelt mit Erquickung füllest,</l>
 		</lg>
@@ -49,10 +49,10 @@
 		<!-- text + tail -->
 		<lg>
 			<l>Der du von dem Himmel bist, </l>
-			<l>Alles <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_3"/><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">Leid </supplied><hi rendition="hc:Bold" ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">und Schmerzen </hi><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">stillest,</supplied></l>
+			<l>Alles <milestone ana="hc:EditorialAdditionSpan" spanTo="#addSpan_3"/><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">Leid </seg><hi rendition="hc:Bold" ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">und Schmerzen </hi><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">stillest,</seg></l>
 		</lg>
 		<lg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">
-			<l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3"><supplied ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">Den, der doppelt elend ist,</supplied></l>
+			<l ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3"><seg ana="hc:InEditorialAdditionSpan" hei:belongsToRevision="#addSpan_3">Den, der doppelt elend ist,</seg></l>
 			<anchor xml:id="addSpan_3"/>
 			<l>Doppelt mit Erquickung füllest,</l>
 		</lg>
@@ -60,10 +60,10 @@
 		<!-- text + tail + tail -->
 		<lg>
 			<l>Der du von dem Himmel bist, </l>
-			<l>Alles <milestone ana="hc:EditorialDeletionSpan" spanTo="#delSpan_4"/><surplus ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">Leid </surplus><hi ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">und Schmerzen </hi><surplus ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">stillest, </surplus><hi ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">Doppelt mit </hi><surplus ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">Erquickung füllest,</surplus></l>
+			<l>Alles <milestone ana="hc:EditorialDeletionSpan" spanTo="#delSpan_4"/><seg ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">Leid </seg><hi ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">und Schmerzen </hi><seg ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">stillest, </seg><hi ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">Doppelt mit </hi><seg ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">Erquickung füllest,</seg></l>
 		</lg>
 		<lg ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">
-			<l ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4"><surplus ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">Den, der doppelt elend ist,</surplus></l>
+			<l ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4"><seg ana="hc:InEditorialDeletionSpan" hei:belongsToRevision="#delSpan_4">Den, der doppelt elend ist,</seg></l>
 			<anchor xml:id="delSpan_4"/>
 			<l>Doppelt mit Erquickung füllest,</l>
 		</lg>

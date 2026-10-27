@@ -11,20 +11,20 @@ span_config = {
     tei_ns / "delSpan": {
         "ana": "hc:DeletionSpan", 
         "ana_child": "hc:InDeletionSpan", 
-        "basic": "del"},
+        "basic": "seg"},
     tei_ns / "addSpan": {
         "ana": "hc:AdditionSpan",
         "ana_child": "hc:InAdditionSpan",
-        "basic": "add"},
+        "basic": "seg"},
     "hc:EditorialAdditionSpan": {
         "ana": "hc:EditorialAdditionSpan",
         "ana_child": "hc:InEditorialAdditionSpan", 
-        "basic": "supplied",
+        "basic": "seg",
     },
     "hc:EditorialDeletionSpan": {
         "ana": "hc:EditorialDeletionSpan", 
         "ana_child": "hc:InEditorialDeletionSpan", 
-        "basic": "surplus"},
+        "basic": "seg"},
 }
 
 
