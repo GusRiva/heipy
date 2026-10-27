@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Index Essential Steps Test</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Test publication statement</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Test source description</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <standOff>
+    <listPerson>
+      <person xml:id="pers1">
+        <persName ana="hc:PreferredAppellation">Johann Wolfgang von Goethe</persName>
+        <persName ana="hc:AppellationForDisplayInIndex">Goethe, Johann Wolfgang von</persName>
+        <persName ana="hc:AppellationForDoublePosting">Goethe</persName>
+        <birth when="1749"><note>1749</note></birth>
+        <death when="1832"><note>1832</note></death>
+      </person><person sameAs="#pers1"><persName ana="hc:PreferredAppellation">Goethe</persName><persName ana="hc:AlternativeAppellation">Goethe, Johann Wolfgang von</persName></person>
+    </listPerson>
+    <listPlace>
+      <place xml:id="place1">
+        <placeName ana="hc:PreferredAppellation">Heidelberg</placeName>
+      </place>
+    </listPlace>
+  </standOff>
+  <text>
+    <body>
+      <p><persName ref="#pers1">Goethe</persName> in <placeName ref="#place1">Heidelberg</placeName>.</p>
+    </body>
+  </text>
+</TEI>

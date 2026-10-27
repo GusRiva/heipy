@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Verbalize Dates Test</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Test publication statement</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Test source description</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <standOff>
+    <listPerson>
+      <person xml:id="pers1">
+        <persName>Johann Wolfgang von Goethe</persName>
+        <!-- @when without note: note is added -->
+        <birth when="1749" xml:id="birth1"/>
+        <!-- existing note: left unchanged -->
+        <death when="1832"><note>22. März 1832</note></death>
+      </person>
+      <person xml:id="pers2">
+        <persName>Anonymous</persName>
+        <!-- no @when: nothing to verbalize -->
+        <birth notBefore="1700" notAfter="1750"/>
+        <death when="1790"/>
+      </person>
+    </listPerson>
+  </standOff>
+  <text>
+    <body>
+      <p>Not an index: <date when="1800">1800</date></p>
+    </body>
+  </text>
+</TEI>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Preferred Appellation Test</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Test publication statement</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Test source description</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <standOff>
+    <listPerson>
+      <!-- single unclassified name is marked; classified names are untouched -->
+      <person xml:id="pers1">
+        <persName ana="hc:AppellationForDisplayInIndex">Goethe, Johann Wolfgang von</persName>
+        <persName ref="https://d-nb.info/gnd/118540238">Goethe</persName>
+      </person>
+      <!-- two unclassified names without language: neither is marked -->
+      <person xml:id="pers2">
+        <persName>Schiller</persName>
+        <persName>Friedrich Schiller</persName>
+      </person>
+      <!-- one unclassified name per language: both are marked -->
+      <person xml:id="pers3">
+        <persName xml:lang="de">Karl der Große</persName>
+        <persName xml:lang="fr">Charlemagne</persName>
+      </person>
+      <!-- two unclassified names in the same language: neither is marked,
+           the name without language is marked -->
+      <person xml:id="pers4">
+        <persName xml:lang="la">Carolus</persName>
+        <persName xml:lang="la">Carolus Magnus</persName>
+        <persName>Karl</persName>
+      </person>
+    </listPerson>
+    <listPlace>
+      <place xml:id="place1">
+        <placeName>Heidelberg</placeName>
+      </place>
+    </listPlace>
+    <listOrg>
+      <org xml:id="org1">
+        <orgName>Universitätsbibliothek Heidelberg</orgName>
+      </org>
+    </listOrg>
+    <list>
+      <item xml:id="item1">
+        <label>Stichwort</label>
+        <title>Faust</title>
+      </item>
+      <item xml:id="item2">
+        <label>Erstes</label>
+        <label>Zweites</label>
+      </item>
+    </list>
+    <listEvent>
+      <!-- events are not handled by this stylesheet -->
+      <event xml:id="event1">
+        <label>Fest</label>
+      </event>
+    </listEvent>
+  </standOff>
+  <text>
+    <body>
+      <p>Outside an index entry: <persName>Goethe</persName> and <placeName>Weimar</placeName>.</p>
+    </body>
+  </text>
+</TEI>

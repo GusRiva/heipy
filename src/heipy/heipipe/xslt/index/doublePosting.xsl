@@ -41,7 +41,7 @@ and provided with the previous hc:AppellationForDoublePosting as hc:AppellationF
              <xsl:attribute name="ana" select="'hc:PreferredAppellation'"></xsl:attribute>
              <xsl:copy-of select="node()"></xsl:copy-of>
            </xsl:element>
-          <xsl:for-each select="parent::*/*[tokenize(@ana, '\s+') = ('hc:AppellationForDisplayInIndex', 'hc:PreferredAppelation')]">
+          <xsl:for-each select="parent::*/*[tokenize(@ana, '\s+') = ('hc:AppellationForDisplayInIndex', 'hc:PreferredAppellation')]">
             <xsl:copy>
               <xsl:attribute name="ana" select="'hc:AlternativeAppellation'"></xsl:attribute>
               <xsl:copy-of select="@*[local-name() != 'ana']"></xsl:copy-of>

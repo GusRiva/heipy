@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Double Posting Test</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Test publication statement</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Test source description</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <standOff>
+    <listPerson>
+      <!-- two double-posting names, a display name and a source-marked preferred name -->
+      <person xml:id="pers1">
+        <persName ana="hc:PreferredAppellation" xml:lang="de">Johann Wolfgang von Goethe</persName>
+        <persName ana="hc:AppellationForDoublePosting">Goethe</persName>
+        <persName ana="hc:AppellationForDisplayInIndex">Goethe, Johann Wolfgang von</persName>
+        <persName ana="hc:Pseudonym hc:AppellationForDoublePosting">Werther-Dichter</persName>
+        <persName>Unclassified name</persName>
+      </person>
+      <!-- no double posting: copied unchanged -->
+      <person xml:id="pers2">
+        <persName ana="hc:AppellationForDisplayInIndex">Schiller, Friedrich</persName>
+      </person>
+    </listPerson>
+    <listPlace>
+      <place xml:id="place1">
+        <placeName ana="hc:AppellationForDisplayInIndex">Heidelberg</placeName>
+        <placeName ana="hc:AppellationForDoublePosting">Heidelberga</placeName>
+      </place>
+    </listPlace>
+    <listOrg>
+      <org xml:id="org1">
+        <orgName ana="hc:AppellationForDoublePosting">UB</orgName>
+      </org>
+    </listOrg>
+    <listEvent>
+      <event xml:id="event1">
+        <label ana="hc:AppellationForDoublePosting">Fest</label>
+      </event>
+    </listEvent>
+    <list>
+      <item xml:id="item1">
+        <title ana="hc:AppellationForDoublePosting">Faust</title>
+      </item>
+      <item xml:id="item2">
+        <label ana="hc:AppellationForDoublePosting">Stichwort</label>
+      </item>
+    </list>
+  </standOff>
+  <text>
+    <body>
+      <p>Mentions <persName ref="#pers1">Goethe</persName> in running text.</p>
+    </body>
+  </text>
+</TEI>
